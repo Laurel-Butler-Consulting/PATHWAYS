@@ -1,0 +1,715 @@
+<title>Pathways Programs Cross-Index</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#F4F8FB; --surface:#FFFFFF; --raise:#FBFDFE;
+  --ink:#0B2239; --muted:#54677A; --faint:#8496A6;
+  --line:#DCE6EE; --line2:#EAF1F6;
+  --accent:#0C599D; --gold:#FECF43;
+  --online:#1B7F4B; --hybrid:#0C7C8C; --likely:#B26B00; --unclear:#6B7A88; --inperson:#5B6B90;
+  --online-bg:#E7F3EC; --hybrid-bg:#E3F1F3; --likely-bg:#F6EBD9; --unclear-bg:#EDF1F4; --inperson-bg:#EAEDF5;
+  --shadow:0 1px 2px rgba(11,34,57,.05),0 6px 20px rgba(11,34,57,.05);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#081420; --surface:#0E1F2E; --raise:#132638;
+  --ink:#E9EFF5; --muted:#9DB0C0; --faint:#6E8496;
+  --line:#213547; --line2:#182B3B;
+  --accent:#5AA6E0; --gold:#FED868;
+  --online:#57C98B; --hybrid:#43C4D6; --likely:#E0A94A; --unclear:#9DB0C0; --inperson:#93A6D2;
+  --online-bg:#12352a; --hybrid-bg:#0f3038; --likely-bg:#3a2e17; --unclear-bg:#1b2a36; --inperson-bg:#1c2438;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#081420; --surface:#0E1F2E; --raise:#132638;
+  --ink:#E9EFF5; --muted:#9DB0C0; --faint:#6E8496;
+  --line:#213547; --line2:#182B3B;
+  --accent:#5AA6E0; --gold:#FED868;
+  --online:#57C98B; --hybrid:#43C4D6; --likely:#E0A94A; --unclear:#9DB0C0; --inperson:#93A6D2;
+  --online-bg:#12352a; --hybrid-bg:#0f3038; --likely-bg:#3a2e17; --unclear-bg:#1b2a36; --inperson-bg:#1c2438;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --bg:#F4F8FB; --surface:#FFFFFF; --raise:#FBFDFE;
+  --ink:#0B2239; --muted:#54677A; --faint:#8496A6;
+  --line:#DCE6EE; --line2:#EAF1F6;
+  --accent:#0C599D; --gold:#FECF43;
+  --online:#1B7F4B; --hybrid:#0C7C8C; --likely:#B26B00; --unclear:#6B7A88; --inperson:#5B6B90;
+  --online-bg:#E7F3EC; --hybrid-bg:#E3F1F3; --likely-bg:#F6EBD9; --unclear-bg:#EDF1F4; --inperson-bg:#EAEDF5;
+  --shadow:0 1px 2px rgba(11,34,57,.05),0 6px 20px rgba(11,34,57,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(16px,4vw,40px) 72px}
+a{color:var(--accent)}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 10px}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance;font-weight:800}
+.lede{font-size:1.05rem;color:var(--muted);margin:0;max-width:64ch}
+.lede b{color:var(--ink)}
+.meta{margin:18px 0 0;font-size:.82rem;color:var(--faint);display:flex;gap:16px;flex-wrap:wrap}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}
+.stat{flex:1 1 120px;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.stat .sw{width:10px;height:10px;border-radius:3px;flex:none}
+.stat b{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.stat .sl{font-size:.82rem;color:var(--muted);text-transform:capitalize}
+.stat[data-v="online"] .sw{background:var(--online)} .stat[data-v="hybrid"] .sw{background:var(--hybrid)}
+.stat[data-v="likely"] .sw{background:var(--likely)} .stat[data-v="unclear"] .sw{background:var(--unclear)}
+.stat[data-v="inperson"] .sw{background:var(--inperson)}
+.callout{background:var(--raise);border:1px solid var(--line);border-left:3px solid var(--gold);
+  border-radius:10px;padding:16px 18px;margin:24px 0 8px;font-size:.92rem;color:var(--muted)}
+.callout b{color:var(--ink)}
+.grp{margin-top:40px}
+.grp-h{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px 12px;
+  padding-bottom:12px;border-bottom:2px solid var(--line);margin-bottom:2px}
+.grp-h .sw{width:14px;height:14px;border-radius:4px}
+.grp-h h2{font-size:1.05rem;margin:0;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
+.grp-h .ct{font-size:.8rem;font-weight:700;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:20px;padding:2px 11px}
+.grp-h .gd{grid-column:1/-1;margin:0;font-size:.86rem;color:var(--faint)}
+.grp[data-v="online"] .grp-h .sw{background:var(--online)} .grp[data-v="online"] .grp-h{border-color:var(--online)}
+.grp[data-v="hybrid"] .grp-h .sw{background:var(--hybrid)} .grp[data-v="hybrid"] .grp-h{border-color:var(--hybrid)}
+.grp[data-v="likely"] .grp-h .sw{background:var(--likely)} .grp[data-v="likely"] .grp-h{border-color:var(--likely)}
+.grp[data-v="unclear"] .grp-h .sw{background:var(--unclear)} .grp[data-v="unclear"] .grp-h{border-color:var(--unclear)}
+.grp[data-v="inperson"] .grp-h .sw{background:var(--inperson)} .grp[data-v="inperson"] .grp-h{border-color:var(--inperson)}
+.subgrp{margin:18px 0;padding:16px 16px 4px;border:1px solid var(--line);border-left:3px solid var(--likely);
+  border-radius:10px;background:var(--raise)}
+.subgrp-h{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px 10px;margin-bottom:2px}
+.subgrp-h .sw{width:11px;height:11px;border-radius:3px;background:var(--likely)}
+.subgrp-h h3{font-size:.9rem;margin:0;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
+.subgrp-h .ct{font-size:.75rem;font-weight:700;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line);border-radius:20px;padding:2px 10px}
+.subgrp-h .gd{grid-column:1/-1;margin:0;font-size:.82rem;color:var(--faint)}
+.tw{overflow-x:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:720px}
+thead th{text-align:left;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody td{padding:12px;border-bottom:1px solid var(--line2);vertical-align:top}
+tbody tr:hover td{background:var(--raise)}
+td.name{font-weight:650;color:var(--ink);min-width:170px}
+td.pages{min-width:150px}
+.pg{display:inline-block;font-size:.71rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);
+  border-radius:5px;padding:2px 7px;margin:0 4px 4px 0;white-space:nowrap}
+td.ev{color:var(--muted);min-width:280px;max-width:420px}
+td.cf{white-space:nowrap}
+.conf{display:inline-flex;gap:3px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block}
+[data-v="online"] .dot.on{background:var(--online)} [data-v="hybrid"] .dot.on{background:var(--hybrid)}
+[data-v="inperson"] .dot.on{background:var(--inperson)} [data-v="unclear"] .dot.on{background:var(--unclear)}
+[data-v="likely"] .dot.on{background:var(--likely)}
+td.src a{white-space:nowrap;font-size:.82rem;font-weight:600;text-decoration:none}
+td.src a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--faint);max-width:70ch}
+.foot p{margin:0 0 10px}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">PATHWAYS &middot; Program cross-index</p>
+  <h1>Pathways Programs Cross-Index</h1>
+  <p class="lede">Every program listed across the six Pathways pages, checked for how its coursework is delivered. <b>49 of 92</b> can be completed fully or partly online.</p>
+  <div class="meta"><span>92 programs &middot; 6 pathways</span><span>Researched from each program&rsquo;s own page</span><span>2026-07-24</span></div>
+
+  <div class="stats"><div class="stat" data-v="online"><span class="sw"></span><b>32</b><span class="sl">Fully remote</span></div><div class="stat" data-v="hybrid"><span class="sw"></span><b>17</b><span class="sl">hybrid</span></div><div class="stat" data-v="inperson"><span class="sw"></span><b>25</b><span class="sl">in-person</span></div><div class="stat" data-v="likely"><span class="sw"></span><b>4</b><span class="sl">likely online</span></div><div class="stat" data-v="unclear"><span class="sw"></span><b>14</b><span class="sl">undetermined</span></div></div>
+
+  <section class="grp" data-v="online">
+  <header class="grp-h">
+    <span class="sw"></span>
+    <h2>Fully Remote</h2>
+    <span class="ct">32</span>
+    <p class="gd">Coursework delivered fully or substantially online; student teaching/fieldwork still completed locally.</p>
+  </header>
+  <div class="tw"><table><thead><tr><th>Program</th><th>Appears on</th><th>What we found</th><th>Conf.</th><th>Source</th></tr></thead><tbody><tr>
+  <td class="name">Academy of Art University</td>
+  <td class="pages"><span class="pg">Art</span></td>
+  <td class="ev">Art Teaching Credential page: &#x27;This program is available online.&#x27;</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.academyart.edu/academics/art-education/degrees/art-teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Alameda County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Teaching Artist</span></td>
+  <td class="ev">CTE credential: all courses online, mostly asynchronous; 3 synchronous PD/yr.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://acoe.org/cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Alliant International University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS Teaching Credential &#x27;offered fully online&#x27;; placements done locally.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.alliant.edu/california-teaching-credentials/single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Arts &amp; Healing Initiative</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">&#x27;Online Certificate Program in Social Emotional Arts&#x27; — 40-hour online certificate.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://artsandhealinginitiative.org/pages/certificate-program-in-social-emotional-arts-sea" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Biola University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential studied &#x27;in-person... or fully online (at the graduate level).&#x27;</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.biola.edu/degrees/g/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU East Bay</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Art, Dance, Music, Theatre SS candidates take all classes online (mostly synchronous); only Math/Science hybrid.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.csueastbay.edu/cssc/prospective-cred-student/single-subject.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">California State University, San Bernardino</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">Designated Subjects CTE credential fully online (CTC-approved ECTS courses).</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.csusb.edu/career-technical-education/designated-credentials/career-technical-education-cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Dominican University of California</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">&#x27;This is an online program&#x27; — synchronous (live Zoom) + asynchronous courses.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.dominican.edu/academics/graduate-programs/teacher-credential-master-science-education-ms" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Fresno County Superintendent of Schools</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">CTE credential courses offered online (pre-recorded + Zoom cohort meetings).</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://cte-credential.fcoe.org/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Kern County Superintendent of Schools</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">&#x27;Clear your credential through online coursework&#x27; with 1:1 mentoring.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://kern.org/educator-development/career-technical-education-cte-credential-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Loyola Marymount University</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">&#x27;All coursework is offered online&#x27; (synchronous evenings); only fieldwork on-site.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://soe.lmu.edu/academics/secondaryeducation/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">National University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Inspired Teaching &amp; Learning Preliminary SS credential &#x27;100% Online&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.nu.edu/degrees/teacher-education/programs/inspired-teaching-and-learning-preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Pepperdine University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Online MAT with Secondary (SS) credential: &#x27;Coursework is completed online or in a hybrid format&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://gsep.pepperdine.edu/masters-teaching/online/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Tehama County Department of Education</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">&#x27;Synchronous and asynchronous components, which can all be completed virtually&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.tehamaschools.org/Services/Educational-Services/Career-Technical-Education-Teacher-Preparation/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">UC Irvine, Claire Trevor School of the Arts</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Teaching Artistry certificate format explicitly &#x27;Online Live&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://ce.uci.edu/programs/education/teaching-artistry" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of Massachusetts Global (UMass Global)</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">CA 2042 SS Teaching Credential titled &#x27;Online Program&#x27;, 8-week online sessions.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.umassglobal.edu/academic-programs/teaching-credential-2042-single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of Phoenix</td>
+  <td class="pages"><span class="pg">Art</span></td>
+  <td class="ev">Secondary teacher education master&#x27;s/credential: &#x27;Enroll in online classes... open 24/7&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.phoenix.edu/online-education-degrees/secondary-teacher-education-masters-degree.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Alternatives in Action</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Reach intern credential: 3-hr synchronous online seminars + async coursework; onsite mentorship at job.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://info.reach.edu/support/what-is-the-course-sequence-for-the-2-year-intern-and-master-of-arts-in-teaching-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">California Lutheran University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Credential coursework offered on-campus and fully online (year-round 8-week terms).</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.callutheran.edu/academics/graduate/teaching-credential/course-terms.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">California State University, Sacramento</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">CTE credential: &#x27;Flexible online courses&#x27;; one course hybrid.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://cce.csus.edu/career-technical-education-cte-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">La Sierra University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">MAT (covers SS credential reqs) &#x27;completely online for California residents&#x27;; couple classes on campus.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://lasierra.edu/mat-online/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Notre Dame de Namur University</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential offers in-person, hybrid, and fully online course modalities.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.ndnu.edu/education/credentials-single.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Orange County Department of Education</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">CTE: &#x27;Through online coursework and in-person support&#x27; + self-paced online orientation.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://ocde.us/EducationalServices/CareerEducationAndPostSecondaryAdvancement/CTE/Pages/default.aspx" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Sacramento County Office of Education</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Add-a-Credential for Art/Dance/Music/Theatre held virtually via Zoom Saturdays.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://scoeteaching.net/addacredential/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">San Diego County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">Designated Subjects program described 100% online; CTE courses 16 wks fully online.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.sdcoe.net/educators/educator-preparation/designated-subjects/~board/designated-subjects-credentials/post/career-technical-education-cte-credential-information" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Santa Clara University</td>
+  <td class="pages"><span class="pg">Music</span></td>
+  <td class="ev">SS program page lists &#x27;Instructional Method: On campus or online&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.scu.edu/ecp/programs/teaching-program/single-subject-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Sutter County Superintendent of Schools</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">Tri-County CTE: &#x27;Asynchronous coursework&#x27; + online orientation modules.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.sutter.k12.ca.us/Departments/Tri-County-Induction-Program/Career-Technical-Education-Program/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of California, Riverside</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">UCR Extension DS CTE / Special Subjects (Track A) coursework completely online.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://extension.ucr.edu/certificates/ctetracka" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of La Verne</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">MA in Teaching SS credential offered entirely online (CA residents).</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://laverne.edu/news/2022/07/14/university-of-la-verne-expands-online-program-offerings-to-include-masters-degrees-in-teaching-health-administration-and-public-administration/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of the Pacific</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Benerd College markets SS credential coursework &#x27;primarily online&#x27;; fully online 12-month MA option.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.pacific.edu/education/online-programs" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">William Jessup University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">MAT offered on-campus and fully online &#x27;Remote&#x27; (live virtual); note SS credential limited to English/Math, not arts.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://jessup.edu/academics/majors-programs/graduate/master-of-arts-in-teaching/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of California, Los Angeles</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Music</span></td>
+  <td class="ev">UCLA Extension CTE credential online via Canvas; note CenterX music credential is in-person residency.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr></tbody></table></div>
+</section><section class="grp" data-v="hybrid">
+  <header class="grp-h">
+    <span class="sw"></span>
+    <h2>Hybrid</h2>
+    <span class="ct">17</span>
+    <p class="gd">Explicitly mixes online coursework with some required in-person sessions.</p>
+  </header>
+  <div class="tw"><table><thead><tr><th>Program</th><th>Appears on</th><th>What we found</th><th>Conf.</th><th>Source</th></tr></thead><tbody><tr>
+  <td class="name">Azusa Pacific University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">&#x27;Live, scheduled online classes&#x27; synchronously + &#x27;one required in-person Saturday session&#x27; per semester.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.apu.edu/programs/single-subject-teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Chico</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS Credential Program page lists &#x27;Delivery Type: Hybrid.&#x27;</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.csuchico.edu/academics/majors-programs/single-subject-credential-program.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Focus 5</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Teaching Artist Intensive: in-person at UCSB + two prep sessions via Zoom.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://artsintegrationconsulting.com/2025-teaching-artist-intensive/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Los Angeles County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">District Intern: hybrid design, courses in person and online plus fieldwork.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.lacoe.edu/services/staff-support/credential-programs/beginning-teacher-programs/district-intern-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Teachers College of San Joaquin</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">CTE: &#x27;Delivery format is a combination of in-person and online courses&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://teacherscollegesj.edu/designated-subject-cte-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Vanguard University</td>
+  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential page explicitly lists &#x27;Offered: Hybrid&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.vanguard.edu/academics/academic-programs/graduate/teaching-credential-single" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Cal State LA</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential offers face-to-face, hybrid, and online formats; evening classes.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.calstatela.edu/coe/edci/single-subject-teaching-credential-program-secondary-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Mount Saint Mary&#x27;s University, Los Angeles</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Preliminary SS lists &#x27;Mode of study: On-campus, Hybrid&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.msmu.edu/departments/education/graduate-programs/masters-and-credential-programs/preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">P.S. ARTS</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">TASI intensive combines &#x27;online and in person workshops, courses, and model lessons&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://psarts.org/programs/educator-development/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">San Diego State University</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Music</span></td>
+  <td class="ev">SS cohorts include Central/East Hybrid (online sync+async) alongside face-to-face.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://education.sdsu.edu/credential/general-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">San Francisco State University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential &#x27;a thoughtfully crafted blend of in-person and online class offerings&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://secondaryed.sfsu.edu/singlesubject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Sacramento</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential in hybrid format: in-person courses plus limited online.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csus.edu/college/education/teaching-credentials/single-subject.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU San Bernardino</td>
+  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential described as hybrid mode for working adults.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csusb.edu/single-subject-teaching-credential/program-overview" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Davis Joint Unified School District</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">Yolo-Solano CTE program: mix of in-person and online; seminars currently online.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.yscenterforteaching.org/cte-credentialing.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Simpson University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">&#x27;Combination of face-to-face and hybrid courses&#x27;, mostly Mon-Thu after 4pm.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://simpsonu.edu/academics/teachereducation/single-subject-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Sonoma County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">NCSOE intern program: classes ~2 evenings/week; no online-only option stated.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.ncsoe.org/programs/be-a-teacher-intern-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">The Music Center</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Search summary: 30-hr/10-wk Teaching Artist Training primarily in-person + some optional virtual support; primary page 403, unconfirmed.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.musiccenter.org/experience-learn/experience-learn/for-artists/teaching-artist-training/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr></tbody></table></div>
+</section><section class="grp" data-v="inperson">
+  <header class="grp-h">
+    <span class="sw"></span>
+    <h2>In-person only</h2>
+    <span class="ct">25</span>
+    <p class="gd">Program describes on-campus / on-site delivery, no online option found.</p>
+  </header>
+  <div class="tw"><table><thead><tr><th>Program</th><th>Appears on</th><th>What we found</th><th>Conf.</th><th>Source</th></tr></thead><tbody><tr>
+  <td class="name">CSU Bakersfield</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential courses offered primarily in-person, early evening.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.csub.edu/teachereducation/secondary-education-single-subject-credential-program.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Fresno</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">34 units in-person coursework over two semesters; no online option.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://kremen.fresnostate.edu/teaching-credential/singlesubject/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Fullerton</td>
+  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Credential coursework in-person on main campus; online only for prerequisites.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://ed.fullerton.edu/seced/single-subject-credential-program/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">St. Mary&#x27;s College of California</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS Preliminary credential in-person Mon-Thu, afternoon/evening classes.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.stmarys-ca.edu/graduate-professional-studies/single-subject-teaching-preliminary-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">The Master&#x27;s University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Teaching Credential explicitly &#x27;in-person, project-based cohort model&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.masters.edu/academics/schools/pearl-c-schaffer-school-of-education/teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of Redlands</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Undergraduate Teacher Credential Pathway &#x27;Mode of Study: On Campus&#x27;.</td>
+  <td class="cf"><span class="conf" title="confidence 5/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></td>
+  <td class="src"><a href="https://www.redlands.edu/academics/undergraduate-programs/undergraduate-teacher-credential-pathway" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU San Marcos</td>
+  <td class="pages"><span class="pg">Art</span></td>
+  <td class="ev">&#x27;Almost entirely in person&#x27; on campus; a few courses combine online modalities; on-campus Mondays.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csusm.edu/soe/credential/singlesubject/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Cal Poly Humboldt</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Secondary program: local classroom practice + in-person coursement in cohort; no online option.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.humboldt.edu/academics/programs/secondary-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Chapman University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">MAT + SS credential in-person on campus, one evening/week.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.chapman.edu/education/graduate/teacher-education/mat-single/index.aspx" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Fresno Pacific University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential delivery &#x27;On campus&#x27; at Fresno, Merced, Visalia.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.fresno.edu/graduate/program/single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">LACMA</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Teaching Artist Training Series held on-site over eight Saturday mornings; no virtual component.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://unframed.lacma.org/2024/05/06/lacma-teaching-artist-training-series-tats" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Luna Dance Institute</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Five-day summer intensive + midyear weekend seminar, in-person in Berkeley; no online option.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://lunadancecreativity.org/professional-learning/institutes/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Luther Burbank Center for the Arts</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Teaching Artist Certificate workshops at LBC Education Studio + in-person spring practicum.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://lutherburbankcenter.org/education/for-schools-and-teachers/professional-development/teaching-artist-certificate-and-practicum/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Sonoma State University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential is two-semester in-person; not offered online/hybrid.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://soe.sonoma.edu/programs/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of California, Santa Barbara</td>
+  <td class="pages"><span class="pg">Music</span></td>
+  <td class="ev">Teacher Education Program: in-person Fridays at UCSB + K-12 placements 4-5 days/wk.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://education.ucsb.edu/academic-programs/teacher-education-program/programs-study/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Westmont College</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Campus cohort: fall classes + spring student teaching; no current online/hybrid option.</td>
+  <td class="cf"><span class="conf" title="confidence 4/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.westmont.edu/teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Long Beach</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Courses typically evenings one night/week; no online delivery mentioned.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csulb.edu/college-of-education/single-subject-credential-program-sscp/faqs" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">California Baptist University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">BA Art Education / BM Music Education are campus-based studio degrees; no online format for arts programs.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://calbaptist.edu/academics/programs/bachelor-of-arts-art-education/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CoTA (Collaborations: Teachers and Artists)</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Artist-Educator Institute built around in-classroom observation + K-12 experiences (on-site).</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://cotaprogram.org/programs/artist-training/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">High Tech High</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">District Intern coursework on-campus one night/week (Point Loma), aside from 6-week online summer pre-service.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.hightechhigh.org/teachercenter/district-intern/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">San Jose State University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SS credential primarily in-person, evening format; no online delivery indicated.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.sjsu.edu/teachered/academics/sscp.php" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">The Entertainment Community Fund</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">LA Teaching Artist Program a five-week in-person fall intensive; no remote option (Symposium is separate/online).</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://entertainmentcommunity.org/services-and-programs/arts-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of California, Irvine</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">14-month MAT Secondary: on-campus coursework + yearlong in-person apprenticeship; no online stated.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://education.uci.edu/mat-secondary.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">P.S. ARTS x CalState LA</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">P.S. ARTS component &#x27;in-person morning sessions&#x27;; CSULA coursework format unspecified.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://psarts.org/p-s-arts-x-csula-partnership/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of Southern California</td>
+  <td class="pages"><span class="pg">Music</span></td>
+  <td class="ev">Music SS credential via residential Thornton School; Rossier online MAT excludes music. No online music path.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://music.usc.edu/newstudents/degree-and-credential-path-checklist/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr></tbody></table></div>
+</section><section class="grp" data-v="likely">
+  <header class="grp-h">
+    <span class="sw"></span>
+    <h2>Likely Online (Unconfirmed)</h2>
+    <span class="ct">4</span>
+    <p class="gd">Signals point to an online option, but the program&#x27;s own page didn&#x27;t state it outright.</p>
+  </header>
+  <div class="tw"><table><thead><tr><th>Program</th><th>Appears on</th><th>What we found</th><th>Conf.</th><th>Source</th></tr></thead><tbody><tr>
+  <td class="name">Hope International University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Markets online/hybrid programs but credential page does not confirm format.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.hiu.edu/graduate-students/academics/colleges/college-of-education/preliminary-single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">United States University</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Predominantly online institution; credential uses synchronous online meetings but program not explicitly labeled fully online.</td>
+  <td class="cf"><span class="conf" title="confidence 3/5"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.usuniversity.edu/degrees/teacher-credentialing-preparation-program-single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Concordia University Irvine</td>
+  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Offers on-campus and online programs; SS credential online delivery not explicitly confirmed.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.cui.edu/academicprograms/graduate/teacher-credential/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Point Loma Nazarene University</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Markets some programs &#x27;fully online&#x27; but arts 4-Year Credential Track is campus-based; no explicit online statement.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.pointloma.edu/undergraduate/programs/four-year-credential-track-single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr></tbody></table></div>
+</section><section class="grp" data-v="unclear">
+  <header class="grp-h">
+    <span class="sw"></span>
+    <h2>Undetermined</h2>
+    <span class="ct">14</span>
+    <p class="gd">No delivery format published; needs a call to the school to confirm.</p>
+  </header>
+  <div class="tw"><table><thead><tr><th>Program</th><th>Appears on</th><th>What we found</th><th>Conf.</th><th>Source</th></tr></thead><tbody><tr>
+  <td class="name">Arts Education Connection San Diego</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">TAI workshops described ($10/session, cap 20) but no delivery format stated.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.artsedsd.org/tai" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Dominguez Hills</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">MS/SS credential pages state no delivery format; only School Leadership Program is hybrid/online.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csudh.edu/ms-ss-credentials/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Northridge</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Six pathways listed but none state online/hybrid/in-person delivery.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csun.edu/eisner-education/secondary-education/programs/preliminary-single-subject-credential-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">CSU Stanislaus</td>
+  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">One-year credential; no delivery format specified.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.csustan.edu/credentials/program-information" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Cal Poly Pomona</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Course requirements listed but no delivery format; only orientation noted as online.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.cpp.edu/ceis/credential-program/credential-programs/preliminary-single-subject-credential.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Pacific Union College</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Small residential campus (Angwin); no online/hybrid stated for SS credential coursework.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.puc.edu/academics/departments/education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Riverside County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">DSCTE pages describe coursework/enrollment but not delivery format.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.rcoe.us/programs/school-of-education/center-for-teacher-preparation/designated-subjects-career-technical-education-teaching-credential-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Santa Rosa Junior College</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Arts Education Assistant Certificate page states no modality; SRJC offers mixed modalities generally.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://college-skills.santarosa.edu/arts-education-assistant-certificate" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Studio Pathways</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">PD workshops &#x27;adapted to your learning environment&#x27;; online vs in-person not specified.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.studiopathways.org/our-work" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">The Teaching Artist Institute</td>
+  <td class="pages"><span class="pg">Teaching Artist</span></td>
+  <td class="ev">Describes 1:1 classroom mentorship but states no online/in-person format.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.teachingartistinstitute.org/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Tulare County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">NTLD CTE pages describe eligibility/sectors but not delivery format.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://tcoe.org/NTLD/CTE" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of San Diego</td>
+  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">SOLES Preliminary SS pages describe structure but never state delivery format.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.sandiego.edu/soles/academics/teaching-pathways/credential-program/preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">University of San Francisco</td>
+  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
+  <td class="ev">Credential at physical campuses (SF, Sacramento, Santa Rosa); no online/hybrid stated.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.usfca.edu/education/programs/masters/teaching" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr><tr>
+  <td class="name">Ventura County Office of Education</td>
+  <td class="pages"><span class="pg">CTE</span></td>
+  <td class="ev">CTE Designated Subjects page references orientation/fees but not delivery format.</td>
+  <td class="cf"><span class="conf" title="confidence 2/5"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></td>
+  <td class="src"><a href="https://www.vcoe.org/ese/dsc/cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
+</tr></tbody></table></div>
+</section>
+
+  <div class="foot">
+    <p><b>Method.</b> Each program was checked against its own published page (plus a targeted search where the page was silent), then rated by how explicitly online delivery was stated. Confidence dots reflect how direct that evidence was, not program quality.</p>
+    <p><b>What &ldquo;fully remote&rdquo; means.</b> The labels describe how coursework is delivered. Nearly every teaching credential still requires in-person student teaching completed locally, so &ldquo;fully remote&rdquo; refers to the coursework, not a 100%-remote credential.</p>
+    <p><b>Freshness.</b> Delivery formats change term to term; the marker should be treated as &ldquo;confirm current format with the school.&rdquo;</p>
+  </div>
+</div>

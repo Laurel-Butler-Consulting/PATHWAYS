@@ -1,0 +1,1012 @@
+[
+ {
+  "name": "Academy of Art University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Art Teaching Credential page: 'This program is available online.'",
+  "source": "https://www.academyart.edu/academics/art-education/degrees/art-teaching-credential/",
+  "pages": [
+   "Art"
+  ]
+ },
+ {
+  "name": "Alameda County Office of Education",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "CTE credential: all courses online, mostly asynchronous; 3 synchronous PD/yr.",
+  "source": "https://acoe.org/cte",
+  "pages": [
+   "CTE",
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Alliant International University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "SS Teaching Credential 'offered fully online'; placements done locally.",
+  "source": "https://www.alliant.edu/california-teaching-credentials/single-subject",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Arts & Healing Initiative",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "'Online Certificate Program in Social Emotional Arts' \u2014 40-hour online certificate.",
+  "source": "https://artsandhealinginitiative.org/pages/certificate-program-in-social-emotional-arts-sea",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Biola University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "SS credential studied 'in-person... or fully online (at the graduate level).'",
+  "source": "https://www.biola.edu/degrees/g/single-subject-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU East Bay",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Art, Dance, Music, Theatre SS candidates take all classes online (mostly synchronous); only Math/Science hybrid.",
+  "source": "https://www.csueastbay.edu/cssc/prospective-cred-student/single-subject.html",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "California State University, San Bernardino",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Designated Subjects CTE credential fully online (CTC-approved ECTS courses).",
+  "source": "https://www.csusb.edu/career-technical-education/designated-credentials/career-technical-education-cte",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Dominican University of California",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "'This is an online program' \u2014 synchronous (live Zoom) + asynchronous courses.",
+  "source": "https://www.dominican.edu/academics/graduate-programs/teacher-credential-master-science-education-ms",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Fresno County Superintendent of Schools",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "CTE credential courses offered online (pre-recorded + Zoom cohort meetings).",
+  "source": "https://cte-credential.fcoe.org/",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Kern County Superintendent of Schools",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "'Clear your credential through online coursework' with 1:1 mentoring.",
+  "source": "https://kern.org/educator-development/career-technical-education-cte-credential-program/",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Loyola Marymount University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "'All coursework is offered online' (synchronous evenings); only fieldwork on-site.",
+  "source": "https://soe.lmu.edu/academics/secondaryeducation/",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "National University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Inspired Teaching & Learning Preliminary SS credential '100% Online'.",
+  "source": "https://www.nu.edu/degrees/teacher-education/programs/inspired-teaching-and-learning-preliminary-single-subject/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Pepperdine University",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Online MAT with Secondary (SS) credential: 'Coursework is completed online or in a hybrid format'.",
+  "source": "https://gsep.pepperdine.edu/masters-teaching/online/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Tehama County Department of Education",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "'Synchronous and asynchronous components, which can all be completed virtually'.",
+  "source": "https://www.tehamaschools.org/Services/Educational-Services/Career-Technical-Education-Teacher-Preparation/index.html",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "UC Irvine, Claire Trevor School of the Arts",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Teaching Artistry certificate format explicitly 'Online Live'.",
+  "source": "https://ce.uci.edu/programs/education/teaching-artistry",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "University of Massachusetts Global (UMass Global)",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "CA 2042 SS Teaching Credential titled 'Online Program', 8-week online sessions.",
+  "source": "https://www.umassglobal.edu/academic-programs/teaching-credential-2042-single-subject",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of Phoenix",
+  "verdict": "online",
+  "confidence": 5,
+  "evidence": "Secondary teacher education master's/credential: 'Enroll in online classes... open 24/7'.",
+  "source": "https://www.phoenix.edu/online-education-degrees/secondary-teacher-education-masters-degree.html",
+  "pages": [
+   "Art"
+  ]
+ },
+ {
+  "name": "Alternatives in Action",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Reach intern credential: 3-hr synchronous online seminars + async coursework; onsite mentorship at job.",
+  "source": "https://info.reach.edu/support/what-is-the-course-sequence-for-the-2-year-intern-and-master-of-arts-in-teaching-program",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "California Lutheran University",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Credential coursework offered on-campus and fully online (year-round 8-week terms).",
+  "source": "https://www.callutheran.edu/academics/graduate/teaching-credential/course-terms.html",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "California State University, Sacramento",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "CTE credential: 'Flexible online courses'; one course hybrid.",
+  "source": "https://cce.csus.edu/career-technical-education-cte-credential",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "La Sierra University",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "MAT (covers SS credential reqs) 'completely online for California residents'; couple classes on campus.",
+  "source": "https://lasierra.edu/mat-online/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Notre Dame de Namur University",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "SS credential offers in-person, hybrid, and fully online course modalities.",
+  "source": "https://www.ndnu.edu/education/credentials-single.html",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Orange County Department of Education",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "CTE: 'Through online coursework and in-person support' + self-paced online orientation.",
+  "source": "https://ocde.us/EducationalServices/CareerEducationAndPostSecondaryAdvancement/CTE/Pages/default.aspx",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Sacramento County Office of Education",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Add-a-Credential for Art/Dance/Music/Theatre held virtually via Zoom Saturdays.",
+  "source": "https://scoeteaching.net/addacredential/index.html",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "CTE",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "San Diego County Office of Education",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Designated Subjects program described 100% online; CTE courses 16 wks fully online.",
+  "source": "https://www.sdcoe.net/educators/educator-preparation/designated-subjects/~board/designated-subjects-credentials/post/career-technical-education-cte-credential-information",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Santa Clara University",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "SS program page lists 'Instructional Method: On campus or online'.",
+  "source": "https://www.scu.edu/ecp/programs/teaching-program/single-subject-program/",
+  "pages": [
+   "Music"
+  ]
+ },
+ {
+  "name": "Sutter County Superintendent of Schools",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Tri-County CTE: 'Asynchronous coursework' + online orientation modules.",
+  "source": "https://www.sutter.k12.ca.us/Departments/Tri-County-Induction-Program/Career-Technical-Education-Program/index.html",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "University of California, Riverside",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "UCR Extension DS CTE / Special Subjects (Track A) coursework completely online.",
+  "source": "https://extension.ucr.edu/certificates/ctetracka",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "University of La Verne",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "MA in Teaching SS credential offered entirely online (CA residents).",
+  "source": "https://laverne.edu/news/2022/07/14/university-of-la-verne-expands-online-program-offerings-to-include-masters-degrees-in-teaching-health-administration-and-public-administration/",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of the Pacific",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "Benerd College markets SS credential coursework 'primarily online'; fully online 12-month MA option.",
+  "source": "https://www.pacific.edu/education/online-programs",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "William Jessup University",
+  "verdict": "online",
+  "confidence": 4,
+  "evidence": "MAT offered on-campus and fully online 'Remote' (live virtual); note SS credential limited to English/Math, not arts.",
+  "source": "https://jessup.edu/academics/majors-programs/graduate/master-of-arts-in-teaching/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of California, Los Angeles",
+  "verdict": "online",
+  "confidence": 3,
+  "evidence": "UCLA Extension CTE credential online via Canvas; note CenterX music credential is in-person residency.",
+  "source": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical",
+  "pages": [
+   "CTE",
+   "Music"
+  ]
+ },
+ {
+  "name": "Azusa Pacific University",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "'Live, scheduled online classes' synchronously + 'one required in-person Saturday session' per semester.",
+  "source": "https://www.apu.edu/programs/single-subject-teaching-credential/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Chico",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "SS Credential Program page lists 'Delivery Type: Hybrid.'",
+  "source": "https://www.csuchico.edu/academics/majors-programs/single-subject-credential-program.shtml",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Focus 5",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "Teaching Artist Intensive: in-person at UCSB + two prep sessions via Zoom.",
+  "source": "https://artsintegrationconsulting.com/2025-teaching-artist-intensive/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Los Angeles County Office of Education",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "District Intern: hybrid design, courses in person and online plus fieldwork.",
+  "source": "https://www.lacoe.edu/services/staff-support/credential-programs/beginning-teacher-programs/district-intern-program",
+  "pages": [
+   "CTE",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Teachers College of San Joaquin",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "CTE: 'Delivery format is a combination of in-person and online courses'.",
+  "source": "https://teacherscollegesj.edu/designated-subject-cte-program/",
+  "pages": [
+   "CTE",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Vanguard University",
+  "verdict": "hybrid",
+  "confidence": 5,
+  "evidence": "SS credential page explicitly lists 'Offered: Hybrid'.",
+  "source": "https://www.vanguard.edu/academics/academic-programs/graduate/teaching-credential-single",
+  "pages": [
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Cal State LA",
+  "verdict": "hybrid",
+  "confidence": 4,
+  "evidence": "SS credential offers face-to-face, hybrid, and online formats; evening classes.",
+  "source": "https://www.calstatela.edu/coe/edci/single-subject-teaching-credential-program-secondary-education",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Mount Saint Mary's University, Los Angeles",
+  "verdict": "hybrid",
+  "confidence": 4,
+  "evidence": "Preliminary SS lists 'Mode of study: On-campus, Hybrid'.",
+  "source": "https://www.msmu.edu/departments/education/graduate-programs/masters-and-credential-programs/preliminary-single-subject/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "P.S. ARTS",
+  "verdict": "hybrid",
+  "confidence": 4,
+  "evidence": "TASI intensive combines 'online and in person workshops, courses, and model lessons'.",
+  "source": "https://psarts.org/programs/educator-development/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "San Diego State University",
+  "verdict": "hybrid",
+  "confidence": 4,
+  "evidence": "SS cohorts include Central/East Hybrid (online sync+async) alongside face-to-face.",
+  "source": "https://education.sdsu.edu/credential/general-education",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Music"
+  ]
+ },
+ {
+  "name": "San Francisco State University",
+  "verdict": "hybrid",
+  "confidence": 4,
+  "evidence": "SS credential 'a thoughtfully crafted blend of in-person and online class offerings'.",
+  "source": "https://secondaryed.sfsu.edu/singlesubject",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Sacramento",
+  "verdict": "hybrid",
+  "confidence": 3,
+  "evidence": "SS credential in hybrid format: in-person courses plus limited online.",
+  "source": "https://www.csus.edu/college/education/teaching-credentials/single-subject.html",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU San Bernardino",
+  "verdict": "hybrid",
+  "confidence": 3,
+  "evidence": "SS credential described as hybrid mode for working adults.",
+  "source": "https://www.csusb.edu/single-subject-teaching-credential/program-overview",
+  "pages": [
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Davis Joint Unified School District",
+  "verdict": "hybrid",
+  "confidence": 3,
+  "evidence": "Yolo-Solano CTE program: mix of in-person and online; seminars currently online.",
+  "source": "https://www.yscenterforteaching.org/cte-credentialing.html",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Simpson University",
+  "verdict": "hybrid",
+  "confidence": 3,
+  "evidence": "'Combination of face-to-face and hybrid courses', mostly Mon-Thu after 4pm.",
+  "source": "https://simpsonu.edu/academics/teachereducation/single-subject-credential/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Sonoma County Office of Education",
+  "verdict": "hybrid",
+  "confidence": 2,
+  "evidence": "NCSOE intern program: classes ~2 evenings/week; no online-only option stated.",
+  "source": "https://www.ncsoe.org/programs/be-a-teacher-intern-program",
+  "pages": [
+   "CTE",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "The Music Center",
+  "verdict": "hybrid",
+  "confidence": 2,
+  "evidence": "Search summary: 30-hr/10-wk Teaching Artist Training primarily in-person + some optional virtual support; primary page 403, unconfirmed.",
+  "source": "https://www.musiccenter.org/experience-learn/experience-learn/for-artists/teaching-artist-training/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Hope International University",
+  "verdict": "likely",
+  "confidence": 3,
+  "evidence": "Markets online/hybrid programs but credential page does not confirm format.",
+  "source": "https://www.hiu.edu/graduate-students/academics/colleges/college-of-education/preliminary-single-subject-teaching-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "United States University",
+  "verdict": "likely",
+  "confidence": 3,
+  "evidence": "Predominantly online institution; credential uses synchronous online meetings but program not explicitly labeled fully online.",
+  "source": "https://www.usuniversity.edu/degrees/teacher-credentialing-preparation-program-single-subject",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Concordia University Irvine",
+  "verdict": "likely",
+  "confidence": 2,
+  "evidence": "Offers on-campus and online programs; SS credential online delivery not explicitly confirmed.",
+  "source": "https://www.cui.edu/academicprograms/graduate/teacher-credential/single-subject-credential",
+  "pages": [
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Point Loma Nazarene University",
+  "verdict": "likely",
+  "confidence": 2,
+  "evidence": "Markets some programs 'fully online' but arts 4-Year Credential Track is campus-based; no explicit online statement.",
+  "source": "https://www.pointloma.edu/undergraduate/programs/four-year-credential-track-single-subject-teaching-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Arts Education Connection San Diego",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "TAI workshops described ($10/session, cap 20) but no delivery format stated.",
+  "source": "https://www.artsedsd.org/tai",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "CSU Dominguez Hills",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "MS/SS credential pages state no delivery format; only School Leadership Program is hybrid/online.",
+  "source": "https://www.csudh.edu/ms-ss-credentials/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Northridge",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Six pathways listed but none state online/hybrid/in-person delivery.",
+  "source": "https://www.csun.edu/eisner-education/secondary-education/programs/preliminary-single-subject-credential-program",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Stanislaus",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "One-year credential; no delivery format specified.",
+  "source": "https://www.csustan.edu/credentials/program-information",
+  "pages": [
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Cal Poly Pomona",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Course requirements listed but no delivery format; only orientation noted as online.",
+  "source": "https://www.cpp.edu/ceis/credential-program/credential-programs/preliminary-single-subject-credential.shtml",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Pacific Union College",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Small residential campus (Angwin); no online/hybrid stated for SS credential coursework.",
+  "source": "https://www.puc.edu/academics/departments/education",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Riverside County Office of Education",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "DSCTE pages describe coursework/enrollment but not delivery format.",
+  "source": "https://www.rcoe.us/programs/school-of-education/center-for-teacher-preparation/designated-subjects-career-technical-education-teaching-credential-program/",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "Santa Rosa Junior College",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Arts Education Assistant Certificate page states no modality; SRJC offers mixed modalities generally.",
+  "source": "https://college-skills.santarosa.edu/arts-education-assistant-certificate",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Studio Pathways",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "PD workshops 'adapted to your learning environment'; online vs in-person not specified.",
+  "source": "https://www.studiopathways.org/our-work",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "The Teaching Artist Institute",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Describes 1:1 classroom mentorship but states no online/in-person format.",
+  "source": "https://www.teachingartistinstitute.org/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Tulare County Office of Education",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "NTLD CTE pages describe eligibility/sectors but not delivery format.",
+  "source": "https://tcoe.org/NTLD/CTE",
+  "pages": [
+   "CTE",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of San Diego",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "SOLES Preliminary SS pages describe structure but never state delivery format.",
+  "source": "https://www.sandiego.edu/soles/academics/teaching-pathways/credential-program/preliminary-single-subject/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of San Francisco",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "Credential at physical campuses (SF, Sacramento, Santa Rosa); no online/hybrid stated.",
+  "source": "https://www.usfca.edu/education/programs/masters/teaching",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Ventura County Office of Education",
+  "verdict": "unclear",
+  "confidence": 2,
+  "evidence": "CTE Designated Subjects page references orientation/fees but not delivery format.",
+  "source": "https://www.vcoe.org/ese/dsc/cte",
+  "pages": [
+   "CTE"
+  ]
+ },
+ {
+  "name": "CSU Bakersfield",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "SS credential courses offered primarily in-person, early evening.",
+  "source": "https://www.csub.edu/teachereducation/secondary-education-single-subject-credential-program.shtml",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Fresno",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "34 units in-person coursework over two semesters; no online option.",
+  "source": "https://kremen.fresnostate.edu/teaching-credential/singlesubject/index.html",
+  "pages": [
+   "Dance",
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Fullerton",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "Credential coursework in-person on main campus; online only for prerequisites.",
+  "source": "https://ed.fullerton.edu/seced/single-subject-credential-program/index.html",
+  "pages": [
+   "Theatre",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "St. Mary's College of California",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "SS Preliminary credential in-person Mon-Thu, afternoon/evening classes.",
+  "source": "https://www.stmarys-ca.edu/graduate-professional-studies/single-subject-teaching-preliminary-credential",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "The Master's University",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "Teaching Credential explicitly 'in-person, project-based cohort model'.",
+  "source": "https://www.masters.edu/academics/schools/pearl-c-schaffer-school-of-education/teaching-credential/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of Redlands",
+  "verdict": "inperson",
+  "confidence": 5,
+  "evidence": "Undergraduate Teacher Credential Pathway 'Mode of Study: On Campus'.",
+  "source": "https://www.redlands.edu/academics/undergraduate-programs/undergraduate-teacher-credential-pathway",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU San Marcos",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "'Almost entirely in person' on campus; a few courses combine online modalities; on-campus Mondays.",
+  "source": "https://www.csusm.edu/soe/credential/singlesubject/index.html",
+  "pages": [
+   "Art"
+  ]
+ },
+ {
+  "name": "Cal Poly Humboldt",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Secondary program: local classroom practice + in-person coursement in cohort; no online option.",
+  "source": "https://www.humboldt.edu/academics/programs/secondary-education",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Chapman University",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "MAT + SS credential in-person on campus, one evening/week.",
+  "source": "https://www.chapman.edu/education/graduate/teacher-education/mat-single/index.aspx",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "Fresno Pacific University",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "SS credential delivery 'On campus' at Fresno, Merced, Visalia.",
+  "source": "https://www.fresno.edu/graduate/program/single-subject-teaching-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "LACMA",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Teaching Artist Training Series held on-site over eight Saturday mornings; no virtual component.",
+  "source": "https://unframed.lacma.org/2024/05/06/lacma-teaching-artist-training-series-tats",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Luna Dance Institute",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Five-day summer intensive + midyear weekend seminar, in-person in Berkeley; no online option.",
+  "source": "https://lunadancecreativity.org/professional-learning/institutes/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Luther Burbank Center for the Arts",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Teaching Artist Certificate workshops at LBC Education Studio + in-person spring practicum.",
+  "source": "https://lutherburbankcenter.org/education/for-schools-and-teachers/professional-development/teaching-artist-certificate-and-practicum/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "Sonoma State University",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "SS credential is two-semester in-person; not offered online/hybrid.",
+  "source": "https://soe.sonoma.edu/programs/single-subject-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "University of California, Santa Barbara",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Teacher Education Program: in-person Fridays at UCSB + K-12 placements 4-5 days/wk.",
+  "source": "https://education.ucsb.edu/academic-programs/teacher-education-program/programs-study/single-subject-credential",
+  "pages": [
+   "Music"
+  ]
+ },
+ {
+  "name": "Westmont College",
+  "verdict": "inperson",
+  "confidence": 4,
+  "evidence": "Campus cohort: fall classes + spring student teaching; no current online/hybrid option.",
+  "source": "https://www.westmont.edu/teaching-credential",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CSU Long Beach",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "Courses typically evenings one night/week; no online delivery mentioned.",
+  "source": "https://www.csulb.edu/college-of-education/single-subject-credential-program-sscp/faqs",
+  "pages": [
+   "Dance",
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "California Baptist University",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "BA Art Education / BM Music Education are campus-based studio degrees; no online format for arts programs.",
+  "source": "https://calbaptist.edu/academics/programs/bachelor-of-arts-art-education/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "CoTA (Collaborations: Teachers and Artists)",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "Artist-Educator Institute built around in-classroom observation + K-12 experiences (on-site).",
+  "source": "https://cotaprogram.org/programs/artist-training/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "High Tech High",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "District Intern coursework on-campus one night/week (Point Loma), aside from 6-week online summer pre-service.",
+  "source": "https://www.hightechhigh.org/teachercenter/district-intern/",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "San Jose State University",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "SS credential primarily in-person, evening format; no online delivery indicated.",
+  "source": "https://www.sjsu.edu/teachered/academics/sscp.php",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "The Entertainment Community Fund",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "LA Teaching Artist Program a five-week in-person fall intensive; no remote option (Symposium is separate/online).",
+  "source": "https://entertainmentcommunity.org/services-and-programs/arts-education",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "University of California, Irvine",
+  "verdict": "inperson",
+  "confidence": 3,
+  "evidence": "14-month MAT Secondary: on-campus coursework + yearlong in-person apprenticeship; no online stated.",
+  "source": "https://education.uci.edu/mat-secondary.html",
+  "pages": [
+   "Art",
+   "Music"
+  ]
+ },
+ {
+  "name": "P.S. ARTS x CalState LA",
+  "verdict": "inperson",
+  "confidence": 2,
+  "evidence": "P.S. ARTS component 'in-person morning sessions'; CSULA coursework format unspecified.",
+  "source": "https://psarts.org/p-s-arts-x-csula-partnership/",
+  "pages": [
+   "Teaching Artist"
+  ]
+ },
+ {
+  "name": "University of Southern California",
+  "verdict": "inperson",
+  "confidence": 2,
+  "evidence": "Music SS credential via residential Thornton School; Rossier online MAT excludes music. No online music path.",
+  "source": "https://music.usc.edu/newstudents/degree-and-credential-path-checklist/",
+  "pages": [
+   "Music"
+  ]
+ }
+]

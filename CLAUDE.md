@@ -40,6 +40,12 @@ Locked-in steps:
 `runtimeExecutable`/`runtimeArgs`, no hardcoded path) so copying it forward each day is
 harmless. Keep it that way — never restore a config that hardcodes a dated folder path.
 
+## Open work items
+- **Online-availability marking** (client request): research done for all 92 programs; NOT
+  yet on the live site — awaiting client sign-off on the marker threshold. See
+  [`notes/online-availability-README.md`](notes/online-availability-README.md) and
+  `notes/online-availability-review.json`. Do not wire it in until the threshold is chosen.
+
 ## Reaching result views quickly
 
 The site is a questionnaire SPA. Result pages render via `renderProfile(<key>)` into `#app`
