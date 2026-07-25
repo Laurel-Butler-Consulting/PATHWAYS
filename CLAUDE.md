@@ -41,8 +41,32 @@ Locked-in steps:
 harmless. Keep it that way — never restore a config that hardcodes a dated folder path.
 
 ## Open work items
-- **Online-availability marking** (client request): research done for all 92 programs; NOT
-  yet on the live site — awaiting client sign-off on the marker threshold. See
+
+### Placeholders awaiting final content upload
+- **Presenter videos** — personas currently render as still images (`vp()` → .jpg). The whole
+  video-playback path (play/mute/replay/pause) is inert until real `.qv-video` sources are added.
+- **Video captions (CC)** — the "CC" button exists but there are no `.vtt` caption files, so it
+  toggles nothing. Add caption tracks with the videos; consider gating the button on caption
+  presence until then.
+- **Video transcripts** — the `welcome` node holds lorem-ipsum placeholder; other video nodes have
+  no transcript text. Agreed plan: Option A (fill each node's `text:[…]` → existing Transcript
+  modal) + Option C (short 2–4 bullet summaries on result pages/PDF, drafted from transcripts).
+  Fill-in template: [`notes/video-transcripts-TODO.md`](notes/video-transcripts-TODO.md).
+
+### Pending client review
+- **PROVISIONAL region assignments** (`SCHOOL_REGION` in index.html) — school→region mappings
+  inferred from campus location, NOT independently verified (carries an in-code "review before
+  launch" flag). Confirm before launch.
+- **"Stay in touch" button** — non-functional placeholder on result pages; email opt-in awaiting
+  client decision on platform + placement before wiring.
+- **UCLA Extension CTE in Teaching Artistry** — client asked to add to Teaching Artist + CTE lists
+  (url: uclaextension.edu/…/course/artist-educator-explore-ucla); implemented then REVERTED,
+  awaiting client answer on (a) region — Southern California vs Online — and (b) whether it
+  duplicates the existing "University of California, Los Angeles" CTE entry.
+
+### Online-availability marking
+- **(client request):** research done for all 92 programs; NOT yet on the live site — awaiting
+  client sign-off on the marker threshold. See
   [`notes/online-availability-README.md`](notes/online-availability-README.md) and
   `notes/online-availability-review.json`. Do not wire it in until the threshold is chosen.
 

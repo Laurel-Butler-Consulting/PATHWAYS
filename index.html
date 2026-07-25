@@ -49,7 +49,7 @@
   .audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
   .audience-card{background:var(--white);border:1px solid rgba(0,38,71,.1);border-radius:var(--r);padding:1.75rem 1.25rem;text-align:center;transition:transform .15s,box-shadow .15s}
   .audience-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,38,71,.08)}
-  .audience-card h4{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.04em;margin-bottom:.5rem;color:var(--navy)}
+  .audience-card h3{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.04em;margin-bottom:.5rem;color:var(--navy)}
   .audience-card p{font-size:.82rem;color:var(--blue);line-height:1.5}
   .audience-card .ac-icon{width:78px;height:78px;display:block;margin:0 auto .85rem}
 
@@ -198,7 +198,7 @@
   .prog-region .prog-list{margin-bottom:0}
   .prog-list a{display:block;break-inside:avoid;font-size:.82rem;color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;padding:.3rem 0;line-height:1.3;transition:color .12s,text-decoration-color .12s}
   .prog-list a:hover{color:var(--navy);text-decoration-color:var(--navy)}
-  .prog-list a::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.3em;vertical-align:-.02em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C599D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.6}
+  .prog-list a::after,.res-item a::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.3em;vertical-align:-.02em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C599D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.6}
   .prog-list a sup{color:#b9892a;font-weight:700;margin-left:1px}
   .prog-note{display:flex;gap:.4rem;font-size:.74rem;line-height:1.5;color:rgba(0,38,71,.7);background:var(--white);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:.6rem .85rem;margin-bottom:1.5rem}
   .prog-note sup{color:#b9892a;font-weight:700}
@@ -208,7 +208,6 @@
   .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
   .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
   .res-item a:hover{color:var(--navy);text-decoration-color:var(--navy)}
-  .res-item a::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.3em;vertical-align:-.02em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C599D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.6}
   .res-suffix{color:rgba(0,38,71,.72);font-size:.78rem}
   /* Supplementary Authorization (text profile) */
   .supp-content{font-size:.88rem;line-height:1.65;color:var(--navy)}
@@ -293,6 +292,8 @@
   <button class="hero-scroll" aria-label="Scroll to content" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})"><svg viewBox="0 0 48 24" aria-hidden="true"><path d="M12 9 L24 15 L36 9"/></svg></button>
 </div>
 
+<main>
+
 <!-- HOME SECTIONS -->
 <div id="homeSections">
 
@@ -326,17 +327,17 @@
       <div class="audience-grid">
         <div class="audience-card">
           <svg class="ac-icon" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="31" rx="23" ry="19" fill="var(--white)" stroke="var(--navy)" stroke-width="2.5"/><ellipse cx="23" cy="40" rx="3.6" ry="3.2" fill="var(--ice)" stroke="var(--navy)" stroke-width="1.5"/><circle cx="21" cy="24" r="3.4" fill="#E23B3B"/><circle cx="30" cy="19" r="3.4" fill="#EE7B2E"/><circle cx="39" cy="19" r="3.4" fill="var(--gold)"/><circle cx="46" cy="27" r="3.4" fill="#2FA84F"/><circle cx="44" cy="37" r="3.4" fill="var(--blue)"/></svg>
-          <h4>Artists</h4>
+          <h3>Artists</h3>
           <p>Bring your creative practice into the classroom as a teaching artist or credentialed educator</p>
         </div>
         <div class="audience-card">
           <svg class="ac-icon" viewBox="0 0 64 64" aria-hidden="true"><rect x="11" y="39" width="42" height="11" rx="2" fill="var(--navy)"/><rect x="14" y="28" width="42" height="11" rx="2" fill="var(--blue)"/><rect x="9" y="17" width="42" height="11" rx="2" fill="var(--gold)"/><rect x="15" y="42" width="3.5" height="5" rx="1" fill="var(--gold)"/><rect x="18" y="31" width="3.5" height="5" rx="1" fill="var(--white)"/><rect x="13" y="20" width="3.5" height="5" rx="1" fill="var(--navy)"/></svg>
-          <h4>Students</h4>
+          <h3>Students</h3>
           <p>Navigate your college search and credentialing process with support and confidence</p>
         </div>
         <div class="audience-card">
           <svg class="ac-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 23c-3-3-8-4-12-1-6 4-7 15-3 24 2 5 6 9 9 9 2 0 3-1 6-1s4 1 6 1c3 0 7-4 9-9 4-9 3-20-3-24-4-3-9-2-12 1Z" fill="#E23B3B"/><path d="M32 23c0-5 1-9 4-11" fill="none" stroke="var(--navy)" stroke-width="3" stroke-linecap="round"/><path d="M34 17c2-4 7-6 11-5 .3 4-3 8-8 8-2 0-3-1-3-3Z" fill="#2FA84F"/></svg>
-          <h4>Teachers</h4>
+          <h3>Teachers</h3>
           <p>Add an arts credential or pursue further professional development to expand your skills as an educator</p>
         </div>
       </div>
@@ -410,7 +411,9 @@
 
 </div>
 
-<main id="app"></main>
+<div id="app"></div>
+
+</main>
 
 <footer>
   <div class="footer-inner">
@@ -761,6 +764,10 @@ const SCHOOL_REGION={
   "Alliant International University":"Southern California","Arts Education Connection San Diego":"Southern California","Azusa Pacific University":"Southern California","Biola University":"Southern California","CSU Dominguez Hills":"Southern California","CSU Fullerton":"Southern California","CSU Long Beach":"Southern California","CSU Northridge":"Southern California","CSU San Bernardino":"Southern California","California State University, San Bernardino":"Southern California","CSU San Marcos":"Southern California","Cal Poly Pomona":"Southern California","Cal State LA":"Southern California","California Baptist University":"Southern California","California Lutheran University":"Southern California","Chapman University":"Southern California","CoTA (Collaborations: Teachers and Artists)":"Southern California","Concordia University Irvine":"Southern California","High Tech High":"Southern California","Hope International University":"Southern California","LACMA":"Southern California","La Sierra University":"Southern California","Los Angeles County Office of Education":"Southern California","Loyola Marymount University":"Southern California","Mount Saint Mary's University, Los Angeles":"Southern California","National University":"Southern California","Orange County Department of Education":"Southern California","P.S. ARTS x CalState LA":"Southern California","P.S. ARTS":"Southern California","Pepperdine University":"Southern California","Point Loma Nazarene University":"Southern California","Riverside County Office of Education":"Southern California","San Diego County Office of Education":"Southern California","San Diego State University":"Southern California","The Master's University":"Southern California","The Music Center":"Southern California","UC Irvine, Claire Trevor School of the Arts":"Southern California","United States University":"Southern California","University of California, Irvine":"Southern California","University of California, Los Angeles":"Southern California","University of California, Riverside":"Southern California","University of La Verne":"Southern California","University of Massachusetts Global (UMass Global)":"Southern California","University of Redlands":"Southern California","University of San Diego":"Southern California","University of Southern California":"Southern California","Vanguard University":"Southern California","Ventura County Office of Education":"Southern California",
   "Arts & Healing Initiative":"Online","Focus 5":"Online","The Entertainment Community Fund":"Online","The Teaching Artist Institute":"Online","University of Phoenix":"Online"
 };
+// Escape values pulled from data/programs.json before injecting into innerHTML, so a name/URL
+// containing &, <, >, ", or ' can't break the markup. (In-code literals like RESOURCES already
+// use intentional HTML entities and must NOT be passed through this.)
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function listHTML(P){
   if(!PROGRAMS_OK)return '<div class="prog-note"><span>The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href="mailto:info@createca.org">info@createca.org</a>.</span></div>';
   const arr=((typeof PROGRAMS!=='undefined'&&PROGRAMS[P.list])?PROGRAMS[P.list]:[]).slice().sort(function(a,b){return a.n.localeCompare(b.n);});
@@ -768,7 +775,7 @@ function listHTML(P){
   const groups={};
   arr.forEach(function(e){ if(e.f)flagged=true; var r=SCHOOL_REGION[e.n]||'Unsorted'; (groups[r]||(groups[r]=[])).push(e); });  // 'Unsorted' = visible safety net for any school missing from SCHOOL_REGION
   const sections=REGION_ORDER.filter(function(r){return groups[r]&&groups[r].length;}).map(function(r){
-    var links=groups[r].map(function(e){return '<a href="'+e.u+'" target="_blank" rel="noopener">'+e.n+(e.f?'<sup>&dagger;</sup>':'')+'</a>';}).join('');
+    var links=groups[r].map(function(e){return '<a href="'+escapeHTML(e.u)+'" target="_blank" rel="noopener">'+escapeHTML(e.n)+(e.f?'<sup>&dagger;</sup>':'')+'</a>';}).join('');
     return '<div class="prog-region"><h3 class="prog-region-title">'+r.replace(' California','')+'</h3><div class="prog-list">'+links+'</div></div>';
   }).join('');
   const note=flagged?'<div class="prog-note"><span><sup>&dagger;</sup></span><span>State-approved program. This link opens the school\'s general credential page rather than a discipline-specific one &mdash; confirm program specifics with the school.</span></div>':'';
