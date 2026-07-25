@@ -1,47 +1,46 @@
 # Online-availability marking — WORK IN PROGRESS (awaiting client sign-off)
 
-**Status (2026-07-24):** Research complete for all 92 programs. **Nothing wired into the
-live site yet.** On hold while the client reviews and picks the marking threshold.
+**Status:** All 92 programs researched, then re-verified for delivery *mode*. Client chose a
+**two-marker** scheme. **Nothing on the live site yet** — this is the review stage.
 
-**Goal (client request):** cross-index the programs across all Pathways pages and mark
-which ones can be taken online (e.g. an asterisk).
+**Client's actual request:** in addition to programs already shown as "online only," also
+indicate which programs can be taken **in person OR online**. So the live site needs two markers.
 
-## What's decided vs. open
-- Data source: researched each program from its own published page (+ targeted search). Done.
-- OPEN — client must choose the marker threshold:
-  - **Online + hybrid (49 programs)** — recommended ("available fully or partially online")
-  - Online only (32)
-  - Online + hybrid + likely (53) — risks over-claiming; would need visual distinction
+## The two markers (live-site plan)
+- **In person or online** — student can choose either format (includes blended / hybrid programs)
+- **Online only** — coursework delivered online with no in-person alternative
 
-## Findings tally (of 92)
-| verdict | count |
+Programs with neither get no marker (in-person only). "Likely" and "Undetermined" stay unmarked
+until confirmed.
+
+## Findings tally (92)
+| category | count |
 |---|---|
-| online | 32 |
-| hybrid | 17 |
-| likely | 4 |
-| unclear | 14 |
-| in-person | 25 |
+| In person or online | 23 |
+| Online only | 26 |
+| In-person only | 25 |
+| Likely online (unconfirmed) | 4 |
+| Undetermined | 14 |
 
-Data: [`online-availability-review.json`](online-availability-review.json) — each row:
-`{name, verdict, confidence(1-5), evidence, source, pages[]}`.
-Review page: titled "Pathways Programs Cross-Index" (subject-neutral).
+Data: [`online-availability-review.json`](online-availability-review.json) — each row now has
+a `category` field (`both` = in person or online, `online_only`, `inperson`, `likely`,
+`undetermined`) plus `evidence`, `source`, `confidence`, `pages`.
+
+Review page ("Pathways Programs Cross-Index"):
 - Claude artifact (needs Claude account): https://claude.ai/code/artifact/3e71a90d-019b-4fef-a674-e884f00a12c6
-- Repo copy for GitHub Pages: `cross-index/index.html` → https://zz72z7z7.github.io/PATHWAYS/cross-index/ (no account needed once pushed; has noindex; source generator: scratchpad gen_review.py).
+- Repo copy for GitHub Pages: `cross-index/index.html` → https://zz72z7z7.github.io/PATHWAYS/cross-index/ (only live after it's pushed; has noindex). Generator: `scratchpad/gen_review.py` + `build_v2.py`.
 
-## Implementation plan (once threshold approved) — do NOT run until then
-The marker is **school-level**, so marking a school once makes the `*` appear on every
-page it's listed on (the cross-index). Mirror the existing `†` footnote pattern.
+## Implementation plan (once approved) — do NOT run until then
+School-level markers, so marking a school once shows on every page it appears (the cross-index).
+Mirror the existing `†` footnote pattern in `index.html` `listHTML()` (~line 697): render two
+distinct markers (e.g. `*` = in person or online, `**` = online only) after the school name, with
+a two-line legend. Absence of a marker = "not confirmed online," never "unavailable."
 
-1. In `data/programs.json`, add an `"online": true` field to entries whose school is in the
-   approved set (or add a top-level `onlineSchools` list). Keep it school-consistent.
-2. In `index.html` `listHTML()` (~line 697): append `<sup>*</sup>` after the school name
-   when online; add a legend line to the `.prog-note` area:
-   *"* Offered fully or partially online — coursework only; student teaching/fieldwork is
-   completed locally. Confirm current format with the school."*
-3. Absence of `*` means **"not confirmed online," NOT "unavailable online."** Word the
-   legend so it can't be misread as a definitive negative.
-
-## Caveats to preserve
-- Nearly every credential requires in-person student teaching locally even when coursework
-  is online — "online" = the coursework, not a 100%-remote credential.
-- Delivery formats change term to term — treat the marker as "confirm with the school."
+## Caveats to surface
+- **CSU East Bay** is **online only** (arts credential = all classes online, no in-person option) —
+  not "in person or online," despite the client's expectation.
+- A few land in "online only" though the school has a physical campus, because *that specific
+  credential* is online-only (e.g. LMU, Alliant, Dominican, most county CTE programs).
+- **William Jessup** is "in person or online" but its Single Subject credential is English/Math,
+  not arts — questionable whether it belongs on the art/music pages at all.
+- Nearly every credential still requires in-person student teaching locally regardless of marker.
