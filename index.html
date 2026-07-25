@@ -229,6 +229,9 @@
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .qv-result-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
   .qv-result-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
+  .qv-result-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.15rem}
+  .qv-result-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
+  .qv-result-foot .rf-credit a:hover{color:var(--blue)}
 
   /* === FOOTER === */
   footer{background:var(--navy);color:rgba(255,255,255,.6);padding:3rem 2rem;text-align:center;font-size:.78rem;letter-spacing:.03em;margin-top:auto}
@@ -240,6 +243,7 @@
   .footer-logo img{display:block;height:34px;width:auto;transition:opacity .15s}
   .footer-logo:hover img{opacity:.8}
   .footer-inner .footer-contact{line-height:1.7;margin-bottom:1.8rem}
+  .footer-credit{margin-top:1rem;font-size:.72rem;color:rgba(255,255,255,.4)}
 
   /* === RESPONSIVE === */
   @media(max-width:720px){
@@ -415,6 +419,7 @@
     <a class="footer-logo" href="https://createca.org/" target="_blank" rel="noopener" aria-label="Create CA"><img src="images/createca_logo_color_EDIT.png" alt="Create CA" width="224" height="34"></a>
     <p class="footer-contact">85 S. Grand Ave<br>Pasadena, CA 91105<br>626.578.9315<br><a href="mailto:info@createca.org">info@createca.org</a></p>
     <p>&copy;2026 CREATE CA</p>
+    <p class="footer-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></p>
   </div>
 </footer>
 
@@ -731,7 +736,8 @@ function renderProfile(key){
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
   const actions='<div class="actions-row">'+
     '<button class="btn-primary" onclick="pwDownloadPDF()">Print / Save PDF</button>'+
-    '<button class="btn-secondary" onclick="pwStart()">Explore a different pathway</button></div>';
+    '<button class="btn-secondary" onclick="pwStart()">Explore a different pathway</button>'+
+    '<button class="btn-secondary" type="button">Stay in touch</button></div>';  // TODO: wire up email opt-in pending client sign-off — currently a non-functional placeholder
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">Your Pathway</div><h2>'+P.title+'</h2></div>'+
@@ -741,6 +747,7 @@ function renderProfile(key){
     '<div class="qv-result-foot">'+
       '<button class="rf-home" onclick="pwExit()">Pathways for Arts Educator Development</button>'+
       '<div class="rf-copy">&copy;2026 CREATE CA</div>'+
+      '<div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>'+
     '</div>'+
   '</div>';
 }
