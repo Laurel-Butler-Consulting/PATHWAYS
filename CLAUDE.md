@@ -42,6 +42,10 @@ harmless. Keep it that way — never restore a config that hardcodes a dated fol
 
 ## Open work items
 
+**Master checklist (canonical): [`notes/BUILD-CHECKLIST.md`](notes/BUILD-CHECKLIST.md)** — keep it
+updated as work is done. For live mechanical status derived from the files, run
+`python3 scripts/build-scan.py`. The guardrails below still apply (don't wire in gated items early).
+
 ### Placeholders awaiting final content upload
 - **Presenter videos** — personas currently render as still images (`vp()` → .jpg). The whole
   video-playback path (play/mute/replay/pause) is inert until real `.qv-video` sources are added.
