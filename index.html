@@ -181,10 +181,19 @@
   .results-header .res-label{font-family:var(--font-display);font-size:.85rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.25rem}
   .results-header h2{font-family:var(--font-display);font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white);margin-bottom:0;font-weight:400}
   /* Program list (multi-column, alphabetized) */
-  .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.78rem;color:rgba(0,38,71,.55);line-height:1.4;margin-bottom:1.4rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
+  .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.975rem;color:var(--navy);line-height:1.4;margin-bottom:1.4rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
   .prog-region{margin-bottom:1.6rem}
   .prog-region:last-of-type{margin-bottom:0}
-  .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:var(--navy);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
+  .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:rgba(0,38,71,.72);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
+  /* Collapsible subsections (native <details>) */
+  details.prog-region:not([open]){margin-bottom:.7rem}
+  details.prog-region>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;margin-bottom:0}
+  details.prog-region>summary::-webkit-details-marker{display:none}
+  details.prog-region>summary::before{content:"";flex:none;width:.56em;height:.56em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23002647' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.5;transition:transform .15s}
+  details.prog-region[open]>summary::before{transform:rotate(90deg)}
+  details.prog-region>summary:hover::before{opacity:.85}
+  details.prog-region>.prog-list,details.prog-region>.res-list{padding-top:.7rem}
+  @media (prefers-reduced-motion:reduce){details.prog-region>summary::before{transition:none}}
   .prog-list{column-count:2;column-gap:2.5rem;margin-bottom:1.25rem}
   .prog-region .prog-list{margin-bottom:0}
   .prog-list a{display:block;break-inside:avoid;font-size:.82rem;color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;padding:.3rem 0;line-height:1.3;transition:color .12s,text-decoration-color .12s}
@@ -193,6 +202,14 @@
   .prog-list a sup{color:#b9892a;font-weight:700;margin-left:1px}
   .prog-note{display:flex;gap:.4rem;font-size:.74rem;line-height:1.5;color:rgba(0,38,71,.7);background:var(--white);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:.6rem .85rem;margin-bottom:1.5rem}
   .prog-note sup{color:#b9892a;font-weight:700}
+  /* Resources section (mirrors program-list styling) */
+  .prog-resources{margin-top:2.5rem}
+  .res-list{margin-bottom:0}
+  .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
+  .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
+  .res-item a:hover{color:var(--navy);text-decoration-color:var(--navy)}
+  .res-item a::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.3em;vertical-align:-.02em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C599D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.6}
+  .res-suffix{color:rgba(0,38,71,.72);font-size:.78rem}
   /* Supplementary Authorization (text profile) */
   .supp-content{font-size:.88rem;line-height:1.65;color:var(--navy)}
   .supp-content p{margin-bottom:1rem}
@@ -206,7 +223,7 @@
   .btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
   /* Result screen — Approach B: questionnaire-matched frame, light content */
   .qv-result{max-width:900px;padding-top:3rem}
-  .qv-result .results-header{border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:1.875rem}
+  .qv-result .results-header{border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2.5rem}
   .qv-result .results-header .res-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
   .qv-result-foot{text-align:center;margin-top:2.5rem}
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
@@ -510,6 +527,14 @@ function pwDownloadPDF(){
   window.print();
 }
 
+// Collapsible subsections are expanded for print/PDF (so nothing is omitted), then restored to keep the screen compact.
+window.addEventListener('beforeprint',function(){
+  document.querySelectorAll('details.prog-region').forEach(function(d){ d.dataset.pwOpen=d.open?'1':'0'; d.open=true; });
+});
+window.addEventListener('afterprint',function(){
+  document.querySelectorAll('details.prog-region').forEach(function(d){ if(d.dataset.pwOpen!==undefined){ d.open=d.dataset.pwOpen==='1'; delete d.dataset.pwOpen; } });
+});
+
 function pwExit(){                                    // Exit (X) / results "home" links → leave the questionnaire
   var i=(history.state&&history.state.i)||0;
   if(i>0){history.go(-i);}                            // unwind to the home entry → popstate → pwExitToHome
@@ -659,6 +684,48 @@ function qvMute(btn){
   if(v)v.muted=muted;
 }
 
+// Shared resources block — identical on every result page.
+const RESOURCES=[
+  {t:'Quick FAQs',items:[
+    {t:'FAQ for Individuals Who Want to Teach the Arts in CA',u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/',s:' (California County Superintendents Arts Initiative)'},
+    {t:'FAQ from the Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
+    {t:'Pre-Service Dance and Theatre Credential Checklist',u:'https://drive.google.com/file/d/1adRkBfGXlvtuVKZCmHgAc0Efr5I-Ky8u/view',s:' (CDEA)'}
+  ]},
+  {t:'California Agencies',items:[
+    {t:'California Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/',s:': Credential requirements, approved programs, and exam information.'},
+    {t:'California Dept. of Education Visual &amp; Performing Arts',u:'https://www.cde.ca.gov/ci/vp/',s:' (VAPA): State standards, frameworks, and curriculum resources for arts education.'},
+    {t:'California Arts Council',u:'https://arts.ca.gov/',s:': Statewide grants, artist-in-schools programs, and arts education initiatives.'},
+    {t:'California Student Aid Commission',u:'https://www.csac.ca.gov/',s:': Financial aid including the Golden State Teacher Grant Program.'},
+    {t:'The California Arts Project',u:'https://tcap.net/',s:' (TCAP)'}
+  ]},
+  {t:'California Arts Education Associations',items:[
+    {t:'California Art Education Association',u:'https://www.caea-arteducation.org/job-opportunities',s:' (CAEA)'},
+    {t:'California Dance Education Association',u:'https://www.cdeadance.org/',s:' (CDEA)'},
+    {t:'California Music Educators Association',u:'https://calmusiced.com/resources/jobs/',s:' (CMEA)'},
+    {t:'California Educational Theatre Association',u:'https://www.catheatreed.org/current-job-postings',s:' (CETA)'}
+  ]},
+  {t:'Prop 28 Info',items:[
+    {t:'Prop 28 Information Page',u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp',s:' (CDE)'},
+    {t:'Thanks to Prop 28, Schools Need More Arts Teachers',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (California County Superintendents Arts Initiative)'},
+    {t:'Visual and Performing Arts: Proposition 28 and Workforce Needs for California’s Public Schools',u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY',s:' (Residency Lab)'},
+    {t:'What the California Arts and Music in Schools Act Means for the Arts Teacher Workforce',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (SRI Education)'}
+  ]},
+  {t:'National Organizations',items:[
+    {t:'Teaching Artists Guild',u:'https://teachingartists.com/'},
+    {t:'National Guild for Community Arts Education',u:'https://nationalguild.org/'},
+    {t:'Arts Education Partnership',u:'https://www.aep-arts.org/'},
+    {t:'Art of Education University',u:'https://theartofeducation.edu/university/masters/california-single-subject-credential-in-art/'}
+  ]}
+];
+function resourcesHTML(){
+  const groups=RESOURCES.map(function(g){
+    var items=g.items.map(function(it){
+      return '<div class="res-item"><a href="'+it.u+'" target="_blank" rel="noopener">'+it.t+'</a>'+(it.s?'<span class="res-suffix">'+it.s+'</span>':'')+'</div>';
+    }).join('');
+    return '<details class="prog-region"><summary class="prog-region-title">'+g.t+'</summary><div class="res-list">'+items+'</div></details>';
+  }).join('');
+  return '<div class="prog-resources"><p class="prog-intro">Additional Resources:</p>'+groups+'</div>';
+}
 function renderProfile(key){
   const P=PROFILES[key];
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
@@ -668,7 +735,7 @@ function renderProfile(key){
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">Your Pathway</div><h2>'+P.title+'</h2></div>'+
-      '<div class="qv-result-body">'+body+'</div>'+
+      '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
     '</div>'+
     actions+
     '<div class="qv-result-foot">'+
@@ -708,18 +775,17 @@ function suppHTML(){
     '<ol>'+
       '<li><strong>Multiple Subject Credential</strong> holders can add a Supplementary Authorization, allowing you to teach arts in grade 9 and below. College coursework required: 20 semester units or 10 upper-division units in the content area.</li>'+
       '<li><strong>Single Subject Credential</strong> holders can add a Specific Supplementary Authorization, comparable to a Single Subject Credential. This authorization is not limited by grade, only by subject.</li>'+
-      '<li>For <strong>Multiple Subject Credential holders who are seeking a Single Subject Credential</strong>, the process is the same for adding any second credential &mdash; show subject matter competency and take a one-semester teaching methods course in the credential area from an approved teacher credential program.<br><br>'+
+      '<li>For <strong>Credential holders seeking an additional Single Subject Arts Credential</strong>, the process is the same for adding any second credential &mdash; show subject matter competency and take a one-semester teaching methods course in the credential area from an approved teacher credential program.<br><br>'+
         '<p>Subject matter competency can be demonstrated in one of three ways:</p>'+
         '<ol type="a">'+
           '<li>an undergraduate or graduate degree in the field</li>'+
           '<li>taking the CSET exams</li>'+
           '<li>a combination of college coursework and one CSET</li>'+
         '</ol>'+
-        '<p>Select <em>Explore a Different Pathway</em> below to learn more.</p>'+
       '</li>'+
     '</ol>'+
-    '<br><p><strong>Interested in teaching Performing Arts?</strong> Currently, <a href="https://www.csueastbay.edu/theatre/theatre-and-dance-credential-program.html" target="_blank" rel="noopener">Cal State East Bay</a> is the only program offering dance and theatre methods courses in Extended Education for non-matriculated students.<br>Please note: Teachers credentialed in English before Jan 2022 are eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are eligible to teach dance!</p>'+
-    '<p><strong>Interested in teaching Visual Art?</strong> Teachers who want to add a Single Subject Teaching Credential in Visual Art can do so through the <a href="https://theartofeducation.edu/university/masters/california-single-subject-credential-in-art/" target="_blank" rel="noopener">Art of Education University</a> online program.</p>'+
+    '<p>Select <em>Explore a Different Pathway</em> below and click through the &ldquo;Artist&rdquo; or &ldquo;Student&rdquo; pathways to learn which programs are available for you.</p>'+
+    '<p><em><strong>Note:</strong> Teachers credentialed in English before Jan 2022 are already eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are already eligible to teach dance!</em></p>'+
     '<p>More info at the <a href="https://www.ctc.ca.gov/credentials/leaflets/cl-629/" target="_blank" rel="noopener">California Commission on Teacher Credentialing &#8599;</a></p>'+
     '</div>';
 }
