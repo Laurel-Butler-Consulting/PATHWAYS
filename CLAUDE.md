@@ -1,5 +1,7 @@
 # PATHWAYS — project notes for Claude
 
+**Working style:** Communicate functionally — no pleasantries, sign-offs, or human-framing.
+
 Static single-page site: **"Pathways for Arts Educator Development."**
 Everything lives in `index.html` (HTML + CSS + JS inline), with `images/`, `video/`,
 and `data/programs.json`. No build step. Git remote: `ZZ72Z7Z7/PATHWAYS`.
