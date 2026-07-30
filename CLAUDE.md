@@ -1,6 +1,21 @@
 # PATHWAYS — project notes for Claude
 
-**Working style:** Communicate functionally — no pleasantries, sign-offs, or human-framing.
+## Working style — read before doing anything
+
+- Communicate functionally — no pleasantries, sign-offs, or human-framing.
+- **Build only what is explicitly requested or approved.** Offer suggestions — a likely oversight,
+  a better approach, or a conflict with best practice — as proposals, and wait for a yes. Do not
+  widen scope on your own initiative; that includes "helpful" extra tooling, refactors, or notes.
+  Verifying and testing the requested change is part of the request. Building new tooling to
+  verify it is not.
+- **Ask approval before creating or writing any file.**
+- Plain, concise English. The user is an experienced designer, **not** an experienced coder.
+  Explain a technical term only where they'd need it with a client or another developer
+  (captions/WebVTT, bitrate, aspect ratio, faststart, fallback, accessibility). Skip
+  code-internals vocabulary entirely — DOM APIs, event names, browser-engine behaviour, function
+  names. Describe what they'll see and do, not how the code achieves it. Lead with the outcome and
+  the decision they need to make.
+- Keep output short. Long technical reports are hard to act on — summarise, then offer detail.
 
 Static single-page site: **"Pathways for Arts Educator Development."**
 Everything lives in `index.html` (HTML + CSS + JS inline), with `images/`, `video/`,
@@ -48,16 +63,34 @@ harmless. Keep it that way — never restore a config that hardcodes a dated fol
 updated as work is done. For live mechanical status derived from the files, run
 `python3 scripts/build-scan.py`. The guardrails below still apply (don't wire in gated items early).
 
-### Placeholders awaiting final content upload
-- **Presenter videos** — personas currently render as still images (`vp()` → .jpg). The whole
-  video-playback path (play/mute/replay/pause) is inert until real `.qv-video` sources are added.
-- **Video captions (CC)** — the "CC" button exists but there are no `.vtt` caption files, so it
-  toggles nothing. Add caption tracks with the videos; consider gating the button on caption
-  presence until then.
+### Video playback — BUILT 2026-07-27, waiting on content
+
+The player is wired and verified; nothing is switched on because no clips exist yet.
+
+- Clips go in `video/nodes/`, named after the **node key** (`welcome.mp4`, `lifeTA.mp4`, …) —
+  **not** per persona: 11 videos, 8 presenters, Laurel and Ricky each have three, so persona
+  names collide. Full table + export settings: [`notes/video-export-spec.md`](notes/video-export-spec.md).
+- Switch a node on with `v:1` on its `NODES` entry in index.html, and `cc:1` once a `.vtt` sits
+  beside the clip. A `v:1` with no file falls back to the placeholder still — it can't show a
+  broken player. Mute/CC buttons only render when there's actually a clip/caption file.
+- **Captions are drawn by the site**, not the browser (the native caption box renders underneath
+  the Skip/CC/mute row and can't be moved). Styled in CSS as `.qv-caps`. Do **not** add cue
+  positioning to the `.vtt` files — it's ignored.
+- Captions default **off** (`PW_CC`). Playback starts muted, so turning them on by default is
+  worth deciding — raised, not decided.
+- Landing preview: `video/preview/find-your-path.mp4` is already the first `<source>`; the demo
+  clip covers it until that file exists, then swaps automatically.
+
+**Captions workflow:** Premiere exports **SRT only** (no WebVTT option). Export SRT with
+"include SRT styling" **OFF** → `python3 scripts/srt2vtt.py video/nodes/*.srt`. Premiere stays the
+source of truth; never hand-edit a `.vtt` (the next run overwrites it).
 - **Video transcripts** — the `welcome` node holds lorem-ipsum placeholder; other video nodes have
   no transcript text. Agreed plan: Option A (fill each node's `text:[…]` → existing Transcript
   modal) + Option C (short 2–4 bullet summaries on result pages/PDF, drafted from transcripts).
   Fill-in template: [`notes/video-transcripts-TODO.md`](notes/video-transcripts-TODO.md).
+  ⚠ **Before filling these in:** transcript text sits inside JS quote marks, so an apostrophe
+  ("I'm a teaching artist") breaks the page — blank screen, whole site down. Move transcripts to
+  their own data file (like `data/programs.json`) first. Offered, not yet approved.
 
 ### Pending client review
 - **PROVISIONAL region assignments** (`SCHOOL_REGION` in index.html) — school→region mappings

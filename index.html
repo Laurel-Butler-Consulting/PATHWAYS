@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pathways for Arts Educator Development</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -113,6 +114,12 @@
   .qv-cc:hover{background:rgba(0,38,71,.85)}
   .qv-cc.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
   .qv-cc.on:hover{background:var(--gold);opacity:.9}
+  /* Caption layer — sits above the 54px chrome row (bottom:16px + 38px button). Not the browser's
+     native caption box: that renders behind the chrome and can't be repositioned. See qvRenderCue. */
+  .qv-caps{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
+  .qv-caps.on{display:block}
+  .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  .qv-window.ended .qv-caps{display:none}
   /* Text version (written equivalent of the video) — reading dialog */
   .qv-textmodal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:4vh 5vw;background:rgba(0,18,38,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
   .qv-textmodal.open{display:flex}
@@ -181,29 +188,38 @@
   .results-header .res-label{font-family:var(--font-display);font-size:.85rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.25rem}
   .results-header h2{font-family:var(--font-display);font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white);margin-bottom:0;font-weight:400}
   /* Program list (multi-column, alphabetized) */
-  .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.975rem;color:var(--navy);line-height:1.4;margin-bottom:1.4rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
+  .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.975rem;color:var(--navy);line-height:1.4;margin-bottom:1.25rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
   .prog-region{margin-bottom:1.6rem}
   .prog-region:last-of-type{margin-bottom:0}
   .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:rgba(0,38,71,.72);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
   /* Collapsible subsections (native <details>) */
-  details.prog-region:not([open]){margin-bottom:.7rem}
+  details.prog-region:not([open]){margin-bottom:.75rem}
   details.prog-region>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;margin-bottom:0}
   details.prog-region>summary::-webkit-details-marker{display:none}
   details.prog-region>summary::before{content:"";flex:none;width:.56em;height:.56em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23002647' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.5;transition:transform .15s}
   details.prog-region[open]>summary::before{transform:rotate(90deg)}
   details.prog-region>summary:hover::before{opacity:.85}
-  details.prog-region>.prog-list,details.prog-region>.res-list{padding-top:.7rem}
+  details.prog-region>.res-list{padding-top:.7rem}
   @media (prefers-reduced-motion:reduce){details.prog-region>summary::before{transition:none}}
+  /* Program regions — same mechanism as the resources subsections, ranked above them: open by default,
+     tinted band instead of a hairline, larger title, and a count. */
+  details.prog-region--main{margin-bottom:1.25rem}
+  details.prog-region--main>summary{background:rgba(0,38,71,.06);border-radius:var(--r);padding:.5rem .8rem}
+  details.prog-region--main>summary:hover{background:rgba(0,38,71,.1)}
+  details.prog-region--main>summary .prog-region-title{color:var(--navy);margin-bottom:0;padding-bottom:0;border-bottom:none;display:flex;align-items:baseline;gap:.5rem;flex:1}
+  .prog-count{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;color:rgba(0,38,71,.55)}
+  details.prog-region--main>.prog-list{padding-top:.75rem}
   .prog-list{column-count:2;column-gap:2.5rem;margin-bottom:1.25rem}
   .prog-region .prog-list{margin-bottom:0}
   .prog-list a{display:block;break-inside:avoid;font-size:.82rem;color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;padding:.3rem 0;line-height:1.3;transition:color .12s,text-decoration-color .12s}
   .prog-list a:hover{color:var(--navy);text-decoration-color:var(--navy)}
-  .prog-list a::after,.res-item a::after{content:"";display:inline-block;width:.62em;height:.62em;margin-left:.3em;vertical-align:-.02em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230C599D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.6}
-  .prog-list a sup{color:#b9892a;font-weight:700;margin-left:1px}
+  /* No ↗ on list links: the underline already marks them, and on a 60-item list the arrows read as speckle.
+     Links inside prose keep a literal ↗ in the copy. */
   .prog-note{display:flex;gap:.4rem;font-size:.74rem;line-height:1.5;color:rgba(0,38,71,.7);background:var(--white);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:.6rem .85rem;margin-bottom:1.5rem}
-  .prog-note sup{color:#b9892a;font-weight:700}
   /* Resources section (mirrors program-list styling) */
   .prog-resources{margin-top:2.5rem}
+  /* Resource section titles are real headings (so they're navigable), styled by their summary as before */
+  .prog-resources details>summary h3{font:inherit;letter-spacing:inherit;color:inherit;margin:0}
   .res-list{margin-bottom:0}
   .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
   .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
@@ -214,17 +230,27 @@
   .supp-content p{margin-bottom:1rem}
   .supp-content ol,.supp-content ul{margin:0 0 1rem 1.25rem}
   .supp-content li{margin-bottom:.5rem;line-height:1.55}
-  .actions-row{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:2.5rem}
+  /* Side by side, and tucked close under the result so the buttons group with it rather than floating
+     between the result and the email band. Wraps back to a stack when the column gets too narrow. */
+  .actions-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:1rem;margin-top:2.5rem}   /* stretch: the two buttons have different padding/border, so side by side their edges wouldn't line up */
   .actions-row button{min-width:240px;justify-content:center}
   .btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r);padding:.85rem 1.8rem;font-family:var(--font-body);font-size:.72rem;font-weight:700;line-height:1;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity .15s,transform .1s}
   .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
   .btn-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--white);color:var(--navy);border:2px solid rgba(0,38,71,.15);border-radius:var(--r);padding:.7rem 1.3rem;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:border-color .15s,color .15s}
   .btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
   /* Result screen — Approach B: questionnaire-matched frame, light content */
-  .qv-result{max-width:900px;padding-top:3rem}
+  .qv-result{max-width:900px;padding-top:2.5rem}
   .qv-result .results-header{border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2.5rem}
   .qv-result .results-header .res-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
-  .qv-result-foot{text-align:center;margin-top:2.5rem}
+  /* Email opt-in band — deliberately mirrors .results-header (same navy, radius, shadow) as a bookend */
+  .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.6rem 2rem;margin-top:2.5rem}
+  .qv-optin .oi-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
+  .qv-optin .oi-copy{font-family:var(--font-body);font-size:.8rem;color:rgba(255,255,255,.85);margin-bottom:1.1rem}
+  .qv-optin .oi-form{align-self:stretch;display:flex;justify-content:center;align-items:center;gap:.6rem;flex-wrap:wrap}   /* stretch: as a shrink-to-fit column item the form mis-sized and the field/button overlapped */
+  .qv-optin .oi-input{flex:0 1 300px;min-width:0;font-family:var(--font-body);font-size:.78rem;color:var(--navy);background:var(--white);border:none;border-radius:var(--r);padding:.78rem .9rem}
+  .qv-optin .oi-input::placeholder{color:rgba(0,38,71,.45)}
+  .qv-optin .oi-input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .qv-result-foot{text-align:center;margin-top:3.75rem}
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .qv-result-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
   .qv-result-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
@@ -250,9 +276,16 @@
     .audience-card{width:100%}
     .quote-slide{flex-direction:column;text-align:center;gap:1.25rem}
     .step-screen{padding:2rem 1.25rem}
+    .prog-list a{padding:.57rem 0}   /* ~44px tap target on touch screens (was ~33px) */
+    /* Resource links stay inline so a suffix still flows after them on the same line (several suffixes
+       read as a continuation: "…(CTC): Credential requirements…"). Padding grows the hit box without
+       moving anything, so the row margin below is what keeps neighbouring hit boxes from overlapping. */
+    .res-item{padding:0;margin-bottom:1.2rem}
+    .res-item a{padding:.53rem 0}
   }
   @media(max-width:520px){
     .prog-list{column-count:1}
+    .prog-count{margin-left:auto}   /* narrow band: count reads better pushed to the right edge */
   }
   /* Short landscape (phones held sideways): scoped so portrait/desktop are untouched */
   @media(orientation:landscape) and (max-height:500px){
@@ -262,7 +295,7 @@
     .hero-scroll{display:none}
   }
   @media print{
-    footer,.actions-row,.qv-foot,.qv-result-foot,.hero-banner,#homeSections{display:none!important}
+    footer,.actions-row,.qv-foot,.qv-result-foot,.hero-banner,#homeSections,.qv-optin{display:none!important}
     .step-screen{padding:0;max-width:100%}
     .results-header{background:var(--white)!important;color:var(--navy)!important;border:2px solid var(--navy)}
     .results-header .res-label{color:var(--blue)!important}
@@ -400,7 +433,14 @@
       <p class="section-subtitle">Guided by statewide arts education experts, our interactive questionnaire will match your skills, interests, and experience with a personalized pathway of programs and resources to support your professional development in the field.<br><br><em>(3–7 minutes to complete)</em></p>
       <div class="fyp-frame">
         <div class="fyp-video">
+          <!-- Sources are tried in order: the final export wins as soon as it exists, and the demo
+               clip covers the frame until then (a failed <source> falls through to the next one).
+               When the final lands: delete the demo <source> and swap the poster to
+               video/preview/find-your-path.jpg. Export settings differ from the node clips —
+               no audio track, 1.5–2 Mbps, first frame == last frame so the loop seam is invisible:
+               notes/video-export-spec.md § "Landing loop". -->
           <video class="fyp-loop" autoplay loop muted playsinline preload="metadata" poster="video/demo/demo_questionnaire_preview_thumb.png">
+            <source src="video/preview/find-your-path.mp4" type="video/mp4">
             <source src="video/demo/demo_questionnaire_preview.mp4" type="video/mp4">
           </video>
           <button class="hero-btn" onclick="pwStart()">Take the Questionnaire <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>
@@ -443,6 +483,17 @@ const ICON_UNMUTED='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 L
 const ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 4 20 12 6 20"/></svg>';
 const VP_DIR='images/video%20placeholder%20stills/';
 function vp(n){return VP_DIR+'vp_'+n+'.jpg';}  // %20 in VP_DIR — folder name has spaces
+
+// Node videos live at NODE_VID_DIR + <node key> + .mp4/.vtt — named per NODE, not per persona
+// (11 videos, 8 personas: Laurel and Ricky each carry three distinct clips, so persona
+// basenames would collide). Export spec: notes/video-export-spec.md
+//   v:1   → clip has landed; render <video> instead of stills. Absent → stills only, as before.
+//   cc:1  → a .vtt sits beside the .mp4; renders the CC button. Absent → button omitted (it
+//           would otherwise toggle tracks that don't exist).
+//   poster:'…' → final poster still; defaults to the node's first placeholder still.
+// Flipping a clip live is a one-token edit on its NODES entry. A flagged-but-missing file
+// degrades to the stills via qvVideoFail().
+const NODE_VID_DIR='video/nodes/';
 
 const NODES={
   welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],label:'Welcome',text:['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi.','Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede.','Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. Sed pretium blandit orci. Ut eu diam at pede suscipit sodales. Aenean lectus elit, fermentum non, convallis id, sagittis at, neque. Nullam mauris orci, aliquet et, iaculis et, viverra vitae, ligula. Nulla ut felis in purus aliquam imperdiet. Maecenas aliquet mollis lectus. Pellentesque eget nisi a mi suscipit tincidunt ut tempus.'],q:'What best describes you?',o:[
@@ -569,8 +620,10 @@ function showScreen(s){                               // pure renderer — histo
     PROGRAMS_READY.then(function(){ if(cur===s){ app.innerHTML=renderProfile(s.k); window.scrollTo({top:0,behavior:'instant'}); } });
     return;
   }
-  app.innerHTML=(s.t==='node')?renderNode(NODES[s.k]):renderProfile(s.k);
-  if(s.t==='node'){var _v=app.querySelector('.qv-video');if(_v){_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));}pwStartStillCycle(app);}
+  app.innerHTML=(s.t==='node')?renderNode(NODES[s.k],s.k):renderProfile(s.k);
+  if(s.t==='node'){var _v=app.querySelector('.qv-video');
+    if(_v){_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));}
+    else{pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
   window.scrollTo({top:0,behavior:'instant'});
 }
 
@@ -591,7 +644,7 @@ window.addEventListener('popstate',function(e){
 });
 history.replaceState({},'');                          // normalize the landing entry (clears any stale state after a mid-flow reload)
 
-function renderNode(n){
+function renderNode(n,key){
   // ⚠ o.to is interpolated into an inline onclick JS string — routing keys must stay
   // quote-free (plain ids like 'cteIntro' / '@dance'). An apostrophe here breaks the button.
   var opts=n.o.map(function(o){
@@ -600,16 +653,30 @@ function renderNode(n){
   var prompt=n.q?'<div class="qv-prompt">'+n.q+'</div>':'';
   var imgs=Array.isArray(n.img)?n.img:[n.img];
   var media=imgs.map(function(src,i){return '<img class="qv-still'+(i===0?' is-active':'')+'" src="'+src+'" alt="">';}).join('');
+  // The stills stay in the DOM beneath the video as the fallback layer — the <video> is emitted
+  // after them, so it paints on top, and qvVideoFail() drops back to them if the file is missing.
+  // Single MP4 via src= (not a <source> child) so an load failure fires `error` on the element itself.
+  var base=n.v?NODE_VID_DIR+(typeof n.v==='string'?n.v:key):null;
+  if(base){
+    media+='<video class="qv-video" src="'+base+'.mp4" poster="'+(n.poster||imgs[0])+'"'+
+      ' playsinline muted preload="auto"'+
+      ' onended="qvShowEnd(this.closest(\'.qv-window\'))" onerror="qvVideoFail(this)">'+
+      (n.cc?'<track kind="captions" src="'+base+'.vtt" srclang="en" label="English">':'')+
+    '</video>';
+  }
   return '<div class="step-screen qv-screen active">'+
     '<div class="qv-group">'+
       '<div class="qv-subtitle">Pathways Questionnaire</div>'+
       '<div class="qv-stage">'+
         '<div class="qv-window" onclick="qvTap(this,event)">'+
           media+
+          (base&&n.cc?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
           '<button class="qv-skip" onclick="qvSkip(this)">Skip video '+ICON_SKIP+'</button>'+
-          '<button class="qv-mute" data-muted="true" aria-label="Unmute video" onclick="qvMute(this)">'+ICON_MUTED+'</button>'+
-          '<button class="qv-cc'+(PW_CC?' on':'')+'" aria-pressed="'+(PW_CC?'true':'false')+'" aria-label="Captions" onclick="qvCaptions(this)">CC</button>'+
+          // mute and CC are gated on what actually exists — both are inert over a still, and CC
+          // additionally needs a .vtt beside the clip or it toggles nothing (WCAG 1.2.2).
+          (base?'<button class="qv-mute" data-muted="true" aria-label="Unmute video" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
+          (base&&n.cc?'<button class="qv-cc'+(PW_CC?' on':'')+'" aria-pressed="'+(PW_CC?'true':'false')+'" aria-label="Captions" onclick="qvCaptions(this)">CC</button>':'')+
           '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' Replay</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' Transcript</button>':'')+'</div>'+
         '</div>'+
         '<div class="qv-end">'+prompt+'<div class="qv-opts">'+opts+'</div>'+
@@ -656,10 +723,46 @@ function qvReplay(btn){
   var end=stage.querySelector('.qv-end');if(end)end.classList.remove('show');
   var v=win.querySelector('.qv-video');if(v){v.currentTime=0;v.play().catch(function(){});qvApplyCaptions(win);}
 }
-function qvApplyCaptions(win){
-  var v=win&&win.querySelector('.qv-video');if(!v||!v.textTracks)return;
+function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → fall back to the stills
+  var win=v.closest('.qv-window');
+  v.remove();
+  if(!win)return;
+  win.classList.remove('paused');                    // no video to pause; kill the play overlay
+  ['.qv-mute','.qv-cc'].forEach(function(sel){var b=win.querySelector(sel);if(b)b.remove();});
+  pwStartStillCycle(win);                            // resume the crossfade the video had suppressed
+}
+// Captions are rendered by us, not by the browser. The native caption box sits on the bottom line of
+// the frame — exactly where the Skip/CC/mute row is — so cues came out *underneath* the chrome, and
+// Blink clamps them inside its shadow caption area (VTTCue.line=-3 gets ignored). So the track is
+// kept at mode='hidden': cues still parse and still fire `cuechange`, the browser just draws nothing,
+// and we paint the active cue into .qv-caps, positioned clear of the chrome. Same in every browser,
+// and the .vtt files ship exactly as Premiere exports them.
+function qvCapTrack(v){
+  if(!v||!v.textTracks)return null;
   for(var i=0;i<v.textTracks.length;i++){var t=v.textTracks[i];
-    if(t.kind==='captions'||t.kind==='subtitles')t.mode=PW_CC?'showing':'hidden';}
+    if(t.kind==='captions'||t.kind==='subtitles')return t;}
+  return null;
+}
+function qvRenderCue(v){
+  var win=v&&v.closest('.qv-window');
+  var box=win&&win.querySelector('.qv-caps');if(!box)return;
+  var t=qvCapTrack(v);
+  box.textContent='';
+  if(!PW_CC||!t||!t.activeCues||!t.activeCues.length){box.classList.remove('on');return;}
+  for(var i=0;i<t.activeCues.length;i++){
+    if(i)box.appendChild(document.createElement('br'));
+    var s=document.createElement('span');
+    s.appendChild(t.activeCues[i].getCueAsHTML());    // parses VTT markup (<i>, <v Name>) without raw HTML injection
+    box.appendChild(s);
+  }
+  box.classList.add('on');
+}
+function qvApplyCaptions(win){
+  var v=win&&win.querySelector('.qv-video');if(!v)return;
+  var t=qvCapTrack(v);if(!t)return;
+  t.mode='hidden';                                    // 'hidden' (never 'showing'/'disabled') = parse cues, draw nothing
+  if(!t.qvBound){t.qvBound=true;t.addEventListener('cuechange',function(){qvRenderCue(v);});}
+  qvRenderCue(v);
 }
 function qvCaptions(btn){
   PW_CC=!PW_CC;
@@ -694,10 +797,16 @@ function qvMute(btn){
 
 // Shared resources block — identical on every result page.
 const RESOURCES=[
-  {t:'Quick FAQs',items:[
+  {t:'FAQs',items:[
     {t:'FAQ for Individuals Who Want to Teach the Arts in CA',u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/',s:' (California County Superintendents Arts Initiative)'},
     {t:'FAQ from the Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
     {t:'Pre-Service Dance and Theatre Credential Checklist',u:'https://drive.google.com/file/d/1adRkBfGXlvtuVKZCmHgAc0Efr5I-Ky8u/view',s:' (CDEA)'}
+  ]},
+  {t:'Prop 28',items:[
+    {t:'Prop 28 Information Page',u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp',s:' (CDE)'},
+    {t:'Thanks to Prop 28, Schools Need More Arts Teachers',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (California County Superintendents Arts Initiative)'},
+    {t:'Visual and Performing Arts: Proposition 28 and Workforce Needs for California’s Public Schools',u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY',s:' (Residency Lab)'},
+    {t:'What the California Arts and Music in Schools Act Means for the Arts Teacher Workforce',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (SRI Education)'}
   ]},
   {t:'California Agencies',items:[
     {t:'California Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/',s:': Credential requirements, approved programs, and exam information.'},
@@ -712,12 +821,6 @@ const RESOURCES=[
     {t:'California Music Educators Association',u:'https://calmusiced.com/resources/jobs/',s:' (CMEA)'},
     {t:'California Educational Theatre Association',u:'https://www.catheatreed.org/current-job-postings',s:' (CETA)'}
   ]},
-  {t:'Prop 28 Info',items:[
-    {t:'Prop 28 Information Page',u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp',s:' (CDE)'},
-    {t:'Thanks to Prop 28, Schools Need More Arts Teachers',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (California County Superintendents Arts Initiative)'},
-    {t:'Visual and Performing Arts: Proposition 28 and Workforce Needs for California’s Public Schools',u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY',s:' (Residency Lab)'},
-    {t:'What the California Arts and Music in Schools Act Means for the Arts Teacher Workforce',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (SRI Education)'}
-  ]},
   {t:'National Organizations',items:[
     {t:'Teaching Artists Guild',u:'https://teachingartists.com/'},
     {t:'National Guild for Community Arts Education',u:'https://nationalguild.org/'},
@@ -730,23 +833,33 @@ function resourcesHTML(){
     var items=g.items.map(function(it){
       return '<div class="res-item"><a href="'+it.u+'" target="_blank" rel="noopener">'+it.t+'</a>'+(it.s?'<span class="res-suffix">'+it.s+'</span>':'')+'</div>';
     }).join('');
-    return '<details class="prog-region"><summary class="prog-region-title">'+g.t+'</summary><div class="res-list">'+items+'</div></details>';
+    return '<details class="prog-region"><summary class="prog-region-title"><h3>'+g.t+'</h3></summary><div class="res-list">'+items+'</div></details>';
   }).join('');
-  return '<div class="prog-resources"><p class="prog-intro">Additional Resources:</p>'+groups+'</div>';
+  return '<div class="prog-resources"><p class="prog-intro">Additional Resources</p>'+groups+'</div>';
 }
 function renderProfile(key){
   const P=PROFILES[key];
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
   const actions='<div class="actions-row">'+
     '<button class="btn-primary" onclick="pwDownloadPDF()">Print / Save PDF</button>'+
-    '<button class="btn-secondary" onclick="pwStart()">Explore a different pathway</button>'+
-    '<button class="btn-secondary" type="button">Stay in touch</button></div>';  // TODO: wire up email opt-in pending client sign-off — currently a non-functional placeholder
+    '<button class="btn-secondary" onclick="pwStart()">Restart Questionnaire</button></div>';
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">Your Pathway</div><h2>'+P.title+'</h2></div>'+
       '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
     '</div>'+
     actions+
+    // TODO: email opt-in — visual only, NOT wired. Needs the client's form platform (Mailchimp /
+    // ConvertKit / Formspree …) before launch: give the form an action + method, or a submit handler.
+    // Must not ship in this state — it currently accepts an address and does nothing with it.
+    '<div class="qv-optin">'+
+      '<div class="oi-label">Stay in touch</div>'+
+      '<div class="oi-copy">Get updates on arts education in California</div>'+
+      '<form class="oi-form" onsubmit="return false">'+
+        '<input class="oi-input" type="email" name="email" autocomplete="email" placeholder="your@email.com" aria-label="Email address">'+
+        '<button class="btn-primary" type="submit">Sign Up</button>'+
+      '</form>'+
+    '</div>'+
     '<div class="qv-result-foot">'+
       '<button class="rf-home" onclick="pwExit()">Pathways for Arts Educator Development</button>'+
       '<div class="rf-copy">&copy;2026 CREATE CA</div>'+
@@ -771,16 +884,16 @@ function escapeHTML(s){return String(s).replace(/[&<>"']/g,function(c){return {'
 function listHTML(P){
   if(!PROGRAMS_OK)return '<div class="prog-note"><span>The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href="mailto:info@createca.org">info@createca.org</a>.</span></div>';
   const arr=((typeof PROGRAMS!=='undefined'&&PROGRAMS[P.list])?PROGRAMS[P.list]:[]).slice().sort(function(a,b){return a.n.localeCompare(b.n);});
-  let flagged=false;
   const groups={};
-  arr.forEach(function(e){ if(e.f)flagged=true; var r=SCHOOL_REGION[e.n]||'Unsorted'; (groups[r]||(groups[r]=[])).push(e); });  // 'Unsorted' = visible safety net for any school missing from SCHOOL_REGION
+  arr.forEach(function(e){ var r=SCHOOL_REGION[e.n]||'Unsorted'; (groups[r]||(groups[r]=[])).push(e); });  // 'Unsorted' = visible safety net for any school missing from SCHOOL_REGION
+  // The `f` flag ("link goes to a general credential page, not a discipline-specific one") is still in
+  // data/programs.json but is NOT shown — daggers + footnote removed 2026-07-30, REVIEW BEFORE LAUNCH.
   const sections=REGION_ORDER.filter(function(r){return groups[r]&&groups[r].length;}).map(function(r){
-    var links=groups[r].map(function(e){return '<a href="'+escapeHTML(e.u)+'" target="_blank" rel="noopener">'+escapeHTML(e.n)+(e.f?'<sup>&dagger;</sup>':'')+'</a>';}).join('');
-    return '<div class="prog-region"><h3 class="prog-region-title">'+r.replace(' California','')+'</h3><div class="prog-list">'+links+'</div></div>';
+    var links=groups[r].map(function(e){return '<a href="'+escapeHTML(e.u)+'" target="_blank" rel="noopener">'+escapeHTML(e.n)+'</a>';}).join('');
+    return '<details class="prog-region prog-region--main" open><summary><h3 class="prog-region-title">'+r.replace(' California','')+'<span class="prog-count">('+groups[r].length+')</span></h3></summary><div class="prog-list">'+links+'</div></details>';
   }).join('');
-  const note=flagged?'<div class="prog-note"><span><sup>&dagger;</sup></span><span>State-approved program. This link opens the school\'s general credential page rather than a discipline-specific one &mdash; confirm program specifics with the school.</span></div>':'';
-  var heading=(P.list==='teachingArtist')?'California Teaching Artist Training Programs:':'California-approved programs:';
-  return '<p class="prog-intro">'+heading+'</p>'+sections+note;
+  var heading=(P.list==='teachingArtist')?'California Teaching Artist Training Programs':'California-approved programs';
+  return '<p class="prog-intro">'+heading+'</p>'+sections;
 }
 
 function suppHTML(){
@@ -798,19 +911,21 @@ function suppHTML(){
         '</ol>'+
       '</li>'+
     '</ol>'+
-    '<p>Select <em>Explore a Different Pathway</em> below and click through the &ldquo;Artist&rdquo; or &ldquo;Student&rdquo; pathways to learn which programs are available for you.</p>'+
+    '<p>Select <em>Restart Questionnaire</em> and click through the &ldquo;Artist&rdquo; or &ldquo;Student&rdquo; pathways to learn which programs are available for you.</p>'+
     '<p><em><strong>Note:</strong> Teachers credentialed in English before Jan 2022 are already eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are already eligible to teach dance!</em></p>'+
     '<p>More info at the <a href="https://www.ctc.ca.gov/credentials/leaflets/cl-629/" target="_blank" rel="noopener">California Commission on Teacher Credentialing &#8599;</a></p>'+
     '</div>';
 }
 
 (function(){
+  const hero=document.getElementById('heroBanner');
   const slides=document.querySelectorAll('#heroSlides .hero-slide');
   if(slides.length<2)return;
   function load(n){const s=slides[(n+slides.length)%slides.length];if(s&&s.dataset.bg){s.style.backgroundImage="url('"+s.dataset.bg+"')";delete s.dataset.bg;}}
   load(1);
   let i=0;
   setInterval(function(){
+    if(!hero.offsetParent)return;      // hidden behind the questionnaire — don't cycle or fetch unseen photos
     slides[i].classList.remove('is-active');
     i=(i+1)%slides.length;
     load(i);load(i+1);
@@ -826,7 +941,7 @@ function suppHTML(){
   if(slides.length<2)return;
   let i=0,timer=null;
   function show(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('is-active',k===i));dots.forEach((d,k)=>d.classList.toggle('is-active',k===i));}
-  function start(){stop();timer=setInterval(()=>show(i+1),7500);}
+  function start(){stop();timer=setInterval(()=>{if(!root.offsetParent)return;show(i+1);},7500);}   // skip while hidden behind the questionnaire
   function stop(){if(timer){clearInterval(timer);timer=null;}}
   root.querySelector('.quote-prev').addEventListener('click',()=>{show(i-1);start();});
   root.querySelector('.quote-next').addEventListener('click',()=>{show(i+1);start();});
