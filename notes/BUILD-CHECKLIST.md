@@ -111,8 +111,11 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       footer). No apostrophe risk there, and since the 2026-07-31 scope cut it is no longer a
       prerequisite for anything (§6). Optional tidy-up only — it would put all site copy in one place
       for editing. Low priority; do not do it on spec.
+- [x] ~~`08_music_eng.txt` contradicts itself~~ — fixed 2026-07-31. The "three ways to get there"
+      claim was removed from paragraph 1, so the transcript now promises only the single route it
+      actually describes. Spanish draft and both data files updated to match.
 - [x] **English transcripts written and FINAL for all 11 nodes (2026-07-31)** — live in
-      `video/transcripts/eng/`, 2,406 words total. Note: these are standalone `.txt` files, so
+      `video/transcripts/eng/`, 2,342 words total (lifeTA and music edited 2026-07-31). Note: these are standalone `.txt` files, so
       `build-scan.py` (which only reads `index.html`) still reports them missing — see §9.
 - [x] **English transcripts live on the site (2026-07-31)** — all 11 in the Transcript modal; the
       `welcome` lorem ipsum is gone. Apostrophes verified safe (11 render in the welcome text alone).
@@ -380,8 +383,10 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 
 ## Recently completed
 **2026-07-31**
-- [x] English transcripts finished and declared final — all 11 nodes, 2,406 words,
-      `video/transcripts/eng/`
+- [x] English transcripts finished and declared final — all 11 nodes, `video/transcripts/eng/`.
+      lifeTA and music revised later the same day; current total 2,342 words
+- [x] Spanish drafts for lifeTA and music regenerated to match those English edits; both data files
+      rebuilt and verified on the site
 - [x] Spanish transcripts drafted — all 11, `video/transcripts/esp/`; with the client for review
       (register, terminology and gender decisions recorded in §6)
 - [x] **Spanish scope cut, agreed with client: captions + transcripts only, interface stays English.**
