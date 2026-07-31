@@ -85,6 +85,13 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
 - [x] **Skip button label shortened to "Skip" (2026-07-31)** to make room for the speed control.
       The spoken name stays "Skip video" for screen-reader users. Row slack measured at 137px
       before and after, so the new control costs nothing in crowding.
+- [x] **Landing-preview overlay for client preview (2026-07-31)** —
+      `video/preview-overlays/landing-preview-overlay.svg`. Shows the "Find Your Path" loop as it
+      appears in place: blue frame, gold hairline, vignette, and the Take the Questionnaire button.
+      Canvas 1148×1988 with the video area as a transparent hole at x=34, y=34, 1080×1920 — drop a
+      1080×1920 clip in at 100% and it registers exactly. Button geometry verified against the live
+      page at zero difference. Keep-clear: the button covers y 1199–1365 (61–69% of clip height),
+      and the vignette darkens the centre.
 - [x] **Player-chrome overlay templates for client preview (2026-07-31)** —
       `video/preview-overlays/*.svg`, 1080×1920 with a transparent video area, for compositing over
       rough cuts in Premiere. Two states: playing, and playing with a two-line caption. Geometry
