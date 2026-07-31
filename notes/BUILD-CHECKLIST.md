@@ -393,11 +393,14 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [x] Overlay templates rebuilt for Photoshop — it ignores the SVG vertical-centring instruction,
       so labels sat low. Now positioned on explicit baselines with icons in absolute coordinates.
       Verified centred to within 0.1px. **Do not reintroduce `dominant-baseline` in these files.**
-- [x] Transcript modal names its video — "TRANSCRIPT – Welcome" (client request). Heading shrinks on
-      narrow screens: the longest title ran to four lines and pushed the transcript off the card;
-      the header is now 17–20% of the card at worst. Title clears the close button on all 11 nodes
-      at both phone and desktop width. Node titles stay English when the Spanish text is showing,
-      per the §6 scope cut.
+- [x] Transcript modal names its video — "TRANSCRIPT – Teaching Artist vs. Credentialed Teacher".
+      Node titles stay English when the Spanish text is showing, per the §6 scope cut.
+      **Note on the typeface:** the node title is set in Open Sans, NOT the display face. Bebas Neue
+      has no lowercase letters at all, so mixed-case titles are impossible in it — if a future edit
+      moves the title back to `--font-display` it will silently become all caps again.
+      Sizes reduced 25% at the client's request (desktop 1.7rem → 1.275rem, narrow 1.25rem → .94rem);
+      the title runs at .86em of the label so the two sit optically level. Header is now 11–19% of
+      the card, and the title clears the close button on all 11 nodes at phone and desktop width.
 
 **2026-07-30**
 - [x] Result actions reduced to Print / Save PDF + Restart Questionnaire, side by side

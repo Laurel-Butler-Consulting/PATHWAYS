@@ -139,8 +139,11 @@
   .qv-textmodal-card{position:relative;background:#fff;color:var(--navy);width:min(680px,100%);max-height:90vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 24px 70px rgba(0,18,38,.4);overflow:hidden;animation:stepIn .25s ease}
   .qv-textmodal-head{flex:0 0 auto;padding:1.5rem 1.7rem 1.1rem;border-bottom:1px solid rgba(0,38,71,.1)}
   /* padding-right keeps a long node title clear of the close button, which floats over this row */
-  .qv-textmodal-head h3{font-family:var(--font-display);font-weight:400;font-size:1.7rem;letter-spacing:.02em;color:var(--navy);line-height:1.08;margin:0;padding-right:1.7rem}
-  .qv-textmodal-head h3 .tm-node{color:var(--blue)}
+  .qv-textmodal-head h3{font-family:var(--font-display);font-weight:400;font-size:1.275rem;letter-spacing:.02em;color:var(--navy);line-height:1.08;margin:0;padding-right:1.7rem}
+  /* Node title in the BODY font: the display face (Bebas Neue) has no lowercase letters, so a
+     mixed-case title is only possible in Open Sans. Slightly smaller to sit optically level with
+     the condensed label beside it. */
+  .qv-textmodal-head h3 .tm-node{font-family:var(--font-body);font-weight:600;font-size:.86em;letter-spacing:0;color:var(--blue);line-height:1.25}
   .qv-textmodal-x{position:absolute;top:1.1rem;right:1.1rem;width:34px;height:34px;border-radius:50%;border:none;background:var(--ice);color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .15s}
   .qv-textmodal-x:hover{background:rgba(0,38,71,.12)}
   .qv-textmodal-x svg{width:14px;height:14px}
@@ -148,7 +151,7 @@
      card. Smaller heading keeps the reading area the point of the dialog. */
   @media(max-width:600px){
     .qv-textmodal-head{padding:1.2rem 1.3rem .9rem}
-    .qv-textmodal-head h3{font-size:1.25rem}
+    .qv-textmodal-head h3{font-size:.94rem}
   }
   .qv-textmodal-body{flex:1;overflow-y:auto;padding:1.4rem 1.7rem 1.8rem}
   .qv-textmodal-body p{font-size:1rem;line-height:1.7;color:var(--navy);margin-bottom:1rem}
