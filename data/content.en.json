@@ -1,0 +1,325 @@
+{
+  "lang": "en",
+  "ui": {
+    "questionnaireSubtitle": "Pathways Questionnaire",
+    "skipVideo": "Skip video",
+    "unmuteVideo": "Unmute video",
+    "captionsLabel": "Captions",
+    "cc": "CC",
+    "replay": "Replay",
+    "transcript": "Transcript",
+    "close": "Close",
+    "back": "Back",
+    "exit": "Exit",
+    "captionLang": "English",
+    "yourPathway": "Your Pathway",
+    "additionalResources": "Additional Resources",
+    "printPdf": "Print / Save PDF",
+    "restart": "Restart Questionnaire",
+    "optinLabel": "Stay in touch",
+    "optinCopy": "Get updates on arts education in California",
+    "optinPlaceholder": "your@email.com",
+    "optinAria": "Email address",
+    "optinSubmit": "Sign Up",
+    "footHome": "Pathways for Arts Educator Development",
+    "footCopy": "&copy;2026 CREATE CA",
+    "footCreditPre": "site design by ",
+    "footCreditName": "Civil Cyber Arts",
+    "listHeadingTeachingArtist": "California Teaching Artist Training Programs",
+    "listHeadingDefault": "California-approved programs",
+    "programsError": "The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href=\"mailto:info@createca.org\">info@createca.org</a>.",
+    "captionSrclang": "en",
+    "transcriptLangGroup": "Transcript language"
+  },
+  "regionLabels": {
+    "Northern California": "Northern",
+    "Central California": "Central",
+    "Southern California": "Southern",
+    "Online": "Online",
+    "Unsorted": "Unsorted"
+  },
+  "nodes": {
+    "welcome": {
+      "label": "Welcome",
+      "q": "What best describes you?",
+      "o": [
+        "Credentialed Teacher (non-arts)",
+        "Teaching Artist",
+        "Artist",
+        "Student"
+      ],
+      "text": [
+        "Welcome. So you want to teach the arts? That's great. Teaching the arts is one of the most impactful careers you can have. You're teaching a subject you love, you're shaping how young people see and engage with the world, and it's a great time to be an arts educator in California. That's because in 2022, voters passed Prop 28, which is a BILLION dollars every year for arts education. Most of that funding is meant to hire new teachers, and California needs an additional 5000 arts educators NOW.",
+        "There are many pathways to get there, but we understand it can be pretty confusing. This portal is designed to meet you where you are, whether you're just starting out or you've been working in your art form for years. Here's how it works:",
+        "We'll ask you a few questions about your background, your art form, and your goals, and then we'll point you towards the pathway that makes the most sense for you. No two journeys look the same, so let's start by telling us a little bit about yourself."
+      ]
+    },
+    "suppAuth": {
+      "label": "Supplementary Authorization",
+      "q": "Does the Supplementary Authorization pathway seem right for you?",
+      "o": [
+        "Yes!",
+        "Actually, I just want to be an arts teacher"
+      ],
+      "text": [
+        "If you are a credentialed non-arts teacher and you want to teach the arts, one pathway is to add a Supplementary Authorization to your existing credential. For multiple subject credential holders, adding a Supplementary Authorization allows you to teach the arts in grade 9 and below. You'll need 20 semester units or 10 upper division semester units in the content area.",
+        "For example, a dance authorization must include classes from the dance department, and only units from institutions of higher education are allowed. The advantage is you don't need any classes or exams, and the application is made directly to the CTC. For Single Subject Credential holders, you can follow the same process to add a specific Supplementary Authorization order. If you choose, you can add a second Single Subject Credential by demonstrating subject matter competency and taking a one-semester methods course in an approved teacher education program.",
+        "You can prove subject matter competency through a degree in dance, music, theater, or visual arts, by taking the CSET, or through a combination of college coursework and one CSET. So how do you begin? Review your transcripts and consult the CTC website for specific information regarding Supplementary Authorizations. Because individual circumstances can vary, and there are some limitations on what subjects can be taught, we recommend reviewing the CTC guidance and contacting the Commission directly with specific questions. In general though, the process is more straightforward than you might think."
+      ]
+    },
+    "taVsCred": {
+      "label": "Teaching Artist vs. Credentialed Teacher",
+      "q": "Which pathway seems right for you?",
+      "o": [
+        "Credentialed Teacher",
+        "Teaching Artist"
+      ],
+      "text": [
+        "What's the difference between a teaching artist and a credentialed arts teacher? Both roles are essential to arts education, but they're different in some important ways, and knowing the distinction will help you figure out which path is right for you.",
+        "A teaching artist is a practicing artist who brings their craft into educational settings like classrooms, after school programs, community organizations. It's flexible, it's usually project based, it's usually freelance.",
+        "A credentialed arts teacher, on the other hand, holds a state issued credential to teach in a public school - they're a classroom teacher. This can be a full time job with benefits and union protections.",
+        "Neither path is better than the other, it just depends on how you want to structure your career, where you want your art to live, how much flexibility or stability you want. You might start as a teaching artist and pursue a credential later, so pick the option that feels right for you and we'll help you figure out what fits."
+      ]
+    },
+    "cteIntro": {
+      "label": "The CTE Certificate",
+      "q": "Do you have 1000 hours of paid experience in your art form?",
+      "o": [
+        "Yes",
+        "No"
+      ],
+      "text": [
+        "If you've been working professionally in your art form, you may already be closer to teaching than you think. California has a special pathway called a CTE credential (Career Technical Education) and it's designed specifically for working professionals who want to bring their real world expertise into the classroom.",
+        "Here's the key requirement: if you have at least 1000 hours of paid experience in your art form or a related industry, you may qualify.",
+        "CTE pathways are typically faster, more accessible, and affordable than a traditional teaching credential. They're built around the idea that your professional experience is your qualification. This can be a great fit for artists, designers, performers, or industry professionals who want to teach without going back to school for several years. Does this sound like you?"
+      ]
+    },
+    "cteVideo": {
+      "label": "The CTE Pathway",
+      "q": "Does the CTE pathway seem right for you?",
+      "o": [
+        "Yes!",
+        "Actually, I'd rather get my full single-subject credential"
+      ],
+      "text": [
+        "CTE stands for Career Technical Education, and it differs from a traditional academic teaching credential in several ways. A CTE credential authorizes you to teach within a specific subject area, because you have a depth and breadth of experience as a working professional in that field. The courses that you would then be eligible to teach with the CTE would be designated as career, technical, vocational or trade courses by the district in which you get hired.",
+        "Some basic requirements to earn a CTE credential in arts media entertainment include having a high school diploma and verification from employers that you have at least three years of work experience directly related to arts, media, and entertainment. That's at least 1000 hours each year for three years. What's unique about this credential is you don't have to enroll in a multi-year university program.",
+        "You can pursue it through your county office of education, university extensions, and other continuing education programs with a preliminary CTE. You can even work towards your credential while you're teaching in a classroom. And typically, those with a CTE credential continue to pursue their arts practice and stay active in their creative field. There are other details outlined in this website, but the most important point to remember is that your experience, your knowledge, insight, and skills from working in the field of arts, media, and entertainment are requirements for earning that CTE credential, and they're also what distinguish you and make you eligible to teach."
+      ]
+    },
+    "whatTeach": {
+      "label": "Choosing a Discipline",
+      "q": "What do you want to teach?",
+      "o": [
+        "Music",
+        "Theater",
+        "Dance",
+        "Visual Art"
+      ],
+      "text": [
+        "One of the first and most exciting questions you'll answer is: \"What do you want to teach?\"",
+        "In California, arts credentials are divided into 4 distinct subject areas: Dance, Theater, Music, and Visual Arts. Each is its own credential. That means you'll be credentialed in your specific discipline, not just the arts generally, which also means the pathway may look a little different depending on which one you choose.",
+        "Some of these subject areas have more credentialing programs available statewide than others. They might have different exam requirements or different demand in the schools, so it's worth knowing what you're walking into.",
+        "If you're not sure which one fits you best — like if you work across multiple art forms — just pick one to start with. You can always go back into the portal to try alternate pathways and decide which one feels best for you."
+      ]
+    },
+    "lifeTA": {
+      "label": "Life of a Teaching Artist",
+      "q": "Does the Teaching Artist pathway seem right for you?",
+      "o": [
+        "Yes!",
+        "Actually, I'd rather look into getting a full teaching credential"
+      ],
+      "text": [
+        "So you want to be a teaching artist? That's awesome. A teaching artist is basically just a practicing artist who teaches. The trick is that a lot of people in society think you can just throw an artist in the classroom, and they can just kind of teach. Artists are amazing, artists can do anything, but having some training and skills like classroom management and lesson planning can really go a long way in terms of successful experiences for you and your future students.",
+        "There are a lot of training programs out there, some of which are associated with non-profits who then hire teaching artists and will then place you in schools, museums, community centers. It might be one-off workshops or longer-term residences in the classroom after school. The sky is really the limit in terms of what teaching artists can do. It's very helpful to have some arts integration training so that you can connect the arts with other academic subjects, and it's really helpful to have social emotional learning training so that your arts teaching can enrich the whole person.",
+        "It's also important to remember that being a teaching artist is often freelance gig work. You might even start your own little business, and even if you don't, you still really need to market your services and know what sets your teaching artistry apart, because it becomes the product.",
+        "I love being a teaching artist because it's very independent, very dynamic. You can go from project to project, do multiple jobs at the same time, take breaks to focus on your own artwork. But you have to know that's the lifestyle you're signing up for. If this sounds like you, check out some of the training programs linked below so that you can get started acquiring the skills and tools that you'll need to enter the exciting world of teaching artistry."
+      ]
+    },
+    "mMusic": {
+      "label": "Teaching Music",
+      "q": "Ready to pursue a music credential?",
+      "o": [
+        "Yes!",
+        "Actually, I want to explore a different path"
+      ],
+      "text": [
+        "Ok, I'm here to walk you through what it takes to earn a single subject music credential in California. There are three ways to get there, depending on where you are starting from. The first is the most direct and the most complete. You earn a Single Subject Credential in music, which authorizes you to teach music at any grade level Pre-K through 12.",
+        "To do that, you need a bachelor's degree, subject matter competency in music, and completion of a credential program that includes a music methods course and student teaching. Subject matter competency simply means demonstrating that you know music. Most candidates do that either through a music degree or by passing the CSET in music.",
+        "The other options are for teachers who already hold a credential: you can add a Supplementary Authorization in music through coursework alone - no methods course, no student teaching required. Or you can add music as a full second credential, which requires subject matter competency and a methods course. This is the option districts recognize the most when hiring for secondary music. If you're just starting out, the goal is to get that full credential - and the earlier you plan your coursework, the smoother that path will be."
+      ]
+    },
+    "mTheater": {
+      "label": "Teaching Theater",
+      "q": "Ready to pursue a theater credential?",
+      "o": [
+        "Yes!",
+        "Actually, I want to explore a different path"
+      ],
+      "text": [
+        "Every week I get at least three emails from districts all over the state of California looking for theater teachers. It's a great time to be a theater teacher.",
+        "In order to get into a credential program, you need to meet the following requirements: first, you need a bachelor's degree; second, you need to show subject matter competency. Subject matter competency simply means that you know your stuff about theater. This is because a credential program doesn't teach you what to teach. It teaches you how to teach what you know. Most applicants already have an undergraduate or graduate theater degree, which is all you need for subject matter competency.",
+        "Most people who don't have subject matter competency through a degree go through a process called transcript evaluation. This means that you complete a form, and somebody - at Cal State East Bay, me - looks at your transcripts and determines if you have the knowledge and skills to teach theater. This almost always fulfills subject matter competency, especially if you have a theater or a drama minor.",
+        "You should know that not all theater majors meet subject matter competency automatically. If you have a degree in acting or directing, these technically do not meet subject matter competency. Don't worry, I know you've taken the right classes and I always approve these. And as a last resort, if you don't have a degree, you can always take the CSET exam.",
+        "Professional experience and classes taken outside of higher education do not count towards subject matter competency. And although many of our students have lots of experience working with kids, teaching experience is not a requirement to get into the program. Remember, it's our job to teach you how to teach. What is important is that you have the dispositions to be a good teacher, such as an understanding of collaboration, the habit of self-reflection, the belief that all students have the ability to learn, the willingness to take on responsibilities, and a commitment to ongoing learning."
+      ]
+    },
+    "mDance": {
+      "label": "Teaching Dance",
+      "q": "Ready to pursue a dance credential?",
+      "o": [
+        "Yes!",
+        "Actually, I want to explore a different path"
+      ],
+      "text": [
+        "To get a single subject dance credential in California, most people start by earning a college degree in dance. This shows the state that you have subject matter competency, which I know you already do. This is especially important for the dance credential because the programs in the state teach you how to teach, but not what to teach - that part comes from you.",
+        "If you don't have a degree in dance, but you took at least 32 units of coursework in college that is dance related, that will work too. Once you have your bachelor's degree, you will apply to and enroll in a program to get your single subject credential in dance. And there are now more than 13 programs all over the state, from Sacramento to San Diego, where you can do just that.",
+        "Some are totally remote or online, some are fully in person, and some have hybrid options. Take a look at the programs and decide which one makes the most sense for you. Once you're in a single subject credential program, we'd also recommend getting a PE credential as well. That way, you'll be able to offer a dance class, and your students can receive either dance or PE credits for the course. This makes you super marketable for schools, and learning more is always a good thing."
+      ]
+    },
+    "mArt": {
+      "label": "Teaching Visual Art",
+      "q": "Ready to pursue a visual arts credential?",
+      "o": [
+        "Yes!",
+        "Actually, I want to explore a different path"
+      ],
+      "text": [
+        "It's an exciting time to become a visual art teacher in California. Single subject art credential program applications vary at different institutions. For example, some schools require a portfolio review of your own artwork, while others don't. So be sure to check the admissions criteria for each program to know what you'll need to apply.",
+        "At minimum, most programs will ask you for subject matter competency in art, early field experiences, and an interview. Subject matter competency is showing what you know about art. You can earn a degree in art, take the CSET in art, complete an approved subject matter program in art, or do a combination of the exam and coursework. Early field experiences include observations in K-12 schools, or other settings where you've observed or worked with kids.",
+        "Once you're in, there's usually a few different program pathways that you can choose from. For example, at CSUN, we have an accelerated one-year program as well as the traditional program, which is about 3 to 4 semesters with student teaching. We also have an internship program for people who can find employment in a public school setting while working towards their credential.",
+        "Read through the list of programs available. There sure to be one out there that's perfect for you."
+      ]
+    }
+  },
+  "profiles": {
+    "supp": "Supplementary Authorization",
+    "ta": "Teaching Artist",
+    "cte": "Career Technical Education (CTE) Credential",
+    "music": "Single Subject Credential in Music",
+    "theatre": "Single Subject Credential in Theatre",
+    "dance": "Single Subject Credential in Dance",
+    "art": "Single Subject Credential in Visual Art"
+  },
+  "resources": [
+    {
+      "t": "FAQs",
+      "items": [
+        {
+          "t": "FAQ for Individuals Who Want to Teach the Arts in CA",
+          "s": " (California County Superintendents Arts Initiative)"
+        },
+        {
+          "t": "FAQ from the Commission on Teacher Credentialing (CTC)"
+        },
+        {
+          "t": "Pre-Service Dance and Theatre Credential Checklist",
+          "s": " (CDEA)"
+        }
+      ]
+    },
+    {
+      "t": "Prop 28",
+      "items": [
+        {
+          "t": "Prop 28 Information Page",
+          "s": " (CDE)"
+        },
+        {
+          "t": "Thanks to Prop 28, Schools Need More Arts Teachers",
+          "s": " (California County Superintendents Arts Initiative)"
+        },
+        {
+          "t": "Visual and Performing Arts: Proposition 28 and Workforce Needs for California’s Public Schools",
+          "s": " (Residency Lab)"
+        },
+        {
+          "t": "What the California Arts and Music in Schools Act Means for the Arts Teacher Workforce",
+          "s": " (SRI Education)"
+        }
+      ]
+    },
+    {
+      "t": "California Agencies",
+      "items": [
+        {
+          "t": "California Commission on Teacher Credentialing (CTC)",
+          "s": ": Credential requirements, approved programs, and exam information."
+        },
+        {
+          "t": "California Dept. of Education Visual &amp; Performing Arts",
+          "s": " (VAPA): State standards, frameworks, and curriculum resources for arts education."
+        },
+        {
+          "t": "California Arts Council",
+          "s": ": Statewide grants, artist-in-schools programs, and arts education initiatives."
+        },
+        {
+          "t": "California Student Aid Commission",
+          "s": ": Financial aid including the Golden State Teacher Grant Program."
+        },
+        {
+          "t": "The California Arts Project",
+          "s": " (TCAP)"
+        }
+      ]
+    },
+    {
+      "t": "California Arts Education Associations",
+      "items": [
+        {
+          "t": "California Art Education Association",
+          "s": " (CAEA)"
+        },
+        {
+          "t": "California Dance Education Association",
+          "s": " (CDEA)"
+        },
+        {
+          "t": "California Music Educators Association",
+          "s": " (CMEA)"
+        },
+        {
+          "t": "California Educational Theatre Association",
+          "s": " (CETA)"
+        }
+      ]
+    },
+    {
+      "t": "National Organizations",
+      "items": [
+        {
+          "t": "Teaching Artists Guild"
+        },
+        {
+          "t": "National Guild for Community Arts Education"
+        },
+        {
+          "t": "Arts Education Partnership"
+        },
+        {
+          "t": "Art of Education University"
+        }
+      ]
+    }
+  ],
+  "suppPage": {
+    "intro": "If you already hold a non-arts teaching credential, there are fairly simple pathways to becoming a credentialed arts teacher:",
+    "items": [
+      "<strong>Multiple Subject Credential</strong> holders can add a Supplementary Authorization, allowing you to teach arts in grade 9 and below. College coursework required: 20 semester units or 10 upper-division units in the content area.",
+      "<strong>Single Subject Credential</strong> holders can add a Specific Supplementary Authorization, comparable to a Single Subject Credential. This authorization is not limited by grade, only by subject."
+    ],
+    "thirdItem": "For <strong>Credential holders seeking an additional Single Subject Arts Credential</strong>, the process is the same for adding any second credential &mdash; show subject matter competency and take a one-semester teaching methods course in the credential area from an approved teacher credential program.",
+    "smcIntro": "Subject matter competency can be demonstrated in one of three ways:",
+    "smcWays": [
+      "an undergraduate or graduate degree in the field",
+      "taking the CSET exams",
+      "a combination of college coursework and one CSET"
+    ],
+    "restartNote": "Select <em>Restart Questionnaire</em> and click through the &ldquo;Artist&rdquo; or &ldquo;Student&rdquo; pathways to learn which programs are available for you.",
+    "note": "<em><strong>Note:</strong> Teachers credentialed in English before Jan 2022 are already eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are already eligible to teach dance!</em>",
+    "morePre": "More info at the ",
+    "moreLink": "California Commission on Teacher Credentialing &#8599;"
+  }
+}

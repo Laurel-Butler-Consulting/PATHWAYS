@@ -132,6 +132,15 @@
   .qv-textmodal-body{flex:1;overflow-y:auto;padding:1.4rem 1.7rem 1.8rem}
   .qv-textmodal-body p{font-size:1rem;line-height:1.7;color:var(--navy);margin-bottom:1rem}
   .qv-textmodal-body p:last-child{margin-bottom:0}
+  /* Transcript language switch — sits under the heading, clear of the close button. Only rendered
+     when a Spanish transcript exists for that node. */
+  .qv-tx-lang{display:inline-flex;margin-top:.9rem;border:1px solid rgba(0,38,71,.2);border-radius:999px;overflow:hidden}
+  .qv-tx-lang-btn{font-family:var(--font-body);font-weight:700;font-size:.72rem;letter-spacing:.09em;padding:.42rem .9rem;border:none;background:transparent;color:var(--navy);opacity:.5;cursor:pointer;transition:background .15s,color .15s,opacity .15s}
+  .qv-tx-lang-btn:hover{opacity:.8}
+  .qv-tx-lang-btn.on{background:var(--navy);color:#fff;opacity:1}
+  .qv-tx-lang-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .qv-tx-body{display:none}
+  .qv-tx-body.on{display:block}
   .qv-replay-overlay{position:absolute;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:rgba(0,38,71,.62);-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px)}
   .qv-replay-overlay .qv-replay-btn{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.55);color:#fff;font-family:var(--font-body);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.4rem;border-radius:100px;cursor:pointer;transition:background .15s}
   .qv-replay-overlay .qv-replay-btn:hover{background:rgba(255,255,255,.22)}
@@ -473,6 +482,40 @@ const PROGRAMS_READY=fetch('data/programs.json').then(function(r){return r.json(
   Object.keys(data).forEach(function(k){ if(!Array.isArray(data[k]))return; PROGRAMS[k]=data[k].map(function(e){return {n:e.name,u:e.url,f:e.flag?1:0};}); });
   PROGRAMS_OK=true;PROGRAMS_LOADED=true;
 }).catch(function(){PROGRAMS_LOADED=true;});
+
+// Interface copy: single source of truth is data/content.<lang>.json (fetched at runtime).
+// WORDS ONLY — routing keys, image paths, link URLs and video flags stay in this file as structure,
+// because they are identical in every language. applyContent() writes the words onto NODES /
+// PROFILES / RESOURCES once the file lands; nothing renders before that (see showScreen).
+// Why the copy moved out: text inside this file sits between quote marks, so an apostrophe in a
+// transcript ("you're") ended the string early and blanked the whole page. JSON has no such trap.
+let T={},SUPP={},REGION_LABEL={},CONTENT_OK=false;
+const CONTENT_READY=fetch('data/content.en.json').then(function(r){return r.json();}).then(function(c){
+  applyContent(c);CONTENT_OK=true;
+}).catch(function(){});
+
+// Spanish transcripts (data/transcripts.es.json) — the ONLY Spanish on the site, alongside the
+// captions. The interface itself stays English (scope cut 2026-07-31). Optional by design: if the
+// file is missing or fails, the Transcript modal simply shows English with no language switch.
+// Regenerate from video/transcripts/esp/ whenever those files change.
+let TX_ES=null;
+const TXES_READY=fetch('data/transcripts.es.json').then(function(r){return r.json();}).then(function(d){TX_ES=d;}).catch(function(){});
+const SITE_READY=Promise.all([CONTENT_READY,TXES_READY]);
+// Which transcript language the reader last chose. Persisted so it holds from one video to the next.
+var PW_TXLANG=(function(){try{return localStorage.getItem('pwTxLang')==='es'?'es':'en';}catch(e){return 'en';}})();
+function applyContent(c){
+  T=c.ui||{};SUPP=c.suppPage||{};REGION_LABEL=c.regionLabels||{};
+  Object.keys(c.nodes||{}).forEach(function(k){
+    var n=NODES[k],d=c.nodes[k];if(!n)return;
+    n.label=d.label;n.q=d.q;n.text=d.text;
+    (d.o||[]).forEach(function(t,i){if(n.o[i])n.o[i].t=t;});
+  });
+  Object.keys(c.profiles||{}).forEach(function(k){if(PROFILES[k])PROFILES[k].title=c.profiles[k];});
+  (c.resources||[]).forEach(function(g,i){
+    var G=RESOURCES[i];if(!G)return;G.t=g.t;
+    (g.items||[]).forEach(function(it,j){if(G.items[j]){G.items[j].t=it.t;G.items[j].s=it.s||'';}});
+  });
+}
 const ICON_BACK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
 const ICON_SKIP='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,4 13,12 5,20"/><rect x="15" y="4" width="3" height="16"/></svg>';
 const ICON_REPLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><polyline points="3 4 3 9 8 9"/></svg>';
@@ -495,65 +538,54 @@ function vp(n){return VP_DIR+'vp_'+n+'.jpg';}  // %20 in VP_DIR — folder name 
 // degrades to the stills via qvVideoFail().
 const NODE_VID_DIR='video/nodes/';
 
+// Structure only — presenter, stills, routing, video flags. The label, question, answer-button
+// text and transcript for each node come from data/content.en.json, matched on these keys and on
+// the ORDER of the o:[] array. Adding or reordering an answer here means doing the same there.
 const NODES={
-  welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],label:'Welcome',text:['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi.','Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede.','Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. Sed pretium blandit orci. Ut eu diam at pede suscipit sodales. Aenean lectus elit, fermentum non, convallis id, sagittis at, neque. Nullam mauris orci, aliquet et, iaculis et, viverra vitae, ligula. Nulla ut felis in purus aliquam imperdiet. Maecenas aliquet mollis lectus. Pellentesque eget nisi a mi suscipit tincidunt ut tempus.'],q:'What best describes you?',o:[
-    {t:'Credentialed Teacher (non-arts)',to:'suppAuth'},
-    {t:'Teaching Artist',to:'cteIntro'},
-    {t:'Artist',to:'taVsCred'},
-    {t:'Student',to:'taVsCred'}
+  welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],o:[
+    {to:'suppAuth'},{to:'cteIntro'},{to:'taVsCred'},{to:'taVsCred'}
   ]},
-  suppAuth:{p:'Chris',img:vp('chris'),label:'Supplementary Authorization',q:'Does the Supplementary Authorization pathway seem right for you?',o:[
-    {t:'Yes!',to:'@supp'},
-    {t:'Actually, I just want to be an arts teacher',to:'cteIntro'}
+  suppAuth:{p:'Chris',img:vp('chris'),o:[
+    {to:'@supp'},{to:'cteIntro'}
   ]},
-  taVsCred:{p:'Laurel',img:vp('laurel'),label:'Teaching Artist vs. Credentialed Teacher',q:'Which pathway seems right for you?',o:[
-    {t:'Credentialed Teacher',to:'cteIntro'},
-    {t:'Teaching Artist',to:'lifeTA'}
+  taVsCred:{p:'Laurel',img:vp('laurel'),o:[
+    {to:'cteIntro'},{to:'lifeTA'}
   ]},
-  cteIntro:{p:'Ricky',img:vp('ricky'),label:'The CTE Certificate',q:'Do you have 1000 hours of paid experience in your art form?',o:[
-    {t:'Yes',to:'cteVideo'},
-    {t:'No',to:'whatTeach'}
+  cteIntro:{p:'Ricky',img:vp('ricky'),o:[
+    {to:'cteVideo'},{to:'whatTeach'}
   ]},
-  cteVideo:{p:'Tiffany',img:vp('tiffany'),label:'The CTE Pathway',q:'Does the CTE pathway seem right for you?',o:[
-    {t:'Yes!',to:'@cte'},
-    {t:"Actually, I'd rather get my full single-subject credential",to:'whatTeach'}
+  cteVideo:{p:'Tiffany',img:vp('tiffany'),o:[
+    {to:'@cte'},{to:'whatTeach'}
   ]},
-  whatTeach:{p:'Laurel / Ricky',img:[vp('laurel'),vp('ricky')],label:'Choosing a Discipline',q:'What do you want to teach?',o:[
-    {t:'Music',to:'mMusic'},
-    {t:'Theater',to:'mTheater'},
-    {t:'Dance',to:'mDance'},
-    {t:'Visual Art',to:'mArt'}
+  whatTeach:{p:'Laurel / Ricky',img:[vp('laurel'),vp('ricky')],o:[
+    {to:'mMusic'},{to:'mTheater'},{to:'mDance'},{to:'mArt'}
   ]},
-  lifeTA:{p:'Laurel',img:vp('laurel'),label:'Life of a Teaching Artist',q:'Does the Teaching Artist pathway seem right for you?',o:[
-    {t:'Yes!',to:'@ta'},
-    {t:"Actually, I'd rather look into getting a full teaching credential",to:'cteIntro',alt:1}
+  lifeTA:{p:'Laurel',img:vp('laurel'),o:[
+    {to:'@ta'},{to:'cteIntro',alt:1}
   ]},
-  mMusic:{p:'Matthew',img:vp('matthew'),label:'Teaching Music',q:'Ready to pursue a music credential?',o:[
-    {t:'Yes!',to:'@music'},
-    {t:'Actually, I want to explore a different path',to:'@reset',alt:1}
+  mMusic:{p:'Matthew',img:vp('matthew'),o:[
+    {to:'@music'},{to:'@reset',alt:1}
   ]},
-  mTheater:{p:'Eric',img:vp('eric'),label:'Teaching Theater',q:'Ready to pursue a theater credential?',o:[
-    {t:'Yes!',to:'@theatre'},
-    {t:'Actually, I want to explore a different path',to:'@reset',alt:1}
+  mTheater:{p:'Eric',img:vp('eric'),o:[
+    {to:'@theatre'},{to:'@reset',alt:1}
   ]},
-  mDance:{p:'Lindsay',img:vp('lindsay'),label:'Teaching Dance',q:'Ready to pursue a dance credential?',o:[
-    {t:'Yes!',to:'@dance'},
-    {t:'Actually, I want to explore a different path',to:'@reset',alt:1}
+  mDance:{p:'Lindsay',img:vp('lindsay'),o:[
+    {to:'@dance'},{to:'@reset',alt:1}
   ]},
-  mArt:{p:'Kristin',img:vp('kristin'),label:'Teaching Visual Art',q:'Ready to pursue a visual arts credential?',o:[
-    {t:'Yes!',to:'@art'},
-    {t:'Actually, I want to explore a different path',to:'@reset',alt:1}
+  mArt:{p:'Kristin',img:vp('kristin'),o:[
+    {to:'@art'},{to:'@reset',alt:1}
   ]}
 };
 
+// Titles come from data/content.en.json; kind/list are structure.
 const PROFILES={
-  supp:{title:'Supplementary Authorization',kind:'supp'},
-  ta:{title:'Teaching Artist',list:'teachingArtist'},
-  cte:{title:'Career Technical Education (CTE) Credential',list:'cte'},
-  music:{title:'Single Subject Credential in Music',list:'music'},
-  theatre:{title:'Single Subject Credential in Theatre',list:'theatre'},
-  dance:{title:'Single Subject Credential in Dance',list:'dance'},
-  art:{title:'Single Subject Credential in Visual Art',list:'art'}
+  supp:{kind:'supp'},
+  ta:{list:'teachingArtist'},
+  cte:{list:'cte'},
+  music:{list:'music'},
+  theatre:{list:'theatre'},
+  dance:{list:'dance'},
+  art:{list:'art'}
 };
 
 let cur=null;   // current screen state object, or null on the home page
@@ -615,6 +647,15 @@ function showScreen(s){                               // pure renderer — histo
   document.querySelector('footer').style.display='none';
   const app=document.getElementById('app');
   pwStopStillCycle();
+  if(!CONTENT_OK){                                 // interface copy still loading (or failed) — every screen needs it
+    app.innerHTML='<div class="step-screen qv-result active" style="text-align:center;padding-top:4rem;color:var(--blue)">Loading…</div>';
+    SITE_READY.then(function(){
+      if(cur!==s)return;
+      if(!CONTENT_OK){app.innerHTML='<div class="step-screen qv-result active" style="text-align:center;padding-top:4rem;color:var(--blue)">This page could not load. Please refresh to try again.</div>';return;}
+      showScreen(s);
+    });
+    return;
+  }
   if(s.t==='profile'&&!PROGRAMS_LOADED){           // program data still loading — interim, then render when ready
     app.innerHTML='<div class="step-screen qv-result active" style="text-align:center;padding-top:4rem;color:var(--blue)">Loading…</div>';
     PROGRAMS_READY.then(function(){ if(cur===s){ app.innerHTML=renderProfile(s.k); window.scrollTo({top:0,behavior:'instant'}); } });
@@ -661,51 +702,82 @@ function renderNode(n,key){
     media+='<video class="qv-video" src="'+base+'.mp4" poster="'+(n.poster||imgs[0])+'"'+
       ' playsinline muted preload="auto"'+
       ' onended="qvShowEnd(this.closest(\'.qv-window\'))" onerror="qvVideoFail(this)">'+
-      (n.cc?'<track kind="captions" src="'+base+'.vtt" srclang="en" label="English">':'')+
+      (n.cc?'<track kind="captions" src="'+base+'.vtt" srclang="'+(T.captionSrclang||'en')+'" label="'+T.captionLang+'">':'')+
     '</video>';
   }
   return '<div class="step-screen qv-screen active">'+
     '<div class="qv-group">'+
-      '<div class="qv-subtitle">Pathways Questionnaire</div>'+
+      '<div class="qv-subtitle">'+T.questionnaireSubtitle+'</div>'+
       '<div class="qv-stage">'+
         '<div class="qv-window" onclick="qvTap(this,event)">'+
           media+
           (base&&n.cc?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
-          '<button class="qv-skip" onclick="qvSkip(this)">Skip video '+ICON_SKIP+'</button>'+
+          '<button class="qv-skip" onclick="qvSkip(this)">'+T.skipVideo+' '+ICON_SKIP+'</button>'+
           // mute and CC are gated on what actually exists — both are inert over a still, and CC
           // additionally needs a .vtt beside the clip or it toggles nothing (WCAG 1.2.2).
-          (base?'<button class="qv-mute" data-muted="true" aria-label="Unmute video" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
-          (base&&n.cc?'<button class="qv-cc'+(PW_CC?' on':'')+'" aria-pressed="'+(PW_CC?'true':'false')+'" aria-label="Captions" onclick="qvCaptions(this)">CC</button>':'')+
-          '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' Replay</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' Transcript</button>':'')+'</div>'+
+          (base?'<button class="qv-mute" data-muted="true" aria-label="'+T.unmuteVideo+'" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
+          (base&&n.cc?'<button class="qv-cc'+(PW_CC?' on':'')+'" aria-pressed="'+(PW_CC?'true':'false')+'" aria-label="'+T.captionsLabel+'" onclick="qvCaptions(this)">'+T.cc+'</button>':'')+
+          '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' '+T.replay+'</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+'</div>'+
         '</div>'+
         '<div class="qv-end">'+prompt+'<div class="qv-opts">'+opts+'</div>'+
           '<div class="qv-endfoot">'+
-            '<button class="qv-replay" onclick="qvReplay(this)">'+ICON_REPLAY+' Replay</button>'+
-            (n.text?'<button class="qv-transcript" onclick="qvText(this)">'+ICON_DOC+' Transcript</button>':'')+
+            '<button class="qv-replay" onclick="qvReplay(this)">'+ICON_REPLAY+' '+T.replay+'</button>'+
+            (n.text?'<button class="qv-transcript" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+
           '</div>'+
         '</div>'+
       '</div>'+
       '<div class="qv-foot">'+
-        '<button class="qv-backlink" onclick="pwBack()">'+ICON_BACK+' Back</button>'+
-        '<button class="qv-exitlink" onclick="pwExit()">'+ICON_EXIT+' Exit</button>'+
+        '<button class="qv-backlink" onclick="pwBack()">'+ICON_BACK+' '+T.back+'</button>'+
+        '<button class="qv-exitlink" onclick="pwExit()">'+ICON_EXIT+' '+T.exit+'</button>'+
       '</div>'+
-      (n.text?qvTextModal(n):'')+
+      (n.text?qvTextModal(n,key):'')+
     '</div>'+
   '</div>';
 }
 
-function qvTextModal(n){
-  var paras=(Array.isArray(n.text)?n.text:[n.text]).map(function(t){return '<p>'+t+'</p>';}).join('');
-  return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="Transcript" onclick="if(event.target===this)qvText(this)">'+
+function qvTextModal(n,key){
+  var es=(TX_ES&&TX_ES.transcripts&&TX_ES.transcripts[key])||null;
+  var lang=(es&&PW_TXLANG==='es')?'es':'en';        // fall back to English on a node with no Spanish
+  // Both languages are written into the page and one is shown. Switching hides one and reveals the
+  // other, so the reader's scroll position and the open modal survive the change.
+  function body(arr,l){
+    return '<div class="qv-tx-body'+(l===lang?' on':'')+'" data-lang="'+l+'"'+(l==='es'?' lang="es"':'')+'>'+
+      arr.map(function(t){return '<p>'+t+'</p>';}).join('')+'</div>';
+  }
+  function langBtn(l,txt){
+    var on=(l===lang);
+    return '<button class="qv-tx-lang-btn'+(on?' on':'')+'" data-lang="'+l+'" aria-pressed="'+(on?'true':'false')+'" onclick="qvTxLang(this)">'+txt+'</button>';
+  }
+  var switcher=es?'<div class="qv-tx-lang" role="group" aria-label="'+T.transcriptLangGroup+'">'+
+    langBtn('en','EN')+langBtn('es','ES')+'</div>':'';
+  return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="'+T.transcript+'" onclick="if(event.target===this)qvText(this)">'+
     '<div class="qv-textmodal-card">'+
       '<div class="qv-textmodal-head">'+
-        '<h3>Transcript</h3>'+
-        '<button class="qv-textmodal-x" aria-label="Close" onclick="qvText(this)">'+ICON_EXIT+'</button>'+
+        '<h3>'+T.transcript+'</h3>'+switcher+
+        '<button class="qv-textmodal-x" aria-label="'+T.close+'" onclick="qvText(this)">'+ICON_EXIT+'</button>'+
       '</div>'+
-      '<div class="qv-textmodal-body">'+paras+'</div>'+
+      '<div class="qv-textmodal-body">'+
+        body(Array.isArray(n.text)?n.text:[n.text],'en')+
+        (es?body(es,'es'):'')+
+      '</div>'+
     '</div>'+
   '</div>';
+}
+// EN/ES switch inside the Transcript modal. The choice is remembered so it carries to the next video.
+function qvTxLang(btn){
+  var lang=btn.getAttribute('data-lang')==='es'?'es':'en';
+  PW_TXLANG=lang;
+  try{localStorage.setItem('pwTxLang',lang);}catch(e){}
+  var card=btn.closest('.qv-textmodal-card');if(!card)return;
+  card.querySelectorAll('.qv-tx-lang-btn').forEach(function(b){
+    var on=b.getAttribute('data-lang')===lang;
+    b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');
+  });
+  card.querySelectorAll('.qv-tx-body').forEach(function(d){
+    d.classList.toggle('on',d.getAttribute('data-lang')===lang);
+  });
+  var sc=card.querySelector('.qv-textmodal-body');if(sc)sc.scrollTop=0;
 }
 
 function qvShowEnd(win){
@@ -796,36 +868,38 @@ function qvMute(btn){
 }
 
 // Shared resources block — identical on every result page.
+// URLs only — group headings, link titles and the trailing descriptions come from
+// data/content.en.json, matched on ORDER. Adding a link here means adding one there too.
 const RESOURCES=[
-  {t:'FAQs',items:[
-    {t:'FAQ for Individuals Who Want to Teach the Arts in CA',u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/',s:' (California County Superintendents Arts Initiative)'},
-    {t:'FAQ from the Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
-    {t:'Pre-Service Dance and Theatre Credential Checklist',u:'https://drive.google.com/file/d/1adRkBfGXlvtuVKZCmHgAc0Efr5I-Ky8u/view',s:' (CDEA)'}
+  {items:[
+    {u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/'},
+    {u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
+    {u:'https://drive.google.com/file/d/1adRkBfGXlvtuVKZCmHgAc0Efr5I-Ky8u/view'}
   ]},
-  {t:'Prop 28',items:[
-    {t:'Prop 28 Information Page',u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp',s:' (CDE)'},
-    {t:'Thanks to Prop 28, Schools Need More Arts Teachers',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (California County Superintendents Arts Initiative)'},
-    {t:'Visual and Performing Arts: Proposition 28 and Workforce Needs for California’s Public Schools',u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY',s:' (Residency Lab)'},
-    {t:'What the California Arts and Music in Schools Act Means for the Arts Teacher Workforce',u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ',s:' (SRI Education)'}
+  {items:[
+    {u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp'},
+    {u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ'},
+    {u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY'},
+    {u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ'}
   ]},
-  {t:'California Agencies',items:[
-    {t:'California Commission on Teacher Credentialing (CTC)',u:'https://www.ctc.ca.gov/',s:': Credential requirements, approved programs, and exam information.'},
-    {t:'California Dept. of Education Visual &amp; Performing Arts',u:'https://www.cde.ca.gov/ci/vp/',s:' (VAPA): State standards, frameworks, and curriculum resources for arts education.'},
-    {t:'California Arts Council',u:'https://arts.ca.gov/',s:': Statewide grants, artist-in-schools programs, and arts education initiatives.'},
-    {t:'California Student Aid Commission',u:'https://www.csac.ca.gov/',s:': Financial aid including the Golden State Teacher Grant Program.'},
-    {t:'The California Arts Project',u:'https://tcap.net/',s:' (TCAP)'}
+  {items:[
+    {u:'https://www.ctc.ca.gov/'},
+    {u:'https://www.cde.ca.gov/ci/vp/'},
+    {u:'https://arts.ca.gov/'},
+    {u:'https://www.csac.ca.gov/'},
+    {u:'https://tcap.net/'}
   ]},
-  {t:'California Arts Education Associations',items:[
-    {t:'California Art Education Association',u:'https://www.caea-arteducation.org/job-opportunities',s:' (CAEA)'},
-    {t:'California Dance Education Association',u:'https://www.cdeadance.org/',s:' (CDEA)'},
-    {t:'California Music Educators Association',u:'https://calmusiced.com/resources/jobs/',s:' (CMEA)'},
-    {t:'California Educational Theatre Association',u:'https://www.catheatreed.org/current-job-postings',s:' (CETA)'}
+  {items:[
+    {u:'https://www.caea-arteducation.org/job-opportunities'},
+    {u:'https://www.cdeadance.org/'},
+    {u:'https://calmusiced.com/resources/jobs/'},
+    {u:'https://www.catheatreed.org/current-job-postings'}
   ]},
-  {t:'National Organizations',items:[
-    {t:'Teaching Artists Guild',u:'https://teachingartists.com/'},
-    {t:'National Guild for Community Arts Education',u:'https://nationalguild.org/'},
-    {t:'Arts Education Partnership',u:'https://www.aep-arts.org/'},
-    {t:'Art of Education University',u:'https://theartofeducation.edu/university/masters/california-single-subject-credential-in-art/'}
+  {items:[
+    {u:'https://teachingartists.com/'},
+    {u:'https://nationalguild.org/'},
+    {u:'https://www.aep-arts.org/'},
+    {u:'https://theartofeducation.edu/university/masters/california-single-subject-credential-in-art/'}
   ]}
 ];
 function resourcesHTML(){
@@ -835,17 +909,17 @@ function resourcesHTML(){
     }).join('');
     return '<details class="prog-region"><summary class="prog-region-title"><h3>'+g.t+'</h3></summary><div class="res-list">'+items+'</div></details>';
   }).join('');
-  return '<div class="prog-resources"><p class="prog-intro">Additional Resources</p>'+groups+'</div>';
+  return '<div class="prog-resources"><p class="prog-intro">'+T.additionalResources+'</p>'+groups+'</div>';
 }
 function renderProfile(key){
   const P=PROFILES[key];
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
   const actions='<div class="actions-row">'+
-    '<button class="btn-primary" onclick="pwDownloadPDF()">Print / Save PDF</button>'+
-    '<button class="btn-secondary" onclick="pwStart()">Restart Questionnaire</button></div>';
+    '<button class="btn-primary" onclick="pwDownloadPDF()">'+T.printPdf+'</button>'+
+    '<button class="btn-secondary" onclick="pwStart()">'+T.restart+'</button></div>';
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
-      '<div class="results-header"><div class="res-label">Your Pathway</div><h2>'+P.title+'</h2></div>'+
+      '<div class="results-header"><div class="res-label">'+T.yourPathway+'</div><h2>'+P.title+'</h2></div>'+
       '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
     '</div>'+
     actions+
@@ -853,17 +927,17 @@ function renderProfile(key){
     // ConvertKit / Formspree …) before launch: give the form an action + method, or a submit handler.
     // Must not ship in this state — it currently accepts an address and does nothing with it.
     '<div class="qv-optin">'+
-      '<div class="oi-label">Stay in touch</div>'+
-      '<div class="oi-copy">Get updates on arts education in California</div>'+
+      '<div class="oi-label">'+T.optinLabel+'</div>'+
+      '<div class="oi-copy">'+T.optinCopy+'</div>'+
       '<form class="oi-form" onsubmit="return false">'+
-        '<input class="oi-input" type="email" name="email" autocomplete="email" placeholder="your@email.com" aria-label="Email address">'+
-        '<button class="btn-primary" type="submit">Sign Up</button>'+
+        '<input class="oi-input" type="email" name="email" autocomplete="email" placeholder="'+T.optinPlaceholder+'" aria-label="'+T.optinAria+'">'+
+        '<button class="btn-primary" type="submit">'+T.optinSubmit+'</button>'+
       '</form>'+
     '</div>'+
     '<div class="qv-result-foot">'+
-      '<button class="rf-home" onclick="pwExit()">Pathways for Arts Educator Development</button>'+
-      '<div class="rf-copy">&copy;2026 CREATE CA</div>'+
-      '<div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>'+
+      '<button class="rf-home" onclick="pwExit()">'+T.footHome+'</button>'+
+      '<div class="rf-copy">'+T.footCopy+'</div>'+
+      '<div class="rf-credit">'+T.footCreditPre+'<a href="#" rel="noopener">'+T.footCreditName+'</a></div>'+
     '</div>'+
   '</div>';
 }
@@ -882,7 +956,7 @@ const SCHOOL_REGION={
 // use intentional HTML entities and must NOT be passed through this.)
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function listHTML(P){
-  if(!PROGRAMS_OK)return '<div class="prog-note"><span>The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href="mailto:info@createca.org">info@createca.org</a>.</span></div>';
+  if(!PROGRAMS_OK)return '<div class="prog-note"><span>'+T.programsError+'</span></div>';
   const arr=((typeof PROGRAMS!=='undefined'&&PROGRAMS[P.list])?PROGRAMS[P.list]:[]).slice().sort(function(a,b){return a.n.localeCompare(b.n);});
   const groups={};
   arr.forEach(function(e){ var r=SCHOOL_REGION[e.n]||'Unsorted'; (groups[r]||(groups[r]=[])).push(e); });  // 'Unsorted' = visible safety net for any school missing from SCHOOL_REGION
@@ -890,30 +964,26 @@ function listHTML(P){
   // data/programs.json but is NOT shown — daggers + footnote removed 2026-07-30, REVIEW BEFORE LAUNCH.
   const sections=REGION_ORDER.filter(function(r){return groups[r]&&groups[r].length;}).map(function(r){
     var links=groups[r].map(function(e){return '<a href="'+escapeHTML(e.u)+'" target="_blank" rel="noopener">'+escapeHTML(e.n)+'</a>';}).join('');
-    return '<details class="prog-region prog-region--main" open><summary><h3 class="prog-region-title">'+r.replace(' California','')+'<span class="prog-count">('+groups[r].length+')</span></h3></summary><div class="prog-list">'+links+'</div></details>';
+    return '<details class="prog-region prog-region--main" open><summary><h3 class="prog-region-title">'+(REGION_LABEL[r]||r)+'<span class="prog-count">('+groups[r].length+')</span></h3></summary><div class="prog-list">'+links+'</div></details>';
   }).join('');
-  var heading=(P.list==='teachingArtist')?'California Teaching Artist Training Programs':'California-approved programs';
+  var heading=(P.list==='teachingArtist')?T.listHeadingTeachingArtist:T.listHeadingDefault;
   return '<p class="prog-intro">'+heading+'</p>'+sections;
 }
 
 function suppHTML(){
+  var items=(SUPP.items||[]).map(function(t){return '<li>'+t+'</li>';}).join('');
+  var ways=(SUPP.smcWays||[]).map(function(t){return '<li>'+t+'</li>';}).join('');
   return '<div class="supp-content">'+
-    '<p>If you already hold a non-arts teaching credential, there are fairly simple pathways to becoming a credentialed arts teacher:</p>'+
-    '<ol>'+
-      '<li><strong>Multiple Subject Credential</strong> holders can add a Supplementary Authorization, allowing you to teach arts in grade 9 and below. College coursework required: 20 semester units or 10 upper-division units in the content area.</li>'+
-      '<li><strong>Single Subject Credential</strong> holders can add a Specific Supplementary Authorization, comparable to a Single Subject Credential. This authorization is not limited by grade, only by subject.</li>'+
-      '<li>For <strong>Credential holders seeking an additional Single Subject Arts Credential</strong>, the process is the same for adding any second credential &mdash; show subject matter competency and take a one-semester teaching methods course in the credential area from an approved teacher credential program.<br><br>'+
-        '<p>Subject matter competency can be demonstrated in one of three ways:</p>'+
-        '<ol type="a">'+
-          '<li>an undergraduate or graduate degree in the field</li>'+
-          '<li>taking the CSET exams</li>'+
-          '<li>a combination of college coursework and one CSET</li>'+
-        '</ol>'+
+    '<p>'+SUPP.intro+'</p>'+
+    '<ol>'+items+
+      '<li>'+SUPP.thirdItem+'<br><br>'+
+        '<p>'+SUPP.smcIntro+'</p>'+
+        '<ol type="a">'+ways+'</ol>'+
       '</li>'+
     '</ol>'+
-    '<p>Select <em>Restart Questionnaire</em> and click through the &ldquo;Artist&rdquo; or &ldquo;Student&rdquo; pathways to learn which programs are available for you.</p>'+
-    '<p><em><strong>Note:</strong> Teachers credentialed in English before Jan 2022 are already eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are already eligible to teach dance!</em></p>'+
-    '<p>More info at the <a href="https://www.ctc.ca.gov/credentials/leaflets/cl-629/" target="_blank" rel="noopener">California Commission on Teacher Credentialing &#8599;</a></p>'+
+    '<p>'+SUPP.restartNote+'</p>'+
+    '<p>'+SUPP.note+'</p>'+
+    '<p>'+SUPP.morePre+'<a href="https://www.ctc.ca.gov/credentials/leaflets/cl-629/" target="_blank" rel="noopener">'+SUPP.moreLink+'</a></p>'+
     '</div>';
 }
 

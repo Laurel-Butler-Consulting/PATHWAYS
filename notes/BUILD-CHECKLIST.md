@@ -26,8 +26,8 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] **Analytics: what do they want to know?** Completion rate, drop-off points, which pathways come up
       most, mobile vs desktop? The answer determines the tool and whether extra build work is needed.
       Also: are they willing to pay ~$9–15/month? Free tools can't answer questionnaire questions.
-- [ ] **Spanish: scope confirmed as text-only** (no re-recorded audio). Still to decide: does Spanish live
-      at its own address (`/es/`) or behind an on-page toggle?
+- [x] **Spanish scope settled 2026-07-31: captions and transcripts only.** No interface translation,
+      no `/es/` address, no language toggle. The site's own text stays English. (§6)
 - [ ] **Repository public or private**, and who keeps write access after handover.
 - [ ] **Dagger caveat** — does the "this link may open a general credential page" warning need to reach
       users some other way, now the footnote is gone? (§2)
@@ -43,7 +43,9 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Decide who owns the analytics account and who reads the numbers.
 
 **Content the client must supply**
-- [ ] **Spanish translation** of ~1,100 words of interface copy, plus the transcripts once written (§6)
+- [ ] **Review the Spanish transcripts** (drafted 2026-07-31, 11 files) — three house-style calls need
+      their confirmation, listed in §6. This is a review, not a writing job, and it is now the ONLY
+      Spanish item on their list. It gates the Spanish captions.
 - [ ] Confirmation of the PROVISIONAL region assignments (§2)
 - [ ] **A privacy policy**, or a decision about who writes one — required before collecting email
       addresses, and the site has none today (§4, §8)
@@ -54,8 +56,8 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Landing "Find Your Path" preview clip + poster (§1)
 - [ ] Final poster stills (§1)
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
-- [ ] English transcripts for all 11 videos (§1) — assumed ours as a video-derived asset; correct this
-      line if the client is writing them
+- [x] English transcripts for all 11 videos — written and final 2026-07-31 (§1)
+- [~] Spanish transcripts — drafted 2026-07-31, **awaiting client review / edits** (§6)
 - [ ] "Civil Cyber Arts" credit link destination (§9) — ours alone, no client input needed
 
 ---
@@ -77,10 +79,19 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
 - [ ] Poster stills finalized (placeholders currently in `images/video placeholder stills/`)
 - [ ] Switch each node on as its clip lands (`v:1`, plus `cc:1` once its `.vtt` is beside it)
 - [ ] Captions (`.srt` → `.vtt`) for all narrated videos
-- [ ] **Move transcripts + all interface copy out of `index.html` into data files** — prerequisite for
-      BOTH the transcripts and the Spanish version (§6). One job, two payoffs. An apostrophe in inline
-      text currently blanks the whole page.
-- [ ] Transcripts written for all 11 nodes (Option A) — replace `welcome` lorem-ipsum placeholder
+- [x] **Questionnaire + results copy moved out of `index.html` into `data/content.en.json`
+      (2026-07-31)** — transcripts, node labels, questions, answer buttons, result titles, resource
+      headings, the Supplementary Authorization page, and all button/label text. `index.html` keeps
+      only structure: routing keys, image paths, link URLs, video flags. Apostrophes are now harmless.
+- [ ] **Landing page copy is still inline HTML** (~480 words: hero, About, Who Is This For, quotes,
+      footer). No apostrophe risk there, and since the 2026-07-31 scope cut it is no longer a
+      prerequisite for anything (§6). Optional tidy-up only — it would put all site copy in one place
+      for editing. Low priority; do not do it on spec.
+- [x] **English transcripts written and FINAL for all 11 nodes (2026-07-31)** — live in
+      `video/transcripts/eng/`, 2,406 words total. Note: these are standalone `.txt` files, so
+      `build-scan.py` (which only reads `index.html`) still reports them missing — see §9.
+- [x] **English transcripts live on the site (2026-07-31)** — all 11 in the Transcript modal; the
+      `welcome` lorem ipsum is gone. Apostrophes verified safe (11 render in the welcome text alone).
 - [ ] Result-page video summaries drafted (Option C) — 7 result pages, from the transcripts
 - [ ] Decide: captions on by default? (`PW_CC` currently off; playback starts muted)
 
@@ -150,46 +161,76 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       questionnaire stays a black box. Say so rather than pretending otherwise.
 - [ ] Adds a second third-party script — see §8.
 
-## 6. Spanish language version
-**Scope confirmed 2026-07-30: text elements only, no re-recorded audio. Client is bilingual and will
-supply the translation.** That removes the cost and quality risk; what remains is structural work here
-plus a real writing job for them.
+## 6. Spanish language — CAPTIONS AND TRANSCRIPTS ONLY
+**SCOPE CUT 2026-07-31, agreed with the client.** For the time being the only Spanish on the site is
+**video closed captioning and video transcripts**. The interface stays English throughout — landing
+page, questionnaire, result pages, resources, footer.
 
-Word counts (excludes program/organisation names — proper nouns stay in English):
+**What this removes from the plan** (keep the reasoning here; the decision may be revisited):
+- ~~~1,100 words of interface copy for the client to translate~~ — off their list entirely.
+- ~~A Spanish address (`/es/`) or an on-page language toggle~~ — not needed. One site, English chrome.
+- ~~Extracting the landing-page copy as a Spanish prerequisite~~ — no longer blocking anything. It
+  survives only as optional tidy-up (§1), not as a dependency.
+- ~~Translating region names, setting per-page `lang`, a second set of result pages~~ — all moot.
 
-| Area | Words |
-|---|---|
-| Landing page + footer | 482 |
-| Supplementary Authorization page copy | 203 |
-| Additional Resources titles + descriptions | 185 |
-| Questionnaire answer buttons | 84 |
-| Questionnaire questions | 78 |
-| Node labels | 31 |
-| Result page titles | 30 |
-| **Subtotal to translate now** | **~1,100** |
-| Transcripts, once written (11 videos, estimate) | 1,700–3,300 |
-| Captions | same text as transcripts, re-timed |
+**What remains, in order:**
+1. Client reviews / edits the 11 Spanish transcripts (drafted, below).
+2. Build the Spanish captions from the approved transcripts — Premiere SRT → `scripts/srt2vtt.py`,
+   same workflow as English, re-timed to each clip.
+3. Wire both into the site. **Two design decisions must be made first — see "Open questions" below.**
 
-**Why this needs structural work first — "every string is inline".** The site is one file containing
-three different things mixed together: the design, the behaviour, and the words. Every question, button
-label, heading and paragraph is typed directly into the middle of it. There is no single list of "the
-words on this site". So there are only two routes:
+⚠ **Blocked on the videos either way.** Captions can't be timed against clips that don't exist (§1),
+so step 2 cannot start until the final videos land, no matter how fast the transcript review goes.
 
-- *Duplicate the whole file and translate inside it* — fast to start, but then there are two complete
-  sites to maintain forever. Every design change, program update and fix has to be made twice, and the
-  day someone forgets, the two versions drift apart. **Not recommended.**
-- *Separate the words from the machinery first* — one English list, one Spanish list, one site that
-  loads whichever is needed. This is the same job already required for the transcripts (§1), so it gets
-  done once and serves both. **Recommended.**
+**Design decided 2026-07-31:**
+- [x] **Transcript modal EN/ES switch — BUILT 2026-07-31.** Two-way toggle under the modal heading;
+      stacking the two languages was rejected. The choice is remembered and carries from one video to
+      the next. Spanish text is marked as Spanish so screen readers pronounce it correctly.
+      Spanish comes from `data/transcripts.es.json`, regenerated from `video/transcripts/esp/`.
+      Degrades to English with no switch shown if a node has no Spanish or the file is missing.
+      ⚠ **The Spanish on the site is the DRAFT translation** — it must not go live before the client's
+      review. Nothing is live yet (no videos), but this is the item to re-check before launch.
+- [x] **CC control becomes three-way: off / English / Español.** Confirmed technically possible —
+      the site already draws captions itself from the cue data rather than letting the browser do it,
+      so choosing between two caption files is a matter of picking which one to read. The open part is
+      visual: one cycling button, or a small menu. Decide when the control row is designed.
+- [ ] **Per-node caption flags.** The `cc:1` flag currently means "a caption file exists". It will need
+      to say *which languages* exist, so a node with English-only captions doesn't offer a Spanish
+      option that goes nowhere.
+- [ ] *Deferred, client's call, not a concern now:* signposting Spanish captions to a non-English
+      reader inside an English interface; whether the printed PDF carries a transcript and in which
+      language (it carries neither today).
 
-- [ ] ⚠ **Do not start translating until the English copy is final** — otherwise they translate twice.
-- [ ] ⚠ **Prerequisite: extract strings from `index.html`** (§1)
-- [ ] **Decide the shape:** separate addresses (`/es/`) or an on-page toggle. Separate addresses are
-      simpler on GitHub Pages, can be shared directly, and can be found by Spanish-language search.
-- [ ] Second caption file per video, matching the Spanish transcripts
-- [ ] Region names translate (Northern / Central / Southern / Online); school names do not
-- [ ] Set `lang` correctly per page so screen readers pronounce Spanish text properly
-- [ ] Ongoing cost to name now: every future copy change has to be made twice, forever
+**Spanish transcripts — DRAFTED 2026-07-31, awaiting client review / edits**
+All 11 translated into `video/transcripts/esp/`, mirroring the English naming
+(`01_welcome_esp.txt` … `11_visualart_esp.txt`). Standalone documents; nothing in `index.html` was
+touched. Three house-style decisions were made in the drafting — the client's bilingual reviewer
+should confirm or overrule all three, and each one is a full re-pass if changed later:
+
+- [~] **Form of address: `tú`** (familiar), not `usted`. Matches the warmth of the English.
+- [~] **Credentialing terms: English name + Spanish gloss on first use** — Supplementary
+      Authorization, CTC, CSET, Single/Multiple Subject Credential, CTE, Prop 28, subject matter
+      competency, student teaching, transcript evaluation. Rationale: these are the names on the CTC's
+      own forms and website, which are English-only. Translating them outright sends people searching
+      for something that doesn't exist under that name.
+- [~] **Grammatical gender: feminine where neutral phrasing isn't possible** (client instruction,
+      2026-07-31). Neutral wording is used where it reads naturally — e.g. *"te damos la bienvenida"*
+      rather than *"bienvenida/o"*. Flag for the reviewer: some organisations prefer `educador/a`
+      throughout instead.
+- [ ] Client review of the 11 Spanish transcripts
+- [ ] Second caption file per video (`.vtt`), matching the approved Spanish transcripts — re-timed
+      to the clips. Blocked on the videos as well as on the review.
+- [ ] Mark the Spanish text so screen readers pronounce it as Spanish, not as English with an accent —
+      applies to the transcript modal and the caption layer only, since the rest of the site is English.
+
+**Superseded by the 2026-07-31 scope cut** — kept for the record, in case the client revisits:
+- ~~Do not start translating the interface copy until the English copy is final~~ — no interface
+  translation is happening.
+- ~~Prerequisite: extract the landing-page copy from `index.html`~~ — the questionnaire and results
+  half was done 2026-07-31 anyway (for the transcripts); the landing page half is no longer required
+  by anything. It stays as optional tidy-up in §1.
+- ~~Decide the shape: `/es/` addresses or an on-page toggle~~ — neither; the site stays English.
+- ~~Region names translate~~ / ~~per-page `lang`~~ / ~~every copy change made twice, forever~~ — moot.
 
 ## 7. Hosting — transfer to the client's GitHub, with custom domain
 ⚠ **Open question first:** is the domain a subdomain of the client's existing site
@@ -291,11 +332,16 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [ ] Play one real clip through in a normal browser — the preview pane suspends video, so continuous
       playback is the one thing never confirmed on a real file
 - [ ] Final content review with the client
-- [ ] **Welcome transcript is lorem ipsum** — reachable from the first questionnaire screen via the
-      Transcript button. Most user-visible of the placeholder items.
+- [x] ~~Welcome transcript is lorem ipsum~~ — fixed 2026-07-31; real transcript now loads.
 - [ ] Wire the "Civil Cyber Arts" credit link — placeholder `href="#"` in two places (footer + result
       pages). Confirmed still unresolved in the 2026-07-30 code review.
 - [ ] Delete unused `images/createca_logo_color.png` (48K; only the `_EDIT` version is referenced)?
+- [ ] **`build-scan.py` gives two false readings — fix it or stop trusting those lines.**
+      1. *"Transcripts written (0/11) — missing: welcome, suppAuth, …"* — flatly wrong as of
+         2026-07-31. All 11 are written and live on the site. The scan looks for transcript text inside
+         `index.html`, and the copy moved to `data/content.en.json`. It must read the content file.
+      2. *"Stay in touch opt-in — wired"* — it sees the markup and assumes. §4 is correct: the form
+         discards addresses. This one reads GREEN on an item that must not ship.
 
 ### From the 2026-07-27 code inspection — your call, none started
 - [ ] **Base text size overrides browser settings** (`html{font-size:20px}`) — people who enlarge their
@@ -309,6 +355,21 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 ---
 
 ## Recently completed
+**2026-07-31**
+- [x] English transcripts finished and declared final — all 11 nodes, 2,406 words,
+      `video/transcripts/eng/`
+- [x] Spanish transcripts drafted — all 11, `video/transcripts/esp/`; with the client for review
+      (register, terminology and gender decisions recorded in §6)
+- [x] **Spanish scope cut, agreed with client: captions + transcripts only, interface stays English.**
+      Removed ~1,100 words of client translation work, the `/es/` vs toggle decision, and the
+      landing-page extraction dependency (§6)
+- [x] Questionnaire + results copy extracted to `data/content.en.json`; `index.html` now holds
+      structure only. Verified: all 11 nodes, all 7 result pages, transcript modal, resources,
+      Supplementary Authorization page, full click-through and browser Back
+- [x] English transcripts loaded into the Transcript modal on all 11 nodes; lorem ipsum removed
+- [x] Transcript modal EN/ES switch built and verified — all 11 nodes, choice persists between
+      videos, both missing-Spanish fallbacks degrade to English cleanly (§6)
+
 **2026-07-30**
 - [x] Result actions reduced to Print / Save PDF + Restart Questionnaire, side by side
 - [x] Email opt-in band added (visual only — see §4)
