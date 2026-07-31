@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <title>Pathways player overlay — playing with a caption (phone portrait)</title>
+  <desc>As the playing overlay, plus a two-line sample caption — the worst case for framing.
+Measured from the live site at phone width (player window 390px; scale factor 2.769).
+KEEP CLEAR when captions are on: bottom 335px of the frame.
+Caption lines are 82px apart; each carries its own background box, so a short line gets a short box.
+
+Built for Photoshop compatibility (2026-07-31): explicit text baselines rather than
+dominant-baseline, text-anchor=middle throughout, and icons in absolute coordinates.</desc>
+
+  <!-- Caption — two lines, each with its own background, centred -->
+  <g>
+    <rect x="228" y="1585" width="624" height="76" rx="11" fill="#001226" fill-opacity="0.82"/>
+    <text x="540" y="1639.85" text-anchor="middle"
+          font-family="Open Sans, Helvetica Neue, Arial, sans-serif" font-weight="500"
+          font-size="43.2" fill="#ffffff">It&#8217;s a great time to be an arts</text>
+
+    <rect x="294" y="1667" width="493" height="76" rx="11" fill="#001226" fill-opacity="0.82"/>
+    <text x="540" y="1721.85" text-anchor="middle"
+          font-family="Open Sans, Helvetica Neue, Arial, sans-serif" font-weight="500"
+          font-size="43.2" fill="#ffffff">educator in California.</text>
+  </g>
+
+  <!-- CC — bottom left, shown active (captions on) -->
+  <g>
+    <rect x="39" y="1770" width="117" height="105" rx="52.5"
+          fill="#FECF43" stroke="#FECF43" stroke-width="2.8"/>
+    <text x="97.5" y="1838.5" text-anchor="middle"
+          font-family="Open Sans, Helvetica Neue, Arial, sans-serif" font-weight="700"
+          font-size="41" letter-spacing="2.05" fill="#002647">CC</text>
+  </g>
+
+  <!-- Skip — bottom centre -->
+  <g>
+    <rect x="404" y="1764" width="271" height="112" rx="56"
+          fill="#002647" fill-opacity="0.55" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2.8"/>
+    <text x="509" y="1834.75" text-anchor="middle"
+          font-family="Open Sans, Helvetica Neue, Arial, sans-serif" font-weight="600"
+          font-size="37.7" letter-spacing="2.26" fill="#ffffff">SKIP</text>
+    <polygon points="585.7,1808 597.7,1820 585.7,1832" fill="#ffffff"/>
+    <rect x="600.7" y="1808" width="4.5" height="24" fill="#ffffff"/>
+  </g>
+
+  <!-- Playback speed -->
+  <g>
+    <rect x="806" y="1770" width="108" height="105" rx="52.5"
+          fill="#002647" fill-opacity="0.55" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2.8"/>
+    <text x="860" y="1837.5" text-anchor="middle"
+          font-family="Open Sans, Helvetica Neue, Arial, sans-serif" font-weight="700"
+          font-size="38.8" letter-spacing="1.16" fill="#ffffff">1x</text>
+  </g>
+
+  <!-- Mute — bottom right -->
+  <g>
+    <rect x="936" y="1770" width="105" height="105" rx="52.5"
+          fill="#002647" fill-opacity="0.55" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2.8"/>
+    <g fill="none" stroke="#ffffff" stroke-width="3.925" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M986.59 1808.81 L976.78 1816.66 H970.89 V1828.44 H976.78 L986.59 1836.29 Z"/>
+      <line x1="996.40" y1="1817.64" x2="1006.21" y2="1827.46"/>
+      <line x1="1006.21" y1="1817.64" x2="996.40" y2="1827.46"/>
+    </g>
+  </g>
+</svg>

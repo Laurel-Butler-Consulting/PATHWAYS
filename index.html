@@ -114,6 +114,19 @@
   .qv-cc:hover{background:rgba(0,38,71,.85)}
   .qv-cc.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
   .qv-cc.on:hover{background:var(--gold);opacity:.9}
+  /* Playback speed — button + pop-up list, paired with mute on the right. The wrapper is what's
+     positioned; the menu opens upward from it so it never runs off the bottom of the picture. */
+  .qv-speed-wrap{position:absolute;right:60px;bottom:16px;z-index:4}
+  .qv-speed{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.03em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+  .qv-speed:hover{background:rgba(0,38,71,.85)}
+  .qv-speed.off{background:var(--gold);color:var(--navy);border-color:var(--gold)}  /* anything but 1x */
+  .qv-speed.off:hover{background:var(--gold);opacity:.9}
+  .qv-speed-menu{position:absolute;right:0;bottom:46px;display:none;flex-direction:column;gap:2px;padding:5px;background:rgba(0,18,38,.92);border:1px solid rgba(255,255,255,.2);border-radius:10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .qv-speed-menu.open{display:flex}
+  .qv-speed-menu button{min-width:74px;text-align:left;padding:.42rem .6rem;background:transparent;border:none;border-radius:6px;color:#fff;font-family:var(--font-body);font-size:.7rem;font-weight:600;letter-spacing:.03em;cursor:pointer;white-space:nowrap;transition:background .12s}
+  .qv-speed-menu button:hover{background:rgba(255,255,255,.14)}
+  .qv-speed-menu button[aria-checked="true"]{background:var(--gold);color:var(--navy);font-weight:700}
+  .qv-speed:focus-visible,.qv-speed-menu button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   /* Caption layer — sits above the 54px chrome row (bottom:16px + 38px button). Not the browser's
      native caption box: that renders behind the chrome and can't be repositioned. See qvRenderCue. */
   .qv-caps{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
@@ -125,10 +138,18 @@
   .qv-textmodal.open{display:flex}
   .qv-textmodal-card{position:relative;background:#fff;color:var(--navy);width:min(680px,100%);max-height:90vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 24px 70px rgba(0,18,38,.4);overflow:hidden;animation:stepIn .25s ease}
   .qv-textmodal-head{flex:0 0 auto;padding:1.5rem 1.7rem 1.1rem;border-bottom:1px solid rgba(0,38,71,.1)}
-  .qv-textmodal-head h3{font-family:var(--font-display);font-weight:400;font-size:1.7rem;letter-spacing:.02em;color:var(--navy);line-height:1.08;margin:0}
+  /* padding-right keeps a long node title clear of the close button, which floats over this row */
+  .qv-textmodal-head h3{font-family:var(--font-display);font-weight:400;font-size:1.7rem;letter-spacing:.02em;color:var(--navy);line-height:1.08;margin:0;padding-right:1.7rem}
+  .qv-textmodal-head h3 .tm-node{color:var(--blue)}
   .qv-textmodal-x{position:absolute;top:1.1rem;right:1.1rem;width:34px;height:34px;border-radius:50%;border:none;background:var(--ice);color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .15s}
   .qv-textmodal-x:hover{background:rgba(0,38,71,.12)}
   .qv-textmodal-x svg{width:14px;height:14px}
+  /* Narrow screens: the longest node title ran to four lines and pushed the transcript off the
+     card. Smaller heading keeps the reading area the point of the dialog. */
+  @media(max-width:600px){
+    .qv-textmodal-head{padding:1.2rem 1.3rem .9rem}
+    .qv-textmodal-head h3{font-size:1.25rem}
+  }
   .qv-textmodal-body{flex:1;overflow-y:auto;padding:1.4rem 1.7rem 1.8rem}
   .qv-textmodal-body p{font-size:1rem;line-height:1.7;color:var(--navy);margin-bottom:1rem}
   .qv-textmodal-body p:last-child{margin-bottom:0}
@@ -181,10 +202,10 @@
     .qv-opts{margin:0}
     .qv-endfoot{display:none}
     .qv-foot{margin:0;padding:1.5rem 2rem 1.6rem}
-    .qv-cc{left:auto;right:60px}
+    .qv-cc{left:auto;right:106px}
     .qv-skip{left:14px;transform:none}
     .qv-window.ended .qv-replay-overlay{display:flex}
-    .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-skip{display:none}
+    .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-skip,.qv-window.ended .qv-speed-wrap{display:none}
   }
   /* Tablet portrait: re-introduce the enclosing, centered 9:16 box (phones stay full-bleed) */
   @media(orientation:portrait) and (min-width:600px){
@@ -590,6 +611,12 @@ const PROFILES={
 
 let cur=null;   // current screen state object, or null on the home page
 var PW_CC=(function(){try{return localStorage.getItem('pwCaptions')==='1';}catch(e){return false;}})();  // captions on/off, persisted
+// Playback speed. Structure, not copy — "1.25x" reads the same in any language. Client-requested
+// range; 1 must stay in the list as the default. Adding a value here is all that's needed to offer it.
+const PW_SPEEDS=[0.75,1,1.25,1.5];
+var PW_RATE=(function(){try{var r=parseFloat(localStorage.getItem('pwRate'));
+  return PW_SPEEDS.indexOf(r)>-1?r:1;}catch(e){return 1;}})();          // persisted, falls back to 1x
+function pwRateLabel(r){return (r===1?'1':String(r))+'x';}
 var pwImgTimer=null;
 function pwStopStillCycle(){if(pwImgTimer){clearInterval(pwImgTimer);pwImgTimer=null;}}
 function pwStartStillCycle(app){           // multi-presenter nodes: crossfade stills every 3s
@@ -663,7 +690,7 @@ function showScreen(s){                               // pure renderer — histo
   }
   app.innerHTML=(s.t==='node')?renderNode(NODES[s.k],s.k):renderProfile(s.k);
   if(s.t==='node'){var _v=app.querySelector('.qv-video');
-    if(_v){_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));}
+    if(_v){qvApplyRate(_v.closest('.qv-window'));_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));}
     else{pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -713,10 +740,13 @@ function renderNode(n,key){
           media+
           (base&&n.cc?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
-          '<button class="qv-skip" onclick="qvSkip(this)">'+T.skipVideo+' '+ICON_SKIP+'</button>'+
+          // Visible label is short to keep the control row uncluttered; the spoken name stays full,
+          // so a screen-reader user still hears what is being skipped.
+          '<button class="qv-skip" aria-label="'+T.skipVideoAria+'" onclick="qvSkip(this)">'+T.skipVideo+' '+ICON_SKIP+'</button>'+
           // mute and CC are gated on what actually exists — both are inert over a still, and CC
           // additionally needs a .vtt beside the clip or it toggles nothing (WCAG 1.2.2).
           (base?'<button class="qv-mute" data-muted="true" aria-label="'+T.unmuteVideo+'" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
+          (base?qvSpeedHTML():'')+
           (base&&n.cc?'<button class="qv-cc'+(PW_CC?' on':'')+'" aria-pressed="'+(PW_CC?'true':'false')+'" aria-label="'+T.captionsLabel+'" onclick="qvCaptions(this)">'+T.cc+'</button>':'')+
           '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' '+T.replay+'</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+'</div>'+
         '</div>'+
@@ -751,10 +781,14 @@ function qvTextModal(n,key){
   }
   var switcher=es?'<div class="qv-tx-lang" role="group" aria-label="'+T.transcriptLangGroup+'">'+
     langBtn('en','EN')+langBtn('es','ES')+'</div>':'';
-  return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="'+T.transcript+'" onclick="if(event.target===this)qvText(this)">'+
+  // Heading names which video this is — "TRANSCRIPT – Welcome". The node title stays English even
+  // when the Spanish text is showing, since the interface itself is English-only.
+  var title=n.label?T.transcript+' <span class="tm-node">– '+n.label+'</span>':T.transcript;
+  var spoken=n.label?T.transcript+' – '+n.label:T.transcript;
+  return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="'+spoken+'" onclick="if(event.target===this)qvText(this)">'+
     '<div class="qv-textmodal-card">'+
       '<div class="qv-textmodal-head">'+
-        '<h3>'+T.transcript+'</h3>'+switcher+
+        '<h3>'+title+'</h3>'+switcher+
         '<button class="qv-textmodal-x" aria-label="'+T.close+'" onclick="qvText(this)">'+ICON_EXIT+'</button>'+
       '</div>'+
       '<div class="qv-textmodal-body">'+
@@ -793,7 +827,7 @@ function qvReplay(btn){
   var win=stage.querySelector('.qv-window');
   win.classList.remove('ended');win.classList.remove('paused');
   var end=stage.querySelector('.qv-end');if(end)end.classList.remove('show');
-  var v=win.querySelector('.qv-video');if(v){v.currentTime=0;v.play().catch(function(){});qvApplyCaptions(win);}
+  var v=win.querySelector('.qv-video');if(v){v.currentTime=0;qvApplyRate(win);v.play().catch(function(){});qvApplyCaptions(win);}
 }
 function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → fall back to the stills
   var win=v.closest('.qv-window');
@@ -843,8 +877,55 @@ function qvCaptions(btn){
   btn.setAttribute('aria-pressed',PW_CC?'true':'false');
   qvApplyCaptions(btn.closest('.qv-window'));
 }
+// Playback speed control: a button showing the current rate, and a list that opens above it.
+// Only rendered over a real clip — it would do nothing over a placeholder still.
+function qvSpeedHTML(){
+  var items=PW_SPEEDS.map(function(r){
+    var on=(r===PW_RATE);
+    return '<button role="menuitemradio" aria-checked="'+(on?'true':'false')+'" data-rate="'+r+'" onclick="qvSpeedSet(this)">'+
+      pwRateLabel(r)+(r===1?' '+T.speedNormal:'')+'</button>';
+  }).join('');
+  return '<div class="qv-speed-wrap">'+
+    '<button class="qv-speed'+(PW_RATE!==1?' off':'')+'" aria-haspopup="true" aria-expanded="false" aria-label="'+T.speedLabel+'" onclick="qvSpeedToggle(this)">'+pwRateLabel(PW_RATE)+'</button>'+
+    '<div class="qv-speed-menu" role="menu" aria-label="'+T.speedLabel+'">'+items+'</div>'+
+  '</div>';
+}
+function qvSpeedToggle(btn){
+  var menu=btn.parentNode.querySelector('.qv-speed-menu');
+  var open=menu.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open?'true':'false');
+}
+function qvSpeedSet(item){
+  var r=parseFloat(item.getAttribute('data-rate'));
+  if(PW_SPEEDS.indexOf(r)<0)r=1;
+  PW_RATE=r;
+  try{localStorage.setItem('pwRate',String(r));}catch(e){}
+  var wrap=item.closest('.qv-speed-wrap');if(!wrap)return;
+  wrap.querySelectorAll('.qv-speed-menu button').forEach(function(b){
+    b.setAttribute('aria-checked',parseFloat(b.getAttribute('data-rate'))===r?'true':'false');
+  });
+  var btn=wrap.querySelector('.qv-speed');
+  btn.textContent=pwRateLabel(r);
+  btn.classList.toggle('off',r!==1);                 // gold = not playing at normal speed
+  btn.setAttribute('aria-expanded','false');
+  wrap.querySelector('.qv-speed-menu').classList.remove('open');
+  qvApplyRate(wrap.closest('.qv-window'));
+}
+function qvApplyRate(win){
+  var v=win&&win.querySelector('.qv-video');if(!v)return;
+  try{v.preservesPitch=true;}catch(e){}               // keep voices natural when sped up
+  try{v.playbackRate=PW_RATE;}catch(e){}
+}
+function qvCloseSpeedMenus(){
+  document.querySelectorAll('.qv-speed-menu.open').forEach(function(m){
+    m.classList.remove('open');
+    var b=m.parentNode.querySelector('.qv-speed');if(b)b.setAttribute('aria-expanded','false');
+  });
+}
+document.addEventListener('click',function(e){ if(!e.target.closest('.qv-speed-wrap'))qvCloseSpeedMenus(); });
+
 function qvTap(win,ev){
-  if(ev.target.closest('.qv-skip,.qv-mute,.qv-cc,.qv-replay-overlay'))return;  // let controls handle their own clicks
+  if(ev.target.closest('.qv-skip,.qv-mute,.qv-cc,.qv-speed-wrap,.qv-replay-overlay'))return;  // let controls handle their own clicks
   if(win.classList.contains('ended'))return;                            // ended → use Replay overlay
   var v=win.querySelector('.qv-video');if(!v)return;                     // no-op on still/gradient placeholders
   if(v.paused){v.play().catch(function(){});win.classList.remove('paused');}
@@ -856,7 +937,7 @@ function qvText(el){
   var open=m.classList.toggle('open');
   if(open){var v=root.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}}  // pause video while reading
 }
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.querySelector('.qv-textmodal.open');if(m)m.classList.remove('open');}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){qvCloseSpeedMenus();var m=document.querySelector('.qv-textmodal.open');if(m)m.classList.remove('open');}});
 function qvMute(btn){
   var muted=btn.getAttribute('data-muted')!=='false';      // default muted
   muted=!muted;

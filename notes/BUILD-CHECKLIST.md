@@ -74,6 +74,23 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       browser's own caption box sat underneath it and couldn't be moved
 - [x] **SRT→VTT converter** (`scripts/srt2vtt.py`) — Premiere exports SRT only
 - [x] Landing preview wired to swap in `video/preview/find-your-path.mp4` automatically when delivered
+- [x] **Playback-speed control — BUILT 2026-07-31 (client request).** Button paired with mute on the
+      right, showing the current rate; tap opens a list above it. Speeds **0.75x / 1x (default) /
+      1.25x / 1.5x** — the client asked for 1x–2x, narrowed here to 1.5x max with 0.75x added for
+      people who need it slower. Range lives in `PW_SPEEDS` in index.html; adding a value is a
+      one-line edit. Choice persists between videos. Pitch is preserved, so voices stay natural.
+      Only renders over a real clip, never over a placeholder still.
+      ⚠ Above ~1.5x captions change too fast to read comfortably — relevant if the client expects
+      speed and captions to work together.
+- [x] **Skip button label shortened to "Skip" (2026-07-31)** to make room for the speed control.
+      The spoken name stays "Skip video" for screen-reader users. Row slack measured at 137px
+      before and after, so the new control costs nothing in crowding.
+- [x] **Player-chrome overlay templates for client preview (2026-07-31)** —
+      `video/preview-overlays/*.svg`, 1080×1920 with a transparent video area, for compositing over
+      rough cuts in Premiere. Two states: playing, and playing with a two-line caption. Geometry
+      measured against the live player at phone width and confirmed within 2px. Keep-clear: bottom
+      156px, or bottom 335px when captions are on. **Regenerated after the Skip/speed changes above —
+      re-export if you composited against the earlier versions.**
 - [ ] 11 presenter videos recorded & final → `video/nodes/<node-key>.mp4`
 - [ ] Landing "Find Your Path" preview video — final clip + poster (muted loop; no transcript)
 - [ ] Poster stills finalized (placeholders currently in `images/video placeholder stills/`)
@@ -369,6 +386,18 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [x] English transcripts loaded into the Transcript modal on all 11 nodes; lorem ipsum removed
 - [x] Transcript modal EN/ES switch built and verified — all 11 nodes, choice persists between
       videos, both missing-Spanish fallbacks degrade to English cleanly (§6)
+- [x] Playback-speed menu + shortened Skip label built and verified — all 11 nodes, control row
+      free of overlaps at phone width, menu stays inside the picture, using the controls does not
+      pause the video, choice persists between videos
+- [x] Client-preview overlay templates regenerated to match the new control row
+- [x] Overlay templates rebuilt for Photoshop — it ignores the SVG vertical-centring instruction,
+      so labels sat low. Now positioned on explicit baselines with icons in absolute coordinates.
+      Verified centred to within 0.1px. **Do not reintroduce `dominant-baseline` in these files.**
+- [x] Transcript modal names its video — "TRANSCRIPT – Welcome" (client request). Heading shrinks on
+      narrow screens: the longest title ran to four lines and pushed the transcript off the card;
+      the header is now 17–20% of the card at worst. Title clears the close button on all 11 nodes
+      at both phone and desktop width. Node titles stay English when the Spanish text is showing,
+      per the §6 scope cut.
 
 **2026-07-30**
 - [x] Result actions reduced to Print / Save PDF + Restart Questionnaire, side by side

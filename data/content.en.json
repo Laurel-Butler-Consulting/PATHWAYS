@@ -2,7 +2,7 @@
   "lang": "en",
   "ui": {
     "questionnaireSubtitle": "Pathways Questionnaire",
-    "skipVideo": "Skip video",
+    "skipVideo": "Skip",
     "unmuteVideo": "Unmute video",
     "captionsLabel": "Captions",
     "cc": "CC",
@@ -29,7 +29,10 @@
     "listHeadingDefault": "California-approved programs",
     "programsError": "The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href=\"mailto:info@createca.org\">info@createca.org</a>.",
     "captionSrclang": "en",
-    "transcriptLangGroup": "Transcript language"
+    "transcriptLangGroup": "Transcript language",
+    "skipVideoAria": "Skip video",
+    "speedLabel": "Playback speed",
+    "speedNormal": "(normal)"
   },
   "regionLabels": {
     "Northern California": "Northern",
