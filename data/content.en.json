@@ -11,7 +11,11 @@
     "close": "Close",
     "back": "Back",
     "exit": "Exit",
-    "captionLang": "English",
+    "captionLangs": {
+      "en": "English",
+      "es": "Español"
+    },
+    "captionsOff": "Off",
     "yourPathway": "Your Pathway",
     "additionalResources": "Additional Resources",
     "printPdf": "Print / Save PDF",
@@ -28,7 +32,6 @@
     "listHeadingTeachingArtist": "California Teaching Artist Training Programs",
     "listHeadingDefault": "California-approved programs",
     "programsError": "The program list is temporarily unavailable. Please refresh the page to try again. If the problem persists, contact <a href=\"mailto:info@createca.org\">info@createca.org</a>.",
-    "captionSrclang": "en",
     "transcriptLangGroup": "Transcript language",
     "skipVideoAria": "Skip video",
     "speedLabel": "Playback speed",

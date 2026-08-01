@@ -217,13 +217,25 @@ so step 2 cannot start until the final videos land, no matter how fast the trans
       Degrades to English with no switch shown if a node has no Spanish or the file is missing.
       ⚠ **The Spanish on the site is the DRAFT translation** — it must not go live before the client's
       review. Nothing is live yet (no videos), but this is the item to re-check before launch.
-- [x] **CC control becomes three-way: off / English / Español.** Confirmed technically possible —
-      the site already draws captions itself from the cue data rather than letting the browser do it,
-      so choosing between two caption files is a matter of picking which one to read. The open part is
-      visual: one cycling button, or a small menu. Decide when the control row is designed.
-- [ ] **Per-node caption flags.** The `cc:1` flag currently means "a caption file exists". It will need
-      to say *which languages* exist, so a node with English-only captions doesn't offer a Spanish
-      option that goes nowhere.
+- [x] **CC control three-way: off / English / Español — BUILT 2026-08-01.** Resolved as a small menu,
+      not a cycling button, matching the playback-speed control beside it. The button shows what is
+      showing — `CC` when off, `CC EN` / `CC ES` when on — so the language is legible without opening
+      the menu. **Nodes with only one caption language keep the plain on/off button, unchanged**, so
+      the English-only behaviour verified on 2026-07-27 is untouched. Opening either menu closes the
+      other; both close on Escape or a click outside; using them does not pause the video.
+- [x] **Per-node caption flags — BUILT 2026-08-01.** `cc:` now lists which languages have landed:
+      `cc:['en']` or `cc:['en','es']`. A node never offers a language whose file isn't there. English
+      stays at `<key>.vtt`; every other language is `<key>.<lang>.vtt`, so Spanish is `welcome.es.vtt`
+      beside `welcome.mp4` — export the Premiere sidecar as `welcome.es.srt` and `scripts/srt2vtt.py`
+      needs no change. Legacy `cc:1` still means English-only.
+      The reader's choice persists between videos. If it's a language a given node doesn't have, that
+      node falls back to its first language rather than showing nothing — and the choice is remembered,
+      so it returns on the next node that does have it. Same rule as the Transcript modal.
+      Caption line is marked with its language for screen readers.
+- [ ] ⚠ **One thing to confirm on Aug 4, with real files:** switch language **while the video is
+      paused** and check the caption line repaints straight away. Browsers are supposed to recompute
+      on the switch, and it can't be tested in the preview pane (which suspends video). If it comes up
+      blank until playback resumes, it's a small fix — but find out before launch, not after.
 - [ ] *Deferred, client's call, not a concern now:* signposting Spanish captions to a non-English
       reader inside an English interface; whether the printed PDF carries a transcript and in which
       language (it carries neither today).
@@ -382,6 +394,18 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 ---
 
 ## Recently completed
+**2026-08-01**
+- [x] Three-way caption control (off / English / Español) and per-node caption-language flags built
+      and verified (§6). Spanish captions are now a file drop on Aug 5, not a build.
+      Verified: menu contents and labels, choice persisting and being remembered across nodes,
+      fallback on a node without the chosen language, one-language nodes keeping the old on/off
+      button, legacy `cc:1`, no CC button where no captions exist, caption track switching, the two
+      menus never open at once, Escape and click-away, and no overlaps in the control row at phone
+      width or on desktop.
+      Known, pre-existing and unrelated: in a very short landscape window (roughly under 700px tall)
+      the video frame collapses narrower than the control row, which overflows. The Skip button alone
+      already overflowed before this change. Not introduced here; flag it if it matters.
+
 **2026-07-31**
 - [x] English transcripts finished and declared final — all 11 nodes, `video/transcripts/eng/`.
       lifeTA and music revised later the same day; current total 2,342 words
