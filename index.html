@@ -716,12 +716,17 @@ const PROFILES={
 
 let cur=null;   // current screen state object, or null on the home page
 // Caption choice: 'off', or a language code ('en' / 'es'). Persisted, so it carries from one video
-// to the next. Reads the older on/off key once, so anyone who had captions on keeps them on.
+// to the next.
+// DEFAULT IS ON, IN ENGLISH (decided 2026-08-01) — playback starts muted, so captions carry the
+// video for anyone who doesn't unmute. A visitor who turns them off keeps them off.
+// Also reads the older on/off key once, so an earlier explicit choice either way is respected.
 var PW_CCLANG=(function(){try{
   var v=localStorage.getItem('pwCapLang');
   if(v)return v;
-  return localStorage.getItem('pwCaptions')==='1'?'en':'off';
-}catch(e){return 'off';}})();
+  var old=localStorage.getItem('pwCaptions');
+  if(old==='0')return 'off';                 // had them off on purpose — don't override that
+  return 'en';
+}catch(e){return 'en';}})();
 function ccSet(lang){
   PW_CCLANG=lang||'off';
   try{localStorage.setItem('pwCapLang',PW_CCLANG);}catch(e){}

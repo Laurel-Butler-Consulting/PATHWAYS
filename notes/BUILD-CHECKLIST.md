@@ -20,26 +20,30 @@ choice → email wiring. Domain verified → domain connected. Everything → ho
 Everything below is blocked on one of these. Grouped by who has to act.
 
 **Decisions**
-- [ ] **The domain.** Which address? A subdomain of their existing site (`pathways.createca.org`) is one
-      DNS record and can't disturb their main site; a new root domain needs four and touches its root.
-      Decide before any link is shared publicly — changing it later means re-sharing everything.
+- [x] **The domain — SETTLED 2026-08-01, off the client's list.** We bought `artsedpathways.org` on
+      their behalf rather than wait on them. Live, verified and on HTTPS the same day. (§7)
 - [ ] **Analytics: what do they want to know?** Completion rate, drop-off points, which pathways come up
       most, mobile vs desktop? The answer determines the tool and whether extra build work is needed.
       Also: are they willing to pay ~$9–15/month? Free tools can't answer questionnaire questions.
 - [x] **Spanish scope settled 2026-07-31: captions and transcripts only.** No interface translation,
       no `/es/` address, no language toggle. The site's own text stays English. (§6)
-- [ ] **Repository public or private**, and who keeps write access after handover.
-- [ ] **Dagger caveat** — does the "this link may open a general credential page" warning need to reach
-      users some other way, now the footnote is gone? (§2)
+- [x] **Repository stays PUBLIC** (decided 2026-08-01). Who keeps write access after handover is
+      still open — see §7 Phase A.
+- [x] **Dagger caveat — CLOSED 2026-08-01: not needed.** The removal stands; the warning does not
+      have to reach users another way. (§2)
 - [ ] **Online-availability marker threshold** (§3)
 - [ ] **UCLA Extension CTE** — region, and whether it duplicates the existing UCLA entry (§2)
-- [ ] **Captions on by default?** (§1)
+- [x] **Captions on by default — YES, in English** (decided 2026-08-01). (§1)
 
 **Accounts + access**
-- [ ] Create a GitHub **organisation** (not a personal account — it survives staff changes and supports
-      multiple maintainers). Enable two-factor authentication. Add us as a member with write access.
-- [ ] Access to the domain registrar, or a named person who can add DNS records on request.
-- [ ] **Constant Contact account access** (or confirmation of a different platform).
+- [x] **GitHub organisation — DONE BY US 2026-08-01, off the client's list.** `Laurel-Butler-Consulting`,
+      created and the site transferred into it, so the domain only ever had to be verified once. What
+      remains is ours: turn on organisation-wide two-factor, and add a client Owner at handover (needs
+      them to have a GitHub account). (§7)
+- [x] **Registrar access — not needed from them.** The Porkbun account is ours; it moves to the client
+      account-to-account at handover, with no downtime. (§7)
+- [~] **Constant Contact — being set up by US on the client's behalf**, to avoid waiting on them.
+      Still needed from the client: the privacy policy below, without which the sign-up cannot ship.
 - [ ] Decide who owns the analytics account and who reads the numbers.
 
 **Content the client must supply**
@@ -136,14 +140,17 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       Two edits when the client's copy lands: paste the bullets, delete the `"placeholder"` line.
       A page with no bullets renders no block at all, so a partial delivery just omits those pages.
       Verified on all 7 result pages, both states, phone and desktop, and with the section absent.
-- [ ] Decide: captions on by default? (`PW_CC` currently off; playback starts muted)
+- [x] **Captions default ON, in English — DECIDED AND BUILT 2026-08-01.** Playback starts muted, so
+      captions carry the video for anyone who doesn't unmute. A visitor who turns them off keeps them
+      off, and any choice made before this change is respected either way. Verified on a first visit,
+      on a bilingual node and an English-only node, and for returning visitors in both prior states.
 
 ## 2. Pending client review
-- [ ] **REVIEW: dagger footnotes removed (2026-07-30)** — the `†` marks and the "State-approved program.
-      This link opens the school's general credential page rather than a discipline-specific one — confirm
-      program specifics with the school" note were removed from all result pages to reduce visual noise.
-      **22 programs still carry the `f` flag in `data/programs.json`**, so this is display-only and fully
-      reversible. Decide before launch whether that caveat needs to reach users some other way.
+- [x] **Dagger footnotes stay removed — CONFIRMED 2026-08-01, no replacement needed.** The `†` marks
+      and the "confirm program specifics with the school" note came off all result pages on 2026-07-30
+      to reduce visual noise, and that is now the final answer.
+      The 22 `f` flags stay in `data/programs.json`, unused — harmless, and they make the caveat one
+      display change away if it is ever wanted back. Nothing to do here before launch.
 - [ ] PROVISIONAL region assignments (`SCHOOL_REGION`) — verify before launch
 - [~] **UCLA CTE entries — client answered 2026-07-30: keep BOTH, not a duplicate.** Link text to read
       exactly: `University of California, Los Angeles` (existing) and `UCLA VAPAE CTE in Teaching Artistry`
@@ -346,8 +353,9 @@ Docs: [custom domain](https://docs.github.com/en/pages/configuring-a-custom-doma
       the strongest argument for it. Two shapes scoped: routing inside the page (~20 lines, but touches
       the delicate back-button logic) or one standalone page rendering any result (safer, but the
       styling and layout code must be shared out of `index.html` first — same prerequisite as §6).
-      **Ask the client whether they expect to send individual pathways to people, and whether they want
-      these found by search. Two "no"s and this stays shelved.**
+      **SHELVED UNTIL AFTER LAUNCH (decided 2026-08-01).** Not a launch blocker, and the safer of the
+      two shapes needs styling and layout shared out of `index.html` first. Revisit only if the client
+      turns out to want individual pathways shareable or findable by search.
 
 ## 8. Security + privacy
 Today the site is about as safe as a website gets: no server, no database, no passwords, no outside code
@@ -451,9 +459,9 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
             advance on its own, and both crossfade transitions are off. The arrows and dots still
             work, so the quotes remain reachable — automatic movement is what stops, not navigation.
             Verified in both states, including that manual use doesn't restart the drift.
-      - [ ] **A visible pause control** for people who don't have that setting on — still open, still
-            your call. It's a design question (where the button goes, what it looks like), not an
-            accessibility gap now.
+      - [x] **A visible pause control — DECIDED 2026-08-01: not building one.** Respecting the OS
+            setting is the accessibility requirement and that is done. The quote carousel already
+            pauses on hover and has arrows; the hero is decorative. Closed, not deferred.
 - [ ] Note for local previews: the site must be served over http (`python3 -m http.server 8765`), not
       opened by double-clicking — the program list can't load from a `file://` page.
 
