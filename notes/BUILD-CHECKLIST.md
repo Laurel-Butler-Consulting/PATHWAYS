@@ -129,8 +129,10 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       between the pathway title and the programme list, inside `#resultDoc` so it carries into the
       printed page and the saved PDF. White card, gold left rule, heading "In Short" (editable).
       Copy lives in `data/content.en.json` under `summaries`.
-      **Currently LOREM IPSUM**, with `"placeholder": true` painting the rule red and printing a
-      "replace before launch" line above the bullets, on screen and on paper.
+      **Currently LOREM IPSUM.** ⚠ The on-page red warning band was **removed on request
+      2026-08-01** — nothing on the page or in the printed version now marks this copy as unfinished.
+      The only remaining safeguard is the `"placeholder": true` line in `data/content.en.json`, which
+      `build-scan.py` reports on. **Run the scan before launch; the page will not warn you.**
       Two edits when the client's copy lands: paste the bullets, delete the `"placeholder"` line.
       A page with no bullets renders no block at all, so a partial delivery just omits those pages.
       Verified on all 7 result pages, both states, phone and desktop, and with the section absent.
@@ -381,15 +383,32 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [ ] Spam is handled by the email platform — confirm what it does
 
 **One risk that already exists**
-- [ ] The site loads its two typefaces from Google's servers, so Google sees every visitor's address.
-      Minor and completely standard, but **self-hosting the two font files** removes the site's only
-      current outside dependency and improves visitor privacy. Small job — do it before adding scripts,
-      not after.
+- [x] ~~The site loads its two typefaces from Google's servers~~ — **SELF-HOSTED 2026-08-01, done
+      before the email/analytics scripts as planned.** Files in `fonts/`, both SIL Open Font License.
+      **The site now makes zero requests to any outside host** (verified: no external resource loads
+      on the landing page or a result page).
+      Open Sans is ONE variable file covering 300–700 — the five per-weight downloads from Google are
+      byte-identical, so the `font-weight:300 700` range in the `@font-face` rule is deliberate; do
+      not split it back into five files. Only the Latin pair is preloaded (English + Spanish both sit
+      inside it); Latin-Extended loads on demand via unicode-range.
+      86 KB on disk, ~50 KB for a typical visitor, down from ~210 KB the old way. Type verified
+      identical, all five weights resolving.
 
 - [ ] Re-run the full code review after the last third-party script is added, not before
 
 ## 9. Launch / general
-- [ ] 🔴 **FIRST ACTION ON LAUNCH DAY — remove the search-engine block.** `index.html` carries
+- [ ] 🔴 **FIRST ACTION ON LAUNCH DAY — remove the pre-launch gate.** Added 2026-08-01. Password:
+      **`thatsawesome`** (case and surrounding spaces ignored). Three pieces to delete, all marked
+      "PRE-LAUNCH GATE" in `index.html`: the small script in `<head>`, the `#pwGate` CSS block, and
+      the `<div id="pwGate">` + script just inside `<body>`. Leave any one behind and the site is
+      still locked. Confirm afterwards in a browser that has never unlocked it — a private window,
+      not your own, which remembers the unlock.
+      ⚠ **It is not security.** It runs in the visitor's browser and the repository is public, so the
+      files are readable on GitHub regardless. It stops someone who stumbles on the address, which is
+      the real risk; it would not stop anyone determined. The password is stored as a SHA-256 hash so
+      it isn't in the page source as plain text — obscurity, not protection. Do not reuse this password
+      anywhere that matters. Genuine access control would mean Cloudflare in front of the site.
+- [ ] 🔴 **AND remove the search-engine block.** `index.html` carries
       `<meta name="robots" content="noindex,nofollow">` near the top, added 2026-08-01 so the
       connected domain stays out of Google while the content isn't final. **Leave it in and the
       launched site is invisible to search with nothing on the page to show it.** Delete the tag and
@@ -426,9 +445,15 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 ### From the 2026-07-27 code inspection — your call, none started
 - [ ] **Base text size overrides browser settings** (`html{font-size:20px}`) — people who enlarge their
       default text get overridden. Fixing means re-checking every size sitewide.
-- [ ] **Moving content can't be paused** — hero photos crossfade continuously with no stop control;
-      neither hero nor quote carousel respects the OS "reduce motion" setting (only the scroll arrow
-      does). Quote carousel does pause on hover and has arrows, so it's the milder case.
+- [~] **Moving content can't be paused.** Split in two 2026-08-01; the accessibility half is done.
+      - [x] **"Reduce motion" is now respected** across the whole site. With the setting on, the hero
+            photos stay put (and the other seven aren't even fetched), the quote carousel doesn't
+            advance on its own, and both crossfade transitions are off. The arrows and dots still
+            work, so the quotes remain reachable — automatic movement is what stops, not navigation.
+            Verified in both states, including that manual use doesn't restart the drift.
+      - [ ] **A visible pause control** for people who don't have that setting on — still open, still
+            your call. It's a design question (where the button goes, what it looks like), not an
+            accessibility gap now.
 - [ ] Note for local previews: the site must be served over http (`python3 -m http.server 8765`), not
       opened by double-clicking — the program list can't load from a `file://` page.
 

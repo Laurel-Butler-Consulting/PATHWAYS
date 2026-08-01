@@ -8,11 +8,41 @@
      Leave it in place after launch and the site is invisible to search, with nothing to show it. -->
 <meta name="robots" content="noindex,nofollow">
 <title>Pathways for Arts Educator Development</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Typefaces are served from this site, not from Google (2026-08-01). They used to load from
+     fonts.googleapis.com, which showed Google the address of every visitor — the site's only
+     outside dependency. Files live in fonts/, both open-licensed (SIL Open Font License).
+     Preloading only the two Latin files: they cover English and Spanish and are what nearly every
+     visitor needs. The Latin-Extended pair loads on demand via unicode-range, below. -->
+<link rel="preload" href="fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- ⚠ PRE-LAUNCH GATE — DELETE ON LAUNCH DAY (2026-08-17), see notes/BUILD-CHECKLIST.md §9.
+     Keeps casual visitors out while the content isn't final. It is NOT security: it runs in the
+     visitor's own browser and the repository is public, so the files can be read on GitHub either
+     way. It stops someone who stumbles on the address, which is the actual risk. The password is
+     stored as a SHA-256 hash so it isn't sitting in the page source in plain text — obscurity, not
+     protection. Runs here in <head> so nothing paints before the gate. -->
+<script>
+  try{if(localStorage.getItem('pwGate')==='1')document.documentElement.classList.add('pw-open');}catch(e){}
+</script>
 <style>
+  /* Open Sans ships as ONE variable file covering every weight the site uses (300–700), so the
+     weight RANGE below is deliberate — don't split it back into five separate files.
+     Bebas Neue has a single weight and no lowercase glyphs. */
+  @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/bebas-neue-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/bebas-neue-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/open-sans-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/open-sans-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  /* ⚠ PRE-LAUNCH GATE — DELETE THIS BLOCK ON LAUNCH DAY along with #pwGate and its script. */
+  html:not(.pw-open) body>*:not(#pwGate){display:none!important}
+  html.pw-open #pwGate{display:none}
+  #pwGate{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:2rem;background:var(--navy);color:var(--white);text-align:center}
+  #pwGate h1{font-family:var(--font-display);font-size:clamp(1.4rem,5.2vw,2.2rem);letter-spacing:.03em;font-weight:400;line-height:1.08;max-width:16ch}
+  #pwGate form{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
+  #pwGate input{font-family:var(--font-body);font-size:.85rem;color:var(--navy);background:var(--white);border:none;border-radius:var(--r);padding:.8rem 1rem;min-width:min(260px,70vw)}
+  #pwGate input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  #pwGate button{font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--gold);border:none;border-radius:var(--r);padding:.8rem 1.6rem;cursor:pointer}
+  #pwGate .pw-err{font-family:var(--font-body);font-size:.8rem;font-weight:600;color:var(--gold);min-height:1.2em}
   :root{
     --white:#FFFFFF;
     --ice:#F0F8FF;
@@ -42,7 +72,8 @@
   .hero-scroll:hover{color:var(--white)}
   .hero-scroll svg{width:96px;height:48px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
   @keyframes heroScrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
-  @media (prefers-reduced-motion:reduce){.hero-scroll{animation:none}}
+  @media (prefers-reduced-motion:reduce){.hero-scroll{animation:none}
+    .hero-slide,.quote-slide{transition:none}}   /* the crossfades themselves, as well as the cycling (PW_REDUCED) */
 
   /* === CONTENT === */
   .content-wrap{max-width:1100px;width:100%;margin:0 auto;padding:0 2rem}
@@ -237,15 +268,13 @@
   .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.975rem;color:var(--navy);line-height:1.4;margin-bottom:1.25rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
   /* Video recap, between the pathway title and the programme list. The result page is what people
      print or save, and the videos' substance doesn't otherwise travel with it. Copy is the client's
-     — while it's placeholder, .is-placeholder turns the rule red and shows a warning line, in print
-     as well as on screen, so a proof can't be mistaken for finished. */
+     — placeholder copy is NOT visually marked (warning band removed on request 2026-08-01);
+     `"placeholder": true` in data/content.en.json is the only remaining flag. */
   .res-summary{background:var(--white);border-left:4px solid var(--gold);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
   .res-summary-head{font-family:var(--font-body);font-weight:700;font-size:.85rem;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .6rem}
   .res-summary ul{margin:0;padding-left:1.15rem}
   .res-summary li{font-family:var(--font-body);font-size:.95rem;line-height:1.5;color:var(--navy);margin-bottom:.45rem}
   .res-summary li:last-child{margin-bottom:0}
-  .res-summary.is-placeholder{border-left-color:#c0392b}
-  .res-summary-flag{font-family:var(--font-body);font-weight:700;font-size:.7rem;color:#c0392b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.55rem}
   .prog-region{margin-bottom:1.6rem}
   .prog-region:last-of-type{margin-bottom:0}
   .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:rgba(0,38,71,.72);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
@@ -359,14 +388,53 @@
     .results-header .res-label{color:var(--blue)!important}
     .results-header h2{color:var(--navy)!important}
     .prog-list{column-count:2}
-    /* Backgrounds often don't print — keep the recap boxed so it still reads as one block, and never
-       let it split across a page. The placeholder warning prints too, deliberately. */
+    /* Backgrounds often don't print — keep the recap boxed so it still reads as one block, and
+       never let it split across a page. */
     .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy);border-left:4px solid var(--navy)}
-    .res-summary.is-placeholder{border-color:#c0392b!important}
   }
 </style>
 </head>
 <body>
+
+<!-- ⚠ PRE-LAUNCH GATE — DELETE THIS WHOLE BLOCK ON LAUNCH DAY (2026-08-17), together with the
+     #pwGate CSS and the small script in <head>. See notes/BUILD-CHECKLIST.md §9. -->
+<div id="pwGate">
+  <h1>Pathways for Arts Educator Development</h1>
+  <form onsubmit="return pwGateSubmit(event)">
+    <label for="pwGateInput" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Password</label>
+    <input id="pwGateInput" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Password">
+    <button type="submit">Enter</button>
+  </form>
+  <div class="pw-err" id="pwGateErr" role="status" aria-live="polite"></div>
+</div>
+<script>
+// Compares a SHA-256 of what's typed against the stored password hash, so the password itself
+// isn't in the
+// page source. Obscurity only — this runs in the visitor's browser and cannot actually protect
+// anything. Once unlocked, the answer is remembered on that device so reviewers type it once.
+var PW_GATE_HASH='a431ef027eb26b9cc6009209173b6953ff643dc646761ad5b9c15edc4d1f12ba';
+function pwGateSubmit(ev){
+  ev.preventDefault();
+  var inp=document.getElementById('pwGateInput'),err=document.getElementById('pwGateErr');
+  var val=(inp.value||'').trim().toLowerCase();
+  var bytes=new TextEncoder().encode(val);
+  crypto.subtle.digest('SHA-256',bytes).then(function(buf){
+    var hex=[].map.call(new Uint8Array(buf),function(b){return b.toString(16).padStart(2,'0');}).join('');
+    if(hex===PW_GATE_HASH){
+      try{localStorage.setItem('pwGate','1');}catch(e){}
+      document.documentElement.classList.add('pw-open');
+      window.scrollTo(0,0);
+    }else{
+      err.textContent='That password doesn’t match. Try again.';
+      inp.value='';inp.focus();
+    }
+  });
+  return false;
+}
+if(!document.documentElement.classList.contains('pw-open')){
+  document.getElementById('pwGateInput').focus();
+}
+</script>
 
 <!-- HERO -->
 <div class="hero-banner" id="heroBanner">
@@ -1166,16 +1234,16 @@ function renderProfile(key){
 // page is what people keep, and it otherwise carries links and none of what the presenters said.
 //
 // The copy is the CLIENT'S to write (7 result pages, 2–4 bullets each). Until it arrives,
-// data/content.en.json holds placeholder text with "placeholder": true, which shows a red warning
-// line above the bullets on screen AND in print. Two edits when the real copy lands: paste it in,
-// and delete the "placeholder" line. A key with no bullets renders nothing at all, so an unfinished
-// page simply omits the block rather than showing an empty box.
+// data/content.en.json holds placeholder text. ⚠ The on-page "placeholder" warning band was removed
+// on request 2026-08-01 — nothing on the page now marks this copy as unfinished, so the only
+// safeguard left is the "placeholder": true line in data/content.en.json, which `build-scan.py`
+// reports on. Delete that line at the same time as pasting the real copy in, and not before.
+// A key with no bullets renders nothing at all, so an unfinished page omits the block entirely
+// rather than showing an empty box.
 function summaryHTML(key){
   var items=(SUMMARY.items&&SUMMARY.items[key])||[];
   if(!items.length)return '';
-  var ph=!!SUMMARY.placeholder;
-  return '<section class="res-summary'+(ph?' is-placeholder':'')+'" aria-labelledby="resSummaryHead">'+
-    (ph?'<div class="res-summary-flag">'+(SUMMARY.placeholderNote||'PLACEHOLDER')+'</div>':'')+
+  return '<section class="res-summary" aria-labelledby="resSummaryHead">'+
     '<h3 class="res-summary-head" id="resSummaryHead">'+(SUMMARY.heading||'')+'</h3>'+
     '<ul>'+items.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'+
   '</section>';
@@ -1226,11 +1294,18 @@ function suppHTML(){
     '</div>';
 }
 
+// Honours the operating system's "reduce motion" setting: nothing moves on its own. Controls the
+// visitor operates themselves — the quote arrows and dots — keep working, otherwise someone with the
+// setting on could never reach the other quotes. Read once at load; changing the OS setting
+// mid-visit is vanishingly rare and a page refresh picks it up.
+const PW_REDUCED=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
 (function(){
   const hero=document.getElementById('heroBanner');
   const slides=document.querySelectorAll('#heroSlides .hero-slide');
   if(slides.length<2)return;
   function load(n){const s=slides[(n+slides.length)%slides.length];if(s&&s.dataset.bg){s.style.backgroundImage="url('"+s.dataset.bg+"')";delete s.dataset.bg;}}
+  if(PW_REDUCED)return;              // leave the first photo in place; don't cycle, don't fetch the rest
   load(1);
   let i=0;
   setInterval(function(){
@@ -1250,7 +1325,9 @@ function suppHTML(){
   if(slides.length<2)return;
   let i=0,timer=null;
   function show(n){i=(n+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('is-active',k===i));dots.forEach((d,k)=>d.classList.toggle('is-active',k===i));}
-  function start(){stop();timer=setInterval(()=>{if(!root.offsetParent)return;show(i+1);},7500);}   // skip while hidden behind the questionnaire
+  // Autoplay only. The arrows and dots below still call show(), so the quotes stay reachable when
+  // the visitor has asked for reduced motion — they just don't advance on their own.
+  function start(){stop();if(PW_REDUCED)return;timer=setInterval(()=>{if(!root.offsetParent)return;show(i+1);},7500);}   // skip while hidden behind the questionnaire
   function stop(){if(timer){clearInterval(timer);timer=null;}}
   root.querySelector('.quote-prev').addEventListener('click',()=>{show(i-1);start();});
   root.querySelector('.quote-next').addEventListener('click',()=>{show(i+1);start();});
