@@ -70,7 +70,6 @@
   ],
 
   "teachingArtist": [
-    {"name": "The Teaching Artist Institute", "url": "https://www.teachingartistinstitute.org/", "conf": "High", "src": "org = the program"},
     {"name": "The Music Center", "url": "https://www.musiccenter.org/experience-learn/experience-learn/for-artists/teaching-artist-training/", "conf": "Med", "src": "specific page (domain bot-blocks fetch)"},
     {"name": "The Entertainment Community Fund", "url": "https://entertainmentcommunity.org/services-and-programs/arts-education", "conf": "High", "src": "Arts Education page (program home)"},
     {"name": "UC Irvine, Claire Trevor School of the Arts", "url": "https://ce.uci.edu/programs/education/teaching-artistry", "conf": "High", "src": "certificate page"},
