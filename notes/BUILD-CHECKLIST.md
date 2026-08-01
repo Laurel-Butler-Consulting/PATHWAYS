@@ -111,10 +111,13 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       (2026-07-31)** — transcripts, node labels, questions, answer buttons, result titles, resource
       headings, the Supplementary Authorization page, and all button/label text. `index.html` keeps
       only structure: routing keys, image paths, link URLs, video flags. Apostrophes are now harmless.
-- [ ] **Landing page copy is still inline HTML** (~480 words: hero, About, Who Is This For, quotes,
-      footer). No apostrophe risk there, and since the 2026-07-31 scope cut it is no longer a
-      prerequisite for anything (§6). Optional tidy-up only — it would put all site copy in one place
-      for editing. Low priority; do not do it on spec.
+- [x] ~~**Extract the landing page copy (~480 words) into the content file**~~ — **STRUCK FROM THE
+      LIST 2026-08-01. Not doing it.** The landing page is plain HTML that paints immediately; the
+      questionnaire and results copy could move because those screens are drawn after the content
+      file loads anyway. Moving the landing copy would make the first page anyone sees wait on that
+      file — a blank moment on the busiest page, or a fallback to build. Real trade-off, not a tidy-up.
+      Nothing depends on it since the 2026-07-31 Spanish scope cut. Landing copy stays inline; there
+      is no apostrophe risk there. Reopen only if the landing page ever needs translating.
 - [x] ~~`08_music_eng.txt` contradicts itself~~ — fixed 2026-07-31. The "three ways to get there"
       claim was removed from paragraph 1, so the transcript now promises only the single route it
       actually describes. Spanish draft and both data files updated to match.
