@@ -119,7 +119,21 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       `build-scan.py` (which only reads `index.html`) still reports them missing — see §9.
 - [x] **English transcripts live on the site (2026-07-31)** — all 11 in the Transcript modal; the
       `welcome` lorem ipsum is gone. Apostrophes verified safe (11 render in the welcome text alone).
-- [ ] Result-page video summaries drafted (Option C) — 7 result pages, from the transcripts
+- [ ] **Result-page video summaries (Option C) — CLIENT IS WRITING THESE, 2026-08-01.** Not ours to
+      draft. 7 result pages, 2–4 bullets each, recapping what the videos on that route covered, so the
+      printed/saved page carries the substance and not just links. Chased, not yet received.
+      ⚠ Needs a date from the client. It is public copy, so it has to be in before the Aug 5 freeze or
+      it becomes a post-launch addition. Not structural — the result pages work without it.
+      Add it to the client ask-list in §0; the 2026-08-01 decision email does not currently request it.
+- [x] **Container for those summaries BUILT 2026-08-01**, so the copy is a paste, not a build. Sits
+      between the pathway title and the programme list, inside `#resultDoc` so it carries into the
+      printed page and the saved PDF. White card, gold left rule, heading "In Short" (editable).
+      Copy lives in `data/content.en.json` under `summaries`.
+      **Currently LOREM IPSUM**, with `"placeholder": true` painting the rule red and printing a
+      "replace before launch" line above the bullets, on screen and on paper.
+      Two edits when the client's copy lands: paste the bullets, delete the `"placeholder"` line.
+      A page with no bullets renders no block at all, so a partial delivery just omits those pages.
+      Verified on all 7 result pages, both states, phone and desktop, and with the section absent.
 - [ ] Decide: captions on by default? (`PW_CC` currently off; playback starts muted)
 
 ## 2. Pending client review
@@ -271,16 +285,24 @@ should confirm or overrule all three, and each one is a full re-pass if changed 
 - ~~Decide the shape: `/es/` addresses or an on-page toggle~~ — neither; the site stays English.
 - ~~Region names translate~~ / ~~per-page `lang`~~ / ~~every copy change made twice, forever~~ — moot.
 
-## 7. Hosting — transfer to the client's GitHub, with custom domain
-⚠ **Open question first:** is the domain a subdomain of the client's existing site
-(`pathways.createca.org`) or a brand-new root domain? A subdomain is one DNS record and cannot disturb
-their main site. A root domain needs four records and touches the domain's root. Push for the subdomain
-unless they have a reason not to.
+## 7. Hosting — GitHub organisation + custom domain
+**SETTLED 2026-08-01.** New root domain, bought by us on the client's behalf to avoid waiting on them:
+**`artsedpathways.org`**, registered at **Porkbun** 15:53 UTC 2026-08-01. Registrar account is ours;
+it moves to the client's Porkbun account at handover (account-to-account push, no downtime — verify
+the DNS records and HTTPS straight after). Registrar-to-registrar moves are locked for 60 days,
+i.e. until roughly 2026-09-30.
 
-**Phase A — before touching anything**
-- [ ] Client creates a GitHub **organisation** (not a personal account)
-- [ ] Two-factor authentication enabled on it
-- [ ] We're added as a member with write access
+Org: **`Laurel-Butler-Consulting`** · repo: `Laurel-Butler-Consulting/PATHWAYS` ·
+Pages: `laurel-butler-consulting.github.io/PATHWAYS`
+
+**Phase A — DONE 2026-08-01**
+- [x] GitHub **organisation** created (`Laurel-Butler-Consulting`)
+- [x] Repository transferred; Pages confirmed live and serving the current build under the new owner
+- [x] Local clone repointed at the new remote — verified reachable, matching HEAD
+- [ ] Two-factor authentication required org-wide
+- [ ] Client added as a second Owner — needs them to have a GitHub account; settle before handover,
+      not before launch. Org contact email is ours for now, deliberately: an address nobody reads is
+      a liability while the client is hard to reach.
 
 **Phase B — verify the domain FIRST** *(deliberately before connecting it)*
 - [ ] In the organisation's settings → Pages, add the domain; GitHub issues a challenge code
@@ -367,6 +389,11 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [ ] Re-run the full code review after the last third-party script is added, not before
 
 ## 9. Launch / general
+- [ ] 🔴 **FIRST ACTION ON LAUNCH DAY — remove the search-engine block.** `index.html` carries
+      `<meta name="robots" content="noindex,nofollow">` near the top, added 2026-08-01 so the
+      connected domain stays out of Google while the content isn't final. **Leave it in and the
+      launched site is invisible to search with nothing on the page to show it.** Delete the tag and
+      its comment, push, then confirm at `view-source:artsedpathways.org` that it's gone.
 - [ ] Full QA pass — cross-browser and real devices, not the preview pane
 - [ ] Play one real clip through in a normal browser — the preview pane suspends video, so continuous
       playback is the one thing never confirmed on a real file
@@ -375,12 +402,26 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [ ] Wire the "Civil Cyber Arts" credit link — placeholder `href="#"` in two places (footer + result
       pages). Confirmed still unresolved in the 2026-07-30 code review.
 - [ ] Delete unused `images/createca_logo_color.png` (48K; only the `_EDIT` version is referenced)?
-- [ ] **`build-scan.py` gives two false readings — fix it or stop trusting those lines.**
-      1. *"Transcripts written (0/11) — missing: welcome, suppAuth, …"* — flatly wrong as of
-         2026-07-31. All 11 are written and live on the site. The scan looks for transcript text inside
-         `index.html`, and the copy moved to `data/content.en.json`. It must read the content file.
-      2. *"Stay in touch opt-in — wired"* — it sees the markup and assumes. §4 is correct: the form
-         discards addresses. This one reads GREEN on an item that must not ship.
+- [x] **`build-scan.py` false readings — ALL THREE FIXED 2026-08-01.** Root cause in every case: the
+      scan read `index.html` for text that had moved to `data/content.en.json`. It now reads both.
+      1. ~~*"Transcripts written (0/11)"*~~ — reads the content file; correctly reports 11/11, and
+         still flags any node that is empty or holding lorem. Round-tripped both ways.
+      2. ~~*"Stay in touch opt-in — wired"*~~ — the old check hunted for a placeholder button that
+         stopped existing when the band was rebuilt as a form, found nothing, and concluded "wired".
+         It now inspects the form's own destination and reports **NOT WIRED — accepts an address and
+         silently discards it; must not ship**. Deliberately biased to under-report: if the form is
+         ever wired by some route without a destination on the form itself this reads pending when
+         it is done, which is the safe direction to be wrong in.
+      3. ~~*"No lorem-ipsum placeholders"*~~ — see the result-page summaries entry in §1.
+      Verified by round-trip: each line goes green under a simulated finished state and back to
+      pending when restored.
+      3. ~~*"No lorem-ipsum placeholders"* missed the result-page summaries~~ — **FIXED 2026-08-01.**
+         The scan now reads `data/content.en.json` as well, names the file and count, and adds a
+         "Result-page summaries (client copy)" line. It goes pending on the summaries' `"placeholder"`
+         flag as well as on the text itself — necessary, because only 3 of the 22 placeholder bullets
+         literally begin "Lorem ipsum", so a string search alone would have read green.
+         Round-tripped: green with real copy in place, pending again once restored.
+         **Items 1 and 2 above are still wrong and still unfixed.**
 
 ### From the 2026-07-27 code inspection — your call, none started
 - [ ] **Base text size overrides browser settings** (`html{font-size:20px}`) — people who enlarge their

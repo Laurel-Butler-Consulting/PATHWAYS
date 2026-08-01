@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ⚠ PRE-LAUNCH ONLY — DELETE THIS LINE ON LAUNCH DAY (2026-08-17). It keeps the site out of
+     Google and every other search engine while the domain is connected but the content isn't final.
+     Leave it in place after launch and the site is invisible to search, with nothing to show it. -->
+<meta name="robots" content="noindex,nofollow">
 <title>Pathways for Arts Educator Development</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -231,6 +235,17 @@
   .results-header h2{font-family:var(--font-display);font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white);margin-bottom:0;font-weight:400}
   /* Program list (multi-column, alphabetized) */
   .prog-intro{font-family:var(--font-body);font-weight:700;font-size:.975rem;color:var(--navy);line-height:1.4;margin-bottom:1.25rem;text-align:left;text-transform:uppercase;letter-spacing:.08em}
+  /* Video recap, between the pathway title and the programme list. The result page is what people
+     print or save, and the videos' substance doesn't otherwise travel with it. Copy is the client's
+     — while it's placeholder, .is-placeholder turns the rule red and shows a warning line, in print
+     as well as on screen, so a proof can't be mistaken for finished. */
+  .res-summary{background:var(--white);border-left:4px solid var(--gold);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
+  .res-summary-head{font-family:var(--font-body);font-weight:700;font-size:.85rem;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .6rem}
+  .res-summary ul{margin:0;padding-left:1.15rem}
+  .res-summary li{font-family:var(--font-body);font-size:.95rem;line-height:1.5;color:var(--navy);margin-bottom:.45rem}
+  .res-summary li:last-child{margin-bottom:0}
+  .res-summary.is-placeholder{border-left-color:#c0392b}
+  .res-summary-flag{font-family:var(--font-body);font-weight:700;font-size:.7rem;color:#c0392b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.55rem}
   .prog-region{margin-bottom:1.6rem}
   .prog-region:last-of-type{margin-bottom:0}
   .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:rgba(0,38,71,.72);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
@@ -284,6 +299,7 @@
   .qv-result{max-width:900px;padding-top:2.5rem}
   .qv-result .results-header{border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2.5rem}
   .qv-result .results-header .res-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
+  .qv-result .res-summary{margin-bottom:2.5rem}   /* match the header's spacing on the wide layout */
   /* Email opt-in band — deliberately mirrors .results-header (same navy, radius, shadow) as a bookend */
   .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.6rem 2rem;margin-top:2.5rem}
   .qv-optin .oi-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
@@ -343,6 +359,10 @@
     .results-header .res-label{color:var(--blue)!important}
     .results-header h2{color:var(--navy)!important}
     .prog-list{column-count:2}
+    /* Backgrounds often don't print — keep the recap boxed so it still reads as one block, and never
+       let it split across a page. The placeholder warning prints too, deliberately. */
+    .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy);border-left:4px solid var(--navy)}
+    .res-summary.is-placeholder{border-color:#c0392b!important}
   }
 </style>
 </head>
@@ -522,7 +542,7 @@ const PROGRAMS_READY=fetch('data/programs.json').then(function(r){return r.json(
 // PROFILES / RESOURCES once the file lands; nothing renders before that (see showScreen).
 // Why the copy moved out: text inside this file sits between quote marks, so an apostrophe in a
 // transcript ("you're") ended the string early and blanked the whole page. JSON has no such trap.
-let T={},SUPP={},REGION_LABEL={},CONTENT_OK=false;
+let T={},SUPP={},REGION_LABEL={},SUMMARY={},CONTENT_OK=false;
 const CONTENT_READY=fetch('data/content.en.json').then(function(r){return r.json();}).then(function(c){
   applyContent(c);CONTENT_OK=true;
 }).catch(function(){});
@@ -537,7 +557,7 @@ const SITE_READY=Promise.all([CONTENT_READY,TXES_READY]);
 // Which transcript language the reader last chose. Persisted so it holds from one video to the next.
 var PW_TXLANG=(function(){try{return localStorage.getItem('pwTxLang')==='es'?'es':'en';}catch(e){return 'en';}})();
 function applyContent(c){
-  T=c.ui||{};SUPP=c.suppPage||{};REGION_LABEL=c.regionLabels||{};
+  T=c.ui||{};SUPP=c.suppPage||{};REGION_LABEL=c.regionLabels||{};SUMMARY=c.summaries||{};
   Object.keys(c.nodes||{}).forEach(function(k){
     var n=NODES[k],d=c.nodes[k];if(!n)return;
     n.label=d.label;n.q=d.q;n.text=d.text;
@@ -1118,6 +1138,7 @@ function renderProfile(key){
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">'+T.yourPathway+'</div><h2>'+P.title+'</h2></div>'+
+      summaryHTML(key)+
       '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
     '</div>'+
     actions+
@@ -1138,6 +1159,26 @@ function renderProfile(key){
       '<div class="rf-credit">'+T.footCreditPre+'<a href="#" rel="noopener">'+T.footCreditName+'</a></div>'+
     '</div>'+
   '</div>';
+}
+
+// Short recap of the videos on this route, sitting between the pathway title and the programme list.
+// Inside #resultDoc, so it goes into the printed page and the saved PDF — which is the point: that
+// page is what people keep, and it otherwise carries links and none of what the presenters said.
+//
+// The copy is the CLIENT'S to write (7 result pages, 2–4 bullets each). Until it arrives,
+// data/content.en.json holds placeholder text with "placeholder": true, which shows a red warning
+// line above the bullets on screen AND in print. Two edits when the real copy lands: paste it in,
+// and delete the "placeholder" line. A key with no bullets renders nothing at all, so an unfinished
+// page simply omits the block rather than showing an empty box.
+function summaryHTML(key){
+  var items=(SUMMARY.items&&SUMMARY.items[key])||[];
+  if(!items.length)return '';
+  var ph=!!SUMMARY.placeholder;
+  return '<section class="res-summary'+(ph?' is-placeholder':'')+'" aria-labelledby="resSummaryHead">'+
+    (ph?'<div class="res-summary-flag">'+(SUMMARY.placeholderNote||'PLACEHOLDER')+'</div>':'')+
+    '<h3 class="res-summary-head" id="resSummaryHead">'+(SUMMARY.heading||'')+'</h3>'+
+    '<ul>'+items.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'+
+  '</section>';
 }
 
 // ⚠ PROVISIONAL region assignments — assigned from known campus/org locations, NOT independently verified. FLAG: review before launch.
