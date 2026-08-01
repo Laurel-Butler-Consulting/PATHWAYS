@@ -2,103 +2,87 @@
 <title>Pathways Programs Cross-Index</title>
 <meta name="robots" content="noindex,nofollow">
 <style>
-:root{
-  --bg:#F4F8FB; --surface:#FFFFFF; --raise:#FBFDFE;
-  --ink:#0B2239; --muted:#54677A; --faint:#8496A6;
-  --line:#DCE6EE; --line2:#EAF1F6;
-  --accent:#0C599D; --gold:#FECF43;
-  --online:#1B7F4B; --hybrid:#0C7C8C; --likely:#B26B00; --unclear:#6B7A88; --onlineonly:#6B4FA8; --inperson:#5B6B90;
-  --online-bg:#E7F3EC; --hybrid-bg:#E3F1F3; --likely-bg:#F6EBD9; --unclear-bg:#EDF1F4; --onlineonly-bg:#EFEAF7; --inperson-bg:#EAEDF5;
-  --shadow:0 1px 2px rgba(11,34,57,.05),0 6px 20px rgba(11,34,57,.05);
-}
-@media (prefers-color-scheme:dark){:root{
-  --bg:#081420; --surface:#0E1F2E; --raise:#132638;
-  --ink:#E9EFF5; --muted:#9DB0C0; --faint:#6E8496;
-  --line:#213547; --line2:#182B3B;
-  --accent:#5AA6E0; --gold:#FED868;
-  --online:#57C98B; --hybrid:#43C4D6; --likely:#E0A94A; --unclear:#9DB0C0; --onlineonly:#A88BE0; --inperson:#93A6D2;
-  --online-bg:#12352a; --hybrid-bg:#0f3038; --likely-bg:#3a2e17; --unclear-bg:#1b2a36; --onlineonly-bg:#2A2340; --inperson-bg:#1c2438;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
-}}
-:root[data-theme="dark"]{
-  --bg:#081420; --surface:#0E1F2E; --raise:#132638;
-  --ink:#E9EFF5; --muted:#9DB0C0; --faint:#6E8496;
-  --line:#213547; --line2:#182B3B;
-  --accent:#5AA6E0; --gold:#FED868;
-  --online:#57C98B; --hybrid:#43C4D6; --likely:#E0A94A; --unclear:#9DB0C0; --onlineonly:#A88BE0; --inperson:#93A6D2;
-  --online-bg:#12352a; --hybrid-bg:#0f3038; --likely-bg:#3a2e17; --unclear-bg:#1b2a36; --onlineonly-bg:#2A2340; --inperson-bg:#1c2438;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 26px rgba(0,0,0,.35);
-}
-:root[data-theme="light"]{
-  --bg:#F4F8FB; --surface:#FFFFFF; --raise:#FBFDFE;
-  --ink:#0B2239; --muted:#54677A; --faint:#8496A6;
-  --line:#DCE6EE; --line2:#EAF1F6;
-  --accent:#0C599D; --gold:#FECF43;
-  --online:#1B7F4B; --hybrid:#0C7C8C; --likely:#B26B00; --unclear:#6B7A88; --onlineonly:#6B4FA8; --inperson:#5B6B90;
-  --online-bg:#E7F3EC; --hybrid-bg:#E3F1F3; --likely-bg:#F6EBD9; --unclear-bg:#EDF1F4; --onlineonly-bg:#EFEAF7; --inperson-bg:#EAEDF5;
-  --shadow:0 1px 2px rgba(11,34,57,.05),0 6px 20px rgba(11,34,57,.05);
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
-.wrap{max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(16px,4vw,40px) 72px}
-a{color:var(--accent)}
-h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.08;margin:0 0 26px;letter-spacing:-.01em;text-wrap:balance;font-weight:800}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}
-.stat{flex:1 1 120px;background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
-.stat .sw{width:10px;height:10px;border-radius:3px;flex:none}
-.stat b{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
-.stat .sl{font-size:.82rem;color:var(--muted);text-transform:capitalize}
-.stat[data-v="online"] .sw{background:var(--online)} .stat[data-v="hybrid"] .sw{background:var(--hybrid)}
-[data-v="onlineonly"] .sw{background:var(--onlineonly)}
-.stat[data-v="likely"] .sw{background:var(--likely)} .stat[data-v="unclear"] .sw{background:var(--unclear)}
-.stat[data-v="inperson"] .sw{background:var(--inperson)}
-.callout{background:var(--raise);border:1px solid var(--line);border-left:3px solid var(--gold);
-  border-radius:10px;padding:16px 18px;margin:24px 0 8px;font-size:.92rem;color:var(--muted)}
-.callout b{color:var(--ink)}
-.grp{margin-top:40px}
-.grp-h{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px 12px;
-  padding-bottom:12px;border-bottom:2px solid var(--line);margin-bottom:2px}
-.grp-h .sw{width:14px;height:14px;border-radius:4px}
-.grp-h h2{font-size:1.05rem;margin:0;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
-.grp-h .ct{font-size:.8rem;font-weight:700;color:var(--muted);background:var(--surface);
-  border:1px solid var(--line);border-radius:20px;padding:2px 11px}
-.grp-h .gd{grid-column:1/-1;margin:0;font-size:.86rem;color:var(--faint)}
-.grp[data-v="online"] .grp-h .sw{background:var(--online)} .grp[data-v="online"] .grp-h{border-color:var(--online)}
-.grp[data-v="hybrid"] .grp-h .sw{background:var(--hybrid)} .grp[data-v="hybrid"] .grp-h{border-color:var(--hybrid)}
-.grp[data-v="likely"] .grp-h .sw{background:var(--likely)} .grp[data-v="likely"] .grp-h{border-color:var(--likely)}
-.grp[data-v="unclear"] .grp-h .sw{background:var(--unclear)} .grp[data-v="unclear"] .grp-h{border-color:var(--unclear)}
-.grp[data-v="inperson"] .grp-h .sw{background:var(--inperson)} .grp[data-v="inperson"] .grp-h{border-color:var(--inperson)}
-.grp[data-v="onlineonly"] .grp-h .sw{background:var(--onlineonly)} .grp[data-v="onlineonly"] .grp-h{border-color:var(--onlineonly)}
-.subgrp{margin:18px 0;padding:16px 16px 4px;border:1px solid var(--line);border-left:3px solid var(--likely);
-  border-radius:10px;background:var(--raise)}
-.subgrp-h{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px 10px;margin-bottom:2px}
-.subgrp-h .sw{width:11px;height:11px;border-radius:3px;background:var(--likely)}
-.subgrp-h h3{font-size:.9rem;margin:0;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
-.subgrp-h .ct{font-size:.75rem;font-weight:700;color:var(--muted);background:var(--surface);
-  border:1px solid var(--line);border-radius:20px;padding:2px 10px}
-.subgrp-h .gd{grid-column:1/-1;margin:0;font-size:.82rem;color:var(--faint)}
-.tw{overflow-x:auto;margin-top:8px}
-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:420px}
-thead th{text-align:left;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
-  font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
-tbody td{padding:12px;border-bottom:1px solid var(--line2);vertical-align:top}
-tbody tr:hover td{background:var(--raise)}
-td.name{font-weight:650;color:var(--ink);min-width:170px}
-td.pages{min-width:150px}
-.pg{display:inline-block;font-size:.71rem;color:var(--muted);background:var(--bg);border:1px solid var(--line);
-  border-radius:5px;padding:2px 7px;margin:0 4px 4px 0;white-space:nowrap}
-td.src a{white-space:nowrap;font-size:.82rem;font-weight:600;text-decoration:none}
-td.src a:hover{text-decoration:underline}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--faint);max-width:70ch}
-.foot p{margin:0 0 10px}
+  /* Design tokens copied from index.html — keep them in step if the site's change. */
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --white:#FFFFFF;
+    --ice:#F0F8FF;
+    --gold:#FECF43;
+    --blue:#0C599D;
+    --navy:#002647;
+    --r:4px;
+    --font-body:'Open Sans',sans-serif;
+    --font-display:'Bebas Neue',sans-serif;
+  }
+  /* Same self-hosted files the site uses, one directory up. */
+  @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
+  @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
+
+  html{font-size:20px}
+  body{font-family:var(--font-body);font-weight:400;color:var(--navy);background:var(--ice);min-height:100vh}
+  a{color:var(--blue)}
+
+  .wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+
+  /* Title card — the result pages' header, without the gold kicker. */
+  .x-head{background:var(--navy);color:var(--white);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2rem}
+  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
+
+  /* Counts strip */
+  .stats{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.25rem}
+  .stat{display:flex;align-items:baseline;gap:.45rem;background:var(--white);border-radius:var(--r);padding:.55rem .85rem;box-shadow:0 2px 8px rgba(0,38,71,.06)}
+  .stat .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center}
+  .stat b{font-family:var(--font-display);font-weight:400;font-size:1.15rem;letter-spacing:.03em;color:var(--navy)}
+  .stat .sl{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(0,38,71,.55)}
+
+  /* Category bands — the same tinted summary used for programme regions on the result pages. */
+  .grp{margin-bottom:1.6rem}
+  .grp-h{display:flex;align-items:baseline;gap:.5rem;background:rgba(0,38,71,.06);border-radius:var(--r);padding:.5rem .8rem}
+  .grp-h .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center;flex:none}
+  .grp-h h2{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:var(--navy);flex:1}
+  .grp-h .ct{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;color:rgba(0,38,71,.55)}
+  .grp[data-v="inperson"] .sw{background:var(--navy)}
+  .grp[data-v="online"] .sw{background:var(--blue)}
+  .grp[data-v="hybrid"] .sw{background:var(--gold)}
+  .grp[data-v="onlineonly"] .sw{background:#4E9BD1}
+  .stat[data-v="inperson"] .sw{background:var(--navy)}
+  .stat[data-v="online"] .sw{background:var(--blue)}
+  .stat[data-v="hybrid"] .sw{background:var(--gold)}
+  .stat[data-v="onlineonly"] .sw{background:#4E9BD1}
+
+  .tw{overflow-x:auto;padding-top:.75rem}
+  table{width:100%;border-collapse:collapse;min-width:420px}
+  thead th{text-align:left;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,38,71,.55);padding:0 .6rem .45rem;border-bottom:1px solid rgba(0,38,71,.12);white-space:nowrap}
+  tbody td{padding:.55rem .6rem;border-bottom:1px solid rgba(0,38,71,.08);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--navy);min-width:160px}
+  td.pages{min-width:150px}
+  .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:rgba(0,38,71,.6);background:var(--white);border:1px solid rgba(0,38,71,.14);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap}
+  td.src{white-space:nowrap}
+  td.src a{font-family:var(--font-body);font-size:.75rem;color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
+  td.src a:hover{color:var(--navy);text-decoration-color:var(--navy)}
+
+  /* Footer — matches the result pages exactly. */
+  .x-foot{text-align:center;margin-top:3.75rem}
+  .x-foot .rf-home{font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
+  .x-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
+  .x-foot .rf-org,.x-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
+  .x-foot .rf-org+.rf-copy{margin-top:.15rem}
+  .x-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.15rem}
+  .x-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
+  .x-foot .rf-credit a:hover{color:var(--blue)}
+
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:var(--r)}
+
+  @media (max-width:600px){
+    .wrap{padding:1.5rem 1rem 3rem}
+    .x-head{padding:1.3rem 1.2rem;border-radius:12px}
+    .x-head h1{font-size:1.5rem}
+  }
 </style>
 
 <div class="wrap">
-  <h1>Pathways Programs Cross-Index</h1>
+  <div class="x-head"><h1>Pathways Programs Cross-Index</h1></div>
 
   <div class="stats"><div class="stat" data-v="inperson"><span class="sw"></span><b>34</b><span class="sl">in-person only</span></div><div class="stat" data-v="online"><span class="sw"></span><b>8</b><span class="sl">in person or online</span></div><div class="stat" data-v="hybrid"><span class="sw"></span><b>18</b><span class="sl">hybrid</span></div><div class="stat" data-v="onlineonly"><span class="sw"></span><b>30</b><span class="sl">online only</span></div></div>
   <section class="grp" data-v="inperson">
@@ -106,7 +90,6 @@ td.src a:hover{text-decoration:underline}
     <span class="sw"></span>
     <h2>In-Person Only</h2>
     <span class="ct">34</span>
-    <p class="gd">On-campus / on-site only; no online option found.</p>
   </header>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">CSU Bakersfield</td>
@@ -252,7 +235,6 @@ td.src a:hover{text-decoration:underline}
     <span class="sw"></span>
     <h2>In Person or Online</h2>
     <span class="ct">8</span>
-    <p class="gd">Offered in a choice of formats &mdash; a complete in-person route and a complete online route both exist, and the student picks one.</p>
   </header>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Biola University</td>
@@ -294,7 +276,6 @@ td.src a:hover{text-decoration:underline}
     <span class="sw"></span>
     <h2>Hybrid</h2>
     <span class="ct">18</span>
-    <p class="gd">The programme itself blends the two: some coursework is online and some has to be done in person. It is not a choice between formats.</p>
   </header>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Azusa Pacific University</td>
@@ -376,7 +357,6 @@ td.src a:hover{text-decoration:underline}
     <span class="sw"></span>
     <h2>Online Only</h2>
     <span class="ct">30</span>
-    <p class="gd">Coursework delivered online with no in-person coursework alternative; student teaching / fieldwork is still completed at a school site.</p>
   </header>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Arts &amp; Healing Initiative</td>
@@ -501,9 +481,10 @@ td.src a:hover{text-decoration:underline}
 </tr></tbody></table></div>
   </section>
 
-  <div class="foot">
-    <p><b>Method.</b> Each program was checked against its own published page (plus a targeted search where the page was silent), then rated by how explicitly online delivery was stated. Confidence dots reflect how direct that evidence was, not program quality.</p>
-    <p><b>What the labels mean.</b> They describe how <b>coursework</b> is delivered. &ldquo;Online only&rdquo; and &ldquo;in person or online&rdquo; refer to the class format &mdash; nearly every teaching credential still requires in-person student teaching completed locally, whichever format the coursework uses.</p>
-    <p><b>Freshness.</b> Delivery formats change term to term; the marker should be treated as &ldquo;confirm current format with the school.&rdquo;</p>
+  <div class="x-foot">
+    <a class="rf-home" href="../">Pathways for Arts Educator Development</a>
+    <div class="rf-org">an initiative of CREATE CA</div>
+    <div class="rf-copy">&copy;2026 Laurel Butler Consulting</div>
+    <div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>
   </div>
 </div>
