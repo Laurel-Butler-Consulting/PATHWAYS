@@ -140,7 +140,6 @@
     {"name": "University of California, Irvine", "url": "https://education.uci.edu/mat-secondary.html", "conf": "High", "src": "art-specific (Art among 6)"},
     {"name": "University of La Verne", "url": "https://education.laverne.edu/teaching/teaching-ma-single-subject-credential/", "conf": "High", "src": "general SS, Art named"},
     {"name": "University of Massachusetts Global (UMass Global)", "url": "https://www.umassglobal.edu/academic-programs/teaching-credential-2042-single-subject", "conf": "High", "src": "general SS, Music and Art named"},
-    {"name": "University of Phoenix", "url": "https://www.phoenix.edu/online-education-degrees/secondary-teacher-education-masters-degree.html", "conf": "Med", "src": "general SS, Art not confirmed", "flag": "art-not-named"},
     {"name": "University of Redlands", "url": "https://www.redlands.edu/academics/undergraduate-programs/undergraduate-teacher-credential-pathway", "conf": "High", "src": "general SS, Art named"},
     {"name": "University of San Diego", "url": "https://www.sandiego.edu/soles/academics/teaching-pathways/credential-program/preliminary-single-subject/", "conf": "Med", "src": "general SS — Art NOT offered (5 subjects)", "flag": "no-art"},
     {"name": "University of San Francisco", "url": "https://www.usfca.edu/arts-sciences/research/centers-institutes/undergraduate-teacher-education-center", "conf": "Med", "src": "Undergrad Teacher Ed Center, Art not evidenced", "flag": "art-not-named"},

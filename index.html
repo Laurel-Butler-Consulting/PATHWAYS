@@ -340,7 +340,10 @@
   .qv-result-foot{text-align:center;margin-top:3.75rem}
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .qv-result-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
-  .qv-result-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
+  /* "an initiative of CREATE CA" deliberately shares the copyright line's styling — same size,
+     weight and colour. The two sit tight together under the title. */
+  .qv-result-foot .rf-org,.qv-result-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
+  .qv-result-foot .rf-org+.rf-copy{margin-top:.15rem}
   .qv-result-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.15rem}
   .qv-result-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
   .qv-result-foot .rf-credit a:hover{color:var(--blue)}
@@ -591,7 +594,7 @@ if(!document.documentElement.classList.contains('pw-open')){
     <p>an initiative of</p>
     <a class="footer-logo" href="https://createca.org/" target="_blank" rel="noopener" aria-label="Create CA"><img src="images/createca_logo_color_EDIT.png" alt="Create CA" width="224" height="34"></a>
     <p class="footer-contact">85 S. Grand Ave<br>Pasadena, CA 91105<br>626.578.9315<br><a href="mailto:info@createca.org">info@createca.org</a></p>
-    <p>&copy;2026 CREATE CA</p>
+    <p>&copy;2026 Laurel Butler Consulting</p>
     <p class="footer-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></p>
   </div>
 </footer>
@@ -1178,7 +1181,8 @@ const RESOURCES=[
     {u:'https://www.cde.ca.gov/ci/vp/'},
     {u:'https://arts.ca.gov/'},
     {u:'https://www.csac.ca.gov/'},
-    {u:'https://tcap.net/'}
+    {u:'https://tcap.net/'},
+    {u:'https://www.teachcalifornia.org/'}
   ]},
   {items:[
     {u:'https://www.caea-arteducation.org/job-opportunities'},
@@ -1228,6 +1232,7 @@ function renderProfile(key){
     '</div>'+
     '<div class="qv-result-foot">'+
       '<button class="rf-home" onclick="pwExit()">'+T.footHome+'</button>'+
+      '<div class="rf-org">'+T.footOrg+'</div>'+
       '<div class="rf-copy">'+T.footCopy+'</div>'+
       '<div class="rf-credit">'+T.footCreditPre+'<a href="#" rel="noopener">'+T.footCreditName+'</a></div>'+
     '</div>'+
@@ -1255,13 +1260,13 @@ function summaryHTML(key){
 }
 
 // ⚠ PROVISIONAL region assignments — assigned from known campus/org locations, NOT independently verified. FLAG: review before launch.
-// Most uncertain: UC Santa Barbara & Westmont (Santa Barbara — Central vs Southern); National University, UMass Global, University of Phoenix, Alliant (online/multi-campus); Focus 5, Entertainment Community Fund, The Teaching Artist Institute, Alameda ILS cert (online vs place-based).
+// Most uncertain: UC Santa Barbara & Westmont (Santa Barbara — Central vs Southern); National University, UMass Global, Alliant (online/multi-campus); Focus 5, Entertainment Community Fund, The Teaching Artist Institute, Alameda ILS cert (online vs place-based).
 const REGION_ORDER=['Northern California','Central California','Southern California','Online','Unsorted'];
 const SCHOOL_REGION={
   "Academy of Art University":"Northern California","Alameda County Office of Education":"Northern California","Alternatives in Action":"Northern California","Cal Poly Humboldt":"Northern California","CSU Chico":"Northern California","CSU East Bay":"Northern California","CSU Sacramento":"Northern California","California State University, Sacramento":"Northern California","Davis Joint Unified School District":"Northern California","Dominican University of California":"Northern California","Luna Dance Institute":"Northern California","Luther Burbank Center for the Arts":"Northern California","Notre Dame de Namur University":"Northern California","Pacific Union College":"Northern California","Sacramento County Office of Education":"Northern California","San Francisco State University":"Northern California","San Jose State University":"Northern California","Santa Clara University":"Northern California","Santa Rosa Junior College":"Northern California","Simpson University":"Northern California","Sonoma County Office of Education":"Northern California","Sonoma State University":"Northern California","St. Mary's College of California":"Northern California","Studio Pathways":"Northern California","Sutter County Superintendent of Schools":"Northern California","Tehama County Department of Education":"Northern California","University of San Francisco":"Northern California","William Jessup University":"Northern California",
   "CSU Bakersfield":"Central California","CSU Fresno":"Central California","CSU Stanislaus":"Central California","Fresno County Superintendent of Schools":"Central California","Fresno Pacific University":"Central California","Kern County Superintendent of Schools":"Central California","Teachers College of San Joaquin":"Central California","Tulare County Office of Education":"Central California","University of California, Santa Barbara":"Central California","University of the Pacific":"Central California","Westmont College":"Central California",
   "Alliant International University":"Southern California","Arts Education Connection San Diego":"Southern California","Azusa Pacific University":"Southern California","Biola University":"Southern California","CSU Dominguez Hills":"Southern California","CSU Fullerton":"Southern California","CSU Long Beach":"Southern California","CSU Northridge":"Southern California","CSU San Bernardino":"Southern California","California State University, San Bernardino":"Southern California","CSU San Marcos":"Southern California","Cal Poly Pomona":"Southern California","Cal State LA":"Southern California","California Baptist University":"Southern California","California Lutheran University":"Southern California","Chapman University":"Southern California","CoTA (Collaborations: Teachers and Artists)":"Southern California","Concordia University Irvine":"Southern California","High Tech High":"Southern California","Hope International University":"Southern California","LACMA":"Southern California","La Sierra University":"Southern California","Los Angeles County Office of Education":"Southern California","Loyola Marymount University":"Southern California","Mount Saint Mary's University, Los Angeles":"Southern California","National University":"Southern California","Orange County Department of Education":"Southern California","P.S. ARTS x CalState LA":"Southern California","P.S. ARTS":"Southern California","Pepperdine University":"Southern California","Point Loma Nazarene University":"Southern California","Riverside County Office of Education":"Southern California","San Diego County Office of Education":"Southern California","San Diego State University":"Southern California","The Master's University":"Southern California","The Music Center":"Southern California","UC Irvine, Claire Trevor School of the Arts":"Southern California","United States University":"Southern California","University of California, Irvine":"Southern California","University of California, Los Angeles":"Southern California","University of California, Riverside":"Southern California","University of La Verne":"Southern California","University of Massachusetts Global (UMass Global)":"Southern California","University of Redlands":"Southern California","University of San Diego":"Southern California","University of Southern California":"Southern California","Vanguard University":"Southern California","Ventura County Office of Education":"Southern California",
-  "Arts & Healing Initiative":"Online","Focus 5":"Online","The Entertainment Community Fund":"Online","The Teaching Artist Institute":"Online","University of Phoenix":"Online"
+  "Arts & Healing Initiative":"Online","Focus 5":"Online","The Entertainment Community Fund":"Online","The Teaching Artist Institute":"Online"
 };
 // Escape values pulled from data/programs.json before injecting into innerHTML, so a name/URL
 // containing &, <, >, ", or ' can't break the markup. (In-code literals like RESOURCES already
