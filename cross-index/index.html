@@ -2,7 +2,8 @@
 <title>Pathways Programs Cross-Index</title>
 <meta name="robots" content="noindex,nofollow">
 <style>
-  /* Design tokens copied from index.html — keep them in step if the site's change. */
+  /* Inverted result page: the site's own tokens, dark navy ground, light type.
+     Keep in step with index.html if those change. */
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
     --white:#FFFFFF;
@@ -13,84 +14,109 @@
     --r:4px;
     --font-body:'Open Sans',sans-serif;
     --font-display:'Bebas Neue',sans-serif;
+    /* dark-ground equivalents */
+    --link:#7FB8E8;                  /* --blue, lifted so it reads on navy */
+    --line:rgba(240,248,255,.14);
+    --line-soft:rgba(240,248,255,.09);
+    --dim:rgba(240,248,255,.62);
+    --dimmer:rgba(240,248,255,.45);
+    --raise:rgba(240,248,255,.06);
+    --raise-hover:rgba(240,248,255,.11);
+    --c-inperson:#93A6D2;
+    --c-online:#7FB8E8;
+    --c-hybrid:#FECF43;
+    --c-onlineonly:#6FD6B5;
   }
-  /* Same self-hosted files the site uses, one directory up. */
   @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
 
-  html{font-size:20px}
-  body{font-family:var(--font-body);font-weight:400;color:var(--navy);background:var(--ice);min-height:100vh}
-  a{color:var(--blue)}
+  html{font-size:20px;scroll-behavior:smooth}
+  body{font-family:var(--font-body);font-weight:400;color:var(--ice);background:var(--navy);min-height:100vh}
+  a{color:var(--link)}
 
   .wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
 
-  /* Title card — the result pages' header, without the gold kicker. */
-  .x-head{background:var(--navy);color:var(--white);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2rem}
-  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
+  /* Title card — the result-page header inverted: light card, navy type. */
+  .x-head{background:var(--ice);color:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.35);text-align:center;padding:1.6rem 2rem;margin-bottom:1.6rem}
+  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--navy)}
 
-  /* Counts strip */
-  .stats{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.25rem}
-  .stat{display:flex;align-items:baseline;gap:.45rem;background:var(--white);border-radius:var(--r);padding:.55rem .85rem;box-shadow:0 2px 8px rgba(0,38,71,.06)}
-  .stat .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center}
-  .stat b{font-family:var(--font-display);font-weight:400;font-size:1.15rem;letter-spacing:.03em;color:var(--navy)}
-  .stat .sl{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(0,38,71,.55)}
+  /* Counts — centred under the title, and each one opens its category. */
+  .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin-bottom:2.5rem}
+  .stat{display:inline-flex;align-items:baseline;gap:.45rem;background:var(--raise);border:1px solid var(--line);border-radius:100px;padding:.5rem .95rem;cursor:pointer;font:inherit;color:inherit;transition:background .15s,border-color .15s}
+  .stat:hover{background:var(--raise-hover);border-color:var(--dim)}
+  .stat .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center;flex:none}
+  .stat b{font-family:var(--font-display);font-weight:400;font-size:1.15rem;letter-spacing:.03em;color:var(--ice)}
+  .stat .sl{font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+  .stat[aria-expanded="true"]{background:var(--ice);border-color:var(--ice)}
+  .stat[aria-expanded="true"] b{color:var(--navy)}
+  .stat[aria-expanded="true"] .sl{color:rgba(0,38,71,.6)}
 
-  /* Category bands — the same tinted summary used for programme regions on the result pages. */
-  .grp{margin-bottom:1.6rem}
-  .grp-h{display:flex;align-items:baseline;gap:.5rem;background:rgba(0,38,71,.06);border-radius:var(--r);padding:.5rem .8rem}
-  .grp-h .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center;flex:none}
-  .grp-h h2{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:var(--navy);flex:1}
-  .grp-h .ct{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;color:rgba(0,38,71,.55)}
-  .grp[data-v="inperson"] .sw{background:var(--navy)}
-  .grp[data-v="online"] .sw{background:var(--blue)}
-  .grp[data-v="hybrid"] .sw{background:var(--gold)}
-  .grp[data-v="onlineonly"] .sw{background:#4E9BD1}
-  .stat[data-v="inperson"] .sw{background:var(--navy)}
-  .stat[data-v="online"] .sw{background:var(--blue)}
-  .stat[data-v="hybrid"] .sw{background:var(--gold)}
-  .stat[data-v="onlineonly"] .sw{background:#4E9BD1}
+  /* Categories — the result pages' region bands, inverted, and collapsible. */
+  .grp{margin-bottom:.6rem;scroll-margin-top:1rem}
+  .grp-h{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;background:var(--raise);border-radius:var(--r);padding:.6rem .85rem;transition:background .15s}
+  .grp-h::-webkit-details-marker{display:none}
+  .grp-h:hover{background:var(--raise-hover)}
+  .grp-h::before{content:"";flex:none;width:.5em;height:.5em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F0F8FF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.55;transition:transform .15s}
+  .grp[open]>.grp-h::before{transform:rotate(90deg)}
+  .grp-h:hover::before{opacity:.9}
+  .grp-h .sw{width:.5rem;height:.5rem;border-radius:50%;flex:none}
+  .grp-h h2{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:var(--ice);flex:1}
+  .grp-h .ct{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;color:var(--dim)}
+  .grp[data-v="inperson"] .sw{background:var(--c-inperson)}
+  .grp[data-v="online"] .sw{background:var(--c-online)}
+  .grp[data-v="hybrid"] .sw{background:var(--c-hybrid)}
+  .grp[data-v="onlineonly"] .sw{background:var(--c-onlineonly)}
+  .stat[data-v="inperson"] .sw{background:var(--c-inperson)}
+  .stat[data-v="online"] .sw{background:var(--c-online)}
+  .stat[data-v="hybrid"] .sw{background:var(--c-hybrid)}
+  .stat[data-v="onlineonly"] .sw{background:var(--c-onlineonly)}
 
-  .tw{overflow-x:auto;padding-top:.75rem}
+  .tw{overflow-x:auto;padding:.85rem .2rem 1.4rem}
   table{width:100%;border-collapse:collapse;min-width:420px}
-  thead th{text-align:left;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,38,71,.55);padding:0 .6rem .45rem;border-bottom:1px solid rgba(0,38,71,.12);white-space:nowrap}
-  tbody td{padding:.55rem .6rem;border-bottom:1px solid rgba(0,38,71,.08);vertical-align:top}
+  thead th{text-align:left;font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);padding:0 .6rem .45rem;border-bottom:1px solid var(--line);white-space:nowrap}
+  tbody td{padding:.55rem .6rem;border-bottom:1px solid var(--line-soft);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
-  td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--navy);min-width:160px}
+  td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);min-width:160px}
   td.pages{min-width:150px}
-  .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:rgba(0,38,71,.6);background:var(--white);border:1px solid rgba(0,38,71,.14);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap}
+  .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap}
   td.src{white-space:nowrap}
-  td.src a{font-family:var(--font-body);font-size:.75rem;color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
-  td.src a:hover{color:var(--navy);text-decoration-color:var(--navy)}
+  td.src a{font-family:var(--font-body);font-size:.75rem;color:var(--link);text-decoration:underline;text-decoration-color:rgba(127,184,232,.45);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
+  td.src a:hover{color:var(--gold);text-decoration-color:var(--gold)}
 
-  /* Footer — matches the result pages exactly. */
+  /* Footer — the result-page footer, inverted. */
   .x-foot{text-align:center;margin-top:3.75rem}
-  .x-foot .rf-home{font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
-  .x-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
-  .x-foot .rf-org,.x-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
+  .x-foot .rf-home{font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ice);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
+  .x-foot .rf-home:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  .x-foot .rf-org,.x-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:var(--dim);letter-spacing:.04em;margin-top:.35rem}
   .x-foot .rf-org+.rf-copy{margin-top:.15rem}
-  .x-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.15rem}
-  .x-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
-  .x-foot .rf-credit a:hover{color:var(--blue)}
+  .x-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:var(--dimmer);letter-spacing:.04em;margin-top:.15rem}
+  .x-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px;transition:color .15s}
+  .x-foot .rf-credit a:hover{color:var(--gold)}
 
   :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:var(--r)}
 
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .grp-h::before{transition:none}
+  }
   @media (max-width:600px){
     .wrap{padding:1.5rem 1rem 3rem}
     .x-head{padding:1.3rem 1.2rem;border-radius:12px}
     .x-head h1{font-size:1.5rem}
+    .stat{padding:.45rem .8rem}
   }
 </style>
 
 <div class="wrap">
   <div class="x-head"><h1>Pathways Programs Cross-Index</h1></div>
 
-  <div class="stats"><div class="stat" data-v="inperson"><span class="sw"></span><b>34</b><span class="sl">in-person only</span></div><div class="stat" data-v="online"><span class="sw"></span><b>8</b><span class="sl">in person or online</span></div><div class="stat" data-v="hybrid"><span class="sw"></span><b>18</b><span class="sl">hybrid</span></div><div class="stat" data-v="onlineonly"><span class="sw"></span><b>30</b><span class="sl">online only</span></div></div>
-  <section class="grp" data-v="inperson">
-  <header class="grp-h">
+  <div class="stats"><button class="stat" type="button" data-v="inperson" aria-controls="cat-inperson" aria-expanded="false"><span class="sw"></span><b>34</b><span class="sl">in-person only</span></button><button class="stat" type="button" data-v="online" aria-controls="cat-online" aria-expanded="false"><span class="sw"></span><b>8</b><span class="sl">in person or online</span></button><button class="stat" type="button" data-v="hybrid" aria-controls="cat-hybrid" aria-expanded="false"><span class="sw"></span><b>18</b><span class="sl">hybrid</span></button><button class="stat" type="button" data-v="onlineonly" aria-controls="cat-onlineonly" aria-expanded="false"><span class="sw"></span><b>30</b><span class="sl">online only</span></button></div>
+  <details class="grp" id="cat-inperson" data-v="inperson">
+  <summary class="grp-h">
     <span class="sw"></span>
     <h2>In-Person Only</h2>
     <span class="ct">34</span>
-  </header>
+  </summary>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">CSU Bakersfield</td>
   <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
@@ -228,14 +254,14 @@
   <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
   <td class="src"><a href="https://www.usfca.edu/education/programs/masters/teaching" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
 </tr></tbody></table></div>
-  </section>
+  </details>
 
-  <section class="grp" data-v="online">
-  <header class="grp-h">
+  <details class="grp" id="cat-online" data-v="online">
+  <summary class="grp-h">
     <span class="sw"></span>
     <h2>In Person or Online</h2>
     <span class="ct">8</span>
-  </header>
+  </summary>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Biola University</td>
   <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
@@ -269,14 +295,14 @@
   <td class="pages"><span class="pg">Teaching Artist</span></td>
   <td class="src"><a href="https://www.studiopathways.org/our-work" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
 </tr></tbody></table></div>
-  </section>
+  </details>
 
-  <section class="grp" data-v="hybrid">
-  <header class="grp-h">
+  <details class="grp" id="cat-hybrid" data-v="hybrid">
+  <summary class="grp-h">
     <span class="sw"></span>
     <h2>Hybrid</h2>
     <span class="ct">18</span>
-  </header>
+  </summary>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Azusa Pacific University</td>
   <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
@@ -350,14 +376,14 @@
   <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
   <td class="src"><a href="https://www.csun.edu/eisner-education/secondary-education/programs/preliminary-single-subject-credential-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
 </tr></tbody></table></div>
-  </section>
+  </details>
 
-  <section class="grp" data-v="onlineonly">
-  <header class="grp-h">
+  <details class="grp" id="cat-onlineonly" data-v="onlineonly">
+  <summary class="grp-h">
     <span class="sw"></span>
     <h2>Online Only</h2>
     <span class="ct">30</span>
-  </header>
+  </summary>
   <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
   <td class="name">Arts &amp; Healing Initiative</td>
   <td class="pages"><span class="pg">Teaching Artist</span></td>
@@ -479,7 +505,7 @@
   <td class="pages"><span class="pg">CTE</span></td>
   <td class="src"><a href="https://www.vcoe.org/ese/dsc/cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
 </tr></tbody></table></div>
-  </section>
+  </details>
 
   <div class="x-foot">
     <a class="rf-home" href="../">Pathways for Arts Educator Development</a>
@@ -488,3 +514,56 @@
     <div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>
   </div>
 </div>
+
+<script>
+// The counts under the title double as navigation: open that category, shut any other, go to it.
+// Accordions all start closed, so the page opens as a short index rather than 90 rows.
+(function(){
+  var groups = [].slice.call(document.querySelectorAll('details.grp'));
+  var stats  = [].slice.call(document.querySelectorAll('.stat'));
+  var busy = false;                      // stops the toggle handler fighting the buttons
+
+  function sync(){
+    stats.forEach(function(b){
+      var g = document.getElementById(b.getAttribute('aria-controls'));
+      b.setAttribute('aria-expanded', g && g.open ? 'true' : 'false');
+    });
+  }
+
+  function bring(el){
+    try{ el.scrollIntoView({block:'start'}); }
+    catch(e){ el.scrollIntoView(true); }
+  }
+
+  function show(target){
+    busy = true;
+    groups.forEach(function(g){ if(g !== target) g.open = false; });
+    target.open = true;
+    busy = false;
+    sync();
+    // Closing the others shifts everything above the target, so scroll once now and once more
+    // after the layout settles. Deliberately NOT requestAnimationFrame: it doesn't fire when the
+    // tab is throttled or hidden, which made this silently do nothing.
+    bring(target);
+    setTimeout(function(){ bring(target); }, 60);
+  }
+
+  stats.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = document.getElementById(btn.getAttribute('aria-controls'));
+      if(target) show(target);
+    });
+  });
+
+  // opening one by its own header closes the rest, so only ever one is open
+  groups.forEach(function(g){
+    g.addEventListener('toggle', function(){
+      if(busy) return;
+      if(g.open) groups.forEach(function(o){ if(o !== g) o.open = false; });
+      sync();
+    });
+  });
+
+  sync();
+})();
+</script>
