@@ -65,6 +65,32 @@ Locked-in steps:
 `runtimeExecutable`/`runtimeArgs`, no hardcoded path) so copying it forward each day is
 harmless. Keep it that way — never restore a config that hardcodes a dated folder path.
 
+## Permission prompts — what is pre-approved, and what is not
+
+Set up 2026-08-02 to stop the constant approval prompts. Lives in `.claude/settings.json`, which is
+gitignored: it travels with the daily folder copy but **not** with a fresh clone.
+
+**Pre-approved** (all local to this Mac): the browser-preview tools — screenshots, reading the page
+and its errors and network traffic, resizing, clicking, page inspection, listing tabs — plus
+`python3 -m http.server 8765 --bind 127.0.0.1` and `python3 scripts/build-scan.py`.
+
+**Still prompts, deliberately.** Navigating the preview to an address, attaching the preview pane,
+and `curl`. These are the ones that reach *outside* this machine: they reveal the IP address, and
+anything placed in the address travels with it. That prompt is the checkpoint that stops text found
+in a web page, an error message or a file from turning into an outbound request. Keeping it is worth
+far more than keeping a prompt on "take a screenshot". Don't pre-approve them for convenience.
+
+File edits also still prompt, by choice — on a single-file site where one bad character blanks the
+page, the per-edit look is the checkpoint.
+
+**Removed 2026-08-02:** `Bash(python3 -c ' *)` and `Bash(node -e ' *)`, both previously approved.
+They allowed running any code at all without asking — far broader than anything else on the list.
+Don't let them back in; approve the specific command instead.
+
+Also cleaned out 76 dead entries pinned to old dated folders (`PATHWAYS_260602/…`). Approvals saved
+as one exact command with a dated path can never match again, which is why the file grew without
+reducing the prompts. Prefer a pattern over an exact long command when approving.
+
 ## Open work items
 
 **Master checklist (canonical): [`notes/BUILD-CHECKLIST.md`](notes/BUILD-CHECKLIST.md)** — keep it

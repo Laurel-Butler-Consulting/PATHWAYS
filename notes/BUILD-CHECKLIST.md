@@ -526,6 +526,29 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       Note the result pages did NOT get the statewide-matching behaviour, and should not: they
       *group* by region and show every group at once, so nothing is hidden. Only the cross-index
       *filters*, which is where excluding an online programme would have been a false negative.
+- [x] **SETTLED 2026-08-02 — what belongs in the cross-index, and why.** Both questions were weighed
+      and answered; don't re-open without new information.
+      **Teaching Artist and CTE stay in.** Three reasons. (1) The cross-index link sits on all SEVEN
+      result pages, including the Teaching Artist and CTE ones — a visitor told their pathway is
+      Teaching Artist would otherwise open it and find not one teaching-artist organisation there.
+      (2) 27 of the 90 rows are Teaching Artist or CTE *only* and would disappear entirely — Luna
+      Dance Institute, LACMA, CoTA, Focus 5, P.S. ARTS, the county offices. They are a different kind
+      of provider (community organisations and county offices; the credential lists are all
+      universities) and nowhere else lists them together. (3) It would discard the delivery-method
+      research already done on them.
+      The fair counter-argument, considered and rejected: a CSU credential programme and LACMA's
+      teaching-artist training are not like things, and one table invites a false comparison. What
+      answers it is the Pathway filter — anyone wanting like-for-like narrows to Single Subject
+      Credential and gets exactly the four-discipline index.
+      **Supplementary Authorization is deliberately absent, and cannot be added.** It is a pathway in
+      the questionnaire (one of the seven result pages) but not a programme anyone enrols in: you
+      show the CTC coursework or subject-matter competency you already have and they add the
+      authorization. `data/programs.json` says so — `supplementaryAuth` holds a CTC URL and the note
+      "Explanatory content profile (not a school list)", where every other pathway holds schools.
+      Adding it as a filter option would offer a choice that always returns zero rows.
+      ⚠ Open content question if it ever matters: the coursework it requires (20 semester units, or
+      10 upper-division) IS taken somewhere, plausibly at institutions already in the index — but
+      nobody has recorded which. That is research, not a code change.
 - [x] **Cross-index rebuilt as a filterable, sortable table** — replaces the four delivery-mode
       groups. Filter by **pathway** (Single Subject Credential / Teaching Artist / CTE),
       **discipline** (Music / Theatre / Dance / Art), **region**, and **delivery method** — four
