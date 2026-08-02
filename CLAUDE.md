@@ -17,7 +17,8 @@
   the decision they need to make.
 - Keep output short. Long technical reports are hard to act on — summarise, then offer detail.
 
-Static single-page site: **"Pathways for Arts Educator Development."**
+Static single-page site: **"Arts Educator Pathways"** (renamed 2026-08-02 from "Pathways for Arts
+Educator Development" — the old name survives only in `archive/260226/`, a historical snapshot).
 Everything lives in `index.html` (HTML + CSS + JS inline), with `images/`, `video/`,
 and `data/programs.json`. No build step. Git remote: `ZZ72Z7Z7/PATHWAYS`.
 
@@ -41,9 +42,16 @@ Locked-in steps:
 
 1. Start the server with **Bash**, from the repo root (cwd is already the repo root):
    ```bash
-   python3 -m http.server 8765
+   python3 -m http.server 8765 --bind 127.0.0.1
    ```
    (run it in the background). Confirm with `curl -s -o /dev/null -w "%{http_code}" http://localhost:8765/index.html` → `200`.
+
+   ⚠ **Keep `--bind 127.0.0.1`.** Without it the server publishes the entire project folder to
+   the whole local network — every file, not just `index.html`. On a café or client network
+   anyone nearby can read `notes/`, `data/`, and the drafts. The pre-launch password gate does
+   **not** cover this: it is JavaScript inside `index.html`, so fetching any other file directly
+   walks straight past it. `--bind 127.0.0.1` restricts the server to this Mac and changes
+   nothing about previewing.
 
 2. Open the browser pane by **attaching** to that server — do not spawn:
    - `preview_start` with the `pathways` config (in `.claude/launch.json`) attaches to

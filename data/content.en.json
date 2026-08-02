@@ -18,6 +18,7 @@
     "captionsOff": "Off",
     "yourPathway": "Your Pathway",
     "additionalResources": "Additional Resources",
+    "crossIndex": "Programs Cross-Index",
     "printPdf": "Print / Save PDF",
     "restart": "Restart Questionnaire",
     "optinLabel": "Stay in touch",
@@ -25,7 +26,7 @@
     "optinPlaceholder": "your@email.com",
     "optinAria": "Email address",
     "optinSubmit": "Sign Up",
-    "footHome": "Pathways for Arts Educator Development",
+    "footHome": "Arts Educator Pathways",
     "footOrg": "an initiative of CREATE CA",
     "footCopy": "&copy;2026 Laurel Butler Consulting",
     "footCreditPre": "site design by ",
@@ -42,7 +43,7 @@
     "Northern California": "Northern",
     "Central California": "Central",
     "Southern California": "Southern",
-    "Online": "Online",
+    "Online": "Statewide",
     "Unsorted": "Unsorted"
   },
   "nodes": {

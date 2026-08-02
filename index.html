@@ -7,7 +7,7 @@
      Google and every other search engine while the domain is connected but the content isn't final.
      Leave it in place after launch and the site is invisible to search, with nothing to show it. -->
 <meta name="robots" content="noindex,nofollow">
-<title>Pathways for Arts Educator Development</title>
+<title>Arts Educator Pathways</title>
 <!-- Typefaces are served from this site, not from Google (2026-08-01). They used to load from
      fonts.googleapis.com, which showed Google the address of every visitor — the site's only
      outside dependency. Files live in fonts/, both open-licensed (SIL Open Font License).
@@ -305,7 +305,17 @@
   /* Resources section (mirrors program-list styling) */
   .prog-resources{margin-top:2.5rem}
   /* Resource section titles are real headings (so they're navigable), styled by their summary as before */
-  .prog-resources details>summary h3{font:inherit;letter-spacing:inherit;color:inherit;margin:0}
+  .prog-resources details>summary h3,.res-xindex h3{font:inherit;letter-spacing:inherit;color:inherit;margin:0}
+  /* Cross-index row — first in Additional Resources. It is a LINK, not a collapsible section, so it
+     carries an arrow where the others carry a disclosure chevron: same position, same size, same
+     alignment, but it says "this goes somewhere" rather than "this opens". Spacing matches a closed
+     section so it sits in the same rhythm. */
+  .res-xindex{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;text-decoration:none;cursor:pointer;transition:color .15s}
+  .res-xindex::before{content:"";flex:none;width:.56em;height:.56em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23002647' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.5;transition:opacity .15s}
+  .res-xindex:hover{color:var(--navy)}
+  .res-xindex:hover::before{opacity:.85}
+  .res-xindex:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.res-xindex,.res-xindex::before{transition:none}}
   .res-list{margin-bottom:0}
   .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
   .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
@@ -402,7 +412,7 @@
 <!-- ⚠ PRE-LAUNCH GATE — DELETE THIS WHOLE BLOCK ON LAUNCH DAY (2026-08-17), together with the
      #pwGate CSS and the small script in <head>. See notes/BUILD-CHECKLIST.md §9. -->
 <div id="pwGate">
-  <h1>Pathways for Arts Educator Development</h1>
+  <h1>Arts Educator Pathways</h1>
   <form onsubmit="return pwGateSubmit(event)">
     <label for="pwGateInput" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Password</label>
     <input id="pwGateInput" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Password">
@@ -468,7 +478,7 @@ if(!document.documentElement.classList.contains('pw-open')){
     <div class="content-wrap">
       <h2 class="section-title">About This Initiative</h2>
       <div class="coalition-text">
-        <p>Pathways for Arts Educator Development was created in response to <a href="https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp">Proposition 28 (The Arts and Music in Schools Act)</a>, to address the shortage of qualified arts educators in California's public schools.</p>
+        <p>Arts Educator Pathways was created in response to <a href="https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp" target="_blank" rel="noopener">Proposition 28 (The Arts and Music in Schools Act)</a>, to address the shortage of qualified arts educators in California's public schools.</p>
         <p style="margin-top:1rem;">This initiative brings together universities, professional associations, community-based organizations and advocacy groups to illuminate clear, accessible pathways into arts education careers.</p>
         <p style="margin-top:1rem;">Whether you want to become a credentialed classroom teacher or work as a teaching artist in schools and community settings, this tool will help you find programs, resources and professional development opportunities that match your background and support your goals.</p>
       </div>
@@ -590,7 +600,7 @@ if(!document.documentElement.classList.contains('pw-open')){
 
 <footer>
   <div class="footer-inner">
-    <p><strong>Pathways for Arts Educator Development</strong></p>
+    <p><strong>Arts Educator Pathways</strong></p>
     <p>an initiative of</p>
     <a class="footer-logo" href="https://createca.org/" target="_blank" rel="noopener" aria-label="Create CA"><img src="images/createca_logo_color_EDIT.png" alt="Create CA" width="224" height="34"></a>
     <p class="footer-contact">85 S. Grand Ave<br>Pasadena, CA 91105<br>626.578.9315<br><a href="mailto:info@createca.org">info@createca.org</a></p>
@@ -787,11 +797,17 @@ function pwDownloadPDF(){
 }
 
 // Collapsible subsections are expanded for print/PDF (so nothing is omitted), then restored to keep the screen compact.
+// The Additional Resources sections are an exclusive accordion (name="pwResources"), so the browser
+// closes the others the moment a second one is opened — which would silently drop all but the last
+// resource section from the printed page. Stripping the name first lets them all stay open; it goes
+// back afterwards, so the accordion behaves normally on screen.
 window.addEventListener('beforeprint',function(){
+  document.querySelectorAll('details.prog-region[name]').forEach(function(d){ d.dataset.pwName=d.getAttribute('name'); d.removeAttribute('name'); });
   document.querySelectorAll('details.prog-region').forEach(function(d){ d.dataset.pwOpen=d.open?'1':'0'; d.open=true; });
 });
 window.addEventListener('afterprint',function(){
   document.querySelectorAll('details.prog-region').forEach(function(d){ if(d.dataset.pwOpen!==undefined){ d.open=d.dataset.pwOpen==='1'; delete d.dataset.pwOpen; } });
+  document.querySelectorAll('details.prog-region[data-pw-name]').forEach(function(d){ d.setAttribute('name',d.dataset.pwName); delete d.dataset.pwName; });
 });
 
 function pwExit(){                                    // Exit (X) / results "home" links → leave the questionnaire
@@ -979,7 +995,9 @@ function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → 
   v.remove();
   if(!win)return;
   win.classList.remove('paused');                    // no video to pause; kill the play overlay
-  ['.qv-mute','.qv-cc-wrap','.qv-cc'].forEach(function(sel){var b=win.querySelector(sel);if(b)b.remove();});
+  // Every control that only makes sense over a real clip goes with it — a speed button left sitting
+  // over a placeholder still would open a menu that changes nothing.
+  ['.qv-mute','.qv-cc-wrap','.qv-cc','.qv-speed-wrap','.qv-caps'].forEach(function(sel){var b=win.querySelector(sel);if(b)b.remove();});
   pwStartStillCycle(win);                            // resume the crossfade the video had suppressed
 }
 // Captions are rendered by us, not by the browser. The native caption box sits on the bottom line of
@@ -1027,10 +1045,17 @@ function qvApplyCaptions(win){
       t.mode='disabled';                              // the language not on show, and every track when off
     }
   }
-  // Tell assistive tech which language the caption line is in, so a Spanish cue isn't read as English.
+  // Marks the caption line with its language. Note the layer also carries aria-hidden, so screen
+  // readers skip it either way — see the aria-hidden note where .qv-caps is emitted in renderNode().
   var box=win.querySelector('.qv-caps');
   if(box){if(act)box.setAttribute('lang',act);else box.removeAttribute('lang');}
   qvRenderCue(v);
+  // A track only just switched to 'hidden' has no active cues yet — the browser fills them on its
+  // next cue update, and while the video is PAUSED that never comes. Without these two repaints the
+  // caption line goes blank when the reader switches language mid-pause, and stays blank until
+  // playback resumes. Both are no-ops once the cues are there, so they cost nothing when playing.
+  requestAnimationFrame(function(){qvRenderCue(v);});
+  setTimeout(function(){qvRenderCue(v);},80);
 }
 // One language: a plain on/off button, unchanged. Two: the same button opens a menu.
 function qvCcHTML(langs){
@@ -1168,13 +1193,18 @@ const RESOURCES=[
   {items:[
     {u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/'},
     {u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
-    {u:'https://drive.google.com/file/d/1adRkBfGXlvtuVKZCmHgAc0Efr5I-Ky8u/view'}
+    {u:'resources/preservice_dance_theatre_credential_checklist.pdf'}   // Pre-Service Dance and Theatre Credential Checklist
   ]},
+  // The reports are served from this site (resources/), not Google Drive (2026-08-02). The Drive
+  // links they replace were folder links carrying /u/1/, which pins the visitor to whichever Google
+  // account they have signed in second — anyone with more than one could land on "request access".
+  // Two of them also pointed at the SAME folder, so one title opened the wrong document.
+  // Re-hosting these third-party reports was approved 2026-08-02.
   {items:[
     {u:'https://www.cde.ca.gov/eo/in/prop28artsandmusicedfunding.asp'},
-    {u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ'},
-    {u:'https://drive.google.com/open?id=17UVBH2PaUW4hT33rZCr7djqVbmLvosTY'},
-    {u:'https://drive.google.com/drive/u/1/folders/1xk5_A2gPPnQ77tigbInPe74UFZqcCNnQ'}
+    {u:'resources/ccsai_prop28.pdf'},                    // Thanks to Prop 28… (County Superintendents Arts Initiative)
+    {u:'resources/vapa_workforce_needs_report.pdf'},     // Visual and Performing Arts… (Residency Lab)
+    {u:'resources/sri_ams_workforce_brief.pdf'}          // What the Arts and Music in Schools Act Means… (SRI Education)
   ]},
   {items:[
     {u:'https://www.ctc.ca.gov/'},
@@ -1202,9 +1232,21 @@ function resourcesHTML(){
     var items=g.items.map(function(it){
       return '<div class="res-item"><a href="'+it.u+'" target="_blank" rel="noopener">'+it.t+'</a>'+(it.s?'<span class="res-suffix">'+it.s+'</span>':'')+'</div>';
     }).join('');
-    return '<details class="prog-region"><summary class="prog-region-title"><h3>'+g.t+'</h3></summary><div class="res-list">'+items+'</div></details>';
+    // name="pwResources" makes these an exclusive accordion — opening one closes the others.
+    // The browser does it; there is no JavaScript behind it. On an older browser that doesn't know
+    // the attribute, the sections simply behave as before (several can be open), which is harmless.
+    // ⚠ It also means .open cannot be set on more than one at a time, so the print handler strips
+    // the attribute before expanding everything — see the beforeprint listener.
+    return '<details class="prog-region" name="pwResources"><summary class="prog-region-title"><h3>'+g.t+'</h3></summary><div class="res-list">'+items+'</div></details>';
   }).join('');
-  return '<div class="prog-resources"><p class="prog-intro">'+T.additionalResources+'</p>'+groups+'</div>';
+  // Cross-index sits FIRST and is deliberately not a <details> — there is nothing to disclose, it
+  // opens a separate page. New tab, like every other resource link: the result page is drawn in the
+  // browser rather than fetched, so navigating away in the same tab would lose it.
+  // ⚠ That page groups programmes by delivery mode (in-person / hybrid / online only) — the
+  // online-availability marking that is still awaiting the client's sign-off (§3). Linking it here
+  // publishes that data. Confirm before launch, alongside the markers themselves.
+  var xindex='<a class="prog-region-title res-xindex" href="cross-index/" target="_blank" rel="noopener"><h3>'+T.crossIndex+'</h3></a>';
+  return '<div class="prog-resources"><p class="prog-intro">'+T.additionalResources+'</p>'+xindex+groups+'</div>';
 }
 function renderProfile(key){
   const P=PROFILES[key];
@@ -1250,12 +1292,18 @@ function renderProfile(key){
 // reports on. Delete that line at the same time as pasting the real copy in, and not before.
 // A key with no bullets renders nothing at all, so an unfinished page omits the block entirely
 // rather than showing an empty box.
+// These bullets are the only copy in data/content.en.json written OUTSIDE the project, so they are
+// the only ones escaped. Elsewhere that file deliberately carries markup — <strong>, <em>, a link,
+// and entities like &copy; and &amp; — which escaping would print on screen as raw code.
+// Consequence: these bullets are PLAIN TEXT. A "<" or "&" pasted from Word renders as typed instead
+// of eating the rest of the line, and bold/italic inside a bullet will not work. Revisit only if
+// the client actually needs formatting here.
 function summaryHTML(key){
   var items=(SUMMARY.items&&SUMMARY.items[key])||[];
   if(!items.length)return '';
   return '<section class="res-summary" aria-labelledby="resSummaryHead">'+
-    '<h3 class="res-summary-head" id="resSummaryHead">'+(SUMMARY.heading||'')+'</h3>'+
-    '<ul>'+items.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'+
+    '<h3 class="res-summary-head" id="resSummaryHead">'+escapeHTML(SUMMARY.heading||'')+'</h3>'+
+    '<ul>'+items.map(function(t){return '<li>'+escapeHTML(t)+'</li>';}).join('')+'</ul>'+
   '</section>';
 }
 

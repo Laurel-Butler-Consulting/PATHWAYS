@@ -1,9 +1,11 @@
 <meta charset="utf-8">
-<title>Pathways Programs Cross-Index</title>
+<title>Arts Educator Pathways — Programs Cross-Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <style>
-  /* Inverted result page: the site's own tokens, dark navy ground, light type.
-     Keep in step with index.html if those change. */
+  /* Inverted result page: the site's own tokens, dark navy ground, light type. The ground is the
+     same --navy the result-page header band uses, so the two read as one family.
+     Keep in step with index.html if those tokens change — they are copied here, not shared. */
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
     --white:#FFFFFF;
@@ -14,14 +16,19 @@
     --r:4px;
     --font-body:'Open Sans',sans-serif;
     --font-display:'Bebas Neue',sans-serif;
-    /* dark-ground equivalents */
+    /* Dark-ground equivalents of the tints index.html uses for bands, rules and muted text. */
     --link:#7FB8E8;                  /* --blue, lifted so it reads on navy */
     --line:rgba(240,248,255,.14);
     --line-soft:rgba(240,248,255,.09);
     --dim:rgba(240,248,255,.62);
     --dimmer:rgba(240,248,255,.45);
-    --raise:rgba(240,248,255,.06);
-    --raise-hover:rgba(240,248,255,.11);
+    /* Lift of the bands and pills off the navy ground. Kept separate from --line so the title rule
+       and table rules stay as fine as they are — only the filled surfaces got stronger. */
+    --raise:rgba(240,248,255,.12);
+    --raise-hover:rgba(240,248,255,.18);
+    --line-strong:rgba(240,248,255,.26);   /* pill outline — reads as an edge, not a suggestion */
+    /* Category dots. Unique to this page — index.html has no equivalent — lifted to carry on navy.
+       The label beside each dot names the category; the dot is a repeated tag, not the only cue. */
     --c-inperson:#93A6D2;
     --c-online:#7FB8E8;
     --c-hybrid:#FECF43;
@@ -30,58 +37,75 @@
   @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
 
-  html{font-size:20px;scroll-behavior:smooth}
-  body{font-family:var(--font-body);font-weight:400;color:var(--ice);background:var(--navy);min-height:100vh}
+  /* The page ground is the same --navy as the result-page header band, so the title needs no panel
+     of its own — it would be a navy card on a navy field. It sits directly on the ground instead,
+     with a hairline rule to separate it from the content below. */
+  html{font-size:20px;scroll-behavior:smooth;color-scheme:dark}
+  body{font-family:var(--font-body);font-weight:400;color:var(--ice);background:var(--navy);min-height:100vh;text-wrap:pretty}
   a{color:var(--link)}
 
-  .wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  .wrap{max-width:1040px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
 
-  /* Title card — the result-page header inverted: light card, navy type. */
-  .x-head{background:var(--ice);color:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.35);text-align:center;padding:1.6rem 2rem;margin-bottom:1.6rem}
-  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--navy)}
+  /* Title — unbanded. Type is unchanged from the header band it used to sit in: the result pages'
+     display face in white, over their .res-label in gold.
+     padding-bottom is the gap between the subtitle and the rule; margin-bottom is the gap between
+     the rule and the content below it. */
+  .x-head{text-align:center;padding-bottom:2rem;margin-bottom:2.4rem;border-bottom:1px solid var(--line)}
+  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
+  /* Subtitle is the result pages' .res-label — same size, weight, caps, tracking and gold. There it
+     sits above the pathway name; here it sits below, so the site name leads. */
+  .x-head .x-sub{font-family:var(--font-body);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-top:.4rem}
 
-  /* Counts — centred under the title, and each one opens its category. */
-  .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin-bottom:2.5rem}
-  .stat{display:inline-flex;align-items:baseline;gap:.45rem;background:var(--raise);border:1px solid var(--line);border-radius:100px;padding:.5rem .95rem;cursor:pointer;font:inherit;color:inherit;transition:background .15s,border-color .15s}
-  .stat:hover{background:var(--raise-hover);border-color:var(--dim)}
-  .stat .sw{width:.5rem;height:.5rem;border-radius:50%;align-self:center;flex:none}
-  .stat b{font-family:var(--font-display);font-weight:400;font-size:1.15rem;letter-spacing:.03em;color:var(--ice)}
-  .stat .sl{font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
-  .stat[aria-expanded="true"]{background:var(--ice);border-color:var(--ice)}
-  .stat[aria-expanded="true"] b{color:var(--navy)}
-  .stat[aria-expanded="true"] .sl{color:rgba(0,38,71,.6)}
+  /* === FILTERS === */
+  .x-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem;margin-bottom:1.5rem}
+  .x-flabel{display:block;font-family:var(--font-body);font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer);margin-bottom:.45rem}
+  /* Native <select>, restyled. Rounded rectangle on --r, the same corner as the pathway and
+     discipline tags in the table, so the controls and the tags read as one family.
+     The chevron is a background image because the built-in arrow can't be coloured; :root carries
+     color-scheme:dark so the OS draws the open list dark to match. */
+  .x-select{appearance:none;-webkit-appearance:none;width:100%;background-color:var(--raise);border:1px solid var(--line-strong);border-radius:var(--r);padding:.52rem 2rem .52rem .8rem;font-family:var(--font-body);font-size:.66rem;font-weight:600;letter-spacing:.05em;color:var(--ice);cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F0F8FF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center;background-size:.62em;transition:background-color .15s,border-color .15s,color .15s}
+  .x-select:hover:not(:disabled){background-color:var(--raise-hover);border-color:var(--dim)}
+  /* A filter that is actually set turns gold, so the active ones are visible at a glance. */
+  .x-select[data-on="1"]{border-color:var(--gold);color:var(--gold)}
+  .x-select:disabled{opacity:.35;cursor:not-allowed}
+  .x-fgroup[data-locked="1"] .x-flabel{opacity:.5}
 
-  /* Categories — the result pages' region bands, inverted, and collapsible. */
-  .grp{margin-bottom:.6rem;scroll-margin-top:1rem}
-  .grp-h{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.55rem;background:var(--raise);border-radius:var(--r);padding:.6rem .85rem;transition:background .15s}
-  .grp-h::-webkit-details-marker{display:none}
-  .grp-h:hover{background:var(--raise-hover)}
-  .grp-h::before{content:"";flex:none;width:.5em;height:.5em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F0F8FF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.55;transition:transform .15s}
-  .grp[open]>.grp-h::before{transform:rotate(90deg)}
-  .grp-h:hover::before{opacity:.9}
-  .grp-h .sw{width:.5rem;height:.5rem;border-radius:50%;flex:none}
-  .grp-h h2{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:var(--ice);flex:1}
-  .grp-h .ct{font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;color:var(--dim)}
-  .grp[data-v="inperson"] .sw{background:var(--c-inperson)}
-  .grp[data-v="online"] .sw{background:var(--c-online)}
-  .grp[data-v="hybrid"] .sw{background:var(--c-hybrid)}
-  .grp[data-v="onlineonly"] .sw{background:var(--c-onlineonly)}
-  .stat[data-v="inperson"] .sw{background:var(--c-inperson)}
-  .stat[data-v="online"] .sw{background:var(--c-online)}
-  .stat[data-v="hybrid"] .sw{background:var(--c-hybrid)}
-  .stat[data-v="onlineonly"] .sw{background:var(--c-onlineonly)}
+  /* Count + clear, on the line between the filters and the table. */
+  .x-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;padding-bottom:.7rem;margin-bottom:.2rem;border-bottom:1px solid var(--line)}
+  .x-count{font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .x-count b{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.02em;color:var(--ice)}
+  .x-clear{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;padding:.2rem;transition:color .15s,text-decoration-color .15s}
+  .x-clear:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  .x-clear[hidden]{display:none}
 
-  .tw{overflow-x:auto;padding:.85rem .2rem 1.4rem}
-  table{width:100%;border-collapse:collapse;min-width:420px}
-  thead th{text-align:left;font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);padding:0 .6rem .45rem;border-bottom:1px solid var(--line);white-space:nowrap}
+  /* === TABLE === */
+  .tw{overflow-x:auto;padding:.2rem .2rem 1rem}
+  table{width:100%;border-collapse:collapse;min-width:680px}
+  thead th{text-align:left;padding:0 .6rem .45rem;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:bottom}
+  .th-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem;font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);transition:color .15s}
+  .th-btn:hover{color:var(--ice)}
+  .th-static{font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer)}
+  /* Arrow only on the column actually in use, so the header row isn't a row of arrows. */
+  .th-btn .ar{opacity:0;font-size:.7rem;line-height:1}
+  th[aria-sort] .th-btn{color:var(--ice)}
+  th[aria-sort] .th-btn .ar{opacity:.8}
   tbody td{padding:.55rem .6rem;border-bottom:1px solid var(--line-soft);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
-  td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);min-width:160px}
-  td.pages{min-width:150px}
-  .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap}
-  td.src{white-space:nowrap}
-  td.src a{font-family:var(--font-body);font-size:.75rem;color:var(--link);text-decoration:underline;text-decoration-color:rgba(127,184,232,.45);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
-  td.src a:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);min-width:170px}
+  td.tags{min-width:170px}
+  td.region,td.deliv{font-family:var(--font-body);font-size:.72rem;color:var(--dim);white-space:nowrap}
+  td.deliv .sw{display:inline-block;width:.45rem;height:.45rem;border-radius:50%;margin-right:.4rem;vertical-align:middle}
+  .none{color:var(--dimmer)}
+  .sw-note{color:var(--dimmer)}   /* "(statewide)" — a qualifier, so the place name reads first */
+
+  /* Tag chips. Each links to that programme's own page — 40 of the 90 schools have a different
+     address per discipline, so one link per row could only ever be right for some of them. */
+  .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap;text-decoration:none;transition:color .12s,border-color .12s}
+  a.pg:hover{color:var(--gold);border-color:var(--gold)}
+
+  .x-empty{font-family:var(--font-body);font-size:.8rem;color:var(--dim);text-align:center;padding:2.5rem 1rem}
+  .x-empty[hidden]{display:none}
+  .x-note{font-family:var(--font-body);font-size:.68rem;line-height:1.6;color:var(--dimmer);border-left:2px solid var(--line);padding-left:.8rem;margin-top:1.4rem;max-width:62ch}
 
   /* Footer — the result-page footer, inverted. */
   .x-foot{text-align:center;margin-top:3.75rem}
@@ -97,418 +121,45 @@
 
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
-    .grp-h::before{transition:none}
+    .chip,.th-btn,.x-clear,.pg{transition:none}
   }
   @media (max-width:600px){
     .wrap{padding:1.5rem 1rem 3rem}
-    .x-head{padding:1.3rem 1.2rem;border-radius:12px}
+    .x-head{padding-bottom:1.5rem;margin-bottom:1.9rem}
     .x-head h1{font-size:1.5rem}
-    .stat{padding:.45rem .8rem}
+    .x-head .x-sub{font-size:.72rem;letter-spacing:.13em}
+    .x-filters{grid-template-columns:1fr;gap:1rem}
   }
 </style>
 
 <div class="wrap">
-  <div class="x-head"><h1>Pathways Programs Cross-Index</h1></div>
+  <div class="x-head"><h1>Arts Educator Pathways</h1><div class="x-sub">Programs Cross-Index</div></div>
 
-  <div class="stats"><button class="stat" type="button" data-v="inperson" aria-controls="cat-inperson" aria-expanded="false"><span class="sw"></span><b>34</b><span class="sl">in-person only</span></button><button class="stat" type="button" data-v="online" aria-controls="cat-online" aria-expanded="false"><span class="sw"></span><b>8</b><span class="sl">in person or online</span></button><button class="stat" type="button" data-v="hybrid" aria-controls="cat-hybrid" aria-expanded="false"><span class="sw"></span><b>18</b><span class="sl">hybrid</span></button><button class="stat" type="button" data-v="onlineonly" aria-controls="cat-onlineonly" aria-expanded="false"><span class="sw"></span><b>30</b><span class="sl">online only</span></button></div>
-  <details class="grp" id="cat-inperson" data-v="inperson">
-  <summary class="grp-h">
-    <span class="sw"></span>
-    <h2>In-Person Only</h2>
-    <span class="ct">34</span>
-  </summary>
-  <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
-  <td class="name">CSU Bakersfield</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csub.edu/teachereducation/secondary-education-single-subject-credential-program.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Fresno</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://kremen.fresnostate.edu/teaching-credential/singlesubject/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Fullerton</td>
-  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://ed.fullerton.edu/seced/single-subject-credential-program/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">St. Mary&#x27;s College of California</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.stmarys-ca.edu/graduate-professional-studies/single-subject-teaching-preliminary-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">The Master&#x27;s University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.masters.edu/academics/schools/pearl-c-schaffer-school-of-education/teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of Redlands</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.redlands.edu/academics/undergraduate-programs/undergraduate-teacher-credential-pathway" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU San Marcos</td>
-  <td class="pages"><span class="pg">Art</span></td>
-  <td class="src"><a href="https://www.csusm.edu/soe/credential/singlesubject/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Cal Poly Humboldt</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.humboldt.edu/academics/programs/secondary-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Chapman University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.chapman.edu/education/graduate/teacher-education/mat-single/index.aspx" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Fresno Pacific University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.fresno.edu/graduate/program/single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">LACMA</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://unframed.lacma.org/2024/05/06/lacma-teaching-artist-training-series-tats" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Luna Dance Institute</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://lunadancecreativity.org/professional-learning/institutes/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Luther Burbank Center for the Arts</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://lutherburbankcenter.org/education/for-schools-and-teachers/professional-development/teaching-artist-certificate-and-practicum/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Sonoma State University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://soe.sonoma.edu/programs/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of California, Santa Barbara</td>
-  <td class="pages"><span class="pg">Music</span></td>
-  <td class="src"><a href="https://education.ucsb.edu/academic-programs/teacher-education-program/programs-study/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Westmont College</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.westmont.edu/teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Long Beach</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csulb.edu/college-of-education/single-subject-credential-program-sscp/faqs" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">California Baptist University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://calbaptist.edu/academics/programs/bachelor-of-arts-art-education/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CoTA (Collaborations: Teachers and Artists)</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://cotaprogram.org/programs/artist-training/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">High Tech High</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.hightechhigh.org/teachercenter/district-intern/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">San Jose State University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.sjsu.edu/teachered/academics/sscp.php" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">The Entertainment Community Fund</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://entertainmentcommunity.org/services-and-programs/arts-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of California, Irvine</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://education.uci.edu/mat-secondary.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">P.S. ARTS x CalState LA</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://psarts.org/p-s-arts-x-csula-partnership/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of Southern California</td>
-  <td class="pages"><span class="pg">Music</span></td>
-  <td class="src"><a href="https://music.usc.edu/newstudents/degree-and-credential-path-checklist/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Sonoma County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.ncsoe.org/programs/be-a-teacher-intern-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Arts Education Connection San Diego</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://www.artsedsd.org/tai" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Dominguez Hills</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csudh.edu/ms-ss-credentials/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Stanislaus</td>
-  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csustan.edu/credentials/program-information" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Cal Poly Pomona</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.cpp.edu/ceis/credential-program/credential-programs/preliminary-single-subject-credential.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Pacific Union College</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.puc.edu/academics/departments/education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Santa Rosa Junior College</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://college-skills.santarosa.edu/arts-education-assistant-certificate" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of San Diego</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.sandiego.edu/soles/academics/teaching-pathways/credential-program/preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of San Francisco</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.usfca.edu/education/programs/masters/teaching" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr></tbody></table></div>
-  </details>
+  <div class="x-filters" id="filters"></div>
 
-  <details class="grp" id="cat-online" data-v="online">
-  <summary class="grp-h">
-    <span class="sw"></span>
-    <h2>In Person or Online</h2>
-    <span class="ct">8</span>
-  </summary>
-  <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
-  <td class="name">Biola University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.biola.edu/degrees/g/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Notre Dame de Namur University</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.ndnu.edu/education/credentials-single.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Pepperdine University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://gsep.pepperdine.edu/masters-teaching/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Santa Clara University</td>
-  <td class="pages"><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.scu.edu/ecp/programs/teaching-program/single-subject-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">William Jessup University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://jessup.edu/academics/majors-programs/graduate/master-of-arts-in-teaching/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Cal State LA</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.calstatela.edu/coe/edci/single-subject-teaching-credential-program-secondary-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Point Loma Nazarene University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.pointloma.edu/undergraduate/programs/four-year-credential-track-single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Studio Pathways</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://www.studiopathways.org/our-work" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr></tbody></table></div>
-  </details>
+  <div class="x-bar">
+    <div class="x-count" id="count" role="status" aria-live="polite"></div>
+    <button class="x-clear" id="clear" hidden>Clear all filters</button>
+  </div>
 
-  <details class="grp" id="cat-hybrid" data-v="hybrid">
-  <summary class="grp-h">
-    <span class="sw"></span>
-    <h2>Hybrid</h2>
-    <span class="ct">18</span>
-  </summary>
-  <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
-  <td class="name">Azusa Pacific University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.apu.edu/programs/single-subject-teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Chico</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csuchico.edu/academics/majors-programs/single-subject-credential-program.shtml" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Focus 5</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://artsintegrationconsulting.com/2025-teaching-artist-intensive/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Los Angeles County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.lacoe.edu/services/staff-support/credential-programs/beginning-teacher-programs/district-intern-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Teachers College of San Joaquin</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://teacherscollegesj.edu/designated-subject-cte-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Vanguard University</td>
-  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.vanguard.edu/academics/academic-programs/graduate/teaching-credential-single" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Mount Saint Mary&#x27;s University, Los Angeles</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.msmu.edu/departments/education/graduate-programs/masters-and-credential-programs/preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">P.S. ARTS</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://psarts.org/programs/educator-development/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">San Diego State University</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://education.sdsu.edu/credential/general-education" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">San Francisco State University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://secondaryed.sfsu.edu/singlesubject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Sacramento</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csus.edu/college/education/teaching-credentials/single-subject.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU San Bernardino</td>
-  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csusb.edu/single-subject-teaching-credential/program-overview" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">California Lutheran University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.callutheran.edu/academics/graduate/teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Davis Joint Unified School District</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.yscenterforteaching.org/cte-credentialing.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Simpson University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://simpsonu.edu/academics/teachereducation/single-subject-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">The Music Center</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://www.musiccenter.org/experience-learn/experience-learn/for-artists/teaching-artist-training/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Concordia University Irvine</td>
-  <td class="pages"><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.cui.edu/academicprograms/graduate/teacher-credential/single-subject-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU Northridge</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csun.edu/eisner-education/secondary-education/programs/preliminary-single-subject-credential-program" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr></tbody></table></div>
-  </details>
+  <div class="tw">
+    <table id="tbl">
+      <thead><tr>
+        <th data-sort="name"><button class="th-btn" type="button">Program <span class="ar"></span></button></th>
+        <th><span class="th-static">Pathway</span></th>
+        <th><span class="th-static">Discipline</span></th>
+        <th data-sort="region"><button class="th-btn" type="button">Region <span class="ar"></span></button></th>
+        <th data-sort="deliv"><button class="th-btn" type="button">Format <span class="ar"></span></button></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="x-empty" id="empty" hidden></p>
 
-  <details class="grp" id="cat-onlineonly" data-v="onlineonly">
-  <summary class="grp-h">
-    <span class="sw"></span>
-    <h2>Online Only</h2>
-    <span class="ct">30</span>
-  </summary>
-  <div class="tw"><table><thead><tr><th>Program</th><th>Pathways</th><th>Link</th></tr></thead><tbody><tr>
-  <td class="name">Arts &amp; Healing Initiative</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://artsandhealinginitiative.org/pages/certificate-program-in-social-emotional-arts-sea" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">CSU East Bay</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.csueastbay.edu/cssc/prospective-cred-student/single-subject.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Loyola Marymount University</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://soe.lmu.edu/academics/secondaryeducation/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">San Diego County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.sdcoe.net/educators/educator-preparation/designated-subjects/~board/designated-subjects-credentials/post/career-technical-education-cte-credential-information" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of California, Los Angeles</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of California, Riverside</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://extension.ucr.edu/certificates/ctetracka" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Alameda County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://acoe.org/cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Alliant International University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.alliant.edu/california-teaching-credentials/single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">California State University, San Bernardino</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.csusb.edu/pdc/our-programs/credential-programs-education/career-and-technical-designated-subjects" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Dominican University of California</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.dominican.edu/academics/graduate-programs/teacher-credential-master-science-education-ms" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Fresno County Superintendent of Schools</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://cte-credential.fcoe.org/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">National University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.nu.edu/degrees/teacher-education/programs/inspired-teaching-and-learning-preliminary-single-subject/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Sacramento County Office of Education</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://scoeteaching.net/addacredential/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Sutter County Superintendent of Schools</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.sutter.k12.ca.us/Departments/Tri-County-Induction-Program/Career-Technical-Education-Program/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">UC Irvine, Claire Trevor School of the Arts</td>
-  <td class="pages"><span class="pg">Teaching Artist</span></td>
-  <td class="src"><a href="https://ce.uci.edu/programs/education/teaching-artistry" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of Massachusetts Global (UMass Global)</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.umassglobal.edu/academic-programs/teaching-credential-2042-single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of the Pacific</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.pacific.edu/education/benerd-education-programs/ma-in-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Academy of Art University</td>
-  <td class="pages"><span class="pg">Art</span></td>
-  <td class="src"><a href="https://www.academyart.edu/academics/art-education/degrees/art-teaching-credential/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Alternatives in Action</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://info.reach.edu/support/what-credentials-does-the-reach-intern-program-offer" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">California State University, Sacramento</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://cce.csus.edu/career-technical-education-cte-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Kern County Superintendent of Schools</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://kern.org/educator-development/career-technical-education-cte-credential-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">La Sierra University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://lasierra.edu/mat-online/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Orange County Department of Education</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://ocde.us/EducationalServices/CareerEducationAndPostSecondaryAdvancement/CTE/Pages/default.aspx" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Tehama County Department of Education</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.tehamaschools.org/Services/Educational-Services/Career-Technical-Education-Teacher-Preparation/index.html" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">University of La Verne</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://laverne.edu/news/2022/07/14/university-of-la-verne-expands-online-program-offerings-to-include-masters-degrees-in-teaching-health-administration-and-public-administration/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Hope International University</td>
-  <td class="pages"><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.hiu.edu/graduate-students/academics/colleges/college-of-education/preliminary-single-subject-teaching-credential" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">United States University</td>
-  <td class="pages"><span class="pg">Dance</span><span class="pg">Theatre</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://www.usuniversity.edu/degrees/teacher-credentialing-preparation-program-single-subject" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Riverside County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.rcoe.us/programs/school-of-education/center-for-teacher-preparation/designated-subjects-career-technical-education-teaching-credential-program/" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Tulare County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span><span class="pg">Art</span><span class="pg">Music</span></td>
-  <td class="src"><a href="https://tcoe.org/NTLD/CTE" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr><tr>
-  <td class="name">Ventura County Office of Education</td>
-  <td class="pages"><span class="pg">CTE</span></td>
-  <td class="src"><a href="https://www.vcoe.org/ese/dsc/cte" target="_blank" rel="noopener">view&#8239;&#8599;</a></td>
-</tr></tbody></table></div>
-  </details>
+  <p class="x-note" id="note"></p>
 
   <div class="x-foot">
-    <a class="rf-home" href="../">Pathways for Arts Educator Development</a>
+    <a class="rf-home" href="../">Arts Educator Pathways</a>
     <div class="rf-org">an initiative of CREATE CA</div>
     <div class="rf-copy">&copy;2026 Laurel Butler Consulting</div>
     <div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>
@@ -516,54 +167,292 @@
 </div>
 
 <script>
-// The counts under the title double as navigation: open that category, shut any other, go to it.
-// Accordions all start closed, so the page opens as a short index rather than 90 rows.
-(function(){
-  var groups = [].slice.call(document.querySelectorAll('details.grp'));
-  var stats  = [].slice.call(document.querySelectorAll('.stat'));
-  var busy = false;                      // stops the toggle handler fighting the buttons
+// Region and delivery method are the only two facts not already in data/programs.json, so they are
+// the only ones kept here. Everything else — which programmes exist, what they are called, and the
+// address of each one — is read from that file at load, so this page cannot drift out of step with
+// the result pages when a programme is added or a link changes.
+// ⚠ Region IS duplicated: index.html holds the same mapping in SCHOOL_REGION. A change there has to
+// be made here too. Delivery method has no counterpart in index.html (see notes/online-availability-README.md).
+const XLOCAL = {
+  "Academy of Art University":{r:"Northern California",d:"Online only"},
+  "Alameda County Office of Education":{r:"Northern California",d:"Online only"},
+  "Alliant International University":{r:"Southern California",d:"Online only"},
+  "Alternatives in Action":{r:"Northern California",d:"Online only"},
+  "Arts & Healing Initiative":{r:"Online",d:"Online only"},
+  "Arts Education Connection San Diego":{r:"Southern California",d:"In-person only"},
+  "Azusa Pacific University":{r:"Southern California",d:"Hybrid"},
+  "Biola University":{r:"Southern California",d:"In person or online"},
+  "CSU Bakersfield":{r:"Central California",d:"In-person only"},
+  "CSU Chico":{r:"Northern California",d:"Hybrid"},
+  "CSU Dominguez Hills":{r:"Southern California",d:"In-person only"},
+  "CSU East Bay":{r:"Northern California",d:"Online only"},
+  "CSU Fresno":{r:"Central California",d:"In-person only"},
+  "CSU Fullerton":{r:"Southern California",d:"In-person only"},
+  "CSU Long Beach":{r:"Southern California",d:"In-person only"},
+  "CSU Northridge":{r:"Southern California",d:"Hybrid"},
+  "CSU Sacramento":{r:"Northern California",d:"Hybrid"},
+  "CSU San Bernardino":{r:"Southern California",d:"Hybrid"},
+  "CSU San Marcos":{r:"Southern California",d:"In-person only"},
+  "CSU Stanislaus":{r:"Central California",d:"In-person only"},
+  "Cal Poly Humboldt":{r:"Northern California",d:"In-person only"},
+  "Cal Poly Pomona":{r:"Southern California",d:"In-person only"},
+  "Cal State LA":{r:"Southern California",d:"In person or online"},
+  "California Baptist University":{r:"Southern California",d:"In-person only"},
+  "California Lutheran University":{r:"Southern California",d:"Hybrid"},
+  "California State University, Sacramento":{r:"Northern California",d:"Online only"},
+  "California State University, San Bernardino":{r:"Southern California",d:"Online only"},
+  "Chapman University":{r:"Southern California",d:"In-person only"},
+  "CoTA (Collaborations: Teachers and Artists)":{r:"Southern California",d:"In-person only"},
+  "Concordia University Irvine":{r:"Southern California",d:"Hybrid"},
+  "Davis Joint Unified School District":{r:"Northern California",d:"Hybrid"},
+  "Dominican University of California":{r:"Northern California",d:"Online only"},
+  "Focus 5":{r:"Online",d:"Hybrid"},
+  "Fresno County Superintendent of Schools":{r:"Central California",d:"Online only"},
+  "Fresno Pacific University":{r:"Central California",d:"In-person only"},
+  "High Tech High":{r:"Southern California",d:"In-person only"},
+  "Hope International University":{r:"Southern California",d:"Online only"},
+  "Kern County Superintendent of Schools":{r:"Central California",d:"Online only"},
+  "LACMA":{r:"Southern California",d:"In-person only"},
+  "La Sierra University":{r:"Southern California",d:"Online only"},
+  "Los Angeles County Office of Education":{r:"Southern California",d:"Hybrid"},
+  "Loyola Marymount University":{r:"Southern California",d:"Online only"},
+  "Luna Dance Institute":{r:"Northern California",d:"In-person only"},
+  "Luther Burbank Center for the Arts":{r:"Northern California",d:"In-person only"},
+  "Mount Saint Mary's University, Los Angeles":{r:"Southern California",d:"Hybrid"},
+  "National University":{r:"Southern California",d:"Online only"},
+  "Notre Dame de Namur University":{r:"Northern California",d:"In person or online"},
+  "Orange County Department of Education":{r:"Southern California",d:"Online only"},
+  "P.S. ARTS":{r:"Southern California",d:"Hybrid"},
+  "P.S. ARTS x CalState LA":{r:"Southern California",d:"In-person only"},
+  "Pacific Union College":{r:"Northern California",d:"In-person only"},
+  "Pepperdine University":{r:"Southern California",d:"In person or online"},
+  "Point Loma Nazarene University":{r:"Southern California",d:"In person or online"},
+  "Riverside County Office of Education":{r:"Southern California",d:"Online only"},
+  "Sacramento County Office of Education":{r:"Northern California",d:"Online only"},
+  "San Diego County Office of Education":{r:"Southern California",d:"Online only"},
+  "San Diego State University":{r:"Southern California",d:"Hybrid"},
+  "San Francisco State University":{r:"Northern California",d:"Hybrid"},
+  "San Jose State University":{r:"Northern California",d:"In-person only"},
+  "Santa Clara University":{r:"Northern California",d:"In person or online"},
+  "Santa Rosa Junior College":{r:"Northern California",d:"In-person only"},
+  "Simpson University":{r:"Northern California",d:"Hybrid"},
+  "Sonoma County Office of Education":{r:"Northern California",d:"In-person only"},
+  "Sonoma State University":{r:"Northern California",d:"In-person only"},
+  "St. Mary's College of California":{r:"Northern California",d:"In-person only"},
+  "Studio Pathways":{r:"Northern California",d:"In person or online"},
+  "Sutter County Superintendent of Schools":{r:"Northern California",d:"Online only"},
+  "Teachers College of San Joaquin":{r:"Central California",d:"Hybrid"},
+  "Tehama County Department of Education":{r:"Northern California",d:"Online only"},
+  "The Entertainment Community Fund":{r:"Online",d:"In-person only"},
+  "The Master's University":{r:"Southern California",d:"In-person only"},
+  "The Music Center":{r:"Southern California",d:"Hybrid"},
+  "Tulare County Office of Education":{r:"Central California",d:"Online only"},
+  "UC Irvine, Claire Trevor School of the Arts":{r:"Southern California",d:"Online only"},
+  "United States University":{r:"Southern California",d:"Online only"},
+  "University of California, Irvine":{r:"Southern California",d:"In-person only"},
+  "University of California, Los Angeles":{r:"Southern California",d:"Online only"},
+  "University of California, Riverside":{r:"Southern California",d:"Online only"},
+  "University of California, Santa Barbara":{r:"Central California",d:"In-person only"},
+  "University of La Verne":{r:"Southern California",d:"Online only"},
+  "University of Massachusetts Global (UMass Global)":{r:"Southern California",d:"Online only"},
+  "University of Redlands":{r:"Southern California",d:"In-person only"},
+  "University of San Diego":{r:"Southern California",d:"In-person only"},
+  "University of San Francisco":{r:"Northern California",d:"In-person only"},
+  "University of Southern California":{r:"Southern California",d:"In-person only"},
+  "University of the Pacific":{r:"Central California",d:"Online only"},
+  "Vanguard University":{r:"Southern California",d:"Hybrid"},
+  "Ventura County Office of Education":{r:"Southern California",d:"Online only"},
+  "Westmont College":{r:"Central California",d:"In-person only"},
+  "William Jessup University":{r:"Northern California",d:"In person or online"}
+};
 
-  function sync(){
-    stats.forEach(function(b){
-      var g = document.getElementById(b.getAttribute('aria-controls'));
-      b.setAttribute('aria-expanded', g && g.open ? 'true' : 'false');
-    });
-  }
+// The six lists in programs.json are two different things wearing one coat. music / theatre /
+// dance / art are Single Subject Credential programmes, and the list a school sits in IS its
+// discipline. teachingArtist and cte are pathways in their own right and record no discipline at
+// all — which is why a third of the rows show "—" in that column. It is not missing data; those
+// programmes are not organised by discipline.
+const PATHWAY = {ssc:'Single Subject Credential', ta:'Teaching Artist', cte:'CTE'};
+const DISCIPLINE = {music:'Music', theatre:'Theatre', dance:'Dance', art:'Art'};
+const DELIVERY = ['In-person only','In person or online','Hybrid','Online only'];
+const DELIV_DOT = {'In-person only':'--c-inperson','In person or online':'--c-online','Hybrid':'--c-hybrid','Online only':'--c-onlineonly'};
+const REGIONS = ['Northern California','Central California','Southern California','Online'];
+// The stored values are left exactly as SCHOOL_REGION in index.html has them; only the display
+// changes. "California" goes because every programme here is Californian, so it said nothing.
+// "Online" becomes "Statewide" because as a REGION it never meant online delivery — it means the
+// organisation has no single campus. Two of the three rows carrying it are not delivered online at
+// all (Focus 5 is hybrid, The Entertainment Community Fund is in person only). Keeping the word
+// "Online" in a region column that now sits beside a delivery column made it look like a duplicate
+// of something it does not mean. The same rename is in data/content.en.json → regionLabels, so the
+// result pages say Statewide too.
+const REGION_LABEL = {
+  'Northern California':'Northern', 'Central California':'Central',
+  'Southern California':'Southern', 'Online':'Statewide'
+};
+const regionLabel = v => REGION_LABEL[v] || v;
 
-  function bring(el){
-    try{ el.scrollIntoView({block:'start'}); }
-    catch(e){ el.scrollIntoView(true); }
-  }
+// A programme you can take online is available wherever you live, so geography should not hide it:
+// these two delivery methods match EVERY region filter, and the region cell says "(statewide)" after
+// the campus location so it is clear why a Southern programme appears under a Northern filter.
+// Hybrid is deliberately NOT here — it requires turning up somewhere, so geography still limits it.
+const STATEWIDE_DELIVERY = ['Online only','In person or online'];
+const isStatewide = r => STATEWIDE_DELIVERY.indexOf(r.deliv) > -1;
+// A row already labelled Statewide (no campus at all) is not given the marker as well.
+// regionCell is the plain text, used for sorting; regionHTML is the same thing with the marker
+// dimmed so the place name still reads first.
+function regionCell(r){
+  const base = regionLabel(r.region);
+  return (isStatewide(r) && base !== 'Statewide') ? base + ' (statewide)' : base;
+}
+function regionHTML(r){
+  const base = regionLabel(r.region);
+  return (isStatewide(r) && base !== 'Statewide')
+    ? esc(base) + ' <span class="sw-note">(statewide)</span>' : esc(base);
+}
 
-  function show(target){
-    busy = true;
-    groups.forEach(function(g){ if(g !== target) g.open = false; });
-    target.open = true;
-    busy = false;
-    sync();
-    // Closing the others shifts everything above the target, so scroll once now and once more
-    // after the layout settles. Deliberately NOT requestAnimationFrame: it doesn't fire when the
-    // tab is throttled or hidden, which made this silently do nothing.
-    bring(target);
-    setTimeout(function(){ bring(target); }, 60);
-  }
+let ROWS = [], SORT = {key:'name', dir:1};
+// One value per dimension — '' means "all". Dropdowns are single-choice, so unlike the earlier
+// chips you cannot ask for Music OR Dance in one go; narrow on another axis instead.
+const PICKED = {pathway:'', discipline:'', region:'', deliv:''};
 
-  stats.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var target = document.getElementById(btn.getAttribute('aria-controls'));
-      if(target) show(target);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+fetch('../data/programs.json').then(r => r.json()).then(build).catch(function(){
+  document.getElementById('empty').hidden = false;
+  document.getElementById('empty').textContent =
+    'The programme list could not be loaded. Please refresh the page to try again.';
+});
+
+function build(data){
+  const byName = {};
+  Object.keys(data).forEach(function(key){
+    if(!Array.isArray(data[key])) return;                    // _meta and supplementaryAuth are not lists
+    data[key].forEach(function(e){
+      const row = byName[e.name] || (byName[e.name] = {
+        name:e.name, pathway:new Set(), disc:[], links:{},
+        region:(XLOCAL[e.name]||{}).r || '', deliv:(XLOCAL[e.name]||{}).d || ''
+      });
+      if(DISCIPLINE[key]){ row.pathway.add('ssc'); row.disc.push({k:key, t:DISCIPLINE[key], u:e.url}); }
+      else if(key === 'teachingArtist'){ row.pathway.add('ta'); row.links.ta = e.url; }
+      else if(key === 'cte'){ row.pathway.add('cte'); row.links.cte = e.url; }
     });
   });
+  ROWS = Object.keys(byName).map(k => byName[k]);
+  ROWS.forEach(r => r.disc.sort((a,b) => a.t.localeCompare(b.t)));
+  renderFilters();
+  document.getElementById('note').innerHTML =
+    'Programmes you can take online are available wherever you live, so they appear under every '
+    + 'region and are marked <span class="sw-note">(statewide)</span> after the place they are based. '
+    + 'Hybrid programmes require attending in person, so those stay with their region.'
+    + '<br><br>'
+    + 'Teaching Artist and CTE programmes are not recorded by discipline, so they show "—" in that '
+    + 'column and are set aside when you filter by one. Filter by pathway to see them.';
+  apply();
+}
 
-  // opening one by its own header closes the rest, so only ever one is open
-  groups.forEach(function(g){
-    g.addEventListener('toggle', function(){
-      if(busy) return;
-      if(g.open) groups.forEach(function(o){ if(o !== g) o.open = false; });
-      sync();
+function has(r, dim, val){
+  if(dim === 'pathway') return r.pathway.has(val);
+  if(dim === 'discipline') return r.disc.some(d => d.k === val);
+  // An online-deliverable programme belongs to every region, including Statewide — picking
+  // Statewide therefore means "everything I can reach from anywhere", not just the campus-less few.
+  if(dim === 'region') return r.region === val || isStatewide(r);
+  return r.deliv === val;
+}
+
+function renderFilters(){
+  // "ALL" needs no qualifier — the label sitting above each menu already names the dimension.
+  const groups = [
+    {dim:'pathway',    label:'Pathway',    vals:Object.keys(PATHWAY).map(k => [k, PATHWAY[k]])},
+    {dim:'discipline', label:'Discipline', vals:Object.keys(DISCIPLINE).map(k => [k, DISCIPLINE[k]])},
+    {dim:'region',     label:'Region',     vals:REGIONS.map(v => [v, regionLabel(v)])},
+    {dim:'deliv',      label:'Format',     vals:DELIVERY.map(v => [v, v])}
+  ];
+  document.getElementById('filters').innerHTML = groups.map(function(g){
+    const opts = ['<option value="">ALL</option>'].concat(
+      g.vals.map(p => '<option value="' + esc(p[0]) + '">' + esc(p[1]) + '</option>')
+    ).join('');
+    return '<div class="x-fgroup" data-dim="' + g.dim + '">' +
+      '<label class="x-flabel" for="f-' + g.dim + '">' + g.label + '</label>' +
+      '<select class="x-select" id="f-' + g.dim + '" data-dim="' + g.dim + '">' + opts + '</select></div>';
+  }).join('');
+
+  document.getElementById('filters').addEventListener('change', function(ev){
+    const s = ev.target.closest('.x-select');
+    if(!s) return;
+    PICKED[s.dataset.dim] = s.value;
+    apply();
+  });
+  document.getElementById('clear').addEventListener('click', function(){
+    Object.keys(PICKED).forEach(k => { PICKED[k] = ''; });
+    document.querySelectorAll('.x-select').forEach(s => { s.value = ''; });
+    apply();
+  });
+  document.querySelectorAll('th[data-sort]').forEach(function(th){
+    th.querySelector('.th-btn').addEventListener('click', function(){
+      const k = th.dataset.sort;
+      SORT = {key:k, dir: SORT.key === k ? -SORT.dir : 1};
+      apply();
     });
   });
+}
 
-  sync();
-})();
+function apply(){
+  // Discipline only means anything for Single Subject Credential rows. If the pathway filter rules
+  // that pathway out, the discipline menu would silently return nothing — so it goes inert and any
+  // choice already made is dropped, rather than quietly filtering behind the scenes.
+  const discLive = PICKED.pathway === '' || PICKED.pathway === 'ssc';
+  if(!discLive) PICKED.discipline = '';
+  document.querySelector('.x-fgroup[data-dim="discipline"]').dataset.locked = discLive ? '0' : '1';
+  const discSel = document.getElementById('f-discipline');
+  discSel.disabled = !discLive;
+  if(!discLive) discSel.value = '';
+
+  document.querySelectorAll('.x-select').forEach(function(s){
+    s.dataset.on = PICKED[s.dataset.dim] ? '1' : '0';
+  });
+
+  const out = ROWS.filter(function(r){
+    return Object.keys(PICKED).every(dim => !PICKED[dim] || has(r, dim, PICKED[dim]));
+  });
+
+  const dir = SORT.dir, key = SORT.key;
+  const sortVal = r => key === 'name' ? r.name : key === 'region' ? regionCell(r) : r.deliv;
+  out.sort(function(a, b){
+    // Sorting region on the displayed text, not the stored value, so "Southern" and
+    // "Southern (statewide)" sit together rather than under S and O.
+    return sortVal(a).localeCompare(sortVal(b)) * dir || a.name.localeCompare(b.name);
+  });
+
+  document.querySelectorAll('th[data-sort]').forEach(function(th){
+    const on = th.dataset.sort === key;
+    if(on) th.setAttribute('aria-sort', dir === 1 ? 'ascending' : 'descending');
+    else th.removeAttribute('aria-sort');
+    th.querySelector('.ar').textContent = on ? (dir === 1 ? '▲' : '▼') : '';
+  });
+
+  document.getElementById('rows').innerHTML = out.map(function(r){
+    const pw = [...r.pathway].sort().map(function(p){
+      const u = r.links[p];
+      return u ? '<a class="pg" href="' + esc(u) + '" target="_blank" rel="noopener">' + PATHWAY[p] + '</a>'
+               : '<span class="pg">' + PATHWAY[p] + '</span>';
+    }).join('');
+    const ds = r.disc.length
+      ? r.disc.map(d => '<a class="pg" href="' + esc(d.u) + '" target="_blank" rel="noopener">' + d.t + '</a>').join('')
+      : '<span class="none">—</span>';
+    return '<tr><td class="name">' + esc(r.name) + '</td>' +
+      '<td class="tags">' + pw + '</td>' +
+      '<td class="tags">' + ds + '</td>' +
+      '<td class="region">' + regionHTML(r) + '</td>' +
+      '<td class="deliv"><span class="sw" style="background:var(' + DELIV_DOT[r.deliv] + ')"></span>' + esc(r.deliv) + '</td></tr>';
+  }).join('');
+
+  const any = Object.keys(PICKED).some(k => PICKED[k]);
+  // Just how many are showing. The unfiltered total is the same line with nothing selected, so
+  // "N of 90" only repeated what the empty dropdowns already said.
+  document.getElementById('count').innerHTML =
+    '<b>' + out.length + '</b> program' + (out.length === 1 ? '' : 's');
+  document.getElementById('clear').hidden = !any;
+  const empty = document.getElementById('empty');
+  empty.hidden = out.length > 0;
+  empty.textContent = 'No programs match those filters. Try removing one.';
+}
 </script>

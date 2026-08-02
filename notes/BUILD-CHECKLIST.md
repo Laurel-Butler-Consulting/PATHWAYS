@@ -174,6 +174,16 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
 ## 3. Online-availability marking
 - [ ] Client sign-off on marker threshold, then wire in (research done for all 92 programs)
       [`notes/online-availability-README.md`](online-availability-README.md) · `notes/online-availability-review.json`
+- [ ] 🔴 **The cross-index is now LINKED from every result page (2026-08-02) — this publishes the
+      online-availability data ahead of the sign-off above.** `cross-index/index.html` groups all 92
+      programmes by delivery mode (In-Person Only / In Person or Online / Hybrid / Online Only),
+      which is the same research this section is gating. Linking it means a visitor reaches that
+      grouping even though the markers themselves are not on the programme lists yet.
+      Nothing is public while the pre-launch gate and `noindex` are in place, so there is no exposure
+      today. **Before launch, either get the client's sign-off (which covers both) or remove the row**
+      — it is one line in `resourcesHTML()` in index.html, marked with a ⚠ comment.
+      Second-order: the cross-index carries its own `noindex`; if it stays, decide whether that is
+      still wanted once the main site is meant to be found by search.
 
 ## 4. Email capture — Constant Contact
 - [ ] **BUILT but NOT WIRED (2026-07-30). MUST NOT SHIP AS-IS.** The navy band at the foot of every
@@ -258,10 +268,14 @@ so step 2 cannot start until the final videos land, no matter how fast the trans
       node falls back to its first language rather than showing nothing — and the choice is remembered,
       so it returns on the next node that does have it. Same rule as the Transcript modal.
       Caption line is marked with its language for screen readers.
-- [ ] ⚠ **One thing to confirm on Aug 4, with real files:** switch language **while the video is
-      paused** and check the caption line repaints straight away. Browsers are supposed to recompute
-      on the switch, and it can't be tested in the preview pane (which suspends video). If it comes up
-      blank until playback resumes, it's a small fix — but find out before launch, not after.
+- [x] ⚠ ~~**One thing to confirm on Aug 4, with real files:** switch language while the video is
+      paused~~ — **REPRODUCED AND FIXED 2026-08-02.** It did come up blank. A caption track only just
+      switched on has no active cue yet; the browser fills that in on its next cue update, which
+      while paused never arrives — so the line stayed empty until playback resumed. Two extra
+      repaints after the switch fix it, and cost nothing while the video is playing.
+      Verified with a real video element and two caption tracks, paused: before the fix the line was
+      empty immediately after the switch; after it, the new language appears. Worth one more look on
+      Aug 4 against the real `.vtt` files, but this is no longer an open question.
 - [ ] *Deferred, client's call, not a concern now:* signposting Spanish captions to a non-English
       reader inside an English interface; whether the printed PDF carries a transcript and in which
       language (it carries neither today).
@@ -425,6 +439,19 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       launched site is invisible to search with nothing on the page to show it.** Delete the tag and
       its comment, push, then confirm at `view-source:artsedpathways.org` that it's gone.
 - [ ] Full QA pass — cross-browser and real devices, not the preview pane
+- [ ] **Save one result page as a PDF from the LIVE domain and click the links in it.** Two separate
+      things to confirm, both about a minute's work:
+      1. **The four resource documents.** They are links to our own site (`resources/…`), written
+         relative, so a saved PDF bakes in whatever address the reader was on. From the live domain
+         that becomes `https://artsedpathways.org/resources/…` and is correct forever. From a local
+         preview it becomes `http://localhost:8765/…` and is dead on anyone else's computer — so a
+         PDF saved before the domain is live must not be circulated. The other 32 links are absolute
+         and unaffected either way.
+      2. **Whether links survive at all, per browser.** Chrome, Edge and Safari keep them clickable.
+         Firefox's built-in Save-to-PDF has historically flattened links; if that is still true it is
+         worth knowing before someone reports it. Test in Firefox specifically.
+      Page-side is already confirmed (2026-08-02): 36 real links inside the printed area, none hidden
+      by the print styles, collapsed sections expanded so nothing is omitted.
 - [ ] Play one real clip through in a normal browser — the preview pane suspends video, so continuous
       playback is the one thing never confirmed on a real file
 - [ ] Final content review with the client
@@ -471,6 +498,122 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 ---
 
 ## Recently completed
+**2026-08-02**
+- [x] **"Delivery" column and filter renamed "Format"** (2026-08-02). Standard wording in course
+      listings and plainer than "delivery", which is institutional. Rejected "In-Person / Online":
+      it names two of the four values and omits Hybrid, so it reads as a binary when there are four.
+      The four values themselves are unchanged. Note the notes and code comments still call the
+      underlying data "delivery method" — that is the concept; "Format" is what the reader sees.
+- [x] **Cross-index: online programmes now count as available in every region.** The region filter
+      answers "can I do this from where I live?", not "where is the campus?" — so a programme
+      delivered **Online only** or **In person or online** matches every region, and its region cell
+      reads `Southern (statewide)`: the campus location, then a dimmed marker saying geography does
+      not limit it. **Hybrid stays geographic** — it requires attending in person.
+      Effect on the filter: Northern 28 → 53, Central 11 → 45, Southern 48 → 66, Statewide 40. Each
+      setting now returns half to three-quarters of the list, which is accurate but means the filter
+      narrows less; the marker is what lets the eye separate local from statewide. Sorting by region
+      puts locals above statewide ones within each region.
+- [x] **Region "Online" renamed "Statewide"** — in the cross-index AND on the result pages
+      (`data/content.en.json` → `regionLabels`, one word). As a REGION it never meant online
+      delivery; it means the organisation has no single campus. Two of the three rows carrying it
+      are not online at all — Focus 5 is hybrid, The Entertainment Community Fund is in person only.
+      Beside a delivery column that also says "Online only", the old label read as a duplicate of
+      something it did not mean.
+      ⚠ Stored values are untouched — `SCHOOL_REGION` in index.html still says `"Online"`, and only
+      the display maps to Statewide. Don't "tidy" the data to match the labels.
+      ⚠ Those three rows are on the PROVISIONAL region list awaiting client review (§2), so the
+      client's answer could change this again.
+      Note the result pages did NOT get the statewide-matching behaviour, and should not: they
+      *group* by region and show every group at once, so nothing is hidden. Only the cross-index
+      *filters*, which is where excluding an online programme would have been a false negative.
+- [x] **Cross-index rebuilt as a filterable, sortable table** — replaces the four delivery-mode
+      groups. Filter by **pathway** (Single Subject Credential / Teaching Artist / CTE),
+      **discipline** (Music / Theatre / Dance / Art), **region**, and **delivery method** — four
+      dropdowns, each defaulting to "All …", combining to narrow the list. Sort by Program, Region or
+      Delivery. Count of what is showing ("61 programs") plus clear-all; a set filter turns gold so
+      the active ones are visible at a glance.
+      Design settled 2026-08-02 over several passes, all on request: pill buttons → dropdowns;
+      per-value counts removed; oval corners → the same 4px rectangle as the pathway and discipline
+      tags in the table; "N of 90" → a plain count, since the unfiltered total is what the line
+      already shows with nothing selected; every menu's first option is simply "ALL" (the label above
+      it already names the dimension); and regions display as Northern / Central / Southern, without
+      "California" — the whole site is Californian, so the word carried nothing.
+      ⚠ The stored region values DO keep "California" so they still match `SCHOOL_REGION` in
+      index.html — only the display drops it. Don't "tidy" the data to match the labels.
+      Consequence of the dropdowns: filters are single-choice — you cannot ask for Music OR Dance in
+      one go, which the pills allowed. Revisit only if that combination turns out to be wanted.
+      **Data:** names, links and pathway membership are read from `data/programs.json` at load, so
+      the page cannot drift from the result pages when a programme is added or a link changes. Only
+      region and delivery method are held locally — region is DUPLICATED from `SCHOOL_REGION` in
+      index.html and has to be changed in both places; delivery has no counterpart in index.html.
+      **Discipline is only recorded for credential programmes.** 27 of the 90 rows are Teaching
+      Artist or CTE and show "—"; the discipline filter goes inert when the pathway filter excludes
+      Single Subject, rather than silently returning nothing. A note under the table says so.
+      If those 27 are ever tagged by discipline (Luna Dance Institute → Dance, LACMA → Art …) the
+      filter picks it up with no code change.
+      Each pathway/discipline chip links to that programme's own page — 40 of the 90 schools have a
+      different address per discipline, so the single "view" link the old page carried could only
+      ever be right for some of them. That link was the delivery-mode research source, not the
+      programme page; it is no longer shown.
+      Verified live: 90 rows, all four axes populated; single filters, two filters combined, the
+      inert-discipline rule, clear-all, and all three sort columns including `aria-sort`.
+- [x] **Cross-index header + colour scheme settled** — renamed to title "Arts Educator Pathways" over
+      subtitle "Programs Cross-Index" (the result pages' `.res-label`: gold, caps, same size and
+      tracking). **Stays on the inverted scheme** — dark ground, light type — after a light-scheme
+      version was tried and rejected on 2026-08-02.
+      The ground is `--navy`, the exact colour of the result-page header band, and the title now sits
+      directly on it with a hairline rule beneath instead of inside a panel: a navy card on a navy
+      field had nothing to distinguish it.
+      The page's CSS is a COPY of index.html's tokens, not a shared file — a palette change there has
+      to be mirrored here by hand. Noted at the top of its stylesheet.
+      Known and deliberate: the four category dot colours have no counterpart in index.html, and the
+      table's per-row "view ↗" links keep their arrow, which the result pages drop from list links.
+- [x] **Cross-index linked as the first item in Additional Resources** — a link, not a collapsible
+      section: same typeface, size, colour, hairline and spacing as the section rows, with an arrow
+      where they carry a disclosure chevron, so it reads as "goes somewhere" rather than "opens".
+      Opens in a new tab like every other resource link, because the result page is drawn in the
+      browser and navigating away in the same tab would lose it. Label lives in
+      `data/content.en.json` as `ui.crossIndex` ("Programs Cross-Index") — edit it there, not in
+      index.html. Verified on all 7 result pages, print included, accordion unaffected.
+      ⚠ **Gated — see §3.** It publishes the online-availability data ahead of the client's sign-off.
+- [x] **Additional Resources is now a one-at-a-time accordion** — opening a section closes whichever
+      was open. Done with the browser's own exclusive-accordion attribute, no JavaScript behind it;
+      a browser too old to know the attribute just lets several open, as before. The programme-region
+      bands above are deliberately NOT part of this — they stay independent and open by default.
+      ⚠ It carries one non-obvious consequence: the browser will not allow two same-named sections
+      open at once, which would have silently dropped all but one resource section from the printed
+      page and the saved PDF. The print handler strips the attribute before expanding and puts it
+      back afterwards. Verified: exclusive on screen, all five open during print, state and attribute
+      restored after, still exclusive on the next click.
+- [x] **Full code review of the site** — `index.html` end to end, all three data files, both scripts.
+      Nothing to clean up: no dead CSS, no unused functions, all 90 programmes mapped to a region,
+      `index.html` and `data/content.en.json` aligned exactly (11 nodes, 21 resource links). Three
+      real defects found and fixed (below); everything else was already sound.
+- [x] **Missing-clip fallback now clears every clip-only control.** A node switched on with `v:1`
+      whose file is absent dropped back to the still and removed mute and CC, but left the playback-
+      speed button behind — a live control over a photograph, opening a menu that changed nothing.
+      Likely to bite during the video drop if a file is late or misnamed. Speed and the caption layer
+      now go with it. Verified by simulating an absent file.
+- [x] **Client-written result bullets are now escaped.** The "In Short" copy is the only text in
+      `data/content.en.json` written outside the project, and it goes straight into the page. A `<`
+      or `&` pasted from Word would have eaten the rest of the line. ⚠ Consequence: those bullets are
+      **plain text** — bold or italic inside one will not work. Everything else in that file still
+      renders its deliberate markup (`<strong>`, `<em>`, the CTC link, `&copy;`, `&amp;`), which is
+      why the escaping is scoped to these bullets and must not be widened. Verified both ways.
+- [x] **Resource documents moved onto the site** — `resources/`, four PDFs, replacing every Google
+      Drive link in the Additional Resources section. Two of the Prop 28 links pointed at the SAME
+      Drive folder, so one title opened the wrong document; those two and a third also carried
+      `/u/1/` in the address, which pins the visitor to whichever Google account they signed into
+      second — anyone with more than one could have hit a "request access" screen. No Drive links
+      remain anywhere on the site. Re-hosting the three third-party reports was approved 2026-08-02;
+      the client relationship owner may still want to be told.
+      Verified: all four serve as PDFs, each paired with the correct title, all 21 resource links
+      unique, no console errors.
+- [x] **Local preview server bound to `127.0.0.1`** — `python3 -m http.server 8765` alone publishes
+      the whole project folder to the local network (drafts, notes, client research), and the
+      pre-launch password gate does NOT cover it: the gate is JavaScript inside `index.html`, so
+      fetching any other file walks straight past it. `CLAUDE.md` updated to document the bound form.
+
 **2026-08-01**
 - [x] Three-way caption control (off / English / Español) and per-node caption-language flags built
       and verified (§6). Spanish captions are now a file drop on Aug 5, not a build.
