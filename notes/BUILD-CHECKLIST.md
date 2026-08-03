@@ -62,7 +62,8 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
 - [x] English transcripts for all 11 videos — written and final 2026-07-31 (§1)
 - [~] Spanish transcripts — drafted 2026-07-31, **awaiting client review / edits** (§6)
-- [ ] "Civil Cyber Arts" credit link destination (§9) — ours alone, no client input needed
+- [x] **"Civil Cyber Arts" credit link — DONE 2026-08-03.** Points at an alias address, deliberately
+      disposable. Detail in §9.
 
 ---
 
@@ -456,8 +457,12 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       playback is the one thing never confirmed on a real file
 - [ ] Final content review with the client
 - [x] ~~Welcome transcript is lorem ipsum~~ — fixed 2026-07-31; real transcript now loads.
-- [ ] Wire the "Civil Cyber Arts" credit link — placeholder `href="#"` in two places (footer + result
-      pages). Confirmed still unresolved in the 2026-07-30 code review.
+- [x] **"Civil Cyber Arts" credit link wired 2026-08-03** — `mailto:civilcyberarts@electrobeam.net`,
+      in all four places: the site footer, the result pages, the Program Index and the sign-up
+      confirmation page. TEMPORARY by intent: an alias address, chosen so it can be deactivated
+      without touching the site if it starts attracting harvested spam. A public mailto in a footer
+      is readable by address scrapers — if the alias is ever retired, swap the destination rather
+      than leaving a dead link.
 - [ ] **Cross-index: SSC / TA / CTE have no visible explanation on desktop.** Raised and DEFERRED
       2026-08-02 — left as is for now, review before launch. The desktop table abbreviates the
       Pathway column to save width; each chip carries a hover tooltip with the full wording, but the
@@ -713,5 +718,5 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [x] Merged duplicated CSS link-arrow rule
 - [x] Additional Resources section (collapsible subsections + print-expand)
 - [x] Supplementary Authorization page copy update + italic note
-- [x] Footer design credit (Civil Cyber Arts; placeholder link)
+- [x] Footer design credit (Civil Cyber Arts) — link wired 2026-08-03, no longer a placeholder
 - [x] DPP section / subsection title styling

@@ -347,7 +347,11 @@
   .qv-result .results-header .res-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
   .qv-result .res-summary{margin-bottom:2.5rem}   /* match the header's spacing on the wide layout */
   /* Email opt-in band — deliberately mirrors .results-header (same navy, radius, shadow) as a bookend */
-  .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.6rem 2rem;margin-top:2.5rem}
+  /* Held at the height of its tallest state and centred, so the box does not resize when a status
+     message appears, when it clears, or when the form is replaced on success. Without this the card
+     jumped ~35px the moment anyone pressed Sign Up. Re-measure if the messages in
+     data/content.en.json get longer — a message that wraps to two lines would exceed this. */
+  .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.6rem 2rem;margin-top:2.5rem;min-height:225px}
   .qv-optin .oi-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
   .qv-optin .oi-copy{font-family:var(--font-body);font-size:.8rem;color:rgba(255,255,255,.85);margin-bottom:1.1rem}
   .qv-optin .oi-form{align-self:stretch;display:flex;justify-content:center;align-items:center;gap:.6rem;flex-wrap:wrap}   /* stretch: as a shrink-to-fit column item the form mis-sized and the field/button overlapped */
@@ -371,7 +375,10 @@
      weight and colour. The two sit tight together under the title. */
   .qv-result-foot .rf-org,.qv-result-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(0,38,71,.55);letter-spacing:.04em;margin-top:.35rem}
   .qv-result-foot .rf-org+.rf-copy{margin-top:.15rem}
-  .qv-result-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.15rem}
+  .qv-result-foot .rf-privacy{font-family:var(--font-body);font-size:.72rem;letter-spacing:.04em;margin-top:.15rem}
+  .qv-result-foot .rf-privacy a{color:rgba(0,38,71,.55);text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
+  .qv-result-foot .rf-privacy a:hover{color:var(--blue)}
+  .qv-result-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(0,38,71,.45);letter-spacing:.04em;margin-top:.7rem}
   .qv-result-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,38,71,.3);text-underline-offset:2px;transition:color .15s}
   .qv-result-foot .rf-credit a:hover{color:var(--blue)}
 
@@ -385,6 +392,11 @@
   .footer-logo img{display:block;height:34px;width:auto;transition:opacity .15s}
   .footer-logo:hover img{opacity:.8}
   .footer-inner .footer-contact{line-height:1.7;margin-bottom:1.8rem}
+  /* Sits tight under the copyright line, grouped with it. The gap goes below, so the design credit
+     reads as its own thing rather than the privacy link reading as a lead-in to it. */
+  .footer-privacy{font-size:.72rem}
+  .footer-privacy a{color:rgba(255,255,255,.7);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:2px;transition:color .15s,text-decoration-color .15s}
+  .footer-privacy a:hover{color:var(--gold);text-decoration-color:var(--gold)}
   .footer-credit{margin-top:1rem;font-size:.72rem;color:rgba(255,255,255,.4)}
 
   /* === RESPONSIVE === */
@@ -399,6 +411,11 @@
        moving anything, so the row margin below is what keeps neighbouring hit boxes from overlapping. */
     .res-item{padding:0;margin-bottom:1.2rem}
     .res-item a{padding:.53rem 0}
+    /* Narrow enough that the longer status messages wrap onto a second line, and that the card is
+       taller to begin with — so the sign-up box needs its own reserved height here. Both numbers
+       measured; re-check them if the messages in data/content.en.json get longer. */
+    .qv-optin{min-height:327px}
+    .qv-optin .oi-status,.qv-optin .oi-status:empty{min-height:2.9em;margin-top:.7rem}
   }
   @media(max-width:520px){
     .prog-list{column-count:1}
@@ -622,7 +639,8 @@ if(!document.documentElement.classList.contains('pw-open')){
     <a class="footer-logo" href="https://createca.org/" target="_blank" rel="noopener" aria-label="Create CA"><img src="images/createca_logo_color_EDIT.png" alt="Create CA" width="224" height="34"></a>
     <p class="footer-contact">85 S. Grand Ave<br>Pasadena, CA 91105<br>626.578.9315<br><a href="mailto:info@createca.org">info@createca.org</a></p>
     <p>&copy;2026 Laurel Butler Consulting</p>
-    <p class="footer-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></p>
+    <p class="footer-privacy"><a href="privacy/">Privacy Policy</a></p>
+    <p class="footer-credit">site design by <a href="mailto:civilcyberarts@electrobeam.net">Civil Cyber Arts</a></p>
   </div>
 </footer>
 
@@ -1348,7 +1366,10 @@ function renderProfile(key){
       '<button class="rf-home" onclick="pwExit()">'+T.footHome+'</button>'+
       '<div class="rf-org">'+T.footOrg+'</div>'+
       '<div class="rf-copy">'+T.footCopy+'</div>'+
-      '<div class="rf-credit">'+T.footCreditPre+'<a href="#" rel="noopener">'+T.footCreditName+'</a></div>'+
+      // New tab: the result page is drawn in the browser rather than fetched, so navigating away in
+      // the same tab would lose the results the visitor just worked through.
+      '<div class="rf-privacy"><a href="privacy/" target="_blank" rel="noopener">'+T.footPrivacy+'</a></div>'+
+      '<div class="rf-credit">'+T.footCreditPre+'<a href="mailto:civilcyberarts@electrobeam.net">'+T.footCreditName+'</a></div>'+
     '</div>'+
   '</div>';
 }
