@@ -359,9 +359,11 @@
      is truly not rendered would not be filled in, which is the whole point of the trap. */
   .qv-optin .oi-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
   .qv-optin .oi-status{font-family:var(--font-body);font-size:.72rem;line-height:1.45;color:var(--gold);margin-top:.7rem;min-height:1.1em}
+  /* Takes up no room until it has something to say — otherwise an empty line sat under the form
+     permanently, leaving the card visibly bottom-heavy. It stays in the page rather than being
+     removed, so screen readers still announce the message when one arrives. */
+  .qv-optin .oi-status:empty{min-height:0;margin-top:0}
   .qv-optin .oi-status.is-error{color:#FFB4A2}
-  .qv-optin .oi-consent{font-family:var(--font-body);font-size:.58rem;line-height:1.5;color:rgba(255,255,255,.55);margin-top:.7rem;max-width:420px}
-  .qv-optin .oi-consent a{color:rgba(255,255,255,.75);text-decoration:underline}
   .qv-result-foot{text-align:center;margin-top:3.75rem}
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .qv-result-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
@@ -1341,7 +1343,6 @@ function renderProfile(key){
         '<button class="btn-primary oi-submit" type="submit">'+T.optinSubmit+'</button>'+
       '</form>'+
       '<p class="oi-status" role="status" aria-live="polite"></p>'+
-      '<p class="oi-consent">'+T.optinConsent+'</p>'+
     '</div>'+
     '<div class="qv-result-foot">'+
       '<button class="rf-home" onclick="pwExit()">'+T.footHome+'</button>'+
