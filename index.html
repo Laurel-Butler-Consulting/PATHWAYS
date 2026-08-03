@@ -271,7 +271,6 @@
      — placeholder copy is NOT visually marked (warning band removed on request 2026-08-01);
      `"placeholder": true` in data/content.en.json is the only remaining flag. */
   .res-summary{background:var(--white);border-left:4px solid var(--gold);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
-  .res-summary-head{font-family:var(--font-body);font-weight:700;font-size:.85rem;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin:0 0 .6rem}
   .res-summary ul{margin:0;padding-left:1.15rem}
   .res-summary li{font-family:var(--font-body);font-size:.95rem;line-height:1.5;color:var(--navy);margin-bottom:.45rem}
   .res-summary li:last-child{margin-bottom:0}
@@ -355,6 +354,14 @@
   .qv-optin .oi-input{flex:0 1 300px;min-width:0;font-family:var(--font-body);font-size:.78rem;color:var(--navy);background:var(--white);border:none;border-radius:var(--r);padding:.78rem .9rem}
   .qv-optin .oi-input::placeholder{color:rgba(0,38,71,.45)}
   .qv-optin .oi-input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .qv-optin .oi-submit:disabled{opacity:.55;cursor:default}
+  /* Honeypot. Off-screen rather than display:none — some bots skip hidden fields, and a field that
+     is truly not rendered would not be filled in, which is the whole point of the trap. */
+  .qv-optin .oi-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+  .qv-optin .oi-status{font-family:var(--font-body);font-size:.72rem;line-height:1.45;color:var(--gold);margin-top:.7rem;min-height:1.1em}
+  .qv-optin .oi-status.is-error{color:#FFB4A2}
+  .qv-optin .oi-consent{font-family:var(--font-body);font-size:.58rem;line-height:1.5;color:rgba(255,255,255,.55);margin-top:.7rem;max-width:420px}
+  .qv-optin .oi-consent a{color:rgba(255,255,255,.75);text-decoration:underline}
   .qv-result-foot{text-align:center;margin-top:3.75rem}
   .qv-result-foot .rf-home{background:none;border:none;cursor:pointer;font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .qv-result-foot .rf-home:hover{color:var(--blue);text-decoration-color:var(--blue)}
@@ -860,6 +867,56 @@ function showScreen(s){                               // pure renderer — histo
   window.scrollTo({top:0,behavior:'instant'});
 }
 
+// === Email sign-up =============================================================================
+// Posts straight to Buttondown. There is no third-party script anywhere on this site: nothing is
+// loaded, nothing runs, nobody is observed. The ONLY request that ever leaves is this one, made by
+// someone who has chosen to submit their address.
+// Their endpoint returns permissive cross-origin headers, so the response can be read and the
+// visitor stays on their results page — no navigating away, no iframe, both of which their own
+// documentation suggests and both of which would have put outside code back on the page.
+var BUTTONDOWN_USER = 'lbconsulting';
+
+function pwOptinSubmit(form){
+  var status = form.parentNode.querySelector('.oi-status');
+  var input  = form.querySelector('.oi-input');
+  var button = form.querySelector('.oi-submit');
+  // Honeypot: a real person never sees this field, so anything in it came from a bot. Silently
+  // pretend success — telling a bot it failed only invites it to try again differently.
+  if(form.querySelector('.oi-hp').value){ pwOptinDone(status, form, T.optinThanks); return; }
+  var email = (input.value || '').trim();
+  if(!email || email.indexOf('@') < 1 || email.lastIndexOf('.') < email.indexOf('@')){
+    pwOptinSay(status, T.optinBadEmail, true);
+    input.focus();
+    return;
+  }
+  button.disabled = true;
+  pwOptinSay(status, T.optinSending, false);
+  fetch('https://buttondown.com/api/emails/embed-subscribe/' + BUTTONDOWN_USER, {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams({email:email})
+  }).then(function(r){
+    if(r.ok) pwOptinDone(status, form, T.optinThanks);
+    else { button.disabled = false; pwOptinSay(status, T.optinFailed, true); }
+  }).catch(function(){
+    // Offline, or a network-level block. Never leave someone staring at "Sending…".
+    button.disabled = false;
+    pwOptinSay(status, T.optinFailed, true);
+  });
+}
+
+function pwOptinSay(status, msg, isError){
+  if(!status)return;
+  status.textContent = msg || '';
+  status.className = 'oi-status' + (isError ? ' is-error' : '');
+}
+
+// On success the form is replaced by the message, so nobody submits twice by accident.
+function pwOptinDone(status, form, msg){
+  form.style.display = 'none';
+  pwOptinSay(status, msg, false);
+}
+
 function pwChoose(to){
   if(to==='@reset'){pwStart();return;}
   if(to.charAt(0)==='@'){pwGo({t:'profile',k:to.slice(1)});return;}
@@ -1272,16 +1329,19 @@ function renderProfile(key){
       '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
     '</div>'+
     actions+
-    // TODO: email opt-in — visual only, NOT wired. Needs the client's form platform (Mailchimp /
-    // ConvertKit / Formspree …) before launch: give the form an action + method, or a submit handler.
-    // Must not ship in this state — it currently accepts an address and does nothing with it.
+    // Email opt-in — entirely ours, posting to Buttondown. See pwOptinSubmit().
+    // .oi-hp is the honeypot: hidden from sight and from screen readers, left out of the tab order.
+    // A real person cannot fill it in, so anything in it means the submission came from a bot.
     '<div class="qv-optin">'+
       '<div class="oi-label">'+T.optinLabel+'</div>'+
       '<div class="oi-copy">'+T.optinCopy+'</div>'+
-      '<form class="oi-form" onsubmit="return false">'+
+      '<form class="oi-form" onsubmit="pwOptinSubmit(this);return false;" novalidate>'+
+        '<input class="oi-hp" type="text" name="hp_website" tabindex="-1" autocomplete="off" aria-hidden="true">'+
         '<input class="oi-input" type="email" name="email" autocomplete="email" placeholder="'+T.optinPlaceholder+'" aria-label="'+T.optinAria+'">'+
-        '<button class="btn-primary" type="submit">'+T.optinSubmit+'</button>'+
+        '<button class="btn-primary oi-submit" type="submit">'+T.optinSubmit+'</button>'+
       '</form>'+
+      '<p class="oi-status" role="status" aria-live="polite"></p>'+
+      '<p class="oi-consent">'+T.optinConsent+'</p>'+
     '</div>'+
     '<div class="qv-result-foot">'+
       '<button class="rf-home" onclick="pwExit()">'+T.footHome+'</button>'+
@@ -1312,8 +1372,10 @@ function renderProfile(key){
 function summaryHTML(key){
   var items=(SUMMARY.items&&SUMMARY.items[key])||[];
   if(!items.length)return '';
-  return '<section class="res-summary" aria-labelledby="resSummaryHead">'+
-    '<h3 class="res-summary-head" id="resSummaryHead">'+escapeHTML(SUMMARY.heading||'')+'</h3>'+
+  // No visible heading: the gold-barred card already reads as the summary of the page it opens.
+  // aria-label carries the name it used to get from the heading, so the section is still announced
+  // as a summary rather than as an unlabelled list of bullets.
+  return '<section class="res-summary" aria-label="Summary">'+
     '<ul>'+items.map(function(t){return '<li>'+escapeHTML(t)+'</li>';}).join('')+'</ul>'+
   '</section>';
 }
@@ -1406,5 +1468,10 @@ const PW_REDUCED=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motio
   start();
 })();
 </script>
+
+<!-- No third-party scripts. Deliberate, and the reason the sign-up posts directly to Buttondown
+     rather than using anyone's embed widget: nothing here loads code from another company, so no
+     outside party sees a visitor who has not chosen to send something. Keep it that way — adding an
+     embed, a font host, an analytics tag or a map would each undo it. -->
 </body>
 </html> 

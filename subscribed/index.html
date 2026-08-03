@@ -1,0 +1,89 @@
+<meta charset="utf-8">
+<title>Sign-Up Confirmation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Reached only by clicking a confirmation link in an email. Nothing should index it, and nobody
+     should arrive here cold. -->
+<meta name="robots" content="noindex,nofollow">
+<style>
+  /* Where Buttondown sends someone after they click the confirmation link in their email.
+     Without this they would land on Buttondown's newsletter archive, which does not exist — this is
+     an interest list, not a published newsletter.
+     Set in Buttondown as `subscription_confirmation_redirect_url`.
+     The site's own tokens, COPIED not shared, exactly as program-index/ does it. If the palette
+     changes in index.html it has to be mirrored here by hand. */
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --white:#FFFFFF;
+    --ice:#F0F8FF;
+    --gold:#FECF43;
+    --blue:#0C599D;
+    --navy:#002647;
+    --r:4px;
+    --font-body:'Open Sans',sans-serif;
+    --font-display:'Bebas Neue',sans-serif;
+  }
+  @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
+  @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
+
+  html{font-size:20px}
+  body{font-family:var(--font-body);font-weight:400;color:var(--navy);background:var(--ice);min-height:100vh;display:flex;flex-direction:column;text-wrap:pretty}
+  .wrap{flex:1;width:100%;max-width:1040px;margin:0 auto;padding:4rem 1.25rem 3rem;display:flex;flex-direction:column;justify-content:center}
+
+  /* The same navy card the sign-up sat in, so the journey ends where it started.
+     32px between every block, at every screen size — a fixed gap, not a distributed one, so editing
+     the copy no longer shifts the spacing. The four children carry no margins of their own; adding
+     one back would land on top of the gap and break it.
+     Capped at 600px wide, which is what stopped it running the full width of the page. The height
+     then follows the content: at the current copy length that lands close to square without being
+     forced to it, so nothing is squeezed or padded out to hit a ratio. Deliberately NOT an exact
+     square — a fixed ratio would start distorting the moment the copy changed. */
+  .sub-card{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:2.6rem 2rem;width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .sub-title{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
+  .sub-copy{font-family:var(--font-body);font-size:.82rem;line-height:1.6;color:rgba(255,255,255,.85);max-width:46ch;margin:0 auto}
+
+  .sub-actions{display:flex;justify-content:center}
+  .btn-primary{display:inline-flex;align-items:center;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r);padding:.85rem 1.8rem;font-family:var(--font-body);font-size:.72rem;font-weight:700;line-height:1;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity .15s}
+  .btn-primary:hover{opacity:.9}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:var(--r)}
+
+  /* Footer sits INSIDE the card, so the page is a single object on the ice ground rather than a
+     card with loose text beneath it. Light-on-navy versions of the site footer's own type.
+     Separated by space alone — no rule, which read as a second edge inside a card that already
+     has one. */
+  /* 48px above the footer, against 32px between the blocks — it is a different kind of thing from
+     the three above it, so it sits further off. The 16px here rides on top of the flex gap; the
+     two together make the 48. */
+  .sub-foot{text-align:center;margin-top:16px}
+  .sub-foot .rf-home{font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--white);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
+  .sub-foot .rf-home:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  .sub-foot .rf-org,.sub-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.04em;margin-top:.35rem}
+  .sub-foot .rf-org+.rf-copy{margin-top:.15rem}
+  .sub-foot .rf-credit{font-family:var(--font-body);font-size:.68rem;color:rgba(255,255,255,.45);letter-spacing:.04em;margin-top:.15rem}
+  .sub-foot .rf-credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:2px;transition:color .15s}
+  .sub-foot .rf-credit a:hover{color:var(--gold)}
+
+  @media (max-width:600px){
+    .wrap{padding:2rem .9rem 2.5rem}
+    .sub-card{padding:1.8rem 1.2rem;border-radius:14px}   /* gap stays 32px */
+    .sub-title{font-size:1.6rem}
+    .btn-primary{justify-content:center;text-align:center}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="sub-card">
+    <h1 class="sub-title">Thank You!</h1>
+    <p class="sub-copy">Your sign-up is confirmed. We may reach out to you down the road to check in on your arts education journey. In the meantime, check out the Pathways Program Index linked below to browse all training and certification programs listed on our site, organized by Pathway, Discipline, Region, and Format.</p>
+    <div class="sub-actions">
+      <a class="btn-primary" href="../program-index/">Pathways Program Index</a>
+    </div>
+
+    <div class="sub-foot">
+      <a class="rf-home" href="../">Arts Educator Pathways</a>
+      <div class="rf-org">an initiative of CREATE CA</div>
+      <div class="rf-copy">&copy;2026 Laurel Butler Consulting</div>
+      <div class="rf-credit">site design by <a href="#" rel="noopener">Civil Cyber Arts</a></div>
+    </div>
+  </div>
+</div>

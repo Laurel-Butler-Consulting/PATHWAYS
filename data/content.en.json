@@ -19,7 +19,7 @@
     "yourPathway": "Your Pathway",
     "additionalResources": "Additional Resources",
     "crossIndex": "Pathways Program Index",
-    "crossIndexBlurb": "All programs listed on this site, organized by <b>Pathway, Discipline, Region,</b> and <b>Format</b>.",
+    "crossIndexBlurb": "Browse all training and certification programs listed on this site, organized by <b>Pathway, Discipline, Region,</b> and <b>Format</b>.",
     "printPdf": "Print / Save PDF",
     "restart": "Restart Questionnaire",
     "optinLabel": "Stay in touch",
@@ -27,6 +27,11 @@
     "optinPlaceholder": "your@email.com",
     "optinAria": "Email address",
     "optinSubmit": "Sign Up",
+    "optinSending": "Signing you up…",
+    "optinThanks": "Thank you — check your inbox to confirm your address.",
+    "optinBadEmail": "That doesn't look like an email address. Please check and try again.",
+    "optinFailed": "Something went wrong at our end. Please try again in a moment.",
+    "optinConsent": "We'll only email you about arts educator pathways in California. Unsubscribe any time — every email has a link. We never share your address.",
     "footHome": "Arts Educator Pathways",
     "footOrg": "an initiative of CREATE CA",
     "footCopy": "&copy;2026 Laurel Butler Consulting",
@@ -336,7 +341,6 @@
     "moreLink": "California Commission on Teacher Credentialing &#8599;"
   },
   "summaries": {
-    "heading": "In Short",
     "placeholder": true,
     "placeholderNote": "Placeholder text — client copy not yet received. Replace before launch.",
     "items": {
