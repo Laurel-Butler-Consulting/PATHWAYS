@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Arts Educator Pathways — Programs Cross-Index</title>
+<title>Pathways Cross-Index</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <style>
@@ -44,17 +44,18 @@
   body{font-family:var(--font-body);font-weight:400;color:var(--ice);background:var(--navy);min-height:100vh;text-wrap:pretty}
   a{color:var(--link)}
 
-  .wrap{max-width:1040px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  /* Wider than the 1040px the result pages use. Those are prose and want a comfortable measure;
+     this is a six-column table and needs 994px for its own content plus 58px of page padding.
+     At 1040px the table overflowed by 86px and scrolled sideways at every screen size. */
+  .wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
 
-  /* Title — unbanded. Type is unchanged from the header band it used to sit in: the result pages'
-     display face in white, over their .res-label in gold.
-     padding-bottom is the gap between the subtitle and the rule; margin-bottom is the gap between
-     the rule and the content below it. */
-  .x-head{text-align:center;padding-bottom:2rem;margin-bottom:2.4rem;border-bottom:1px solid var(--line)}
-  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
-  /* Subtitle is the result pages' .res-label — same size, weight, caps, tracking and gold. There it
-     sits above the pathway name; here it sits below, so the site name leads. */
-  .x-head .x-sub{font-family:var(--font-body);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);margin-top:.4rem}
+  /* Title — the page names itself, in the result pages' display face. The SITE name is not repeated
+     here: it lives in the footer, where it also links home. Two-tone so the page name reads as one
+     phrase rather than two labels. */
+  .x-head{text-align:center;padding-bottom:1.5rem;margin-bottom:2rem;border-bottom:1px solid var(--line)}
+  .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05}
+  .x-head h1 .xt-a{color:var(--white)}
+  .x-head h1 .xt-b{color:var(--gold)}
 
   /* === FILTERS === */
   .x-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem;margin-bottom:1.5rem}
@@ -92,16 +93,39 @@
   tbody td{padding:.55rem .6rem;border-bottom:1px solid var(--line-soft);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
   td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);min-width:170px}
-  td.tags{min-width:170px}
+  /* Pathway holds three short abbreviations, Discipline holds up to four words — sized separately
+     so the abbreviation actually buys back width instead of leaving the column padded out. */
+  /* The comma between two pathways is a bare text node in the cell, not part of a chip, so the
+     cell itself has to carry the colour or it inherits the page's white. */
+  td.tags-pw{min-width:0;width:1%;white-space:nowrap;color:var(--dim)}
+  td.tags-dc{min-width:150px}
+  abbr.pg{text-decoration:none}   /* kill the browser's dotted underline on <abbr> */
   td.region,td.deliv{font-family:var(--font-body);font-size:.72rem;color:var(--dim);white-space:nowrap}
-  td.deliv .sw{display:inline-block;width:.45rem;height:.45rem;border-radius:50%;margin-right:.4rem;vertical-align:middle}
+  td.web-c{white-space:nowrap}
+  .web{font-family:var(--font-body);font-size:.72rem;color:var(--link);text-decoration:underline;text-decoration-color:rgba(127,184,232,.45);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
+  .web:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  /* Discipline is the one dimension carrying colour, and the only one drawn as a chip. */
+  .pg-dc{border-color:transparent;font-weight:700}
+  .pg-dc[data-d="music"]{background:rgba(127,184,232,.22);color:#BBDCF7}
+  .pg-dc[data-d="theatre"]{background:rgba(232,160,143,.22);color:#F2C3B6}
+  .pg-dc[data-d="dance"]{background:rgba(111,214,181,.22);color:#9BE7CD}
+  .pg-dc[data-d="art"]{background:rgba(214,163,224,.22);color:#E2BFEA}
   .none{color:var(--dimmer)}
-  .sw-note{color:var(--dimmer)}   /* "(statewide)" — a qualifier, so the place name reads first */
 
-  /* Tag chips. Each links to that programme's own page — 40 of the 90 schools have a different
-     address per discipline, so one link per row could only ever be right for some of them. */
+  /* Tag chips. Labels only — the sole link in a row is the Website column. */
   .pg{display:inline-block;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:var(--r);padding:.12rem .4rem;margin:0 .25rem .25rem 0;white-space:nowrap;text-decoration:none;transition:color .12s,border-color .12s}
   a.pg:hover{color:var(--gold);border-color:var(--gold)}
+
+  /* Pathway is NOT a chip — plain text, no border, no fill. A different kind of object separates
+     from discipline faster than different decoration does, and pathway is the coarser of the two
+     categories, so it should read quieter. The vertical padding is kept so the text still lines up
+     with the chips in the next column. Replaces an earlier neutral-fill rule that never applied:
+     it sat above .pg and was silently overridden by it. */
+  .pg-pw{background:none;border:0;padding:.12rem 0;margin:0 0 .25rem 0;color:var(--dim)}
+  /* The table's three-letter form, spaced out as a label. The negative right margin pulls the
+     comma back against the last letter — letter-spacing adds a gap after it too, which would
+     otherwise leave the punctuation floating. */
+  abbr.pg-pw{letter-spacing:.1em;margin-right:-.1em}
 
   .x-empty{font-family:var(--font-body);font-size:.8rem;color:var(--dim);text-align:center;padding:2.5rem 1rem}
   .x-empty[hidden]{display:none}
@@ -123,23 +147,68 @@
     html{scroll-behavior:auto}
     .chip,.th-btn,.x-clear,.pg{transition:none}
   }
+  /* Panels are the narrow-screen view — phones and portrait tablets; the table is the wide one. */
+  #cards{display:none}
+
+  /* ── Structure switch, 1051px ─────────────────────────────────────────────────────────────────
+     Below this the table is replaced by the panels, because below this the table SCROLLS SIDEWAYS.
+     ⚠ The `min-width:680px` on the table is NOT the real floor — do not reason from it. Region,
+     Format and Website refuse to wrap, so the table's true minimum is 994px; with 58px of page
+     padding it needs a 1052px viewport. Every number here was measured, not assumed: an earlier
+     900px guess left the table quietly scrolling between 900 and 1125.
+     If the Pathway abbreviations are ever expanded again, or a column is added, this number moves —
+     re-measure the table's min-content width and reset both this and .wrap's max-width together. */
+  @media (max-width:1051px){
+    .tw{display:none}
+    #cards{display:block;padding-top:10px}
+    /* The count sticks to the top and carries the active filters, so after scrolling past the menus
+       you can still see what you are looking at. */
+    .x-bar{position:sticky;top:0;z-index:5;background:#00243f;padding-bottom:.45rem;
+           border-bottom:1px solid var(--line);gap:.5rem}
+    .x-active{display:flex;flex-wrap:wrap;gap:.25rem;width:100%;order:3;margin-top:.35rem}
+    .x-active:empty{display:none}
+    .x-active .af{font-family:var(--font-body);font-size:.56rem;font-weight:600;letter-spacing:.05em;
+                  text-transform:uppercase;color:var(--navy);background:var(--gold);border-radius:3px;padding:.1rem .35rem}
+    .cx{border-bottom:1px solid var(--line-soft)}
+    .cx summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;min-height:44px;padding:10px .1rem}
+    .cx summary::-webkit-details-marker{display:none}
+    .cx-n{flex:1;font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);line-height:1.25}
+    .cx[open] .cx-n{color:var(--gold)}
+    .cx dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;padding:0 .1rem .8rem;margin:0}
+    .cx dt{font-family:var(--font-body);font-size:.56rem;font-weight:700;letter-spacing:.1em;
+           text-transform:uppercase;color:var(--dimmer);padding-top:.45rem}
+    .cx dd{margin:0;font-family:var(--font-body);font-size:.68rem;color:var(--dim);align-self:center}
+    .cx .pg{font-size:.58rem;padding:.14rem .38rem;margin:0 .22rem .22rem 0}
+    .cx .pg-pw{padding-left:0;padding-right:0;margin-right:0}   /* stays plain text here too */
+    .x-note{font-size:.62rem}
+  }
+
+  /* ── Phone sizing, 600px ──────────────────────────────────────────────────────────────────────
+     Typography and spacing only — the structure already switched at 900. A portrait tablet gets the
+     panels but keeps the roomier header and a multi-column filter row, because it has the width for
+     both; squeezing a 768px screen into phone proportions would waste half of it. */
   @media (max-width:600px){
-    .wrap{padding:1.5rem 1rem 3rem}
-    .x-head{padding-bottom:1.5rem;margin-bottom:1.9rem}
-    .x-head h1{font-size:1.5rem}
-    .x-head .x-sub{font-size:.72rem;letter-spacing:.13em}
-    .x-filters{grid-template-columns:1fr;gap:1rem}
+    .wrap{padding:1.1rem .9rem 3rem}
+    .x-head{padding-bottom:.85rem;margin-bottom:1rem}
+    .x-head h1{font-size:1.6rem;white-space:nowrap}
+    /* One menu per row: at two-up the labels truncate and the targets get thumb-hostile. */
+    .x-filters{grid-template-columns:1fr;gap:.55rem;margin-bottom:.9rem}
+    .x-select{font-size:.66rem;padding:.5rem 1.8rem .5rem .75rem}
+    /* Full-bleed so the sticky bar's rule spans the screen rather than floating inside the padding. */
+    .x-bar{margin:0 -.9rem;padding-left:.9rem;padding-right:.9rem}
   }
 </style>
 
 <div class="wrap">
-  <div class="x-head"><h1>Arts Educator Pathways</h1><div class="x-sub">Programs Cross-Index</div></div>
+  <div class="x-head"><h1><span class="xt-a">Pathways</span> <span class="xt-b">Cross-Index</span></h1></div>
 
   <div class="x-filters" id="filters"></div>
 
   <div class="x-bar">
     <div class="x-count" id="count" role="status" aria-live="polite"></div>
     <button class="x-clear" id="clear" hidden>Clear all filters</button>
+    <!-- Phone only (CSS hides it when empty): names the active filters inside the sticky bar. -->
+    <div class="x-active" id="active"></div>
   </div>
 
   <div class="tw">
@@ -150,10 +219,16 @@
         <th><span class="th-static">Discipline</span></th>
         <th data-sort="region"><button class="th-btn" type="button">Region <span class="ar"></span></button></th>
         <th data-sort="deliv"><button class="th-btn" type="button">Format <span class="ar"></span></button></th>
+        <th><span class="th-static">Website</span></th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
   </div>
+  <!-- Phone view. The same programmes as the table above, as expandable panels — a six-column table
+       cannot be read on a 375px screen without sideways scrolling, and sideways scrolling on a list
+       of 90 hides most of it. Both are always in the DOM and CSS shows one, so resizing needs no
+       re-render. -->
+  <div id="cards"></div>
   <p class="x-empty" id="empty" hidden></p>
 
   <p class="x-note" id="note"></p>
@@ -174,96 +249,96 @@
 // ⚠ Region IS duplicated: index.html holds the same mapping in SCHOOL_REGION. A change there has to
 // be made here too. Delivery method has no counterpart in index.html (see notes/online-availability-README.md).
 const XLOCAL = {
-  "Academy of Art University":{r:"Northern California",d:"Online only"},
-  "Alameda County Office of Education":{r:"Northern California",d:"Online only"},
-  "Alliant International University":{r:"Southern California",d:"Online only"},
-  "Alternatives in Action":{r:"Northern California",d:"Online only"},
-  "Arts & Healing Initiative":{r:"Online",d:"Online only"},
-  "Arts Education Connection San Diego":{r:"Southern California",d:"In-person only"},
-  "Azusa Pacific University":{r:"Southern California",d:"Hybrid"},
-  "Biola University":{r:"Southern California",d:"In person or online"},
-  "CSU Bakersfield":{r:"Central California",d:"In-person only"},
-  "CSU Chico":{r:"Northern California",d:"Hybrid"},
-  "CSU Dominguez Hills":{r:"Southern California",d:"In-person only"},
-  "CSU East Bay":{r:"Northern California",d:"Online only"},
-  "CSU Fresno":{r:"Central California",d:"In-person only"},
-  "CSU Fullerton":{r:"Southern California",d:"In-person only"},
-  "CSU Long Beach":{r:"Southern California",d:"In-person only"},
-  "CSU Northridge":{r:"Southern California",d:"Hybrid"},
-  "CSU Sacramento":{r:"Northern California",d:"Hybrid"},
-  "CSU San Bernardino":{r:"Southern California",d:"Hybrid"},
-  "CSU San Marcos":{r:"Southern California",d:"In-person only"},
-  "CSU Stanislaus":{r:"Central California",d:"In-person only"},
-  "Cal Poly Humboldt":{r:"Northern California",d:"In-person only"},
-  "Cal Poly Pomona":{r:"Southern California",d:"In-person only"},
-  "Cal State LA":{r:"Southern California",d:"In person or online"},
-  "California Baptist University":{r:"Southern California",d:"In-person only"},
-  "California Lutheran University":{r:"Southern California",d:"Hybrid"},
-  "California State University, Sacramento":{r:"Northern California",d:"Online only"},
-  "California State University, San Bernardino":{r:"Southern California",d:"Online only"},
-  "Chapman University":{r:"Southern California",d:"In-person only"},
-  "CoTA (Collaborations: Teachers and Artists)":{r:"Southern California",d:"In-person only"},
-  "Concordia University Irvine":{r:"Southern California",d:"Hybrid"},
-  "Davis Joint Unified School District":{r:"Northern California",d:"Hybrid"},
-  "Dominican University of California":{r:"Northern California",d:"Online only"},
-  "Focus 5":{r:"Online",d:"Hybrid"},
-  "Fresno County Superintendent of Schools":{r:"Central California",d:"Online only"},
-  "Fresno Pacific University":{r:"Central California",d:"In-person only"},
-  "High Tech High":{r:"Southern California",d:"In-person only"},
-  "Hope International University":{r:"Southern California",d:"Online only"},
-  "Kern County Superintendent of Schools":{r:"Central California",d:"Online only"},
-  "LACMA":{r:"Southern California",d:"In-person only"},
-  "La Sierra University":{r:"Southern California",d:"Online only"},
-  "Los Angeles County Office of Education":{r:"Southern California",d:"Hybrid"},
-  "Loyola Marymount University":{r:"Southern California",d:"Online only"},
-  "Luna Dance Institute":{r:"Northern California",d:"In-person only"},
-  "Luther Burbank Center for the Arts":{r:"Northern California",d:"In-person only"},
-  "Mount Saint Mary's University, Los Angeles":{r:"Southern California",d:"Hybrid"},
-  "National University":{r:"Southern California",d:"Online only"},
-  "Notre Dame de Namur University":{r:"Northern California",d:"In person or online"},
-  "Orange County Department of Education":{r:"Southern California",d:"Online only"},
-  "P.S. ARTS":{r:"Southern California",d:"Hybrid"},
-  "P.S. ARTS x CalState LA":{r:"Southern California",d:"In-person only"},
-  "Pacific Union College":{r:"Northern California",d:"In-person only"},
-  "Pepperdine University":{r:"Southern California",d:"In person or online"},
-  "Point Loma Nazarene University":{r:"Southern California",d:"In person or online"},
-  "Riverside County Office of Education":{r:"Southern California",d:"Online only"},
-  "Sacramento County Office of Education":{r:"Northern California",d:"Online only"},
-  "San Diego County Office of Education":{r:"Southern California",d:"Online only"},
-  "San Diego State University":{r:"Southern California",d:"Hybrid"},
-  "San Francisco State University":{r:"Northern California",d:"Hybrid"},
-  "San Jose State University":{r:"Northern California",d:"In-person only"},
-  "Santa Clara University":{r:"Northern California",d:"In person or online"},
-  "Santa Rosa Junior College":{r:"Northern California",d:"In-person only"},
-  "Simpson University":{r:"Northern California",d:"Hybrid"},
-  "Sonoma County Office of Education":{r:"Northern California",d:"In-person only"},
-  "Sonoma State University":{r:"Northern California",d:"In-person only"},
-  "St. Mary's College of California":{r:"Northern California",d:"In-person only"},
-  "Studio Pathways":{r:"Northern California",d:"In person or online"},
-  "Sutter County Superintendent of Schools":{r:"Northern California",d:"Online only"},
-  "Teachers College of San Joaquin":{r:"Central California",d:"Hybrid"},
-  "Tehama County Department of Education":{r:"Northern California",d:"Online only"},
-  "The Entertainment Community Fund":{r:"Online",d:"In-person only"},
-  "The Master's University":{r:"Southern California",d:"In-person only"},
-  "The Music Center":{r:"Southern California",d:"Hybrid"},
-  "Tulare County Office of Education":{r:"Central California",d:"Online only"},
-  "UC Irvine, Claire Trevor School of the Arts":{r:"Southern California",d:"Online only"},
-  "United States University":{r:"Southern California",d:"Online only"},
-  "University of California, Irvine":{r:"Southern California",d:"In-person only"},
-  "University of California, Los Angeles":{r:"Southern California",d:"Online only"},
-  "University of California, Riverside":{r:"Southern California",d:"Online only"},
-  "University of California, Santa Barbara":{r:"Central California",d:"In-person only"},
-  "University of La Verne":{r:"Southern California",d:"Online only"},
-  "University of Massachusetts Global (UMass Global)":{r:"Southern California",d:"Online only"},
-  "University of Redlands":{r:"Southern California",d:"In-person only"},
-  "University of San Diego":{r:"Southern California",d:"In-person only"},
-  "University of San Francisco":{r:"Northern California",d:"In-person only"},
-  "University of Southern California":{r:"Southern California",d:"In-person only"},
-  "University of the Pacific":{r:"Central California",d:"Online only"},
-  "Vanguard University":{r:"Southern California",d:"Hybrid"},
-  "Ventura County Office of Education":{r:"Southern California",d:"Online only"},
-  "Westmont College":{r:"Central California",d:"In-person only"},
-  "William Jessup University":{r:"Northern California",d:"In person or online"}
+  "Academy of Art University":{r:"Northern California",d:"Online only",w:"https://www.academyart.edu/"},
+  "Alameda County Office of Education":{r:"Northern California",d:"Online only",w:"https://www.acoe.org/"},
+  "Alliant International University":{r:"Southern California",d:"Online only",w:"https://www.alliant.edu/"},
+  "Alternatives in Action":{r:"Northern California",d:"Online only",w:"https://reach.edu/graduate-programs"},
+  "Arts & Healing Initiative":{r:"Online",d:"Online only",w:"https://artsandhealinginitiative.org/"},
+  "Arts Education Connection San Diego":{r:"Southern California",d:"In-person only",w:"https://www.artsedsd.org/"},
+  "Azusa Pacific University":{r:"Southern California",d:"Hybrid",w:"https://www.apu.edu/"},
+  "Biola University":{r:"Southern California",d:"In person or online",w:"https://www.biola.edu/"},
+  "CSU Bakersfield":{r:"Central California",d:"In-person only",w:"https://www.csub.edu/"},
+  "CSU Chico":{r:"Northern California",d:"Hybrid",w:"https://www.csuchico.edu/"},
+  "CSU Dominguez Hills":{r:"Southern California",d:"In-person only",w:"https://www.csudh.edu/"},
+  "CSU East Bay":{r:"Northern California",d:"Online only",w:"https://www.csueastbay.edu/"},
+  "CSU Fresno":{r:"Central California",d:"In-person only",w:"https://www.fresnostate.edu/"},
+  "CSU Fullerton":{r:"Southern California",d:"In-person only",w:"https://www.fullerton.edu/"},
+  "CSU Long Beach":{r:"Southern California",d:"In-person only",w:"https://www.csulb.edu/"},
+  "CSU Northridge":{r:"Southern California",d:"Hybrid",w:"https://www.csun.edu/"},
+  "CSU Sacramento":{r:"Northern California",d:"Hybrid",w:"https://www.csus.edu/"},
+  "CSU San Bernardino":{r:"Southern California",d:"Hybrid",w:"https://www.csusb.edu/"},
+  "CSU San Marcos":{r:"Southern California",d:"In-person only",w:"https://www.csusm.edu/"},
+  "CSU Stanislaus":{r:"Central California",d:"In-person only",w:"https://www.csustan.edu/"},
+  "Cal Poly Humboldt":{r:"Northern California",d:"In-person only",w:"https://www.humboldt.edu/"},
+  "Cal Poly Pomona":{r:"Southern California",d:"In-person only",w:"https://www.cpp.edu/"},
+  "Cal State LA":{r:"Southern California",d:"In person or online",w:"https://www.calstatela.edu/"},
+  "California Baptist University":{r:"Southern California",d:"In-person only",w:"https://calbaptist.edu/"},
+  "California Lutheran University":{r:"Southern California",d:"Hybrid",w:"https://www.callutheran.edu/"},
+  "California State University, Sacramento":{r:"Northern California",d:"Online only",w:"https://www.csus.edu/"},
+  "California State University, San Bernardino":{r:"Southern California",d:"Online only",w:"https://www.csusb.edu/"},
+  "Chapman University":{r:"Southern California",d:"In-person only",w:"https://www.chapman.edu/"},
+  "CoTA (Collaborations: Teachers and Artists)":{r:"Southern California",d:"In-person only",w:"https://cotaprogram.org/"},
+  "Concordia University Irvine":{r:"Southern California",d:"Hybrid",w:"https://www.cui.edu/"},
+  "Davis Joint Unified School District":{r:"Northern California",d:"Hybrid",w:"https://www.yscenterforteaching.org/"},
+  "Dominican University of California":{r:"Northern California",d:"Online only",w:"https://www.dominican.edu/"},
+  "Focus 5":{r:"Online",d:"Hybrid",w:"https://artsintegrationconsulting.com/"},
+  "Fresno County Superintendent of Schools":{r:"Central California",d:"Online only",w:"https://www.fcoe.org/"},
+  "Fresno Pacific University":{r:"Central California",d:"In-person only",w:"https://www.fresno.edu/"},
+  "High Tech High":{r:"Southern California",d:"In-person only",w:"https://www.hightechhigh.org/"},
+  "Hope International University":{r:"Southern California",d:"Online only",w:"https://www.hiu.edu/"},
+  "Kern County Superintendent of Schools":{r:"Central California",d:"Online only",w:"https://kern.org/"},
+  "LACMA":{r:"Southern California",d:"In-person only",w:"https://www.lacma.org/"},
+  "La Sierra University":{r:"Southern California",d:"Online only",w:"https://www.lasierra.edu/"},
+  "Los Angeles County Office of Education":{r:"Southern California",d:"Hybrid",w:"https://www.lacoe.edu/"},
+  "Loyola Marymount University":{r:"Southern California",d:"Online only",w:"https://www.lmu.edu/"},
+  "Luna Dance Institute":{r:"Northern California",d:"In-person only",w:"https://lunadancecreativity.org/"},
+  "Luther Burbank Center for the Arts":{r:"Northern California",d:"In-person only",w:"https://lutherburbankcenter.org/"},
+  "Mount Saint Mary's University, Los Angeles":{r:"Southern California",d:"Hybrid",w:"https://www.msmu.edu/"},
+  "National University":{r:"Southern California",d:"Online only",w:"https://www.nu.edu/"},
+  "Notre Dame de Namur University":{r:"Northern California",d:"In person or online",w:"https://www.ndnu.edu/"},
+  "Orange County Department of Education":{r:"Southern California",d:"Online only",w:"https://ocde.us/"},
+  "P.S. ARTS":{r:"Southern California",d:"Hybrid",w:"https://psarts.org/"},
+  "P.S. ARTS x CalState LA":{r:"Southern California",d:"In-person only",w:"https://psarts.org/"},
+  "Pacific Union College":{r:"Northern California",d:"In-person only",w:"https://www.puc.edu/"},
+  "Pepperdine University":{r:"Southern California",d:"In person or online",w:"https://www.pepperdine.edu/"},
+  "Point Loma Nazarene University":{r:"Southern California",d:"In person or online",w:"https://www.pointloma.edu/"},
+  "Riverside County Office of Education":{r:"Southern California",d:"Online only",w:"https://www.rcoe.us/"},
+  "Sacramento County Office of Education":{r:"Northern California",d:"Online only",w:"https://www.scoe.net/"},
+  "San Diego County Office of Education":{r:"Southern California",d:"Online only",w:"https://www.sdcoe.net/"},
+  "San Diego State University":{r:"Southern California",d:"Hybrid",w:"https://www.sdsu.edu/"},
+  "San Francisco State University":{r:"Northern California",d:"Hybrid",w:"https://www.sfsu.edu/"},
+  "San Jose State University":{r:"Northern California",d:"In-person only",w:"https://www.sjsu.edu/"},
+  "Santa Clara University":{r:"Northern California",d:"In person or online",w:"https://www.scu.edu/"},
+  "Santa Rosa Junior College":{r:"Northern California",d:"In-person only",w:"https://www.santarosa.edu/"},
+  "Simpson University":{r:"Northern California",d:"Hybrid",w:"https://simpsonu.edu/"},
+  "Sonoma County Office of Education":{r:"Northern California",d:"In-person only",w:"https://www.ncsoe.org/"},
+  "Sonoma State University":{r:"Northern California",d:"In-person only",w:"https://www.sonoma.edu/"},
+  "St. Mary's College of California":{r:"Northern California",d:"In-person only",w:"https://www.stmarys-ca.edu/"},
+  "Studio Pathways":{r:"Northern California",d:"In person or online",w:"https://www.studiopathways.org/"},
+  "Sutter County Superintendent of Schools":{r:"Northern California",d:"Online only",w:"https://www.sutter.k12.ca.us/"},
+  "Teachers College of San Joaquin":{r:"Central California",d:"Hybrid",w:"https://teacherscollegesj.edu/"},
+  "Tehama County Department of Education":{r:"Northern California",d:"Online only",w:"https://www.tehamaschools.org/"},
+  "The Entertainment Community Fund":{r:"Online",d:"In-person only",w:"https://entertainmentcommunity.org/"},
+  "The Master's University":{r:"Southern California",d:"In-person only",w:"https://www.masters.edu/"},
+  "The Music Center":{r:"Southern California",d:"Hybrid",w:"https://www.musiccenter.org/"},
+  "Tulare County Office of Education":{r:"Central California",d:"Online only",w:"https://tcoe.org/"},
+  "UC Irvine, Claire Trevor School of the Arts":{r:"Southern California",d:"Online only",w:"https://www.uci.edu/"},
+  "United States University":{r:"Southern California",d:"Online only",w:"https://www.usuniversity.edu/"},
+  "University of California, Irvine":{r:"Southern California",d:"In-person only",w:"https://www.uci.edu/"},
+  "University of California, Los Angeles":{r:"Southern California",d:"Online only",w:"https://www.ucla.edu/"},
+  "University of California, Riverside":{r:"Southern California",d:"Online only",w:"https://www.ucr.edu/"},
+  "University of California, Santa Barbara":{r:"Central California",d:"In-person only",w:"https://www.ucsb.edu/"},
+  "University of La Verne":{r:"Southern California",d:"Online only",w:"https://www.laverne.edu/"},
+  "University of Massachusetts Global (UMass Global)":{r:"Southern California",d:"Online only",w:"https://www.umassglobal.edu/"},
+  "University of Redlands":{r:"Southern California",d:"In-person only",w:"https://www.redlands.edu/"},
+  "University of San Diego":{r:"Southern California",d:"In-person only",w:"https://www.sandiego.edu/"},
+  "University of San Francisco":{r:"Northern California",d:"In-person only",w:"https://www.usfca.edu/"},
+  "University of Southern California":{r:"Southern California",d:"In-person only",w:"https://www.usc.edu/"},
+  "University of the Pacific":{r:"Central California",d:"Online only",w:"https://www.pacific.edu/"},
+  "Vanguard University":{r:"Southern California",d:"Hybrid",w:"https://www.vanguard.edu/"},
+  "Ventura County Office of Education":{r:"Southern California",d:"Online only",w:"https://www.vcoe.org/"},
+  "Westmont College":{r:"Central California",d:"In-person only",w:"https://www.westmont.edu/"},
+  "William Jessup University":{r:"Northern California",d:"In person or online",w:"https://jessup.edu/"}
 };
 
 // The six lists in programs.json are two different things wearing one coat. music / theatre /
@@ -271,10 +346,31 @@ const XLOCAL = {
 // discipline. teachingArtist and cte are pathways in their own right and record no discipline at
 // all — which is why a third of the rows show "—" in that column. It is not missing data; those
 // programmes are not organised by discipline.
-const PATHWAY = {ssc:'Single Subject Credential', ta:'Teaching Artist', cte:'CTE'};
+// Two forms, used in different places on purpose. PATHWAY is abbreviated and belongs ONLY to the
+// desktop table, where the column was 170px wide to hold three short values; abbreviating won back
+// 74px, which is what let the table fit its container at all. PATHWAY_FULL is used everywhere with
+// room to spare — the filter menu and the phone panels.
+// ⚠ SSC and TA are not self-explanatory. In the table each chip is an <abbr> carrying the full
+// wording, so it expands on hover and screen readers announce it; do not swap that for a plain
+// span. There is no hover on a phone, which is exactly why the panels use the full form instead.
+const PATHWAY = {ssc:'SSC', ta:'TA', cte:'CTE'};
+const PATHWAY_FULL = {ssc:'Single Subject Credential', ta:'Teaching Artist', cte:'CTE'};
+// Colour belongs to discipline alone. Format used to carry colour too, which meant a hue said two
+// unrelated things a few centimetres apart; its marker is now a neutral dot.
+const DISC_COLOUR = {music:'Music', theatre:'Theatre', dance:'Dance', art:'Art'};
+// The institution's main website. Not in data/programs.json — that holds programme pages only — so
+// it lives in XLOCAL alongside region and format. 67 were already on a bare domain, 19 were reduced
+// from a department subdomain (cah.fresnostate.edu -> fresnostate.edu), and 4 the client confirmed
+// by hand: Alameda COE, Sacramento COE, UCLA, and Alternatives in Action.
+const siteLabel = u => { try { return new URL(u).hostname.replace(/^www\./,''); } catch(e){ return u; } };
 const DISCIPLINE = {music:'Music', theatre:'Theatre', dance:'Dance', art:'Art'};
 const DELIVERY = ['In-person only','In person or online','Hybrid','Online only'];
-const DELIV_DOT = {'In-person only':'--c-inperson','In person or online':'--c-online','Hybrid':'--c-hybrid','Online only':'--c-onlineonly'};
+// Display only — the stored values keep "only" so they still match SCHOOL_REGION's wording and the
+// research notes. "Only" was doing no work on screen: the four formats are mutually exclusive, so
+// "Online" beside "In person or online" already reads as exclusive without it.
+const DELIV_LABEL = {'In-person only':'In-person', 'Online only':'Online',
+                     'In person or online':'In-person / Online'};
+const delivLabel = v => DELIV_LABEL[v] || v;
 const REGIONS = ['Northern California','Central California','Southern California','Online'];
 // The stored values are left exactly as SCHOOL_REGION in index.html has them; only the display
 // changes. "California" goes because every programme here is Californian, so it said nothing.
@@ -291,23 +387,19 @@ const REGION_LABEL = {
 const regionLabel = v => REGION_LABEL[v] || v;
 
 // A programme you can take online is available wherever you live, so geography should not hide it:
-// these two delivery methods match EVERY region filter, and the region cell says "(statewide)" after
-// the campus location so it is clear why a Southern programme appears under a Northern filter.
-// Hybrid is deliberately NOT here — it requires turning up somewhere, so geography still limits it.
+// these two delivery methods match EVERY region filter. Hybrid is deliberately NOT here — it
+// requires turning up somewhere, so geography still limits it.
 const STATEWIDE_DELIVERY = ['Online only','In person or online'];
 const isStatewide = r => STATEWIDE_DELIVERY.indexOf(r.deliv) > -1;
-// A row already labelled Statewide (no campus at all) is not given the marker as well.
-// regionCell is the plain text, used for sorting; regionHTML is the same thing with the marker
-// dimmed so the place name still reads first.
-function regionCell(r){
-  const base = regionLabel(r.region);
-  return (isStatewide(r) && base !== 'Statewide') ? base + ' (statewide)' : base;
-}
-function regionHTML(r){
-  const base = regionLabel(r.region);
-  return (isStatewide(r) && base !== 'Statewide')
-    ? esc(base) + ' <span class="sw-note">(statewide)</span>' : esc(base);
-}
+
+// The region cell used to append a dimmed "(statewide)" to any row that matched every region
+// filter. It is gone: the Format column two cells over already says how the programme is
+// delivered, so the marker restated a fact instead of adding one. The note under the table now
+// carries that explanation on its own. Filtering is unaffected — isStatewide above still decides
+// which rows answer to which region, and nothing about that changed.
+// regionCell is the plain text, used for sorting; regionHTML is the escaped version for display.
+function regionCell(r){ return regionLabel(r.region); }
+function regionHTML(r){ return esc(regionLabel(r.region)); }
 
 let ROWS = [], SORT = {key:'name', dir:1};
 // One value per dimension — '' means "all". Dropdowns are single-choice, so unlike the earlier
@@ -329,7 +421,8 @@ function build(data){
     data[key].forEach(function(e){
       const row = byName[e.name] || (byName[e.name] = {
         name:e.name, pathway:new Set(), disc:[], links:{},
-        region:(XLOCAL[e.name]||{}).r || '', deliv:(XLOCAL[e.name]||{}).d || ''
+        region:(XLOCAL[e.name]||{}).r || '', deliv:(XLOCAL[e.name]||{}).d || '',
+        site:(XLOCAL[e.name]||{}).w || ''
       });
       if(DISCIPLINE[key]){ row.pathway.add('ssc'); row.disc.push({k:key, t:DISCIPLINE[key], u:e.url}); }
       else if(key === 'teachingArtist'){ row.pathway.add('ta'); row.links.ta = e.url; }
@@ -341,7 +434,7 @@ function build(data){
   renderFilters();
   document.getElementById('note').innerHTML =
     'Programmes you can take online are available wherever you live, so they appear under every '
-    + 'region and are marked <span class="sw-note">(statewide)</span> after the place they are based. '
+    + 'region as well as the one they are based in — check the Format column to see which those are. '
     + 'Hybrid programmes require attending in person, so those stay with their region.'
     + '<br><br>'
     + 'Teaching Artist and CTE programmes are not recorded by discipline, so they show "—" in that '
@@ -361,10 +454,11 @@ function has(r, dim, val){
 function renderFilters(){
   // "ALL" needs no qualifier — the label sitting above each menu already names the dimension.
   const groups = [
-    {dim:'pathway',    label:'Pathway',    vals:Object.keys(PATHWAY).map(k => [k, PATHWAY[k]])},
+    // Full wording in the menu — a control has room, and should say what it means.
+    {dim:'pathway',    label:'Pathway',    vals:Object.keys(PATHWAY_FULL).map(k => [k, PATHWAY_FULL[k]])},
     {dim:'discipline', label:'Discipline', vals:Object.keys(DISCIPLINE).map(k => [k, DISCIPLINE[k]])},
     {dim:'region',     label:'Region',     vals:REGIONS.map(v => [v, regionLabel(v)])},
-    {dim:'deliv',      label:'Format',     vals:DELIVERY.map(v => [v, v])}
+    {dim:'deliv',      label:'Format',     vals:DELIVERY.map(v => [v, delivLabel(v)])}
   ];
   document.getElementById('filters').innerHTML = groups.map(function(g){
     const opts = ['<option value="">ALL</option>'].concat(
@@ -415,10 +509,11 @@ function apply(){
   });
 
   const dir = SORT.dir, key = SORT.key;
-  const sortVal = r => key === 'name' ? r.name : key === 'region' ? regionCell(r) : r.deliv;
+  const sortVal = r => key === 'name' ? r.name : key === 'region' ? regionCell(r) : delivLabel(r.deliv);
   out.sort(function(a, b){
-    // Sorting region on the displayed text, not the stored value, so "Southern" and
-    // "Southern (statewide)" sit together rather than under S and O.
+    // Sorting region and format on the displayed text, not the stored value, so the order on
+    // screen matches the words on screen — "Online" sorts under O, not under its stored
+    // "Online only", and "Statewide" under S rather than its stored "Online".
     return sortVal(a).localeCompare(sortVal(b)) * dir || a.name.localeCompare(b.name);
   });
 
@@ -429,20 +524,48 @@ function apply(){
     th.querySelector('.ar').textContent = on ? (dir === 1 ? '▲' : '▼') : '';
   });
 
+  // Chips are labels, not links — every hyperlink on the page lives in the Website column, so there
+  // is one place to click and no chip that looks tappable without being so.
   document.getElementById('rows').innerHTML = out.map(function(r){
     const pw = [...r.pathway].sort().map(function(p){
-      const u = r.links[p];
-      return u ? '<a class="pg" href="' + esc(u) + '" target="_blank" rel="noopener">' + PATHWAY[p] + '</a>'
-               : '<span class="pg">' + PATHWAY[p] + '</span>';
-    }).join('');
+      return '<abbr class="pg pg-pw" title="' + PATHWAY_FULL[p] + '">' + PATHWAY[p] + '</abbr>';
+    }).join(', ');
     const ds = r.disc.length
-      ? r.disc.map(d => '<a class="pg" href="' + esc(d.u) + '" target="_blank" rel="noopener">' + d.t + '</a>').join('')
+      ? r.disc.map(d => '<span class="pg pg-dc" data-d="' + d.k + '">' + d.t + '</span>').join('')
+      : '<span class="none">—</span>';
+    const web = r.site
+      ? '<a class="web" href="' + esc(r.site) + '" target="_blank" rel="noopener">' + esc(siteLabel(r.site)) + '</a>'
       : '<span class="none">—</span>';
     return '<tr><td class="name">' + esc(r.name) + '</td>' +
-      '<td class="tags">' + pw + '</td>' +
-      '<td class="tags">' + ds + '</td>' +
+      '<td class="tags tags-pw">' + pw + '</td>' +
+      '<td class="tags tags-dc">' + ds + '</td>' +
       '<td class="region">' + regionHTML(r) + '</td>' +
-      '<td class="deliv"><span class="sw" style="background:var(' + DELIV_DOT[r.deliv] + ')"></span>' + esc(r.deliv) + '</td></tr>';
+      '<td class="deliv">' + esc(delivLabel(r.deliv)) + '</td>' +
+      '<td class="web-c">' + web + '</td></tr>';
+  }).join('');
+
+  // Phone panels. name="xprog" makes them an exclusive accordion — the browser closes the previous
+  // one, no JavaScript involved.
+  // Full wording here, NOT the abbreviations: the abbreviation exists to save width in the desktop
+  // table, and this layout has none of that pressure — it is a labelled two-column list. It also
+  // matters more here, because a phone has no hover, so the <abbr> tooltip that decodes SSC and TA
+  // on a desktop is unavailable. Nobody on a phone should meet a code they cannot expand.
+  document.getElementById('cards').innerHTML = out.map(function(r){
+    const pw = [...r.pathway].sort().map(function(p){
+      return '<span class="pg pg-pw">' + PATHWAY_FULL[p] + '</span>';
+    }).join(', ');
+    const ds = r.disc.length
+      ? r.disc.map(d => '<span class="pg pg-dc" data-d="' + d.k + '">' + d.t + '</span>').join('')
+      : '<span class="none">no discipline recorded</span>';
+    const web = r.site
+      ? '<a class="web" href="' + esc(r.site) + '" target="_blank" rel="noopener">' + esc(siteLabel(r.site)) + '</a>'
+      : '<span class="none">—</span>';
+    return '<details class="cx" name="xprog"><summary><span class="cx-n">' + esc(r.name) + '</span></summary>' +
+      '<dl><dt>Pathway</dt><dd>' + pw + '</dd>' +
+      '<dt>Discipline</dt><dd>' + ds + '</dd>' +
+      '<dt>Region</dt><dd>' + regionHTML(r) + '</dd>' +
+      '<dt>Format</dt><dd>' + esc(delivLabel(r.deliv)) + '</dd>' +
+      '<dt>Website</dt><dd>' + web + '</dd></dl></details>';
   }).join('');
 
   const any = Object.keys(PICKED).some(k => PICKED[k]);
@@ -451,6 +574,12 @@ function apply(){
   document.getElementById('count').innerHTML =
     '<b>' + out.length + '</b> program' + (out.length === 1 ? '' : 's');
   document.getElementById('clear').hidden = !any;
+  // Active filters, named in the sticky bar so they survive scrolling away from the menus.
+  document.getElementById('active').innerHTML =
+    ['pathway','discipline','region','deliv'].map(function(d){
+      const s = document.getElementById('f-' + (d === 'deliv' ? 'deliv' : d));
+      return (s && s.value) ? '<span class="af">' + esc(s.options[s.selectedIndex].text) + '</span>' : '';
+    }).join('');
   const empty = document.getElementById('empty');
   empty.hidden = out.length > 0;
   empty.textContent = 'No programs match those filters. Try removing one.';

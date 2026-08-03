@@ -458,6 +458,18 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 - [x] ~~Welcome transcript is lorem ipsum~~ — fixed 2026-07-31; real transcript now loads.
 - [ ] Wire the "Civil Cyber Arts" credit link — placeholder `href="#"` in two places (footer + result
       pages). Confirmed still unresolved in the 2026-07-30 code review.
+- [ ] **Cross-index: SSC / TA / CTE have no visible explanation on desktop.** Raised and DEFERRED
+      2026-08-02 — left as is for now, review before launch. The desktop table abbreviates the
+      Pathway column to save width; each chip carries a hover tooltip with the full wording, but the
+      tooltip is close to invisible in practice: it needs about a second of stationary hover, and the
+      dotted underline that normally signals "this abbreviation expands" was removed to keep the chip
+      clean. So nothing on the page tells a desktop reader what SSC means. Mobile is unaffected — the
+      panels spell the pathway out in full — and the dropdown above the table shows full wording, which
+      is the argument for leaving it. Three fixes, cheapest first: restore the dotted underline on the
+      chips (one line, standard cue, keeps the width saving); a one-line key under the filters
+      (`SSC Single Subject Credential · TA Teaching Artist`, always visible, costs ~20px — the only
+      option that doesn't rely on the reader discovering something); or widen the column and drop the
+      abbreviation on desktop too (costs ~74px, which the 1080px container can now absorb).
 - [ ] Delete unused `images/createca_logo_color.png` (48K; only the `_EDIT` version is referenced)?
 - [x] **`build-scan.py` false readings — ALL THREE FIXED 2026-08-01.** Root cause in every case: the
       scan read `index.html` for text that had moved to `data/content.en.json`. It now reads both.
