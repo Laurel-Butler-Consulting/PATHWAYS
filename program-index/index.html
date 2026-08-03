@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Pathways Cross-Index</title>
+<title>Program Index — Arts Educator Pathways</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <style>
@@ -11,6 +11,9 @@
     --white:#FFFFFF;
     --ice:#F0F8FF;
     --gold:#FECF43;
+    /* Sort direction arrow, drawn as a mask so its colour is set in CSS independently of the label
+       it sits beside. Same stroke weight and round caps as the other icons on the page. */
+    --ar-up:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20V5'/%3E%3Cpath d='M5 12l7-7 7 7'/%3E%3C/svg%3E");
     --blue:#0C599D;
     --navy:#002647;
     --r:4px;
@@ -37,9 +40,10 @@
   @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
 
-  /* The page ground is the same --navy as the result-page header band, so the title needs no panel
-     of its own — it would be a navy card on a navy field. It sits directly on the ground instead,
-     with a hairline rule to separate it from the content below. */
+  /* The page ground is the same --navy as the result-page header band, so the title band can't
+     repeat that navy fill — it would be a navy card on a navy field. It takes the same lift the
+     dropdowns use instead (--raise), which keeps the shape and proportions of the result pages'
+     band while reading as one material with the filter menus. */
   html{font-size:20px;scroll-behavior:smooth;color-scheme:dark}
   body{font-family:var(--font-body);font-weight:400;color:var(--ice);background:var(--navy);min-height:100vh;text-wrap:pretty}
   a{color:var(--link)}
@@ -49,16 +53,22 @@
      At 1040px the table overflowed by 86px and scrolled sideways at every screen size. */
   .wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
 
-  /* Title — the page names itself, in the result pages' display face. The SITE name is not repeated
-     here: it lives in the footer, where it also links home. Two-tone so the page name reads as one
-     phrase rather than two labels. */
-  .x-head{text-align:center;padding-bottom:1.5rem;margin-bottom:2rem;border-bottom:1px solid var(--line)}
+  /* Title — the site name in the result pages' display face, with the page's own name under it in
+     the small gold treatment the result pages give "Your pathway" (.res-label), only underneath
+     rather than above. Both stay inside the h1 so the heading still reads as the whole phrase.
+     Padding and radius match .qv-result .results-header.
+     The margin-bottom equals .x-filters' own: the filter block then sits evenly between the title
+     band above it and the results block below. Change the two together or the balance goes. */
+  .x-head{text-align:center;background:var(--raise);border-radius:18px;padding:1.6rem 2rem;margin-bottom:1.6rem}
   .x-head h1{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05}
-  .x-head h1 .xt-a{color:var(--white)}
-  .x-head h1 .xt-b{color:var(--gold)}
+  .x-head h1 .xt-a{display:block;color:var(--white)}
+  .x-head h1 .xt-b{display:block;margin-top:.4rem;font-family:var(--font-body);font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;line-height:1.2;color:var(--gold)}
 
   /* === FILTERS === */
-  .x-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem;margin-bottom:1.5rem}
+  /* Four across, two across, or one — never three. auto-fit used to decide for itself and produced
+     a 3+1 row on mid-size screens, which orphans the last menu. Fixed counts at fixed widths
+     instead, so the row is always evenly divided. Breakpoints below, at 860px and 600px. */
+  .x-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem 1.4rem;margin-bottom:1.05rem}
   .x-flabel{display:block;font-family:var(--font-body);font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer);margin-bottom:.45rem}
   /* Native <select>, restyled. Rounded rectangle on --r, the same corner as the pathway and
      discipline tags in the table, so the controls and the tags read as one family.
@@ -71,25 +81,59 @@
   .x-select:disabled{opacity:.35;cursor:not-allowed}
   .x-fgroup[data-locked="1"] .x-flabel{opacity:.5}
 
-  /* Count + clear, on the line between the filters and the table. */
-  .x-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;padding-bottom:.7rem;margin-bottom:.2rem;border-bottom:1px solid var(--line)}
-  .x-count{font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-  .x-count b{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.02em;color:var(--ice)}
-  .x-clear{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;padding:.2rem;transition:color .15s,text-decoration-color .15s}
-  .x-clear:hover{color:var(--gold);text-decoration-color:var(--gold)}
+  /* Count + clear, between the filters and the table. No rule of its own on desktop: the table's
+     own header rule sits 34px below and the two read as a doubled edge. The count is a caption for
+     the table, so it sits close above it. The rule comes back under 1051px, where the bar is sticky
+     and needs an edge of its own. */
+  /* Gaps around the count text are 32px on both sides, the same 32px the title band leaves above the
+     dropdowns — one value down the whole page. They are built from three parts, so change them
+     together: 11px is the text's own inset inside the 40px row, then .85rem here plus the .2rem
+     clearance on .tw below, and 1.05rem on .x-filters above. */
+  .x-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;padding-bottom:.85rem;margin-bottom:0}
+  /* The count is information, not a control, so it carries no container — plain text, with only the
+     figure picked out in gold (the same gold an active filter menu turns, which is what produced the
+     number). Clear IS an action, so it keeps the outlined chip on the dropdowns' border, corner and
+     text size, and only appears when there is something to clear. */
+  /* Both items are held at 40px so the row is the same height whether or not "Clear all filters" is
+     showing. Without this the chip is the taller item, the row grows the moment a filter is set, and
+     the table jumps down. Keep the two heights equal. 40px also clears the usual minimum for a
+     comfortable tap target, which matters on phones where this bar follows you down the page.
+     line-height is pinned so the 11px the text sits inside the 40px box is exact rather than
+     inherited from the font's own metrics — the gaps above and below are measured off it. */
+  .x-count{display:inline-flex;align-items:center;height:40px;line-height:18px;gap:.3rem;font-family:var(--font-body);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+  .x-count b{font-family:var(--font-body);font-weight:700;font-size:.66rem;letter-spacing:.06em;color:var(--gold)}
+  .x-clear{display:inline-flex;align-items:center;height:40px;background:transparent;border:1px solid var(--line-strong);border-radius:var(--r);cursor:pointer;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:0 .75rem;transition:color .15s,border-color .15s}
+  .x-clear:hover{color:var(--gold);border-color:var(--gold)}
   .x-clear[hidden]{display:none}
+  /* The active-filter chips are a phone affordance — on a wide screen the menus themselves are
+     still on view and already turn gold. Hidden here, switched back on inside the 1051px query.
+     It also has to be out of the flex row for "Clear all filters" to reach the right edge. */
+  .x-active{display:none}
 
   /* === TABLE === */
-  .tw{overflow-x:auto;padding:.2rem .2rem 1rem}
+  /* The 4px of side padding is there so a focused sort button's outline isn't clipped by the
+     sideways scroll. The matching negative margin pulls the box back out, so the table's rules and
+     the first and last columns still land on the page's own left and right edges. */
+  .tw{overflow-x:auto;padding:.2rem .2rem 1rem;margin:0 -.2rem}
   table{width:100%;border-collapse:collapse;min-width:680px}
-  thead th{text-align:left;padding:0 .6rem .45rem;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:bottom}
-  .th-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem;font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);transition:color .15s}
-  .th-btn:hover{color:var(--ice)}
+  thead th{text-align:left;padding:0 .6rem .6rem;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:bottom}
+  /* Outer columns lose their outer padding so the table's text shares one left edge with the
+     filter labels, the count and the title band — and the Website column finishes flush right. */
+  thead th:first-child,tbody td:first-child{padding-left:0}
+  thead th:last-child,tbody td:last-child{padding-right:0}
+  /* Three tiers in the header row, so you can see what is clickable before clicking anything:
+     white = sortable, gold = the column currently sorting, dim = not sortable at all. */
+  .th-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:.3rem;font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--white);transition:color .15s}
+  .th-btn:hover{color:var(--gold)}
   .th-static{font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer)}
-  /* Arrow only on the column actually in use, so the header row isn't a row of arrows. */
-  .th-btn .ar{opacity:0;font-size:.7rem;line-height:1}
-  th[aria-sort] .th-btn{color:var(--ice)}
-  th[aria-sort] .th-btn .ar{opacity:.8}
+  /* The arrow alone marks the active column — the label stays white like the other sortable ones,
+     so the header row keeps one text colour and the gold arrow is the only thing to find. It is
+     drawn heavier and larger than the label for that reason. An SVG rather than a glyph, so the two
+     directions are the same shape flipped, which the triangle characters are not. */
+  .th-btn .ar{display:none;width:1.25em;height:1.25em;flex:none;background-color:var(--gold);
+    -webkit-mask:var(--ar-up) center/contain no-repeat;mask:var(--ar-up) center/contain no-repeat}
+  th[aria-sort] .th-btn .ar{display:inline-block}
+  th[aria-sort="descending"] .th-btn .ar{transform:rotate(180deg)}
   tbody td{padding:.55rem .6rem;border-bottom:1px solid var(--line-soft);vertical-align:top}
   tbody tr:last-child td{border-bottom:none}
   td.name{font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ice);min-width:170px}
@@ -183,14 +227,25 @@
     .x-note{font-size:.62rem}
   }
 
+  /* ── Filter row, 4 across → 2 across, 860px ───────────────────────────────────────────────────
+     Below this the four menus can no longer hold a usable width: at 860px they are 181px each,
+     which still fits the longest option ("In-person / Online") plus the chevron. Any narrower and
+     the labels start truncating, so the row halves rather than shrinking further. */
+  @media (max-width:860px){
+    .x-filters{grid-template-columns:repeat(2,1fr)}
+  }
+
   /* ── Phone sizing, 600px ──────────────────────────────────────────────────────────────────────
      Typography and spacing only — the structure already switched at 900. A portrait tablet gets the
      panels but keeps the roomier header and a multi-column filter row, because it has the width for
      both; squeezing a 768px screen into phone proportions would waste half of it. */
   @media (max-width:600px){
     .wrap{padding:1.1rem .9rem 3rem}
-    .x-head{padding-bottom:.85rem;margin-bottom:1rem}
-    .x-head h1{font-size:1.6rem;white-space:nowrap}
+    .x-head{padding:.9rem 1rem;border-radius:14px;margin-bottom:1rem}
+    /* No nowrap: "Arts Educator Pathways" is 28px wider than a 320px screen allows, and pinning it
+       to one line pushed it outside the band. It wraps on the narrowest phones and stays on one
+       line everywhere else. */
+    .x-head h1{font-size:1.6rem}
     /* One menu per row: at two-up the labels truncate and the targets get thumb-hostile. */
     .x-filters{grid-template-columns:1fr;gap:.55rem;margin-bottom:.9rem}
     .x-select{font-size:.66rem;padding:.5rem 1.8rem .5rem .75rem}
@@ -200,7 +255,7 @@
 </style>
 
 <div class="wrap">
-  <div class="x-head"><h1><span class="xt-a">Pathways</span> <span class="xt-b">Cross-Index</span></h1></div>
+  <div class="x-head"><h1><span class="xt-a">Arts Educator Pathways</span> <span class="xt-b">Program Index</span></h1></div>
 
   <div class="x-filters" id="filters"></div>
 
@@ -214,7 +269,10 @@
   <div class="tw">
     <table id="tbl">
       <thead><tr>
-        <th data-sort="name"><button class="th-btn" type="button">Program <span class="ar"></span></button></th>
+        <!-- "Organization", not "Program": every row is a body that offers pathways, and one row can
+             carry several (Alameda County Office of Education is CTE and TA). "Institution" would
+             misdescribe the museums, funds and arts nonprofits also on the list. -->
+        <th data-sort="name"><button class="th-btn" type="button">Organization <span class="ar"></span></button></th>
         <th><span class="th-static">Pathway</span></th>
         <th><span class="th-static">Discipline</span></th>
         <th data-sort="region"><button class="th-btn" type="button">Region <span class="ar"></span></button></th>
@@ -433,12 +491,10 @@ function build(data){
   ROWS.forEach(r => r.disc.sort((a,b) => a.t.localeCompare(b.t)));
   renderFilters();
   document.getElementById('note').innerHTML =
-    'Programmes you can take online are available wherever you live, so they appear under every '
-    + 'region as well as the one they are based in — check the Format column to see which those are. '
-    + 'Hybrid programmes require attending in person, so those stay with their region.'
+    'Online programs appear in search results for every region.'
     + '<br><br>'
-    + 'Teaching Artist and CTE programmes are not recorded by discipline, so they show "—" in that '
-    + 'column and are set aside when you filter by one. Filter by pathway to see them.';
+    + 'Teaching Artist and CTE programs are not differentiated by discipline, and do not appear in '
+    + 'searches using this filter. Filter by pathway to view them.';
   apply();
 }
 
@@ -521,7 +577,7 @@ function apply(){
     const on = th.dataset.sort === key;
     if(on) th.setAttribute('aria-sort', dir === 1 ? 'ascending' : 'descending');
     else th.removeAttribute('aria-sort');
-    th.querySelector('.ar').textContent = on ? (dir === 1 ? '▲' : '▼') : '';
+    // The arrow itself is drawn in CSS off aria-sort — nothing to write into the span.
   });
 
   // Chips are labels, not links — every hyperlink on the page lives in the Website column, so there
@@ -569,10 +625,11 @@ function apply(){
   }).join('');
 
   const any = Object.keys(PICKED).some(k => PICKED[k]);
-  // Just how many are showing. The unfiltered total is the same line with nothing selected, so
-  // "N of 90" only repeated what the empty dropdowns already said.
+  // Filtered, the total is worth carrying: "53 of 90" says how much was excluded, which a bare
+  // count can't. Unfiltered it would only ever read "90 of 90", so the total is dropped there.
   document.getElementById('count').innerHTML =
-    '<b>' + out.length + '</b> program' + (out.length === 1 ? '' : 's');
+    '<b>' + out.length + '</b>' + (any ? ' of ' + ROWS.length : '') +
+    ' program' + (out.length === 1 ? '' : 's');
   document.getElementById('clear').hidden = !any;
   // Active filters, named in the sticky bar so they survive scrolling away from the menus.
   document.getElementById('active').innerHTML =

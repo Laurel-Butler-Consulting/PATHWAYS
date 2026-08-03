@@ -316,6 +316,14 @@
   .res-xindex:hover::before{opacity:.85}
   .res-xindex:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   @media (prefers-reduced-motion:reduce){.res-xindex,.res-xindex::before{transition:none}}
+  /* The rule closes the whole block rather than sitting between the title and its own blurb, so the
+     index reads as one item set apart from the resource sections rather than as another section
+     heading with text underneath it. Same hairline the section titles use. Indented to clear the
+     arrow, so the blurb starts on the same left edge as the title text above it. */
+  .res-xindex-block{margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(0,38,71,.12)}
+  .res-xindex-block .res-xindex{margin-bottom:.35rem;padding-bottom:0;border-bottom:none}
+  .res-xindex-blurb{font-size:.78rem;line-height:1.45;color:rgba(0,38,71,.72);padding-left:1.1rem;margin:0}
+  .res-xindex-blurb b{font-weight:700;color:var(--navy)}
   .res-list{margin-bottom:0}
   .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
   .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
@@ -1245,7 +1253,10 @@ function resourcesHTML(){
   // ⚠ That page groups programmes by delivery mode (in-person / hybrid / online only) — the
   // online-availability marking that is still awaiting the client's sign-off (§3). Linking it here
   // publishes that data. Confirm before launch, alongside the markers themselves.
-  var xindex='<a class="prog-region-title res-xindex" href="cross-index/" target="_blank" rel="noopener"><h3>'+T.crossIndex+'</h3></a>';
+  // Blurb sits OUTSIDE the anchor: it describes the destination rather than being part of the
+  // control, and a two-line click target reads as a mis-tap waiting to happen.
+  var xindex='<div class="res-xindex-block"><a class="prog-region-title res-xindex" href="program-index/" target="_blank" rel="noopener"><h3>'+T.crossIndex+'</h3></a>'
+    + '<p class="res-xindex-blurb">'+T.crossIndexBlurb+'</p></div>';
   return '<div class="prog-resources"><p class="prog-intro">'+T.additionalResources+'</p>'+xindex+groups+'</div>';
 }
 function renderProfile(key){

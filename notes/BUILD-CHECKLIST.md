@@ -175,7 +175,7 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
 - [ ] Client sign-off on marker threshold, then wire in (research done for all 92 programs)
       [`notes/online-availability-README.md`](online-availability-README.md) · `notes/online-availability-review.json`
 - [ ] 🔴 **The cross-index is now LINKED from every result page (2026-08-02) — this publishes the
-      online-availability data ahead of the sign-off above.** `cross-index/index.html` groups all 92
+      online-availability data ahead of the sign-off above.** `program-index/index.html` groups all 92
       programmes by delivery mode (In-Person Only / In Person or Online / Hybrid / Online Only),
       which is the same research this section is gating. Linking it means a visitor reaches that
       grouping even though the markers themselves are not on the programme lists yet.
@@ -593,7 +593,7 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       Verified live: 90 rows, all four axes populated; single filters, two filters combined, the
       inert-discipline rule, clear-all, and all three sort columns including `aria-sort`.
 - [x] **Cross-index header + colour scheme settled** — renamed to title "Arts Educator Pathways" over
-      subtitle "Programs Cross-Index" (the result pages' `.res-label`: gold, caps, same size and
+      subtitle "Program Index" (the result pages' `.res-label`: gold, caps, same size and
       tracking). **Stays on the inverted scheme** — dark ground, light type — after a light-scheme
       version was tried and rejected on 2026-08-02.
       The ground is `--navy`, the exact colour of the result-page header band, and the title now sits
@@ -608,7 +608,7 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       where they carry a disclosure chevron, so it reads as "goes somewhere" rather than "opens".
       Opens in a new tab like every other resource link, because the result page is drawn in the
       browser and navigating away in the same tab would lose it. Label lives in
-      `data/content.en.json` as `ui.crossIndex` ("Programs Cross-Index") — edit it there, not in
+      `data/content.en.json` as `ui.crossIndex` ("Program Index") — edit it there, not in
       index.html. Verified on all 7 result pages, print included, accordion unaffected.
       ⚠ **Gated — see §3.** It publishes the online-availability data ahead of the client's sign-off.
 - [x] **Additional Resources is now a one-at-a-time accordion** — opening a section closes whichever

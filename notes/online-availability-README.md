@@ -28,7 +28,7 @@ a `category` field (`both` = in person or online, `online_only`, `inperson`, `li
 
 Review page ("Pathways Programs Cross-Index"):
 - Claude artifact (needs Claude account): https://claude.ai/code/artifact/3e71a90d-019b-4fef-a674-e884f00a12c6
-- Repo copy for GitHub Pages: `cross-index/index.html` → https://zz72z7z7.github.io/PATHWAYS/cross-index/ (only live after it's pushed; has noindex). Generator: `scratchpad/gen_review.py` + `build_v2.py`.
+- Repo copy for GitHub Pages: `program-index/index.html` → https://zz72z7z7.github.io/PATHWAYS/program-index/ (only live after it's pushed; has noindex). Generator: `scratchpad/gen_review.py` + `build_v2.py`. (Folder renamed from `cross-index/` on 2026-08-03, along with the page's own name.)
 
 ## Implementation plan (once approved) — do NOT run until then
 School-level markers, so marking a school once shows on every page it appears (the cross-index).
