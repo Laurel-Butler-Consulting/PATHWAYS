@@ -32,7 +32,10 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [x] **Dagger caveat — CLOSED 2026-08-01: not needed.** The removal stands; the warning does not
       have to reach users another way. (§2)
 - [ ] **Online-availability marker threshold** (§3)
-- [ ] **UCLA Extension CTE** — region, and whether it duplicates the existing UCLA entry (§2)
+- [~] **UCLA Extension CTE — mostly resolved by research 2026-08-03 (§2).** Not a duplicate; the URL
+      on file is only an info session; the real pathway launches Fall 2026 and needs its URL from
+      UCLA Extension. Nothing needed from the client except the pathway URL when it exists. A separate
+      decision IS needed from us on the UCLA name collision (§2).
 - [x] **Captions on by default — YES, in English** (decided 2026-08-01). (§1)
 
 **Accounts + access**
@@ -171,6 +174,46 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
          The existing CTE entry already points at UCLA Extension. Either the course is run by Extension
          in partnership with VAPAE, or the label and the link don't match. Confirm before publishing —
          a mislabelled link sends people to the wrong part of a very large university.
+
+      **RESEARCHED 2026-08-03 — three of the unknowns above are now answered, and the URL on file
+      should NOT be published.**
+      - **That URL is a free information session, not a programme.** It resolves to "From Artist to
+        Educator: Explore UCLA Extension's New CTE Teaching Artistry Credential" (EDUC 769) — a
+        complimentary, non-credit xOpen session, currently listed as *"Not available this quarter."*
+        Publishing it puts a recruitment event, and a dormant one, alongside real credential
+        programmes.
+        `uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/course/artist-educator-educ-769`
+      - **The programme it advertises is real but not launched: a CTE Teaching Artistry credential
+        pathway, launching Fall 2026.** No dedicated page for it is findable yet — searches return
+        only the info session and the general CTE specialization. ➜ **ASK UCLA EXTENSION FOR THE
+        PATHWAY URL ONCE IT IS LIVE, then add.** Launch is weeks away as of this note.
+      - **Not a duplicate — confirmed from the pages themselves.** The existing CTE entry links UCLA
+        Extension's *general* CTE credential: eight courses (instructional strategies, technology,
+        curriculum design, inclusion, portfolio/practicum, health education) with nothing
+        arts-specific. The Teaching Artistry pathway is a separate, arts-specific route.
+      - **VAPAE is not a candidate for this site.** `vapae.arts.ucla.edu` is an 18-unit arts education
+        **minor for current UCLA undergraduates**, plus community arts programmes and internships.
+        Not a credential, not a route for working artists, wrong audience. The client's "VAPAE" label
+        appears to be a mix-up with UCLA Extension, which is where the Teaching Artistry pathway sits.
+      - **Region is answerable but blocked on a data-model problem — see §2 "UCLA name collision".**
+
+- [ ] 🔴 **UCLA name collision — one name, two programmes, and both region and delivery are wrong for
+      one of them.** `University of California, Los Angeles` covers TWO different offerings:
+      **CTE** (UCLA Extension — courses "delivered online via Canvas", some with a live Zoom session)
+      and **Music** (CenterX — a full-time, in-person credential inside a four-year UCLA undergraduate
+      degree). Region and delivery are keyed by SCHOOL NAME, so both programmes share one value:
+      - `SCHOOL_REGION` (index.html) and `r:` (program-index) say **Southern California** — correct for
+        Music, wrong for the online CTE programme.
+      - `d:` (program-index) says **Online only** — correct for CTE, wrong for the in-person Music
+        programme.
+      So each field is already wrong for one of the two, and changing either fixes one while breaking
+      the other. **The fix is to split the name**, listing the CTE entry as `UCLA Extension`
+      (r: Online, d: Online only) and leaving `University of California, Los Angeles` for Music
+      (r: Southern California, d: In-person). That also gives the Teaching Artistry pathway a correct
+      home when it launches, since it is also UCLA Extension and also online.
+      Consequences of the split: the Program Index gains a row (90 ➜ 91) and the CTE result pages show
+      "UCLA Extension" rather than "University of California, Los Angeles". **Needs a decision before
+      building — it changes a published link label.**
 
 ## 3. Online-availability marking
 - [ ] Client sign-off on marker threshold, then wire in (research done for all 92 programs)

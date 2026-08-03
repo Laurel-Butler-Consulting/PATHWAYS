@@ -64,7 +64,7 @@
     {"name": "Teachers College of San Joaquin", "url": "https://teacherscollegesj.edu/designated-subject-cte-program/", "conf": "High", "src": "CTE-specific"},
     {"name": "Tehama County Department of Education", "url": "https://www.tehamaschools.org/Services/Educational-Services/Career-Technical-Education-Teacher-Preparation/index.html", "conf": "High", "src": "CTE-specific"},
     {"name": "Tulare County Office of Education", "url": "https://tcoe.org/NTLD/CTE", "conf": "High", "src": "CTE-specific"},
-    {"name": "University of California, Los Angeles", "url": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical", "conf": "High", "src": "CTE-specific (UCLA Extension)"},
+    {"name": "UCLA Extension", "url": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical", "conf": "High", "src": "CTE-specific (UCLA Extension)"},
     {"name": "University of California, Riverside", "url": "https://extension.ucr.edu/certificates/ctetracka", "conf": "High", "src": "CTE-specific (Track A, new teachers)"},
     {"name": "Ventura County Office of Education", "url": "https://www.vcoe.org/ese/dsc/cte", "conf": "High", "src": "CTE-specific"}
   ],

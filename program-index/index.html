@@ -387,7 +387,11 @@ const XLOCAL = {
   "UC Irvine, Claire Trevor School of the Arts":{r:"Southern California",d:"Online only",w:"https://www.uci.edu/"},
   "United States University":{r:"Southern California",d:"Online only",w:"https://www.usuniversity.edu/"},
   "University of California, Irvine":{r:"Southern California",d:"In-person only",w:"https://www.uci.edu/"},
-  "University of California, Los Angeles":{r:"Southern California",d:"Online only",w:"https://www.ucla.edu/"},
+  // Split 2026-08-03: one name covered two different programmes. UCLA Extension runs the CTE
+  // credential online; CenterX runs the Music credential in person on campus. Region and delivery
+  // are keyed by name, so a single row had one field wrong for each. Keep them separate.
+  "UCLA Extension":{r:"Online",d:"Online only",w:"https://www.uclaextension.edu/"},
+  "University of California, Los Angeles":{r:"Southern California",d:"In-person only",w:"https://www.ucla.edu/"},
   "University of California, Riverside":{r:"Southern California",d:"Online only",w:"https://www.ucr.edu/"},
   "University of California, Santa Barbara":{r:"Central California",d:"In-person only",w:"https://www.ucsb.edu/"},
   "University of La Verne":{r:"Southern California",d:"Online only",w:"https://www.laverne.edu/"},
