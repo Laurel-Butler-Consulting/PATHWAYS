@@ -45,8 +45,9 @@ Everything below is blocked on one of these. Grouped by who has to act.
       them to have a GitHub account). (§7)
 - [x] **Registrar access — not needed from them.** The Porkbun account is ours; it moves to the client
       account-to-account at handover, with no downtime. (§7)
-- [~] **Constant Contact — being set up by US on the client's behalf**, to avoid waiting on them.
-      Still needed from the client: the privacy policy below, without which the sign-up cannot ship.
+- [x] **Email capture — DONE 2026-08-03, off the client's list.** Moved from Constant Contact to
+      Buttondown over the Google reCAPTCHA problem, wired and tested end to end with real addresses,
+      and the privacy policy that was gating it is written and live. (§4, §8)
 - [ ] Decide who owns the analytics account and who reads the numbers.
 
 **Content the client must supply**
@@ -229,22 +230,30 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       Second-order: the cross-index carries its own `noindex`; if it stays, decide whether that is
       still wanted once the main site is meant to be found by search.
 
-## 4. Email capture — Constant Contact
-- [ ] **BUILT but NOT WIRED (2026-07-30). MUST NOT SHIP AS-IS.** The navy band at the foot of every
-      result page accepts an address and silently discards it — no confirmation, no error, and it looks
-      like it worked.
-- [ ] Client to confirm the platform and provide account access.
-- [ ] **Verify in their account before design is final:** the form's post-submission setting must show a
-      success message on our page rather than redirecting to theirs. Their public docs don't state this
-      either way. If it forces a redirect, people get thrown out of their results and the band needs
-      rethinking.
-- [ ] Route chosen: **their embedded form, restyled** (their markup + our CSS). Rejected the API route —
-      it needs server-side code a static site can't hold, plus ongoing credential renewal and an owner.
-      Consequence: their form loads a third-party script (§8) and their updates can break our styling.
-- [ ] Design + build the states: success, failure (keep the typed address), already-subscribed.
-- [ ] Confirmation must be **announced** for screen-reader users, not only displayed.
-- [ ] **Privacy policy page** — collecting addresses normally requires one, and there is none today.
-      Confirm who is the data controller and what the client's own policy says.
+## 4. Email capture — Buttondown  *(was Constant Contact — replaced 2026-08-03)*
+- [x] **WIRED AND TESTED END TO END 2026-08-03.** Multiple real addresses submitted, confirmation
+      emails received, confirmation-link redirect verified. No longer a launch blocker.
+- [x] **Platform changed: Constant Contact ➜ Buttondown.** Built against Constant Contact first, then
+      removed. Their widget pulls in Google reCAPTCHA, which loaded for EVERY visitor from the moment
+      the homepage opened, and cannot be disabled from the site side — its pass/fail token is part of
+      the submission, so stripping it makes sign-ups fail silently. Unacceptable given the client's
+      position that data privacy is the deciding factor.
+- [x] **Route: our own form, posted straight to Buttondown.** No embed widget, no third-party script
+      anywhere on the site. Their endpoint returns permissive cross-origin headers, so the submission
+      is made in our own code and the visitor stays on their results page — no redirect, no iframe.
+- [x] Post-submission behaviour: success message on our own page, form replaced so nobody submits
+      twice. Confirmation link lands on `/subscribed/`, our page, not Buttondown's archive.
+- [x] States built: sending, invalid address, failure (address kept), success.
+- [x] Confirmation **announced** to screen readers — the status line is a live region.
+- [x] Honeypot field catches bots before anything leaves the browser. No captcha, by design.
+- [x] **Privacy policy page** — built 2026-08-03 at `/privacy/`, linked from all four footers. See §8.
+- [ ] ⚠ **Buttondown settings still to confirm:** double opt-in ON (the success copy tells people to
+      check their inbox), and "Embed fingerprinting" left OFF (it penalises exactly this kind of plain
+      form, and it is fingerprinting).
+- [ ] ⚠ **Deletion requests need an owner.** The privacy policy promises we delete an address on
+      request. Unsubscribing does NOT delete it — Buttondown keeps the record so a later import cannot
+      re-add the person. Whoever watches `info@createca.org` needs to know these arrive and needs
+      Buttondown access, or a reliable route to someone who has it.
 
 ## 5. Analytics — anonymous, third-party
 - [ ] ⚠ **The deciding factor is custom events, not privacy.** All the credible options are equally

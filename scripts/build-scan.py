@@ -112,24 +112,40 @@ S2 = "2. Pending client review"
 prov = "PROVISIONAL region assignments" in html
 add(S2, PEND if prov else DONE, "Region assignments verified",
     "PROVISIONAL flag still present in index.html" if prov else "flag removed")
-# "Stay in touch" opt-in. The old check looked for a placeholder BUTTON that no longer exists (the
-# band was rebuilt as a form on 2026-07-30, and its copy moved to content.en.json), so it found
-# nothing and reported "wired" — green on the one item that must not ship. It now inspects the form
-# itself: wired means the address goes somewhere, i.e. a real action= on the form.
-# Deliberately biased to under-report. If it is ever wired by some other means this reads PENDING
-# when it is actually done; the reverse — green on a form that discards addresses — is the failure
-# that mattered.
+# "Stay in touch" opt-in.
+# History of this check, because it has been wrong in both directions:
+#   1. It first looked for a placeholder BUTTON that no longer existed, found nothing, and reported
+#      "wired" — green on the one item that must not ship.
+#   2. It was then rewritten to require action= on the form. On 2026-08-03 the form was wired to
+#      Buttondown via fetch() in a submit handler, which has no action= — so it went red on work
+#      that was finished. A status tool that cries wolf gets ignored, which is its own failure.
+# It now accepts EITHER route: a real action=, or a submit handler that posts somewhere.
+# Still deliberately biased to under-report: a false PENDING costs a second look, a false DONE ships
+# a form that silently discards addresses.
 optin_present = "qv-optin" in html
 m_optin = re.search(r"<form[^>]*\boi-form\b[^>]*>", html)
 optin_tag = m_optin.group(0) if m_optin else ""
 m_action = re.search(r'\baction="([^"]+)"', optin_tag)
 m_onsub = re.search(r'\bonsubmit="([^"]*)"', optin_tag)
 dead_handler = bool(m_onsub) and m_onsub.group(1).replace(" ", "").rstrip(";") == "returnfalse"
-optin_wired = bool(m_action) and not dead_handler
+# Submit handler route: the form calls a function, and that function posts to somewhere off-site.
+handler_name = ""
+if m_onsub and not dead_handler:
+    m_fn = re.match(r"\s*([A-Za-z_$][\w$]*)\s*\(", m_onsub.group(1))
+    handler_name = m_fn.group(1) if m_fn else ""
+posts_to = ""
+if handler_name:
+    m_body = re.search(r"function\s+" + re.escape(handler_name) + r"\s*\([\s\S]*?\n\}", html)
+    if m_body:
+        m_url = re.search(r"fetch\(\s*['\"](https?://[^'\"]+)", m_body.group(0))
+        if m_url:
+            posts_to = m_url.group(1)
+optin_wired = (bool(m_action) and not dead_handler) or bool(posts_to)
 if not optin_present:
     add(S2, INFO, '"Stay in touch" opt-in', "band not on the page")
 elif optin_wired:
-    add(S2, DONE, '"Stay in touch" opt-in wired', "form posts to " + m_action.group(1))
+    add(S2, DONE, '"Stay in touch" opt-in wired',
+        "form posts to " + (m_action.group(1) if m_action else posts_to))
 else:
     add(S2, PEND, '"Stay in touch" opt-in wired',
         "NOT WIRED — accepts an address and silently discards it; must not ship (§4)")
@@ -167,6 +183,70 @@ add(S4, DONE if (lorem_total == 0 and not summary_placeholder) else PEND,
         ("lorem ipsum ×%d (%s)" % (lorem_total, where)) if lorem_total else "",
         "result-page summaries flagged placeholder" if summary_placeholder else "",
     ])) or "none found")
+
+# ---- Duplicated data: the two checks below exist because nothing else enforces these ----
+# The site has three standalone pages that each carry their OWN copy of the palette, and region is
+# held twice (index.html and program-index). Both were verified by hand on 2026-08-03 and were in
+# sync — but "someone remembers the comment" is not a mechanism. These turn a silent mismatch into a
+# line in this scan. Neither can be fixed by sharing a file without giving every page a second
+# network request, which is why the duplication stands.
+STANDALONE = ["program-index/index.html", "subscribed/index.html", "privacy/index.html"]
+TOKENS = ["--white", "--ice", "--gold", "--blue", "--navy", "--r", "--font-body", "--font-display"]
+
+
+def tokens_of(src):
+    """Read the :root token values a file actually declares."""
+    m = re.search(r":root\s*\{(.*?)\}", src, re.S)
+    if not m:
+        return {}
+    body = m.group(1)
+    out = {}
+    for t in TOKENS:
+        mv = re.search(re.escape(t) + r"\s*:\s*([^;]+);", body)
+        if mv:
+            out[t] = mv.group(1).strip()
+    return out
+
+
+base_tokens = tokens_of(html)
+drift = []
+for page in STANDALONE:
+    src = read(page)
+    if not src:
+        drift.append("%s: missing" % page)
+        continue
+    theirs = tokens_of(src)
+    for t, v in base_tokens.items():
+        if t in theirs and theirs[t] != v:
+            drift.append("%s %s=%s (index.html: %s)" % (page, t, theirs[t], v))
+add(S4, PEND if drift else DONE, "Palette copies in step",
+    "; ".join(drift) if drift else
+    "%d tokens match across index.html + %d standalone pages" % (len(base_tokens), len(STANDALONE)))
+
+# Region is declared twice: SCHOOL_REGION in index.html, and r: in program-index's meta table.
+# Also checks every programme name HAS a region — one without falls into "Unsorted" on the live page.
+REGIONS = "Northern California|Southern California|Central California|Online"
+region_index = dict(re.findall(r'"([^"]+)":"(%s)"' % REGIONS, html))
+region_xidx = dict(re.findall(r'"([^"]+)":\{r:"([^"]+)"', read("program-index/index.html")))
+try:
+    prog = json.loads(programs_raw) if programs_raw else {}
+except ValueError:
+    prog = {}
+prog_names = {e["name"] for v in prog.values() if isinstance(v, list) for e in v if "name" in e}
+no_region = sorted(n for n in prog_names if n not in region_index)
+stale = sorted(k for k in region_index if k not in prog_names)
+mismatch = sorted("%s (%s vs %s)" % (k, region_index[k], region_xidx[k])
+                  for k in set(region_index) & set(region_xidx) if region_index[k] != region_xidx[k])
+only_one = sorted(set(region_index) ^ set(region_xidx))
+region_problems = (
+    (["no region — shows as Unsorted: " + ", ".join(no_region)] if no_region else []) +
+    (["region for a name that no longer exists: " + ", ".join(stale)] if stale else []) +
+    (["DISAGREE between files: " + ", ".join(mismatch)] if mismatch else []) +
+    (["listed in only one file: " + ", ".join(only_one)] if only_one else [])
+)
+add(S4, PEND if region_problems else DONE, "Region data in step",
+    "; ".join(region_problems) if region_problems else
+    "%d programmes, all mapped, index.html and program-index agree" % len(prog_names))
 
 # ---- Report ----
 W = 78
