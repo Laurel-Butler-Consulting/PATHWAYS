@@ -51,9 +51,12 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Decide who owns the analytics account and who reads the numbers.
 
 **Content the client must supply**
-- [ ] **Review the Spanish transcripts** (drafted 2026-07-31, 11 files) — three house-style calls need
-      their confirmation, listed in §6. This is a review, not a writing job, and it is now the ONLY
-      Spanish item on their list. It gates the Spanish captions.
+- [x] ~~**Review the Spanish transcripts**~~ — **DONE. Client supplied approved V2 2026-08-03**, all 11
+      installed 2026-08-04. Superseded the drafts entirely.
+- [ ] **Answer the 12 transcript queries** — `notes/transcript-queries-for-client.txt`. Wording calls
+      only, no rewriting: two Spanish meaning items (the "real world / classroom" sentence in CTE
+      Intro, and how CTE itself is translated), seven register/consistency calls for their translator.
+      Nothing is blocked on these — the site carries the approved text as-is meanwhile.
 - [ ] Confirmation of the PROVISIONAL region assignments (§2)
 - [ ] **A privacy policy**, or a decision about who writes one — required before collecting email
       addresses, and the site has none today (§4, §8)
@@ -65,7 +68,7 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Final poster stills (§1)
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
 - [x] English transcripts for all 11 videos — written and final 2026-07-31 (§1)
-- [~] Spanish transcripts — drafted 2026-07-31, **awaiting client review / edits** (§6)
+- [x] Spanish transcripts — **client-approved V2 installed 2026-08-04**, 11 files (§6)
 - [x] **"Civil Cyber Arts" credit link — DONE 2026-08-03.** Points at an alias address, deliberately
       disposable. Detail in §9.
 
@@ -290,13 +293,44 @@ page, questionnaire, result pages, resources, footer.
 - ~~Translating region names, setting per-page `lang`, a second set of result pages~~ — all moot.
 
 **What remains, in order:**
-1. Client reviews / edits the 11 Spanish transcripts (drafted, below).
-2. Build the Spanish captions from the approved transcripts — Premiere SRT → `scripts/srt2vtt.py`,
-   same workflow as English, re-timed to each clip.
-3. Wire both into the site. **Two design decisions must be made first — see "Open questions" below.**
+1. ~~Client reviews / edits the 11 Spanish transcripts~~ — **DONE, V2 installed 2026-08-04.**
+2. Build the Spanish subtitle files from the approved transcripts — **method decided 2026-08-04, see
+   below.**
+3. Wire both into the site — already built; only the files are missing.
 
-⚠ **Blocked on the videos either way.** Captions can't be timed against clips that don't exist (§1),
-so step 2 cannot start until the final videos land, no matter how fast the transcript review goes.
+**Spanish subtitles — METHOD DECIDED 2026-08-04, not started**
+
+The audio is English only, so the Spanish files are **subtitles** (a translation for readers), not
+captions (a transcription for deaf/HoH viewers). Use that word with the client; nothing in the code
+or the filenames changes.
+
+**Do not use Premiere's caption translation.** All of Premiere's caption tools start from the audio.
+The audio is English, so its auto-translate produces *its own* Spanish, not the client's approved
+wording — which means proofreading a machine translation against the approved text, line by line,
+eleven times. There is no "fit this Spanish text to this English audio" function, because the words
+don't match the sound.
+
+**Do this instead — reuse the English timings.** The English SRT already holds every timecode, and
+the approved Spanish says the same things in the same order. So: keep the timecodes exactly, swap the
+English words in each cue for the matching Spanish. No re-timing, no listening to audio.
+
+Agreed 2026-08-04 that **Claude does this pass**: hand over `<key>.srt`, get back `<key>.es.srt` with
+identical timecodes and the approved Spanish distributed across the cues. Then `scripts/srt2vtt.py`
+as usual → `<key>.es.vtt`, and the CC button becomes the Off/English/Español menu on its own.
+
+⚠ **The one complication: Spanish runs ~20–25% longer than English.** With timings locked to the
+English, some cues get too dense to read. Handle it by letting cues run two lines, and by moving the
+split point between neighbouring cues — which shifts words without touching a timecode. Merge two
+short adjacent cues only as a fallback. Do **not** trim the Spanish: it's approved copy, and
+shortening it means going back to the client. Any cue still above a comfortable reading rate gets
+flagged rather than silently squeezed.
+
+Manual alternatives if this ever needs doing without Claude: Subtitle Edit (free) or Aegisub load the
+English timings and let you type the translation cue by cue. Same job, by hand.
+
+⚠ **Blocked on the videos.** The English SRTs don't exist yet — `video/nodes/` is empty (§1). Nothing
+here can start until the final clips and their English caption exports land. Suggested first pass:
+**theater**, the densest script — if it reads comfortably at these timings, the other ten will.
 
 **Design decided 2026-07-31:**
 - [x] **Transcript modal EN/ES switch — BUILT 2026-07-31.** Two-way toggle under the modal heading;
@@ -304,8 +338,9 @@ so step 2 cannot start until the final videos land, no matter how fast the trans
       the next. Spanish text is marked as Spanish so screen readers pronounce it correctly.
       Spanish comes from `data/transcripts.es.json`, regenerated from `video/transcripts/esp/`.
       Degrades to English with no switch shown if a node has no Spanish or the file is missing.
-      ⚠ **The Spanish on the site is the DRAFT translation** — it must not go live before the client's
-      review. Nothing is live yet (no videos), but this is the item to re-check before launch.
+      ✔ **The Spanish on the site is now the client-approved V2** (installed 2026-08-04), so the old
+      "must not go live before review" flag is cleared. Twelve wording queries remain open — see
+      `notes/transcript-queries-for-client.txt` — but none of them blocks launch.
 - [x] **CC control three-way: off / English / Español — BUILT 2026-08-01.** Resolved as a small menu,
       not a cycling button, matching the playback-speed control beside it. The button shows what is
       showing — `CC` when off, `CC EN` / `CC ES` when on — so the language is legible without opening
@@ -333,11 +368,20 @@ so step 2 cannot start until the final videos land, no matter how fast the trans
       reader inside an English interface; whether the printed PDF carries a transcript and in which
       language (it carries neither today).
 
-**Spanish transcripts — DRAFTED 2026-07-31, awaiting client review / edits**
-All 11 translated into `video/transcripts/esp/`, mirroring the English naming
-(`01_welcome_esp.txt` … `11_visualart_esp.txt`). Standalone documents; nothing in `index.html` was
-touched. Three house-style decisions were made in the drafting — the client's bilingual reviewer
-should confirm or overrule all three, and each one is a full re-pass if changed later:
+**Spanish transcripts — CLIENT-APPROVED V2 INSTALLED 2026-08-04**
+The client supplied their own approved translation (one document, 2026-08-03), which **replaced the
+drafts entirely** — the 11 draft files were deleted and the folder now holds
+`01_welcome_esp_V2.txt` … `11_visualart_esp_V2.txt`. `data/transcripts.es.json` was rebuilt from
+them; all 11 verified word-for-word against the site.
+
+Eight mechanical errors in the approved Spanish (agreement, a missing ñ, missing accents, a
+duplicated word) were corrected in both the files and the site — listed with before/after in
+`notes/transcript-queries-for-client.txt` for the client's records. Everything judged a style or
+register call was left untouched and put to the client as a query instead.
+
+The three house-style decisions below came from the *draft*. The approved V2 makes its own choices,
+so these now read as a record of what was proposed, not as open questions — except where noted in the
+queries file:
 
 - [~] **Form of address: `tú`** (familiar), not `usted`. Matches the warmth of the English.
 - [~] **Credentialing terms: English name + Spanish gloss on first use** — Supplementary
@@ -349,9 +393,9 @@ should confirm or overrule all three, and each one is a full re-pass if changed 
       2026-07-31). Neutral wording is used where it reads naturally — e.g. *"te damos la bienvenida"*
       rather than *"bienvenida/o"*. Flag for the reviewer: some organisations prefer `educador/a`
       throughout instead.
-- [ ] Client review of the 11 Spanish transcripts
-- [ ] Second caption file per video (`.vtt`), matching the approved Spanish transcripts — re-timed
-      to the clips. Blocked on the videos as well as on the review.
+- [x] ~~Client review of the 11 Spanish transcripts~~ — done, V2 installed 2026-08-04
+- [ ] Second subtitle file per video (`<key>.es.vtt`) from the approved Spanish — **not** re-timed;
+      built on the English SRT timings by the method above. Blocked on the videos.
 - [ ] Mark the Spanish text so screen readers pronounce it as Spanish, not as English with an accent —
       applies to the transcript modal and the caption layer only, since the rest of the site is English.
 

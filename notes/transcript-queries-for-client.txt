@@ -1,0 +1,95 @@
+ARTS EDUCATOR PATHWAYS — TRANSCRIPT QUERIES FOR CLIENT
+Prepared 2026-08-04. 
+
+These are wording questions, not corrections. Nothing in this list has been changed on the
+site — each one needs a decision from you or your translator. Clear mechanical errors were
+corrected separately; those are listed at the end for your records.
+
+
+SPANISH — MEANING
+
+1.  VIDEO 5, CTE INTRO
+    As written: "...profesionales en activo que quieren llevar su experiencia del mundo
+    del aula."
+    The English says these professionals bring their real-world expertise INTO the
+    classroom. The Spanish as written reads closer to "experience from the world of the
+    classroom", which reverses the point of the sentence.
+    Suggested: "...llevar su experiencia del mundo real al aula."
+    This is the one item on the list that changes what a viewer understands.
+
+2.  VIDEOS 5 AND 6, CTE INTRO AND CTE PATH
+    As written: "Carrera Técnica Educacional" as the translation of Career Technical
+    Education.
+    The words appear in a different order from the English term, and this is not the
+    rendering normally used in California materials. The earlier draft used "Educación
+    Técnica Profesional".
+    Please confirm which term you want, and note that it must match on both videos.
+
+
+SPANISH — REGISTER AND CONSISTENCY
+(All of these are grammatical as written. They are style calls that belong to your
+translator, not errors.)
+
+
+3.  VIDEO 8, MUSIC
+    As written: "...la meta es conseguir la credencial completa - lo más antes
+    planifiques tus cursos, más fácil será el camino."
+    "Lo más antes" is not the standard construction; "cuanto antes planifiques" is the
+    usual form. A similar phrase does circulate colloquially in parts of Latin America,
+    so this may be a deliberate spoken register.
+
+4.  VIDEO 3, DISCIPLINE
+    As written: "Una de las primeras y más emocionantes preguntas a que vas a
+    responder..."
+    Correct but formal, and slightly stiff against the conversational tone elsewhere.
+    Alternative: "...preguntas que vas a responder..."
+
+5.  VIDEO 3, DISCIPLINE
+    As written: "...no en las artes en general, que también significa que el camino
+    puede verse un poco diferente..."
+    Careful writing would use "lo que también significa". Dropping it is very common in
+    speech, so this may be intentional for a spoken script.
+
+6.  VIDEO 7, SUPPLEMENTARY AUTHORIZATION
+    As written: "...el proceso es más sencillo de lo que tal vez pensarás."
+    The future tense is unusual in this comparison. More idiomatic: "de lo que piensas"
+    or "de lo que pensarías".
+
+7.  VIDEO 5, CTE INTRO
+    As written: "...ya estés más cerca de ser arte educador de lo que crees."
+    Masculine form. The rest of the Spanish set consistently addresses the viewer with
+    feminine forms (maestra, educadora, artista docente). Please confirm whether the
+    masculine here is deliberate or should follow the rest of the set.
+
+8.  VIDEO 10, DANCE
+    As written: "Algunos son totalmente remotos en el internet..."
+    "En línea" is the more usual phrase for online study.
+
+9.  VIDEO 11, VISUAL ART
+    As written: "experiencias tempranas en el campo" in one sentence, then "experiencias
+    tempranas de campo" two sentences later, for the same thing.
+    Please pick one and use it in both places.
+
+
+
+ALREADY CORRECTED — FOR YOUR RECORDS, NO ACTION NEEDED
+
+The following were mechanical errors in the Spanish (agreement, missing letters, missing
+accents) rather than choices. They have been corrected in the transcript files and on the
+site. Listed here so your translator can see exactly what was touched.
+
+  Video 2   "lleva su su práctica"          ->  "lleva su práctica"
+  Video 2   "a lugares educativas"          ->  "a lugares educativos"
+  Video 4   "y asi puede enseñar"           ->  "y así puede enseñar"
+  Video 4   "...artística apoya a la..."    ->  "...artística apoye a la..."
+  Video 5   "el credencial CTE"             ->  "la credencial CTE"
+  Video 7   "las Autorización Suplementarias" -> "las Autorizaciones Suplementarias"
+  Video 8   "lo mas antes"                  ->  "lo más antes"   (see item 3 above)
+  Video 9   "la experiencia de ensenanza"   ->  "la experiencia de enseñanza"
+  Video 9   "todos estudiantes tienen"      ->  "todos los estudiantes tienen"
+
+Two further corrections were supplied by you directly on Video 9, Theater, and are also
+in place: the missing space in "académicos (transcript evaluation)", and the sentence
+ending "...una especialidad menor." The paragraph beginning "You should know that not all
+theater majors..." has been removed from both the English and Spanish, per the corrected
+files.
