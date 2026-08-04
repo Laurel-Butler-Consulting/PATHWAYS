@@ -635,11 +635,10 @@ function apply(){
   }).join('');
 
   const any = Object.keys(PICKED).some(k => PICKED[k]);
-  // Filtered, the total is worth carrying: "53 of 90" says how much was excluded, which a bare
-  // count can't. Unfiltered it would only ever read "90 of 90", so the total is dropped there.
+  // Just how many are showing. The unfiltered total is the same line with nothing selected, so
+  // carrying "of 91" alongside it only repeated what the empty dropdowns already said.
   document.getElementById('count').innerHTML =
-    '<b>' + out.length + '</b>' + (any ? ' of ' + ROWS.length : '') +
-    ' program' + (out.length === 1 ? '' : 's');
+    '<b>' + out.length + '</b> program' + (out.length === 1 ? '' : 's');
   document.getElementById('clear').hidden = !any;
   // Active filters, named in the sticky bar so they survive scrolling away from the menus.
   document.getElementById('active').innerHTML =
