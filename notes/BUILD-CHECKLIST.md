@@ -72,8 +72,12 @@ Everything below is blocked on one of these. Grouped by who has to act.
          **File downloads**. Both create their own goals; nothing to type, no site change needed.
       3. Website Settings → Goals → Add Goal → Custom Event, six times, spelled EXACTLY:
          `Questionnaire Started` · `Questionnaire Restarted` · `Questionnaire Exited` ·
-         `PDF Downloaded` · `Transcript Opened` · `Video Skipped`
+         `Result Page Saved` · `Transcript Opened` · `Video Skipped`
          (A mismatched name means the event arrives and is displayed nowhere.)
+         ⚠ `Result Page Saved` was called `PDF Downloaded` until 2026-08-05. Renamed because
+         Plausible's own automatic `File Download` goal covers the four research reports in the
+         resources block, and the two names side by side read as the same thing. Ours means a
+         visitor saved their OWN results; Plausible's means they downloaded a report.
       4. Goals → Add Goal → **Pageview** (not Custom Event), 8 times, to get conversion rates per
          pathway. Use the Display Name field so the client reads a label, not a path:
          `/result/*` → "Reached any result" (overall completion rate, the headline number) ·

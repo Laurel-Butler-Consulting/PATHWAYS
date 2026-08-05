@@ -852,7 +852,7 @@ function pwStartStillCycle(app){           // multi-presenter nodes: crossfade s
 // in Plausible under Website Settings → Goals, spelled exactly as written here, capitals included.
 // An event with no matching goal is received and then displayed nowhere.
 //     Questionnaire Started · Questionnaire Restarted · Questionnaire Exited
-//     PDF Downloaded · Transcript Opened · Video Skipped
+//     Result Page Saved · Transcript Opened · Video Skipped
 // Outbound-link and file-download tracking are switched on in the Plausible dashboard, not here.
 //
 // Nothing personal is collected: these are counts of anonymous visits. No answer anyone gives is
@@ -893,7 +893,10 @@ function pwGo(s){
 }
 
 function pwDownloadPDF(){
-  pwStat('PDF Downloaded');
+  // "Result Page Saved", NOT "PDF Downloaded" — Plausible has its own automatic "File Download"
+  // goal for the four research reports in the resources block, and two similar names in one
+  // dashboard would be read as the same thing. This one means: someone saved their own results.
+  pwStat('Result Page Saved');
   window.print();
 }
 
