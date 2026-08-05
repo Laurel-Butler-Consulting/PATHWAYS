@@ -58,8 +58,11 @@ Everything below is blocked on one of these. Grouped by who has to act.
       ⚠ Figures are meaningless until launch (2026-08-17): they count our own visits and every hit
       on the password gate, and ad-blockers hide a real share of traffic.
 - [x] **Questionnaire tracking — DONE and VERIFIED END TO END 2026-08-05 on the live site.** Every
-      goal fired and was seen in Plausible: the 6 custom events, the 8 pathway pageview goals
+      goal fired and was seen in Plausible: the 6 custom events, all 8 pathway pageview goals
       including the `/result/*` overall rate, plus Plausible's own File Download and Outbound Link.
+      Five of the seven pathway goals were exercised separately at the end, by sending their result
+      addresses through the site's own reporting code — clicking through only ever reached Music and
+      CTE Credential, so the rest would otherwise have been assumed rather than tested.
       Plan chosen: **Starter, $9/mo at the 10k-pageview tier**, single login, no team
       sharing. Custom properties and funnels are Business-only ($19) and were deliberately declined;
       per-step drop-out is read instead from the pages report, because each questionnaire step and
@@ -133,6 +136,13 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Landing "Find Your Path" preview clip + poster (§1)
 - [ ] Final poster stills (§1)
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
+- **CTE Intro is the ONE file where English and Spanish cue counts differ on purpose — 22 vs 25.
+  Do not "fix" it.** From 18.6s to 25.9s the video shows a text graphic spelling out the 1,000-hour
+  requirement, over a new Ricky voice-over, so the English captions leave that stretch empty: an
+  English viewer reads it off the graphic. A Spanish viewer cannot — the graphic is in English — so
+  the Spanish track carries three extra cues (11–13) covering that sentence. Asymmetric, deliberate,
+  and the only way the key requirement reaches a Spanish reader at all. If the graphic is ever
+  re-cut with Spanish text, these three become redundant and should go.
 - [ ] **FOR THE EDITOR: spell it "theatre", not "theater", in the caption source.** The site was made
       uniform on 2026-08-05 — every word a visitor reads now says *theatre*. Captions are the one
       place that can drift back, because Premiere is the source of truth and the next export
