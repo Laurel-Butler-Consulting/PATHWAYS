@@ -840,7 +840,45 @@ function pwStartStillCycle(app){           // multi-presenter nodes: crossfade s
   },3000);
 }
 
-function pwStart(){pwGo({t:'node',k:'welcome'});}
+// ---- Visitor statistics (Plausible) ---------------------------------------------------------
+// The questionnaire never changes the address in the browser bar, so without this the whole run
+// would be recorded as one visit no matter how far someone got. Each step and result is reported
+// under its own address instead — /q/choose-discipline, /result/music — so they appear in the
+// ordinary pages report with NO goals to create. Where people drop out is then readable by
+// comparing the counts down that list (the Starter plan has no funnel chart; see §Analytics in
+// notes/BUILD-CHECKLIST.md if that is ever revisited).
+//
+// Discrete actions are sent as NAMED EVENTS, and each one DOES need a matching goal added by hand
+// in Plausible under Website Settings → Goals, spelled exactly as written here, capitals included.
+// An event with no matching goal is received and then displayed nowhere.
+//     Questionnaire Started · Questionnaire Restarted · Questionnaire Exited
+//     PDF Downloaded · Transcript Opened · Video Skipped
+// Outbound-link and file-download tracking are switched on in the Plausible dashboard, not here.
+//
+// Nothing personal is collected: these are counts of anonymous visits. No answer anyone gives is
+// attached to them, which is what keeps the privacy policy true.
+//
+// ⚠ The slugs below ARE the labels the client reads in the report. Renaming one starts a fresh
+// line in Plausible and orphans everything gathered under the old name — leave them alone.
+const PW_STAT_STEP={
+  welcome:'welcome', suppAuth:'supplementary-authorization', taVsCred:'teaching-artist-or-credentialed',
+  cteIntro:'cte-introduction', cteVideo:'cte-pathway', whatTeach:'choose-discipline',
+  lifeTA:'life-of-a-teaching-artist', mMusic:'music', mTheater:'theatre', mDance:'dance', mArt:'visual-art'
+};
+const PW_STAT_RESULT={
+  supp:'supplementary-authorization', ta:'teaching-artist', cte:'cte-credential',
+  music:'music', theatre:'theatre', dance:'dance', art:'visual-art'
+};
+// Both wrapped so a blocked or failed analytics script can never break the questionnaire — an
+// ad-blocker stopping Plausible is the normal case, not the exception.
+function pwStat(name){try{if(window.plausible)window.plausible(name);}catch(e){}}
+function pwStatPage(path){try{if(window.plausible)window.plausible('pageview',{url:location.origin+path});}catch(e){}}
+function pwStatScreen(s){
+  if(s.t==='node'&&PW_STAT_STEP[s.k])pwStatPage('/q/'+PW_STAT_STEP[s.k]);
+  else if(s.t==='profile'&&PW_STAT_RESULT[s.k])pwStatPage('/result/'+PW_STAT_RESULT[s.k]);
+}
+
+function pwStart(){pwStat('Questionnaire Started');pwGo({t:'node',k:'welcome'});}
 
 // Forward navigation: render the screen AND record it as a browser history entry, so the
 // browser Back/Forward buttons walk the questionnaire exactly like the on-screen Back does.
@@ -848,10 +886,14 @@ function pwStart(){pwGo({t:'node',k:'welcome'});}
 function pwGo(s){
   var i=((history.state&&history.state.i)||0)+1;
   history.pushState({pw:s,i:i},'');
+  // Reported here, NOT in showScreen — showScreen also runs on Back/Forward, and re-counting a step
+  // someone merely stepped back through would overstate how many reached it.
+  pwStatScreen(s);
   showScreen(s);
 }
 
 function pwDownloadPDF(){
+  pwStat('PDF Downloaded');
   window.print();
 }
 
@@ -870,6 +912,9 @@ window.addEventListener('afterprint',function(){
 });
 
 function pwExit(){                                    // Exit (X) / results "home" links → leave the questionnaire
+  // Only counted when leaving from a QUESTION. Leaving from a result page is finishing, not
+  // abandoning, and counting it would make the drop-out figure meaningless.
+  if(cur&&cur.t==='node')pwStat('Questionnaire Exited');
   var i=(history.state&&history.state.i)||0;
   if(i>0){history.go(-i);}                            // unwind to the home entry → popstate → pwExitToHome
   else{pwExitToHome();}
@@ -962,7 +1007,10 @@ function pwOptinDone(status, form, msg){
 }
 
 function pwChoose(to){
-  if(to==='@reset'){pwStart();return;}
+  // A restart reports BOTH events: it is a restart, and it is also a fresh run of the questionnaire.
+  // Plausible counts goals by unique visitor, so the same person restarting does not inflate the
+  // "Started" figure.
+  if(to==='@reset'){pwStat('Questionnaire Restarted');pwStart();return;}
   if(to.charAt(0)==='@'){pwGo({t:'profile',k:to.slice(1)});return;}
   pwGo({t:'node',k:to});
 }
@@ -1091,7 +1139,7 @@ function qvShowEnd(win){
   var end=stage?stage.querySelector('.qv-end'):null;
   if(end)end.classList.add('show');                        // portrait: reveal questions overlay
 }
-function qvSkip(btn){qvShowEnd(btn.closest('.qv-window'));}
+function qvSkip(btn){pwStat('Video Skipped');qvShowEnd(btn.closest('.qv-window'));}
 function qvReplay(btn){
   var stage=btn.closest('.qv-stage');
   var win=stage.querySelector('.qv-window');
@@ -1282,6 +1330,7 @@ function qvText(el){
   var root=el.closest('.qv-screen')||document;
   var m=root.querySelector('.qv-textmodal');if(!m)return;
   var open=m.classList.toggle('open');
+  if(open)pwStat('Transcript Opened');               // counted on opening only, not on closing again
   if(open){var v=root.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}}  // pause video while reading
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){qvCloseMenus();var m=document.querySelector('.qv-textmodal.open');if(m)m.classList.remove('open');}});

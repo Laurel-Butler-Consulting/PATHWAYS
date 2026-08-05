@@ -57,6 +57,40 @@ Everything below is blocked on one of these. Grouped by who has to act.
       a deliberate exception to the 2026-08-01 removal of Google Fonts.
       ⚠ Figures are meaningless until launch (2026-08-17): they count our own visits and every hit
       on the password gate, and ad-blockers hide a real share of traffic.
+- [ ] **Questionnaire tracking — code DONE 2026-08-05, dashboard steps outstanding (ours, not the
+      client's).** Plan chosen: **Starter, $9/mo at the 10k-pageview tier**, single login, no team
+      sharing. Custom properties and funnels are Business-only ($19) and were deliberately declined;
+      per-step drop-out is read instead from the pages report, because each questionnaire step and
+      result is now reported as its own address (`/q/…`, `/result/…`). Route-following — which path
+      a group took, not just how many hit each step — is the one thing Starter cannot answer; that
+      is the trigger to reconsider the plan. Moving up later loses nothing already collected.
+      ⚠ Sizing: one completed questionnaire is roughly 6–12 pageviews, not 1. 10k/month is about
+      1,000 completions. Check the tier once real traffic starts.
+      Remaining, in the Plausible dashboard:
+      1. Subscribe to Starter.
+      2. Website Settings → General → Site Installation: switch on **Outbound links** and
+         **File downloads**. Both create their own goals; nothing to type, no site change needed.
+      3. Website Settings → Goals → Add Goal → Custom Event, six times, spelled EXACTLY:
+         `Questionnaire Started` · `Questionnaire Restarted` · `Questionnaire Exited` ·
+         `PDF Downloaded` · `Transcript Opened` · `Video Skipped`
+         (A mismatched name means the event arrives and is displayed nowhere.)
+      4. Goals → Add Goal → **Pageview** (not Custom Event), 8 times, to get conversion rates per
+         pathway. Use the Display Name field so the client reads a label, not a path:
+         `/result/*` → "Reached any result" (overall completion rate, the headline number) ·
+         `/result/music` → "Result: Music" · `/result/theatre` · `/result/dance` ·
+         `/result/visual-art` · `/result/teaching-artist` · `/result/cte-credential` ·
+         `/result/supplementary-authorization`
+         ⚠ Plausible calculates conversion rate against ALL site visitors, not against people who
+         started the questionnaire. 100 visit → 40 start → 10 reach Music shows as 10%, not 25%.
+         For the second figure, filter the dashboard to the `Questionnaire Started` goal first.
+         Agree with the client WHICH of the two goes in reports and stay consistent — the same
+         month reported both ways looks like a contradiction.
+      5. Verify against the Realtime view while clicking the live questionnaire.
+      6. Set up the weekly/monthly email summary for the client, who owns the account but does not
+         hold the login.
+      The 11 steps and 7 result pages need NO goals to be COUNTED — they arrive as pages, and the
+      pageview goals in step 4 exist only to add a conversion rate on top. Email sign-ups need no
+      goal either: `/subscribed/` is a real page and appears on its own.
 
 **Content the client must supply**
 - [x] ~~**Review the Spanish transcripts**~~ — **DONE. Client supplied approved V2 2026-08-03**, all 11
