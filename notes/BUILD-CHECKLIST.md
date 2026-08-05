@@ -48,7 +48,15 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [x] **Email capture — DONE 2026-08-03, off the client's list.** Moved from Constant Contact to
       Buttondown over the Google reCAPTCHA problem, wired and tested end to end with real addresses,
       and the privacy policy that was gating it is written and live. (§4, §8)
-- [ ] Decide who owns the analytics account and who reads the numbers.
+- [x] **Analytics — DONE 2026-08-05, off the client's list.** Plausible, installed in the `<head>` of
+      all four pages (index, privacy, subscribed, program-index) and verified loading on each.
+      **The client owns the account; we set it up and administer it for now**, so admin access is
+      the only thing left to hand over — the account itself does not move. No cookies, no IP
+      addresses stored, processed in the EU; already named in the privacy policy, which must be
+      updated in step if the service is ever changed. It is the site's only outside dependency,
+      a deliberate exception to the 2026-08-01 removal of Google Fonts.
+      ⚠ Figures are meaningless until launch (2026-08-17): they count our own visits and every hit
+      on the password gate, and ad-blockers hide a real share of traffic.
 
 **Content the client must supply**
 - [x] ~~**Review the Spanish transcripts**~~ — **DONE. Client supplied approved V2 2026-08-03**, all 11
@@ -57,6 +65,15 @@ Everything below is blocked on one of these. Grouped by who has to act.
       only, no rewriting: two Spanish meaning items (the "real world / classroom" sentence in CTE
       Intro, and how CTE itself is translated), seven register/consistency calls for their translator.
       Nothing is blocked on these — the site carries the approved text as-is meanwhile.
+- [ ] **CTE experience: paid vs unpaid — decision needed 2026-08-05.** The Commission counts three
+      years of work experience "full-time or part-time, paid or unpaid", at 1,000 clock hours a year,
+      verified by employers (CL-888). The word *paid* therefore turns away people who qualify. The
+      CTE Intro question card has been changed to "3 years of work experience in your art form, with
+      at least 1000 hours per year". Two things still say *paid* and need the client's call:
+      the CTE Intro **video narration**, which would need a re-record, and that node's **transcript
+      text** in `data/content.en.json`, which we can change without touching the video but which
+      would then differ from what is spoken. The next video in the branch (CTE Path) already says
+      "work experience", so the footage is already inconsistent with itself.
 - [ ] Confirmation of the PROVISIONAL region assignments (§2)
 - [ ] **A privacy policy**, or a decision about who writes one — required before collecting email
       addresses, and the site has none today (§4, §8)

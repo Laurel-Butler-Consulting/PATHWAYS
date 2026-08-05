@@ -271,6 +271,15 @@
      — placeholder copy is NOT visually marked (warning band removed on request 2026-08-01);
      `"placeholder": true` in data/content.en.json is the only remaining flag. */
   .res-summary{background:var(--white);border-left:4px solid var(--gold);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
+  /* Labelled layout (DESCRIPTION: / REQUIREMENTS: / …). Labels come from "labels" in
+     data/content.en.json and pair with the bullets by position. */
+  .res-summary dl{margin:0}
+  .res-summary dt{font-family:var(--font-body);font-weight:700;font-size:.78rem;line-height:1.3;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:.18rem}
+  /* Colon lives here, not in the copy, so the labels in data/content.en.json stay plain words. */
+  .res-summary dt::after{content:":"}
+  .res-summary dd{font-family:var(--font-body);font-size:.95rem;line-height:1.5;color:var(--navy);margin:0 0 .9rem}
+  .res-summary dd:last-child{margin-bottom:0}
+  /* Fallback list, used only if the labels and the bullets ever fall out of step. */
   .res-summary ul{margin:0;padding-left:1.15rem}
   .res-summary li{font-family:var(--font-body);font-size:.95rem;line-height:1.5;color:var(--navy);margin-bottom:.45rem}
   .res-summary li:last-child{margin-bottom:0}
@@ -440,6 +449,21 @@
     .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy);border-left:4px solid var(--navy)}
   }
 </style>
+<!-- Visitor statistics, added 2026-08-05. Plausible: no cookies, no IP addresses stored, no
+     cross-site or day-to-day tracking, processed in the EU. Already named in the privacy policy
+     (privacy/index.html), so that page needs no change — but if the service is ever swapped,
+     change it there too or the policy becomes untrue.
+     This is the site's ONLY request to an outside server. Google Fonts was removed on 2026-08-01
+     for exactly that reason, so the count is back to one on purpose, not by oversight.
+     Loads async and last in <head>, so nothing on the page waits for it and a blocked or failed
+     request costs nothing. Blocked by most ad-blockers, so real visits will read low.
+     ⚠ It counts pre-launch visits too, including our own and every visit to the password gate.
+     Ignore the numbers until launch day (2026-08-17). -->
+<script async src="https://plausible.io/js/pa-GwJOuqgxzb5wFCwzBF56l.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body>
 
@@ -1394,12 +1418,23 @@ function renderProfile(key){
 function summaryHTML(key){
   var items=(SUMMARY.items&&SUMMARY.items[key])||[];
   if(!items.length)return '';
+  // Each entry carries a category label (DESCRIPTION, REQUIREMENTS, …) from SUMMARY.labels, paired
+  // with the copy BY POSITION — the first label goes with the first entry, and so on. Reordering the
+  // copy in data/content.en.json without reordering the labels would mislabel the whole card, so the
+  // order is recorded there too. Labels are drawn from the data file rather than written in here so
+  // the copy and its headings stay in one place.
+  // If the two ever fall out of step (fewer labels than entries), fall back to the plain bullet list
+  // rather than printing a wrong label.
+  var labels=(SUMMARY.labels)||[];
+  var body=labels.length>=items.length
+    ? '<dl>'+items.map(function(t,i){
+        return '<dt>'+escapeHTML(labels[i])+'</dt><dd>'+escapeHTML(t)+'</dd>';
+      }).join('')+'</dl>'
+    : '<ul>'+items.map(function(t){return '<li>'+escapeHTML(t)+'</li>';}).join('')+'</ul>';
   // No visible heading: the gold-barred card already reads as the summary of the page it opens.
   // aria-label carries the name it used to get from the heading, so the section is still announced
-  // as a summary rather than as an unlabelled list of bullets.
-  return '<section class="res-summary" aria-label="Summary">'+
-    '<ul>'+items.map(function(t){return '<li>'+escapeHTML(t)+'</li>';}).join('')+'</ul>'+
-  '</section>';
+  // as a summary rather than as an unlabelled run of text.
+  return '<section class="res-summary" aria-label="Summary">'+body+'</section>';
 }
 
 // ⚠ PROVISIONAL region assignments — assigned from known campus/org locations, NOT independently verified. FLAG: review before launch.

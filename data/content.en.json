@@ -97,7 +97,7 @@
     },
     "cteIntro": {
       "label": "The CTE Certificate",
-      "q": "Do you have three years of paid experience in your art form, at least 1000 hours each year?",
+      "q": "Do you have 3 years of work experience in your art form, with at least 1000 hours per year?",
       "o": [
         "Yes",
         "No"
@@ -341,43 +341,58 @@
   },
   "summaries": {
     "placeholder": true,
-    "placeholderNote": "Placeholder text — client copy not yet received. Replace before launch.",
+    "placeholderNote": "DRAFT copy, written 2026-08-05 from the node video transcripts and checked against Commission on Teacher Credentialing sources. The old filler copy is gone. Client edits and approval are still required before launch — leave this flag true until she signs off.",
+    "bulletOrder": "Every page runs the same five entries in this order, and the labels below print above them. Label and copy pair BY POSITION, so if the copy is ever reordered the labels must move with it.",
+    "labels": ["Description", "Requirements", "Qualifications", "Process", "Notes"],
     "items": {
       "supp": [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum."
+        "Adds an arts subject to a California teaching credential you already hold. Multiple Subject holders get an Introductory authorization, limited to material taught in grade 9 and below. Single Subject holders can get a Specific authorization, covering the subject at any level, preschool through 12 and adult classes.",
+        "A California teaching credential: Multiple Subject, Standard Elementary, Single Subject, Standard Secondary or Special Secondary.",
+        "20 semester units, or 10 upper division units, of non-remedial coursework in the subject from a regionally accredited community college or university. Alternatives: a collegiate major in a directly related subject, the relevant CSET, or a coursework and examination combination through a program approved by the Commission on Teacher Credentialing.",
+        "No preparation program or examination required. Apply directly to the Commission with form 41-4, official transcripts and the fee.",
+        "A letter from the subject department chair may be requested if a course's relevance is unclear. Single Subject holders may instead add a second Single Subject credential by verifying subject matter competency and completing a methods course of at least three semester units."
       ],
       "ta": [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum et dolore.",
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.",
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit."
+        "A practicing artist who teaches in schools, museums, community organizations and after-school settings. No state credential required.",
+        "None set by the state. Set independently by employers and host organizations.",
+        "No credential or examination. Organizations commonly look for training in classroom management, lesson planning, arts integration and social-emotional learning.",
+        "Training programs, some run by non-profits that also hire teaching artists and place them in schools. No state application, examination or fee.",
+        "Work is typically freelance and project-based, from single workshops to longer classroom residencies. Learning to market your services is important."
       ],
       "cte": [
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.",
-        "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet.",
-        "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id."
+        "Teaching authorization based on your professional experience. Covers career technical, trade and vocational courses in the named subject, in grades 12 and below and adult classes.",
+        "A high school diploma, GED or foreign equivalent, plus fingerprint clearance and CPR training.",
+        "Three years of employer-verified work experience in the industry sector, at least 1,000 clock hours each year, full or part time, paid or unpaid. One year must fall within the last five, or two within the last ten. Up to two years may be substituted by 48 semester units of related postsecondary vocational training.",
+        "Apply through an approved program sponsor, which recommends you for the preliminary credential. It is valid three years. Clearing it takes two years of successful teaching plus a program approved by the Commission on Teacher Credentialing covering the US Constitution, health education and computer technology.",
+        "No university degree is required, and the credential is completed while teaching. Holders commonly continue their arts practice alongside the classroom work."
       ],
       "music": [
-        "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae.",
-        "Et harum quidem rerum facilis est et expedita distinctio."
+        "Authorizes teaching music in departmentalized classes at any grade level, preschool through 12, and adult classes.",
+        "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
+        "Subject matter competency in music: a music degree major, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Music, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
+        "Complete a Commission-approved preparation program, including a music methods course, student teaching and a Teaching Performance Assessment. Also complete a US Constitution course or examination and receive a formal recommendation from the program.",
+        "Planning subject coursework early shortens the path, since any gaps must be closed before competency can be verified."
       ],
       "theatre": [
-        "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias.",
-        "Consequatur aut perferendis doloribus asperiores repellat sed quia non numquam eius modi tempora.",
-        "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur adipisci velit."
+        "Authorizes teaching theatre in departmentalized classes at any grade level, preschool through 12, and adult classes.",
+        "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
+        "Subject matter competency in theatre: a theatre degree major, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Theatre, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
+        "Complete a Commission-approved preparation program, including a theatre methods course, student teaching and a Teaching Performance Assessment. Also complete a US Constitution course or examination and receive a formal recommendation from the program.",
+        "The coursework route, which programs call transcript evaluation, has a program check your transcripts against the required subject domains. Professional experience and training taken outside higher education do not count. Prior teaching experience is not required for admission."
       ],
       "dance": [
-        "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.",
-        "Nisi ut aliquid ex ea commodi consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.",
-        "Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
-        "Et harum quidem rerum facilis est et expedita distinctio nam libero tempore."
+        "Authorizes teaching dance in departmentalized classes at any grade level, preschool through 12, and adult classes.",
+        "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
+        "Subject matter competency in dance: a dance degree major, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Dance, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
+        "Complete a Commission-approved preparation program, including student teaching and a Teaching Performance Assessment. Also complete a US Constitution course or examination and receive a formal recommendation. Programs run statewide in online, in-person and hybrid formats.",
+        "The CSET in Dance has only existed since October 2021, so older guidance may state that no examination is available. Adding a physical education credential lets a dance class carry either dance or PE credit, widening hiring options."
       ],
       "art": [
-        "Omnis voluptas assumenda est, omnis dolor repellendus temporibus autem quibusdam.",
-        "Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus.",
-        "Maiores alias consequatur aut perferendis doloribus asperiores repellat."
+        "Authorizes teaching art in departmentalized classes at any grade level, preschool through 12, and adult classes.",
+        "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
+        "Subject matter competency in art: an art degree major, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Art, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
+        "Complete a Commission-approved preparation program, including student teaching and a Teaching Performance Assessment. Also complete a US Constitution course or examination and receive a formal recommendation from the program.",
+        "Admission criteria vary by institution and may add a portfolio review, early field experience in K-12 settings, and an interview. Program formats vary, including accelerated, traditional and internship options for candidates already employed in a school."
       ]
     }
   }
