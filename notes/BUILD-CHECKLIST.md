@@ -200,6 +200,30 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       156px, or bottom 335px when captions are on. **Regenerated after the Skip/speed changes above —
       re-export if you composited against the earlier versions.**
 - [ ] 11 presenter videos recorded & final → `video/nodes/<node-key>.mp4`
+- [ ] **Speaker name/title strips (client request 2026-08-05) — DECIDE ONCE THE CLIPS ARE IN.**
+      Mocked up on the real player at phone size; nothing built, nothing changed in the site.
+      **Draw them in the site, do not burn them into the video.** On a small phone the bottom 423px
+      of a 1080×1920 export is cropped away before the player's own furniture takes another 335px,
+      so a burned-in strip has to sit above y≈1163 to survive — 60% up the frame, which reads as a
+      floating label, not a lower third. Drawing it also means a misspelled name is a text edit
+      rather than a re-cut, and the job title can be translated.
+      Position: above the caption line at a fixed offset, so nothing shifts when captions appear.
+      Captions do NOT move — move the transient element, never the persistent one.
+      ⚠ Copy is too long as supplied. Measured at phone width: 3 lines incl. "Senior Faculty, Loyola
+      Marymount University College of Communication and Fine Arts" = 97px, 19% of the visible video,
+      wrapping to 4 lines. Dropping "College of Communication and Fine Arts" → 80px. Name + role
+      only → 2 lines. Recommended: name + role; the university affiliation belongs on a result page.
+      Collect ALL EIGHT speakers' titles before building — the longest one sets the box size.
+- [ ] **Video crop position — RE-CHECK WITH REAL FOOTAGE, then set it.** On phones the player is
+      shorter than 9:16 and the video is top-aligned (`object-position:50% 0`), so the crop currently
+      comes off the BOTTOM and the presenter sits low under a band of empty sky. Cropping entirely
+      from the top instead cuts 226px past Laurel's hairline, to her eyebrows — too far.
+      Measured on `vp_laurel.jpg` (1116×1984, hair starts ≈210px down): **`50% 35%` is the sweet
+      spot**, taking 153px off the top and 283 off the bottom, leaving ~57px above the hair, and
+      still ~53px at the smallest phone size.
+      ⚠ Measured on the PLACEHOLDER still, not final footage, and one rule governs all 8 presenters.
+      If anyone was shot tighter, 35% could clip them. Add consistent headroom to the export spec —
+      far easier to fix at export than to work around in the site.
 - [ ] Landing "Find Your Path" preview video — final clip + poster (muted loop; no transcript)
 - [ ] Poster stills finalized (placeholders currently in `images/video placeholder stills/`)
 - [ ] Switch each node on as its clip lands (`v:1`, plus `cc:1` once its `.vtt` is beside it)
