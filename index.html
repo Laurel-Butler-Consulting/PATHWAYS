@@ -135,7 +135,15 @@
   .qv-stage{position:relative;width:100%}
   .qv-subtitle{align-self:stretch;text-align:center;white-space:nowrap;font-family:var(--font-body);font-weight:600;text-transform:uppercase;color:var(--gold);font-size:4.37cqw;letter-spacing:.16em;line-height:1.1;margin-bottom:1rem}
   .step-screen.qv-screen.active{display:flex}
-  .qv-window{position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100dvh - 100px);border-radius:0;overflow:hidden;background:var(--navy)}
+  /* The 140px is the rest of the screen: 40px padding + title and its margin (~38) + the Back/Exit
+     row and its margin (~57). Measured 2026-08-05 — it was 100px, which was 35px short, so on a
+     phone the column overflowed and the screen scrolled: you saw the title OR Back/Exit, never both
+     (reported on an iPhone 13 mini in Firefox Focus). If anything is ever added to or removed from
+     the title or the footer row, this number has to move with it.
+     svh, NOT dvh: svh assumes the browser's toolbars are SHOWING, which is the case that breaks.
+     Firefox Focus keeps a top bar and a bottom bar on screen permanently; Safari retracts them on
+     scroll, which is why it looks fine there and clipped elsewhere. */
+  .qv-window{position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px);border-radius:0;overflow:hidden;background:var(--navy)}
   .qv-video,.qv-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;background:var(--navy)}
   .qv-still{opacity:0}
   .qv-still.is-active{opacity:1}
