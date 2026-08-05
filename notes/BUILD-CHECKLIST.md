@@ -57,8 +57,10 @@ Everything below is blocked on one of these. Grouped by who has to act.
       a deliberate exception to the 2026-08-01 removal of Google Fonts.
       ⚠ Figures are meaningless until launch (2026-08-17): they count our own visits and every hit
       on the password gate, and ad-blockers hide a real share of traffic.
-- [ ] **Questionnaire tracking — code DONE 2026-08-05, dashboard steps outstanding (ours, not the
-      client's).** Plan chosen: **Starter, $9/mo at the 10k-pageview tier**, single login, no team
+- [x] **Questionnaire tracking — DONE and VERIFIED END TO END 2026-08-05 on the live site.** Every
+      goal fired and was seen in Plausible: the 6 custom events, the 8 pathway pageview goals
+      including the `/result/*` overall rate, plus Plausible's own File Download and Outbound Link.
+      Plan chosen: **Starter, $9/mo at the 10k-pageview tier**, single login, no team
       sharing. Custom properties and funnels are Business-only ($19) and were deliberately declined;
       per-step drop-out is read instead from the pages report, because each questionnaire step and
       result is now reported as its own address (`/q/…`, `/result/…`). Route-following — which path
@@ -66,7 +68,16 @@ Everything below is blocked on one of these. Grouped by who has to act.
       is the trigger to reconsider the plan. Moving up later loses nothing already collected.
       ⚠ Sizing: one completed questionnaire is roughly 6–12 pageviews, not 1. 10k/month is about
       1,000 completions. Check the tier once real traffic starts.
-      Remaining, in the Plausible dashboard:
+      Two things caught during verification, both fixed — worth knowing if this is ever extended:
+      • The result page's "Restart Questionnaire" button called `pwStart()` directly, so it reported
+        a fresh start and never a restart. Both restart controls now route through `pwRestart()`.
+        Any NEW control that starts the questionnaire must pick the right one of the two.
+      • A goal that fires locally but never appears is almost always a stale cached page, not a
+        naming error. Hard-reload the live site before suspecting the dashboard.
+      ⚠ Reporting to the client: Plausible calculates conversion rate against ALL site visitors, not
+      against people who started the questionnaire, so the headline percentages look far higher than
+      "share who finished". Pick one framing and stay with it (see step 4).
+      Steps that were carried out in the Plausible dashboard, kept for the record and for re-setup:
       1. Subscribe to Starter.
       2. Website Settings → General → Site Installation: switch on **Outbound links** and
          **File downloads**. Both create their own goals; nothing to type, no site change needed.
