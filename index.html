@@ -331,7 +331,10 @@
   .res-xindex-block{margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(0,38,71,.12)}
   .res-xindex-block .res-xindex{margin-bottom:.35rem;padding-bottom:0;border-bottom:none}
   .res-xindex-blurb{font-size:.78rem;line-height:1.45;color:rgba(0,38,71,.72);padding-left:1.1rem;margin:0}
-  .res-xindex-blurb b{font-weight:700;color:var(--navy)}
+  /* Bold here carries weight only, NOT a darker colour (fixed 2026-08-05). It used to be full-
+     strength navy, which made the bold words read darker than the link title above them and pulled
+     the eye to the wrong line. Inheriting keeps it level with the title. */
+  .res-xindex-blurb b,.res-xindex-blurb strong{font-weight:700;color:inherit}
   .res-list{margin-bottom:0}
   .res-item{break-inside:avoid;font-size:.82rem;line-height:1.4;padding:.32rem 0;color:var(--navy)}
   .res-item a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}

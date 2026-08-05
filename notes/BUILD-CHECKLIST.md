@@ -133,6 +133,19 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] Landing "Find Your Path" preview clip + poster (§1)
 - [ ] Final poster stills (§1)
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
+- [ ] **FOR THE EDITOR: spell it "theatre", not "theater", in the caption source.** The site was made
+      uniform on 2026-08-05 — every word a visitor reads now says *theatre*. Captions are the one
+      place that can drift back, because Premiere is the source of truth and the next export
+      overwrites anything corrected by hand here. Fix it in Premiere and re-export.
+      Done: `09_theatre_260805.srt` (was `09_theater_…`, 6 instances, Eric's video).
+      ⚠ Still outstanding, one instance each:
+        • `video/captions/eng/03_discipline_260801.srt` — "Dance, Theater, Music, and Visual Arts"
+        • `video/captions/eng/07_suppauth_260804.srt` — "degree in dance, music, theater, or visual arts"
+      Spanish captions are unaffected (they say *teatro*), and the corrected file kept its timings
+      exactly, so the Spanish sidecars still line up cue for cue and need no rework.
+      NOT to be changed: the internal name `mTheater` in index.html and data/content.en.json (a code
+      label, never shown, and the two files must keep matching), and the San Diego State link in
+      data/programs.json, whose web address contains "theater".
 - [x] English transcripts for all 11 videos — written and final 2026-07-31 (§1)
 - [x] Spanish transcripts — **client-approved V2 installed 2026-08-04**, 11 files (§6)
 - [x] **"Civil Cyber Arts" credit link — DONE 2026-08-03.** Points at an alias address, deliberately
