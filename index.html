@@ -266,6 +266,19 @@
     .qv-window.ended .qv-replay-overlay{display:flex}
     .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-cc-wrap,.qv-window.ended .qv-skip,.qv-window.ended .qv-speed-wrap{display:none}
   }
+  /* Phone portrait: drop the "Pathways Questionnaire" label (2026-08-05).
+     It is the same four words on all eleven screens and says nothing the presenter and the question
+     below them don't already make obvious — redundant chrome on the most cramped screen in the site.
+     Removing it hands 38px straight to the video, ~7% more picture.
+     The reserve MUST come down with it, 140px → 102px, or the label goes and the hole it sat in
+     stays, which gains nothing. The 102 is 40px padding + the Back/Exit row and its margin (~57),
+     with a few px of slack. See the .qv-window rule above for where 140 came from.
+     KEPT on tablets and in landscape: there the questionnaire is a card floating on a light ground
+     and the label is the card's header, so it has a job it does not have on a phone. */
+  @media(orientation:portrait) and (max-width:599px){
+    .qv-subtitle{display:none}
+    .qv-window{max-height:calc(100svh - 102px)}
+  }
   /* Tablet portrait: re-introduce the enclosing, centered 9:16 box (phones stay full-bleed) */
   @media(orientation:portrait) and (min-width:600px){
     .qv-group{width:min(86vw,calc((100dvh - 150px) * 9 / 16),500px)}
