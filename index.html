@@ -879,6 +879,13 @@ function pwStatScreen(s){
 }
 
 function pwStart(){pwStat('Questionnaire Started');pwGo({t:'node',k:'welcome'});}
+// Going round again. TWO controls do this and both must report it: the "Restart Questionnaire"
+// button on every result page, and the "start over" answer option on the four discipline questions.
+// The home-page "Take the Questionnaire" buttons call pwStart directly and must NOT come through
+// here — a first run is not a restart.
+// Reports BOTH events: a restart is also a fresh run. Plausible counts goals by unique visitor,
+// so one person going round twice does not inflate the "Started" figure.
+function pwRestart(){pwStat('Questionnaire Restarted');pwStart();}
 
 // Forward navigation: render the screen AND record it as a browser history entry, so the
 // browser Back/Forward buttons walk the questionnaire exactly like the on-screen Back does.
@@ -1010,10 +1017,7 @@ function pwOptinDone(status, form, msg){
 }
 
 function pwChoose(to){
-  // A restart reports BOTH events: it is a restart, and it is also a fresh run of the questionnaire.
-  // Plausible counts goals by unique visitor, so the same person restarting does not inflate the
-  // "Started" figure.
-  if(to==='@reset'){pwStat('Questionnaire Restarted');pwStart();return;}
+  if(to==='@reset'){pwRestart();return;}
   if(to.charAt(0)==='@'){pwGo({t:'profile',k:to.slice(1)});return;}
   pwGo({t:'node',k:to});
 }
@@ -1417,7 +1421,7 @@ function renderProfile(key){
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
   const actions='<div class="actions-row">'+
     '<button class="btn-primary" onclick="pwDownloadPDF()">'+T.printPdf+'</button>'+
-    '<button class="btn-secondary" onclick="pwStart()">'+T.restart+'</button></div>';
+    '<button class="btn-secondary" onclick="pwRestart()">'+T.restart+'</button></div>';
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">'+T.yourPathway+'</div><h2>'+P.title+'</h2></div>'+
