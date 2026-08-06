@@ -298,7 +298,14 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       The 22 `f` flags stay in `data/programs.json`, unused — harmless, and they make the caveat one
       display change away if it is ever wanted back. Nothing to do here before launch.
 - [ ] PROVISIONAL region assignments (`SCHOOL_REGION`) — verify before launch
-- [~] **UCLA CTE entries — client answered 2026-07-30: keep BOTH, not a duplicate.** Link text to read
+- [x] ~~**UCLA CTE entries**~~ — **CLOSED HERE 2026-08-05. Moved to §10 Post-launch, off the client's
+      ask list.** She agreed to hold it until UCLA Extension publishes the pathway page (Autumn 2026).
+      Everything needed to add it is recorded in §10; the detail below is the working that got there.
+      Note the name-collision problem referenced further down was FIXED on 2026-08-03 by splitting
+      `UCLA Extension` (CTE) from `University of California, Los Angeles` (Music).
+      <details><summary>Original entry, kept as the record</summary>
+
+      Client answered 2026-07-30: keep BOTH, not a duplicate. Link text to read
       exactly: `University of California, Los Angeles` (existing) and `UCLA VAPAE CTE in Teaching Artistry`
       (new). Still blocked on three things before it can be built:
       1. **Region for the new entry** — the original open question (Southern California vs Online) was
@@ -335,6 +342,8 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         Not a credential, not a route for working artists, wrong audience. The client's "VAPAE" label
         appears to be a mix-up with UCLA Extension, which is where the Teaching Artistry pathway sits.
       - **Region is answerable but blocked on a data-model problem — see §2 "UCLA name collision".**
+
+      </details>
 
 - [ ] 🔴 **UCLA name collision — one name, two programmes, and both region and delivery are wrong for
       one of them.** `University of California, Los Angeles` covers TWO different offerings:
@@ -742,6 +751,33 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
             pauses on hover and has arrows; the hero is decorative. Closed, not deferred.
 - [ ] Note for local previews: the site must be served over http (`python3 -m http.server 8765`), not
       opened by double-clicking — the program list can't load from a `file://` page.
+
+---
+
+## 10. Post-launch — deliberately deferred, NOT forgotten
+Things that are researched, decided and ready, but should not ship on 2026-08-17.
+
+- [ ] **UCLA Extension: CTE in Teaching Artistry — add once UCLA Extension publishes the page.**
+      Moved here 2026-08-05, off the client's ask list. She has been told and agreed to hold it.
+      **Why it is not shipping:** the pathway launches **Autumn 2026** and has no public page. The only
+      URL on file is a free, non-credit information session ("From Artist to Educator", EDUC 769),
+      currently *"Not available this quarter"* — a dormant recruitment event, not a programme.
+      **Answered already, so do not re-research:**
+      - NOT a duplicate. The existing `UCLA Extension` entry is their *general* CTE credential; this is
+        a distinct Teaching Artistry pathway. Both belong once the second exists.
+      - Name it `UCLA Extension CTE in Teaching Artistry`, **not** the client's "UCLA VAPAE…" label.
+        VAPAE is UCLA's Visual and Performing Arts Education Program in the Graduate School of
+        Education — a minor for current undergraduates, a different unit, wrong audience. The client
+        has been told the label changed and why.
+      - **CTE list only** (client, 2026-08-05). Her original request said Teaching Artist as well; she
+        has since confirmed CTE only.
+      - Region: Southern California. Delivery: assume Online only to match Extension's other CTE
+        offering, but **check at launch** — it is an assumption about an unlaunched programme.
+      **To add it:** one entry in `data/programs.json` → `cte`, plus the same name in `SCHOOL_REGION`
+      (index.html) and in the Program Index's data block. All three must carry it or the build scan
+      will report a mismatch. It was built and reverted on 2026-08-05, so it is a ten-minute job.
+      ⚠ `data/programs.json` must be edited IN PLACE. Rewriting it through a JSON library reformats
+      the whole file and turns a one-line change into a 1,100-line diff.
 
 ---
 
