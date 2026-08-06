@@ -109,9 +109,15 @@ add(S1,
 
 # ---- Section 2: pending client review ----
 S2 = "2. Pending client review"
+# Region assignments. CLEARED 2026-08-05: every flagged row was resolved — six against evidence
+# (headquarters or campus location), two by the client's call that Santa Barbara is Southern.
+# ⚠ What this check does NOT mean: the other 84 have still never been checked one by one. They were
+# assigned the same way, are mostly self-evident, and nothing is known to be wrong — but "verified"
+# is doing more work than the evidence supports. Kept green deliberately, not by oversight.
 prov = "PROVISIONAL region assignments" in html
-add(S2, PEND if prov else DONE, "Region assignments verified",
-    "PROVISIONAL flag still present in index.html" if prov else "flag removed")
+add(S2, PEND if prov else DONE, "Region assignments resolved",
+    "PROVISIONAL flag still present in index.html" if prov
+    else "flagged rows all resolved 2026-08-05; the remaining 84 were never individually checked")
 # "Stay in touch" opt-in.
 # History of this check, because it has been wrong in both directions:
 #   1. It first looked for a placeholder BUTTON that no longer existed, found nothing, and reported

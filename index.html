@@ -1521,26 +1521,34 @@ function summaryHTML(key){
   return '<section class="res-summary" aria-label="Summary">'+body+'</section>';
 }
 
-// ⚠ PROVISIONAL region assignments — assigned from known campus/org locations, NOT independently verified. FLAG: review before launch.
-// NARROWED 2026-08-05. Region means WHERE THE ORGANISATION IS, never how the programme is delivered:
-// 28 schools are delivered online only and still carry a geographic region, so online delivery does
-// not remove a campus. Four rows that wrongly sat in the "Online" region were corrected against that
-// rule — UCLA Extension (all four campuses in LA), Arts & Healing Initiative (Santa Monica) and The
-// Entertainment Community Fund (only CA location is LA) → Southern California; Focus 5 → Central.
-// The "Online" region was REMOVED 2026-08-05 once those four rows were corrected — see below.
-// Still genuinely uncertain, and the only rows needing the client's eye:
-//   UC Santa Barbara & Westmont — Santa Barbara sits on the Central/Southern boundary
-//   National University, UMass Global, Alliant — multi-campus, no single home
-//   Alameda ILS certificate — organisation vs delivery unclear
-//   ⚠ Focus 5 — a NATIONAL organisation based in Washington DC, filed under Central California
-//     because its California offering is an in-person intensive AT UCSB (plus Zoom prep sessions).
-//     So it inherits UCSB's uncertainty and MUST MOVE WITH IT, or the programme and its venue end up
-//     in different regions. It is also a snapshot: the evidence is one 2025 intensive at one host
-//     campus, and a touring organisation may hold the next one somewhere else entirely. place-based).
+// REGION ASSIGNMENTS — every previously-flagged row resolved 2026-08-05. See the rule and the log below.
+//
+// THE RULE, which had never been written down: region is WHERE THE ORGANISATION IS, never how the
+// programme is delivered. 28 schools are delivered online only and still carry a geographic region,
+// so online delivery does not remove a campus. Delivery is a separate column and does its own work:
+// on the Program Index an online-deliverable programme answers to EVERY region filter.
+//
+// Resolved on 2026-08-05, each against that rule:
+//   UCLA Extension (four campuses, all LA), Arts & Healing Initiative (Santa Monica) and
+//     The Entertainment Community Fund (only CA location is LA) → Southern. They had been sitting
+//     in a fourth region, "Online" (displayed "Statewide"), which was then EMPTY and was removed.
+//   UC Santa Barbara & Westmont → Southern (client's call: Santa Barbara is Southern, not Central).
+//   Focus 5 → Southern, following UCSB. It is a Washington DC organisation with no California home;
+//     its California offering is an in-person intensive AT UCSB, so it tracks UCSB's region.
+//     ⚠ Snapshot, not a fact: the evidence is ONE 2025 intensive at ONE host campus. A touring
+//       organisation may hold the next one elsewhere, which would change its region.
+//   National University, UMass Global, Alliant → Southern CONFIRMED, headquarters verified against
+//     their own sites (San Diego, Irvine/Aliso Viejo, San Diego). These were flagged as multi-campus
+//     with no single home; they do have one.
+//   Alameda County Office of Education → Northern, an ordinary county office. The old flag called it
+//     an "ILS certificate, online vs place-based" question; delivery is not what region answers.
+//
+// ⚠ The remaining 84 were assigned the same way and are mostly self-evident (CSU Chico → Northern),
+// but they have never been checked one by one. Nothing is known to be wrong.
 const REGION_ORDER=['Northern California','Central California','Southern California','Unsorted'];
 const SCHOOL_REGION={
   "Academy of Art University":"Northern California","Alameda County Office of Education":"Northern California","Alternatives in Action":"Northern California","Cal Poly Humboldt":"Northern California","CSU Chico":"Northern California","CSU East Bay":"Northern California","CSU Sacramento":"Northern California","California State University, Sacramento":"Northern California","Davis Joint Unified School District":"Northern California","Dominican University of California":"Northern California","Luna Dance Institute":"Northern California","Luther Burbank Center for the Arts":"Northern California","Notre Dame de Namur University":"Northern California","Pacific Union College":"Northern California","Sacramento County Office of Education":"Northern California","San Francisco State University":"Northern California","San Jose State University":"Northern California","Santa Clara University":"Northern California","Santa Rosa Junior College":"Northern California","Simpson University":"Northern California","Sonoma County Office of Education":"Northern California","Sonoma State University":"Northern California","St. Mary's College of California":"Northern California","Studio Pathways":"Northern California","Sutter County Superintendent of Schools":"Northern California","Tehama County Department of Education":"Northern California","University of San Francisco":"Northern California","William Jessup University":"Northern California",
-  "CSU Bakersfield":"Central California","Focus 5":"Central California","CSU Fresno":"Central California","CSU Stanislaus":"Central California","Fresno County Superintendent of Schools":"Central California","Fresno Pacific University":"Central California","Kern County Superintendent of Schools":"Central California","Teachers College of San Joaquin":"Central California","Tulare County Office of Education":"Central California","University of California, Santa Barbara":"Central California","University of the Pacific":"Central California","Westmont College":"Central California",
+  "CSU Bakersfield":"Central California","Focus 5":"Southern California","CSU Fresno":"Central California","CSU Stanislaus":"Central California","Fresno County Superintendent of Schools":"Central California","Fresno Pacific University":"Central California","Kern County Superintendent of Schools":"Central California","Teachers College of San Joaquin":"Central California","Tulare County Office of Education":"Central California","University of California, Santa Barbara":"Southern California","University of the Pacific":"Central California","Westmont College":"Southern California",
   "Alliant International University":"Southern California","Arts & Healing Initiative":"Southern California","The Entertainment Community Fund":"Southern California","Arts Education Connection San Diego":"Southern California","Azusa Pacific University":"Southern California","Biola University":"Southern California","CSU Dominguez Hills":"Southern California","CSU Fullerton":"Southern California","CSU Long Beach":"Southern California","CSU Northridge":"Southern California","CSU San Bernardino":"Southern California","California State University, San Bernardino":"Southern California","CSU San Marcos":"Southern California","Cal Poly Pomona":"Southern California","Cal State LA":"Southern California","California Baptist University":"Southern California","California Lutheran University":"Southern California","Chapman University":"Southern California","CoTA (Collaborations: Teachers and Artists)":"Southern California","Concordia University Irvine":"Southern California","High Tech High":"Southern California","Hope International University":"Southern California","LACMA":"Southern California","La Sierra University":"Southern California","Los Angeles County Office of Education":"Southern California","Loyola Marymount University":"Southern California","Mount Saint Mary's University, Los Angeles":"Southern California","National University":"Southern California","Orange County Department of Education":"Southern California","P.S. ARTS x CalState LA":"Southern California","P.S. ARTS":"Southern California","Pepperdine University":"Southern California","Point Loma Nazarene University":"Southern California","Riverside County Office of Education":"Southern California","San Diego County Office of Education":"Southern California","San Diego State University":"Southern California","The Master's University":"Southern California","The Music Center":"Southern California","UC Irvine, Claire Trevor School of the Arts":"Southern California","United States University":"Southern California","University of California, Irvine":"Southern California","UCLA Extension":"Southern California","University of California, Los Angeles":"Southern California","University of California, Riverside":"Southern California","University of La Verne":"Southern California","University of Massachusetts Global (UMass Global)":"Southern California","University of Redlands":"Southern California","University of San Diego":"Southern California","University of Southern California":"Southern California","Vanguard University":"Southern California","Ventura County Office of Education":"Southern California",
   
 };
