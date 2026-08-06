@@ -1,12 +1,46 @@
-# Online-availability marking — WORK IN PROGRESS (awaiting client sign-off)
+# Online-availability marking — SUPERSEDED SNAPSHOT, do not work from this file
 
-**Status:** All 92 programs researched, then re-verified for delivery *mode*. Client chose a
-**two-marker** scheme. **Nothing on the live site yet** — this is the review stage.
+> ## ⚠ READ THIS FIRST (added 2026-08-05)
+>
+> **Everything below is the ORIGINAL two-category research and is out of date.** It was written
+> before the Program Index existed. Working from it wastes time — it did so on 2026-08-05, when its
+> "18 undetermined" and two-category scheme were mistaken for the current position and a problem was
+> reconstructed that had already been solved.
+>
+> **The live data is in `program-index/index.html`** (the `d:` field on each school, ~line 329).
+> 91 schools, **four** categories, none unresolved:
+>
+> | category | count |
+> |---|---|
+> | In-person only | 35 |
+> | Online only | 30 |
+> | Hybrid | 18 |
+> | In person or online | 8 |
+>
+> **Hybrid is its own category**, NOT a flavour of "in person or online". Hybrid mixes both by
+> design; "in person or online" means the student picks one. The two-category scheme below
+> deliberately folded them together — that is the single biggest way this file misleads.
+>
+> The client supplied determinations for the 18 that this file lists as likely/undetermined, and the
+> Index already reflects every one of them. "The Teaching Artist Institute" was dropped as inactive
+> and is correctly absent. `University of Phoenix` appears below but is not on the site.
+>
+> **Still outstanding:** the markers exist on the Program Index but NOT on the result pages, where
+> visitors would see them. **Deliberately left off for now (2026-08-05)** — the client is being asked
+> whether she wants them on the result pages at all, given the Program Index already carries them and
+> the most common category, in-person, is the least informative to label. Do not wire them in until
+> she answers. The data is ready, so it is a short job whenever she does.
+>
+> Keep this file only as the record of how the research was done and the caveats at the bottom,
+> which are still worth reading.
+
+**Status (historical):** All 92 programs researched, then re-verified for delivery *mode*. Client
+chose a **two-marker** scheme at the time. Nothing was on the live site at that point.
 
 **Client's actual request:** in addition to programs already shown as "online only," also
-indicate which programs can be taken **in person OR online**. So the live site needs two markers.
+indicate which programs can be taken **in person OR online**.
 
-## The two markers (live-site plan)
+## The two markers (SUPERSEDED — four categories now, see the box above)
 - **In person or online** — student can choose either format (includes blended / hybrid programs)
 - **Online only** — coursework delivered online with no in-person alternative
 

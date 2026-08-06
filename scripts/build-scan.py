@@ -156,10 +156,20 @@ add(S2, DONE if ucla >= 2 else PEND, "UCLA Extension entry resolved",
 
 # ---- Section 3: online-availability ----
 S3 = "3. Online-availability marking"
-oa_research = os.path.exists(rp("notes", "online-availability-review.json"))
-oa_wired = "online-availability" in html or "onlineAvail" in html
-add(S3, DONE if oa_wired else PEND, "Marking wired into site",
-    ("research ready; " if oa_research else "") + ("wired" if oa_wired else "not wired — awaiting threshold sign-off"))
+# The delivery data lives on the Program Index (the `d:` field per school), NOT in the research
+# JSON, which is a superseded two-category snapshot — see notes/online-availability-README.md.
+# ⚠ This check used to look for the STRING "online-availability" anywhere in index.html, which
+# matched a CODE COMMENT saying the work was still outstanding. It therefore reported the item as
+# done because of a note explaining that it wasn't (found 2026-08-05). Test for the marker actually
+# rendering in the programme lists instead.
+xindex = read(rp("program-index", "index.html"))
+oa_categories = sorted(set(re.findall(r'\bd:"([^"]+)"', xindex)))
+oa_research = len(oa_categories) >= 4
+# Wired = the RESULT pages carry it. A marker on the Program Index alone is not the deliverable.
+oa_wired = "PW_DELIVERY" in html or "deliveryMarker" in html
+add(S3, DONE if oa_wired else PEND, "Marking on the result pages",
+    ("index has %d categories (%s); " % (len(oa_categories), ", ".join(oa_categories)) if oa_research else "")
+    + ("wired" if oa_wired else "deliberately NOT on the result pages (2026-08-05) — data is ready; asking the client whether she wants them there at all"))
 
 # ---- Section 4: code-quality signals (mostly done; flags drift here if reintroduced) ----
 S4 = "4. Code-quality signals"

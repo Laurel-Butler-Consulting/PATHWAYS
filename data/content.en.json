@@ -49,7 +49,6 @@
     "Northern California": "Northern",
     "Central California": "Central",
     "Southern California": "Southern",
-    "Online": "Statewide",
     "Unsorted": "Unsorted"
   },
   "nodes": {
@@ -343,7 +342,13 @@
     "placeholder": true,
     "placeholderNote": "DRAFT copy, written 2026-08-05 from the node video transcripts and checked against Commission on Teacher Credentialing sources. The old filler copy is gone. Client edits and approval are still required before launch — leave this flag true until she signs off.",
     "bulletOrder": "Every page runs the same five entries in this order, and the labels below print above them. Label and copy pair BY POSITION, so if the copy is ever reordered the labels must move with it.",
-    "labels": ["Description", "Requirements", "Qualifications", "Process", "Notes"],
+    "labels": [
+      "Description",
+      "Requirements",
+      "Qualifications",
+      "Process",
+      "Notes"
+    ],
     "items": {
       "supp": [
         "Adds an arts subject to a California teaching credential you already hold. Multiple Subject holders get an Introductory authorization, limited to material taught in grade 9 and below. Single Subject holders can get a Specific authorization, covering the subject at any level, preschool through 12 and adult classes.",

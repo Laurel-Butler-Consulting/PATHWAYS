@@ -113,10 +113,16 @@ Everything below is blocked on one of these. Grouped by who has to act.
 **Content the client must supply**
 - [x] ~~**Review the Spanish transcripts**~~ — **DONE. Client supplied approved V2 2026-08-03**, all 11
       installed 2026-08-04. Superseded the drafts entirely.
-- [ ] **Answer the 12 transcript queries** — `notes/transcript-queries-for-client.txt`. Wording calls
-      only, no rewriting: two Spanish meaning items (the "real world / classroom" sentence in CTE
-      Intro, and how CTE itself is translated), seven register/consistency calls for their translator.
-      Nothing is blocked on these — the site carries the approved text as-is meanwhile.
+- [x] ~~**Answer the 12 transcript queries**~~ — **SUPERSEDED 2026-08-05. Off the client's ask list.**
+      She is working with her translator on NEW Spanish versions rather than answering the queries
+      one by one. `notes/transcript-queries-for-client.txt` stays as the record of what was raised,
+      including the two meaning items (the "real world / classroom" reversal in CTE Intro, and how
+      CTE itself is translated) — worth checking the new versions actually resolve those.
+      ⚠ **This creates rework we would not otherwise have.** The 11 Spanish caption files were built
+      line by line from the approved V2 text and fitted to the English cue timings. New Spanish means
+      rebuilding every one of them, plus `data/transcripts.es.json` and `video/transcripts/esp/`.
+      Timings do not change, so it is re-fitting text to a known grid rather than starting over, but
+      it is not a find-and-replace. Ask for all 11 together rather than in batches.
 - [ ] **CTE experience: paid vs unpaid — decision needed 2026-08-05.** The Commission counts three
       years of work experience "full-time or part-time, paid or unpaid", at 1,000 clock hours a year,
       verified by employers (CL-888). The word *paid* therefore turns away people who qualify. The
@@ -200,6 +206,22 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       156px, or bottom 335px when captions are on. **Regenerated after the Skip/speed changes above —
       re-export if you composited against the earlier versions.**
 - [ ] 11 presenter videos recorded & final → `video/nodes/<node-key>.mp4`
+- [ ] **Desktop video column is NARROWER than a phone's — unresolved, found 2026-08-05.** In the
+      landscape card the video is sized by HEIGHT (`--vidH: min(70vh, 800px, 100dvh - 280px)`) and the
+      width follows from 9:16. A phone gives it the full 375; a laptop window gives less:
+      700px tall → 236 wide · 760 → 270 · 800 → 293 · 900 → 349 · only past ~1080 does it beat a phone.
+      Two consequences, BOTH INVISIBLE TODAY because no clips exist and the controls are gated on one:
+      • **Controls overlap.** Skip is pinned `left:14px` in landscape, CC/speed/mute to `right:106/60/14`.
+        In a 236px column Skip runs to 112 and CC starts at 91 — a 21px overlap at an ordinary
+        1024×700 desktop. Previously logged as a short-landscape-window problem; it is wider than that.
+      • **Captions wrap badly.** A cue that sets as 2 lines at phone width becomes 4 lines at 236px,
+        86px tall, a fifth of the video, sitting across the presenter's chest.
+      Where a fix comes from: up to ~1150px tall the video is limited by `100dvh - 280px`, so the 280
+      allowance comes straight off the video (each px of height ≈ half a px of width). That 280 was
+      measured with the card's title in place — and the title is what we established today is
+      redundant. Dropping it on desktop too, or trimming the card padding, would put width back and
+      may resolve the overlap without touching the controls at all.
+      ⚠ Will look like a NEW fault the moment clips land. Take it to the client as known, not found in review.
 - [ ] **Speaker name/title strips (client request 2026-08-05) — DECIDE ONCE THE CLIPS ARE IN.**
       Mocked up on the real player at phone size; nothing built, nothing changed in the site.
       **Draw them in the site, do not burn them into the video.** On a small phone the bottom 423px

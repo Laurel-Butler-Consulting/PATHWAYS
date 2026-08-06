@@ -330,7 +330,7 @@ const XLOCAL = {
   "Alameda County Office of Education":{r:"Northern California",d:"Online only",w:"https://www.acoe.org/"},
   "Alliant International University":{r:"Southern California",d:"Online only",w:"https://www.alliant.edu/"},
   "Alternatives in Action":{r:"Northern California",d:"Online only",w:"https://reach.edu/graduate-programs"},
-  "Arts & Healing Initiative":{r:"Online",d:"Online only",w:"https://artsandhealinginitiative.org/"},
+  "Arts & Healing Initiative":{r:"Southern California",d:"Online only",w:"https://artsandhealinginitiative.org/"},
   "Arts Education Connection San Diego":{r:"Southern California",d:"In-person only",w:"https://www.artsedsd.org/"},
   "Azusa Pacific University":{r:"Southern California",d:"Hybrid",w:"https://www.apu.edu/"},
   "Biola University":{r:"Southern California",d:"In person or online",w:"https://www.biola.edu/"},
@@ -358,7 +358,7 @@ const XLOCAL = {
   "Concordia University Irvine":{r:"Southern California",d:"Hybrid",w:"https://www.cui.edu/"},
   "Davis Joint Unified School District":{r:"Northern California",d:"Hybrid",w:"https://www.yscenterforteaching.org/"},
   "Dominican University of California":{r:"Northern California",d:"Online only",w:"https://www.dominican.edu/"},
-  "Focus 5":{r:"Online",d:"Hybrid",w:"https://artsintegrationconsulting.com/"},
+  "Focus 5":{r:"Central California",d:"Hybrid",w:"https://artsintegrationconsulting.com/"},
   "Fresno County Superintendent of Schools":{r:"Central California",d:"Online only",w:"https://www.fcoe.org/"},
   "Fresno Pacific University":{r:"Central California",d:"In-person only",w:"https://www.fresno.edu/"},
   "High Tech High":{r:"Southern California",d:"In-person only",w:"https://www.hightechhigh.org/"},
@@ -395,7 +395,7 @@ const XLOCAL = {
   "Sutter County Superintendent of Schools":{r:"Northern California",d:"Online only",w:"https://www.sutter.k12.ca.us/"},
   "Teachers College of San Joaquin":{r:"Central California",d:"Hybrid",w:"https://teacherscollegesj.edu/"},
   "Tehama County Department of Education":{r:"Northern California",d:"Online only",w:"https://www.tehamaschools.org/"},
-  "The Entertainment Community Fund":{r:"Online",d:"In-person only",w:"https://entertainmentcommunity.org/"},
+  "The Entertainment Community Fund":{r:"Southern California",d:"In-person only",w:"https://entertainmentcommunity.org/"},
   "The Master's University":{r:"Southern California",d:"In-person only",w:"https://www.masters.edu/"},
   "The Music Center":{r:"Southern California",d:"Hybrid",w:"https://www.musiccenter.org/"},
   "Tulare County Office of Education":{r:"Central California",d:"Online only",w:"https://tcoe.org/"},
@@ -405,7 +405,7 @@ const XLOCAL = {
   // Split 2026-08-03: one name covered two different programmes. UCLA Extension runs the CTE
   // credential online; CenterX runs the Music credential in person on campus. Region and delivery
   // are keyed by name, so a single row had one field wrong for each. Keep them separate.
-  "UCLA Extension":{r:"Online",d:"Online only",w:"https://www.uclaextension.edu/"},
+  "UCLA Extension":{r:"Southern California",d:"Online only",w:"https://www.uclaextension.edu/"},
   "University of California, Los Angeles":{r:"Southern California",d:"In-person only",w:"https://www.ucla.edu/"},
   "University of California, Riverside":{r:"Southern California",d:"Online only",w:"https://www.ucr.edu/"},
   "University of California, Santa Barbara":{r:"Central California",d:"In-person only",w:"https://www.ucsb.edu/"},
@@ -452,18 +452,24 @@ const DELIVERY = ['In-person only','In person or online','Hybrid','Online only']
 const DELIV_LABEL = {'In-person only':'In-person', 'Online only':'Online',
                      'In person or online':'In-person / Online'};
 const delivLabel = v => DELIV_LABEL[v] || v;
-const REGIONS = ['Northern California','Central California','Southern California','Online'];
+const REGIONS = ['Northern California','Central California','Southern California'];
 // The stored values are left exactly as SCHOOL_REGION in index.html has them; only the display
 // changes. "California" goes because every programme here is Californian, so it said nothing.
-// "Online" becomes "Statewide" because as a REGION it never meant online delivery — it means the
-// organisation has no single campus. Two of the three rows carrying it are not delivered online at
-// all (Focus 5 is hybrid, The Entertainment Community Fund is in person only). Keeping the word
-// "Online" in a region column that now sits beside a delivery column made it look like a duplicate
-// of something it does not mean. The same rename is in data/content.en.json → regionLabels, so the
-// result pages say Statewide too.
+// The fourth region, "Online" (displayed as "Statewide"), was REMOVED on 2026-08-05. It never meant
+// online delivery; it meant the organisation had no single campus — and on inspection all four rows
+// carrying it did have one. UCLA Extension (four LA campuses), Arts & Healing Initiative (Santa
+// Monica) and The Entertainment Community Fund (LA) went to Southern; Focus 5, a Washington DC
+// organisation, went to Central because its California offering is an in-person intensive at UCSB.
+// The rule that settled it, and that had never been written down: region is WHERE THE ORGANISATION
+// IS, never how the programme is delivered. 28 schools are delivered online only and still carry a
+// geographic region, so online delivery does not remove a campus.
+// Its filter option went too. Selecting it returned everything reachable from anywhere (the 38
+// online-only plus in-person-or-online rows), but every region already includes those — see
+// has() below — so the option only served someone wanting to EXCLUDE local programmes, which the
+// Format filter already does. Removed as a distinction without a difference.
 const REGION_LABEL = {
   'Northern California':'Northern', 'Central California':'Central',
-  'Southern California':'Southern', 'Online':'Statewide'
+  'Southern California':'Southern'
 };
 const regionLabel = v => REGION_LABEL[v] || v;
 
@@ -524,8 +530,10 @@ function build(data){
 function has(r, dim, val){
   if(dim === 'pathway') return r.pathway.has(val);
   if(dim === 'discipline') return r.disc.some(d => d.k === val);
-  // An online-deliverable programme belongs to every region, including Statewide — picking
-  // Statewide therefore means "everything I can reach from anywhere", not just the campus-less few.
+  // An online-deliverable programme belongs to EVERY region: geography should not hide something you
+  // can do from anywhere. Hybrid is deliberately excluded — it requires turning up somewhere.
+  // (This is why the old "Statewide" filter option was redundant and was removed: every region
+  //  already returns these rows.)
   if(dim === 'region') return r.region === val || isStatewide(r);
   return r.deliv === val;
 }
@@ -592,7 +600,7 @@ function apply(){
   out.sort(function(a, b){
     // Sorting region and format on the displayed text, not the stored value, so the order on
     // screen matches the words on screen — "Online" sorts under O, not under its stored
-    // "Online only", and "Statewide" under S rather than its stored "Online".
+    // "Online only".
     return sortVal(a).localeCompare(sortVal(b)) * dir || a.name.localeCompare(b.name);
   });
 
