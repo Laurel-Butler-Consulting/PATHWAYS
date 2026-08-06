@@ -30,6 +30,23 @@ and starts a fresh chat pointing here. The copy carries `.claude/` and this `CLA
 along with it (both are gitignored/untracked, so they survive the copy, not a fresh clone).
 The current working directory is always the new dated folder — treat it as the repo root.
 
+### Start of day: `STARTUP <folder>` — and memory does NOT travel
+
+**Claude's memory is keyed to the folder path, so every new dated folder starts with an empty
+memory store.** Left alone this quietly loses every preference recorded so far. It already happened:
+by 2026-08-06 the same correction had been written six times across six folders, because each
+session couldn't see the last one. The memory lives OUTSIDE the project, at
+`/Users/jzk/.claude/projects/-Users-jzk-Desktop-PATHWAYS-BUILDS-PATHWAYS-<yymmdd>/memory/` — the
+folder path with the slashes turned into dashes — which is why the daily copy misses it.
+
+**First thing in a fresh folder, prompt with `STARTUP PATHWAYS_<yymmdd>`.** That runs
+`.claude/skills/startup/SKILL.md` (which does travel with the copy): it checks the session is
+pointed at the folder you named, copies the previous day's memory forward, starts the preview server
+below, and reports what is outstanding. `/startup` does the same thing.
+
+If that skill is ever missing, the one step that matters is the copy: find the most recent
+`…-PATHWAYS-<yymmdd>/memory/` that has files in it and copy them into today's.
+
 ## Previewing the site — USE THIS EXACT PROCESS
 
 **Do NOT let `preview_start` spawn the server.** The preview harness sandboxes any server

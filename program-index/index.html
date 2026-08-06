@@ -643,7 +643,7 @@ function apply(){
     }).join(', ');
     const ds = r.disc.length
       ? r.disc.map(d => '<span class="pg pg-dc" data-d="' + d.k + '">' + d.t + '</span>').join('')
-      : '<span class="none">no discipline recorded</span>';
+      : '<span class="none">—</span>';
     const web = r.site
       ? '<a class="web" href="' + esc(r.site) + '" target="_blank" rel="noopener">' + esc(siteLabel(r.site)) + '</a>'
       : '<span class="none">—</span>';

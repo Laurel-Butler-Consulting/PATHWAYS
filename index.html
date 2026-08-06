@@ -295,7 +295,7 @@
      print or save, and the videos' substance doesn't otherwise travel with it. Copy is the client's
      — placeholder copy is NOT visually marked (warning band removed on request 2026-08-01);
      `"placeholder": true` in data/content.en.json is the only remaining flag. */
-  .res-summary{background:var(--white);border-left:4px solid var(--gold);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
+  .res-summary{background:var(--white);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 6px 20px rgba(0,38,71,.08)}
   /* Labelled layout (DESCRIPTION: / REQUIREMENTS: / …). Labels come from "labels" in
      data/content.en.json and pair with the bullets by position. */
   .res-summary dl{margin:0}
@@ -474,7 +474,7 @@
     .prog-list{column-count:2}
     /* Backgrounds often don't print — keep the recap boxed so it still reads as one block, and
        never let it split across a page. */
-    .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy);border-left:4px solid var(--navy)}
+    .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy)}
   }
 </style>
 <!-- Visitor statistics, added 2026-08-05. Plausible: no cookies, no IP addresses stored, no
@@ -940,11 +940,20 @@ function pwDownloadPDF(){
 // closes the others the moment a second one is opened — which would silently drop all but the last
 // resource section from the printed page. Stripping the name first lets them all stay open; it goes
 // back afterwards, so the accordion behaves normally on screen.
+// A saved PDF takes its filename from the page title, so every visitor's file would otherwise be
+// called "Arts Educator Pathways" and none of them could tell one from another later. While the
+// dialog is open the title carries the pathway as well; it is put back afterwards so the browser tab
+// reads normally. The pathway name is read off the page rather than from a stored key, so a print
+// started with Cmd+P is named just as well as one started from the button.
+let PW_DOCTITLE=null;
 window.addEventListener('beforeprint',function(){
+  const h=document.querySelector('#resultDoc .results-header h2');
+  if(h&&PW_DOCTITLE===null){ PW_DOCTITLE=document.title; document.title=PW_DOCTITLE+' — '+h.textContent.trim(); }
   document.querySelectorAll('details.prog-region[name]').forEach(function(d){ d.dataset.pwName=d.getAttribute('name'); d.removeAttribute('name'); });
   document.querySelectorAll('details.prog-region').forEach(function(d){ d.dataset.pwOpen=d.open?'1':'0'; d.open=true; });
 });
 window.addEventListener('afterprint',function(){
+  if(PW_DOCTITLE!==null){ document.title=PW_DOCTITLE; PW_DOCTITLE=null; }
   document.querySelectorAll('details.prog-region').forEach(function(d){ if(d.dataset.pwOpen!==undefined){ d.open=d.dataset.pwOpen==='1'; delete d.dataset.pwOpen; } });
   document.querySelectorAll('details.prog-region[data-pw-name]').forEach(function(d){ d.setAttribute('name',d.dataset.pwName); delete d.dataset.pwName; });
 });
@@ -1515,7 +1524,7 @@ function summaryHTML(key){
         return '<dt>'+escapeHTML(labels[i])+'</dt><dd>'+escapeHTML(t)+'</dd>';
       }).join('')+'</dl>'
     : '<ul>'+items.map(function(t){return '<li>'+escapeHTML(t)+'</li>';}).join('')+'</ul>';
-  // No visible heading: the gold-barred card already reads as the summary of the page it opens.
+  // No visible heading: the white card already reads as the summary of the page it opens.
   // aria-label carries the name it used to get from the heading, so the section is still announced
   // as a summary rather than as an unlabelled run of text.
   return '<section class="res-summary" aria-label="Summary">'+body+'</section>';
