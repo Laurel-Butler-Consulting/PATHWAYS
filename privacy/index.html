@@ -44,10 +44,18 @@
   .pp-date{font-family:var(--font-body);font-size:.72rem;letter-spacing:.04em;color:rgba(0,38,71,.55);margin-top:.4rem}
 
   .pp-body{margin-top:2.2rem}
-  /* Each clause is a heading and a paragraph. The heading runs into the text rather than sitting on
-     its own line — it keeps a short document reading as prose instead of as a form. */
+  /* Each clause is a heading and a paragraph. The heading RUNS INTO the text rather than sitting on
+     its own line — it keeps a short document reading as prose instead of as a form.
+     ⚠ These are real <h2> elements set to display:inline (2026-08-06). They used to be <b> inside the
+     paragraph, which looked identical but gave a screen-reader user no way to move between clauses —
+     a privacy policy is scanned for one answer, so that navigation matters. display:inline changes
+     nothing about how assistive tech treats them. Do not turn them back into <b>. */
   .pp-body p{font-family:var(--font-body);font-size:.82rem;line-height:1.65;color:var(--navy)}
-  .pp-body p+p{margin-top:1.4rem}
+  .pp-body h2{display:inline;font-family:var(--font-body);font-size:.82rem;font-weight:700;line-height:1.65;color:var(--navy)}
+  .pp-body h2::after{content:"."}
+  .pp-body h2+p{display:inline}          /* only the FIRST paragraph runs in beside its heading */
+  .pp-clause+.pp-clause{margin-top:1.4rem}
+  .pp-clause p+p{margin-top:1.4rem}
   .pp-body b{font-weight:700}
   .pp-body a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(12,89,157,.4);text-underline-offset:2px;transition:color .12s,text-decoration-color .12s}
   .pp-body a:hover{color:var(--navy);text-decoration-color:var(--navy)}
@@ -71,26 +79,38 @@
 </style>
 
 <div class="wrap">
+  <main>
   <h1 class="pp-title">Privacy Policy</h1>
   <div class="pp-date">Last updated: August 3, 2026</div>
 
   <div class="pp-body">
-    <p><b>Who we are.</b> Arts Educator Pathways is an initiative of CREATE CA in partnership with Laurel Butler Consulting. The site and any information you give us are the responsibility of Laurel Butler Consulting. Questions about this policy: <a href="mailto:info@createca.org">info@createca.org</a>.</p>
-
-    <p><b>What we collect.</b> Your email address, and only if you choose to give it to us on the sign-up form. Nothing else.</p>
-
-    <!-- ⚠ Unsubscribing does NOT delete the address — Buttondown keeps the record so the person is
-         not re-added and emailed again by a later import. Deletion is therefore worded as a request
-         we act on, which is true, rather than as something that happens automatically, which is not.
-         If the process ever changes, change this sentence with it. -->
-    <p>We never sell, rent, or share your email address, and we don't use it for advertising. Every email you receive from us will have an unsubscribe link. You can unsubscribe at any time. <a href="mailto:info@createca.org">Ask us</a> and we'll delete your address from our records.</p>
-
-    <p><b>What we don't collect.</b> We don't use advertising, tracking pixels, or cookies that follow you around. We don't build a profile of you. Your answers to the questionnaire stay on your device — they are never sent to us or stored anywhere. Settings like caption language and playback speed are saved in your own browser and never leave it.</p>
-
-    <p><b>Visitor statistics.</b> We use Plausible, a privacy-focused analytics service, to see how many people use the site and which parts are useful. It sets no cookies, never stores your IP address, and cannot identify you or follow you between sites or from one day to the next. The figures we see are counts, not people.</p>
-
-    <p><b>Who else sees your information.</b> Buttondown stores our email list and sends the emails; they may not use your address for their own purposes. Plausible processes visitor statistics in the European Union. GitHub hosts the site and keeps standard server logs including IP addresses, as every web host does.</p>
+    <div class="pp-clause">
+      <h2>Who we are</h2>
+      <p>Arts Educator Pathways is an initiative of CREATE CA in partnership with Laurel Butler Consulting. The site and any information you give us are the responsibility of Laurel Butler Consulting. Questions about this policy: <a href="mailto:info@createca.org">info@createca.org</a>.</p>
+    </div>
+    <div class="pp-clause">
+      <h2>What we collect</h2>
+      <p>Your email address, and only if you choose to give it to us on the sign-up form. Nothing else.</p>
+      <!-- ⚠ Unsubscribing does NOT delete the address — Buttondown keeps the record so the person is
+           not re-added and emailed again by a later import. Deletion is therefore worded as a request
+           we act on, which is true, rather than as something that happens automatically, which is not.
+           If the process ever changes, change this sentence with it. -->
+      <p>We never sell, rent, or share your email address, and we don't use it for advertising. Every email you receive from us will have an unsubscribe link. You can unsubscribe at any time. <a href="mailto:info@createca.org">Ask us</a> and we'll delete your address from our records.</p>
+    </div>
+    <div class="pp-clause">
+      <h2>What we don't collect</h2>
+      <p>We don't use advertising, tracking pixels, or cookies that follow you around. We don't build a profile of you. Your answers to the questionnaire stay on your device — they are never sent to us or stored anywhere. Settings like caption language and playback speed are saved in your own browser and never leave it.</p>
+    </div>
+    <div class="pp-clause">
+      <h2>Visitor statistics</h2>
+      <p>We use Plausible, a privacy-focused analytics service, to see how many people use the site and which parts are useful. It sets no cookies, never stores your IP address, and cannot identify you or follow you between sites or from one day to the next. The figures we see are counts, not people.</p>
+    </div>
+    <div class="pp-clause">
+      <h2>Who else sees your information</h2>
+      <p>Buttondown stores our email list and sends the emails; they may not use your address for their own purposes. Plausible processes visitor statistics in the European Union. GitHub hosts the site and keeps standard server logs including IP addresses, as every web host does.</p>
+    </div>
   </div>
+  </main>
 
   <div class="pp-foot">
     <a class="rf-home" href="../">Arts Educator Pathways</a>

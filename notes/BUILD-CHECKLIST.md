@@ -22,20 +22,22 @@ Everything below is blocked on one of these. Grouped by who has to act.
 **Decisions**
 - [x] **The domain — SETTLED 2026-08-01, off the client's list.** We bought `artsedpathways.org` on
       their behalf rather than wait on them. Live, verified and on HTTPS the same day. (§7)
-- [ ] **Analytics: what do they want to know?** Completion rate, drop-off points, which pathways come up
-      most, mobile vs desktop? The answer determines the tool and whether extra build work is needed.
-      Also: are they willing to pay ~$9–15/month? Free tools can't answer questionnaire questions.
+- [x] ~~**Analytics: what do they want to know?**~~ — **ANSWERED AND BUILT 2026-08-05.** Plausible on
+      the Starter plan, $9/mo; all six custom events and eight pathway goals live and verified. See
+      the two Analytics entries below and §5.
 - [x] **Spanish scope settled 2026-07-31: captions and transcripts only.** No interface translation,
       no `/es/` address, no language toggle. The site's own text stays English. (§6)
 - [x] **Repository stays PUBLIC** (decided 2026-08-01). Who keeps write access after handover is
       still open — see §7 Phase A.
 - [x] **Dagger caveat — CLOSED 2026-08-01: not needed.** The removal stands; the warning does not
       have to reach users another way. (§2)
-- [ ] **Online-availability marker threshold** (§3)
+- [x] ~~**Online-availability markers**~~ — **DECIDED 2026-08-06: NO markers on the result pages.**
+      The delivery data stays where it is, on the Program Index, which is linked from every result
+      page. Off the client's list. (§3)
 - [~] **UCLA Extension CTE — mostly resolved by research 2026-08-03 (§2).** Not a duplicate; the URL
       on file is only an info session; the real pathway launches Fall 2026 and needs its URL from
       UCLA Extension. Nothing needed from the client except the pathway URL when it exists. A separate
-      decision IS needed from us on the UCLA name collision (§2).
+      decision was needed from us on the UCLA name collision — made and built 2026-08-03 (§2).
 - [x] **Captions on by default — YES, in English** (decided 2026-08-01). (§1)
 
 **Accounts + access**
@@ -111,28 +113,29 @@ Everything below is blocked on one of these. Grouped by who has to act.
       goal either: `/subscribed/` is a real page and appears on its own.
 
 **Content the client must supply**
-- [x] ~~**Review the Spanish transcripts**~~ — **DONE. Client supplied approved V2 2026-08-03**, all 11
-      installed 2026-08-04. Superseded the drafts entirely.
-- [x] ~~**Answer the 12 transcript queries**~~ — **SUPERSEDED 2026-08-05. Off the client's ask list.**
-      She is working with her translator on NEW Spanish versions rather than answering the queries
-      one by one. `notes/transcript-queries-for-client.txt` stays as the record of what was raised,
-      including the two meaning items (the "real world / classroom" reversal in CTE Intro, and how
-      CTE itself is translated) — worth checking the new versions actually resolve those.
-      ⚠ **This creates rework we would not otherwise have.** The 11 Spanish caption files were built
-      line by line from the approved V2 text and fitted to the English cue timings. New Spanish means
-      rebuilding every one of them, plus `data/transcripts.es.json` and `video/transcripts/esp/`.
-      Timings do not change, so it is re-fitting text to a known grid rather than starting over, but
-      it is not a find-and-replace. Ask for all 11 together rather than in batches.
-- [ ] **CTE experience: paid vs unpaid — decision needed 2026-08-05.** The Commission counts three
-      years of work experience "full-time or part-time, paid or unpaid", at 1,000 clock hours a year,
-      verified by employers (CL-888). The word *paid* therefore turns away people who qualify. The
-      CTE Intro question card has been changed to "3 years of work experience in your art form, with
-      at least 1000 hours per year". Two things still say *paid* and need the client's call:
-      the CTE Intro **video narration**, which would need a re-record, and that node's **transcript
-      text** in `data/content.en.json`, which we can change without touching the video but which
-      would then differ from what is spoken. The next video in the branch (CTE Path) already says
-      "work experience", so the footage is already inconsistent with itself.
-- [ ] Confirmation of the PROVISIONAL region assignments (§2)
+- [x] ~~**Review the Spanish transcripts**~~ — **DONE. Superseded twice: client-approved V2 installed
+      2026-08-04, then a new translator version (V3) installed 2026-08-06. V3 is current.**
+- [x] ~~**Answer the 12 transcript queries**~~ — **CLOSED 2026-08-06 by the arrival of V3.** The
+      client worked with her translator on new Spanish rather than answering query by query, and V3
+      landed 2026-08-06. Of the two meaning items raised, one (the real-world/classroom reversal)
+      came back unchanged and was corrected here; the other (how CTE is translated) is now used
+      consistently, which settles it in practice. The rework this created — all 11 caption files,
+      `data/transcripts.es.json` and `video/transcripts/esp/` — is **done** (§6).
+- [x] ~~**CTE experience: paid vs unpaid**~~ — **RESOLVED 2026-08-06: "work experience" everywhere,
+      both languages.** The Commission counts three years "full-time or part-time, paid or unpaid" at
+      1000 clock hours a year, verified by employers (CL-888), so the word *paid* was turning away
+      people who qualify.
+      **No re-record was needed** — the requirement is never spoken. The narration says "Here's the
+      key requirement:" and stops; an on-screen graphic carries the rest, which is why the English
+      captions have a 7-second gap there. Only the graphic said *paid*, and it has been re-cut to read
+      WORK EXPERIENCE. Timings unchanged, so all 11 English caption exports remain valid.
+      Corrected to match: the English transcript (file and `data/content.en.json`), the Spanish
+      transcript, and the Spanish subtitle cue.
+      ⚠ **One place still says "paid or unpaid" and must stay** — the rule statement in the CTE
+      summary. There the phrase does the opposite job: it tells people unpaid work counts.
+- [x] ~~Confirmation of the PROVISIONAL region assignments~~ — **RESOLVED 2026-08-05, off the
+      client's list.** Every flagged row settled, including the one that genuinely needed her call
+      (Santa Barbara counts as Southern, not Central). (§2)
 - [x] ~~**A privacy policy**, or a decision about who writes one~~ — **WRITTEN AND CLIENT-APPROVED
       2026-08-06.** Live at `/privacy/`, linked from all four footers. Off their list. (§4, §8)
 - [x] **Email confirmation page — CLIENT-APPROVED 2026-08-06.** `/subscribed/`, the page a new
@@ -142,7 +145,9 @@ Everything below is blocked on one of these. Grouped by who has to act.
 **Media — our purview, client approves** *(not a client deliverable; do not put on their ask list)*
 - [ ] 11 presenter videos, final (§1)
 - [ ] Landing "Find Your Path" preview clip + poster (§1)
-- [ ] Final poster stills (§1)
+- [x] ~~Final poster stills~~ — **CLIENT-APPROVED 2026-08-06.** The eight `vp_*.jpg` in use are the
+      final ones. ℹ They still sit in a folder called `images/video placeholder stills/`; the name is
+      now wrong but nothing depends on it. (§1)
 - [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
 - **CTE Intro is the ONE file where English and Spanish cue counts differ on purpose — 22 vs 25.
   Do not "fix" it.** From 18.6s to 25.9s the video shows a text graphic spelling out the 1,000-hour
@@ -151,21 +156,20 @@ Everything below is blocked on one of these. Grouped by who has to act.
   the Spanish track carries three extra cues (11–13) covering that sentence. Asymmetric, deliberate,
   and the only way the key requirement reaches a Spanish reader at all. If the graphic is ever
   re-cut with Spanish text, these three become redundant and should go.
-- [ ] **FOR THE EDITOR: spell it "theatre", not "theater", in the caption source.** The site was made
-      uniform on 2026-08-05 — every word a visitor reads now says *theatre*. Captions are the one
-      place that can drift back, because Premiere is the source of truth and the next export
-      overwrites anything corrected by hand here. Fix it in Premiere and re-export.
-      Done: `09_theatre_260805.srt` (was `09_theater_…`, 6 instances, Eric's video).
-      ⚠ Still outstanding, one instance each:
-        • `video/captions/eng/03_discipline_260801.srt` — "Dance, Theater, Music, and Visual Arts"
-        • `video/captions/eng/07_suppauth_260804.srt` — "degree in dance, music, theater, or visual arts"
-      Spanish captions are unaffected (they say *teatro*), and the corrected file kept its timings
-      exactly, so the Spanish sidecars still line up cue for cue and need no rework.
+- [x] ~~**FOR THE EDITOR: spell it "theatre", not "theater", in the caption source.**~~ — **ALL THREE
+      FILES CLEAN, confirmed 2026-08-06.** The site was made uniform on 2026-08-05 — every word a
+      visitor reads says *theatre* — and the caption exports now match: `09_theatre_260805.srt`
+      (6 instances, Eric's video), plus `03_discipline_260805.srt` and `07_suppauth_260805.srt`, both
+      re-exported on 08-05. No caption file in either language contains "theater".
+      ⚠ **This can still drift back.** Premiere is the source of truth and the next export overwrites
+      anything corrected by hand here, so it has to stay right in Premiere. Re-check after any
+      re-export. Spanish captions are unaffected (they say *teatro*), and the corrected files kept
+      their timings exactly, so the Spanish sidecars still line up cue for cue.
       NOT to be changed: the internal name `mTheater` in index.html and data/content.en.json (a code
       label, never shown, and the two files must keep matching), and the San Diego State link in
       data/programs.json, whose web address contains "theater".
 - [x] English transcripts for all 11 videos — written and final 2026-07-31 (§1)
-- [x] Spanish transcripts — **client-approved V2 installed 2026-08-04**, 11 files (§6)
+- [x] Spanish transcripts — **client-approved V3 installed 2026-08-06**, 11 files, superseding V2 (§6)
 - [x] **"Civil Cyber Arts" credit link — DONE 2026-08-03.** Points at an alias address, deliberately
       disposable. Detail in §9.
 
@@ -253,7 +257,8 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       If anyone was shot tighter, 35% could clip them. Add consistent headroom to the export spec —
       far easier to fix at export than to work around in the site.
 - [ ] Landing "Find Your Path" preview video — final clip + poster (muted loop; no transcript)
-- [ ] Poster stills finalized (placeholders currently in `images/video placeholder stills/`)
+- [x] ~~Poster stills finalized~~ — **CLIENT-APPROVED 2026-08-06**, the eight already in use. The
+      folder is still named `images/video placeholder stills/`, which now misdescribes its contents.
 - [ ] Switch each node on as its clip lands (`v:1`, plus `cc:1` once its `.vtt` is beside it)
 - [ ] Captions (`.srt` → `.vtt`) for all narrated videos
 - [x] **Questionnaire + results copy moved out of `index.html` into `data/content.en.json`
@@ -275,17 +280,24 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       `build-scan.py` (which only reads `index.html`) still reports them missing — see §9.
 - [x] **English transcripts live on the site (2026-07-31)** — all 11 in the Transcript modal; the
       `welcome` lorem ipsum is gone. Apostrophes verified safe (11 render in the welcome text alone).
-- [ ] **Result-page video summaries (Option C) — CLIENT IS WRITING THESE, 2026-08-01.** Not ours to
-      draft. 7 result pages, 2–4 bullets each, recapping what the videos on that route covered, so the
-      printed/saved page carries the substance and not just links. Chased, not yet received.
-      ⚠ Needs a date from the client. It is public copy, so it has to be in before the Aug 5 freeze or
-      it becomes a post-launch addition. Not structural — the result pages work without it.
-      Add it to the client ask-list in §0; the 2026-08-01 decision email does not currently request it.
+- [~] **Result-page summaries — DRAFTED BY US 2026-08-05, awaiting the client's final edits.** The
+      2026-08-01 plan had the client writing these; that changed — we drafted all seven from the video
+      transcripts, checked against the Commission's own leaflets (CL-560C, CL-603, CL-629, CL-888 and
+      coded correspondence 21-05). Live on the site behind the placeholder flag. Full text and the
+      audit trail: [`notes/results-page-summaries-for-client.txt`](results-page-summaries-for-client.txt).
+      Five headings per pathway — Description, Requirements, Qualifications, Process, Notes.
+      Three queries went to the client with the draft; **all three answered 2026-08-06**: the US
+      Constitution course and the formal programme recommendation cut from the four discipline pages
+      ("stick to what the videos cover"), the dance video's 32-unit figure confirmed accurate and
+      added, and the CTE "paid" wording resolved in favour of "work experience".
+      **Outstanding: the client's own edits to this copy.** Until they land the `placeholder` flag
+      stays set and `build-scan.py` reports the section as incomplete, so it cannot ship by accident.
 - [x] **Container for those summaries BUILT 2026-08-01**, so the copy is a paste, not a build. Sits
       between the pathway title and the programme list, inside `#resultDoc` so it carries into the
       printed page and the saved PDF. White card, gold left rule, heading "In Short" (editable).
       Copy lives in `data/content.en.json` under `summaries`.
-      **Currently LOREM IPSUM.** ⚠ The on-page red warning band was **removed on request
+      **No longer lorem — real drafted copy went in 2026-08-05** (see the entry above); the flag stays
+      set only because the client's final edits are still to come. ⚠ The on-page red warning band was **removed on request
       2026-08-01** — nothing on the page or in the printed version now marks this copy as unfinished.
       The only remaining safeguard is the `"placeholder": true` line in `data/content.en.json`, which
       `build-scan.py` reports on. **Run the scan before launch; the page will not warn you.**
@@ -303,7 +315,16 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       to reduce visual noise, and that is now the final answer.
       The 22 `f` flags stay in `data/programs.json`, unused — harmless, and they make the caveat one
       display change away if it is ever wanted back. Nothing to do here before launch.
-- [ ] PROVISIONAL region assignments (`SCHOOL_REGION`) — verify before launch
+- [x] ~~PROVISIONAL region assignments (`SCHOOL_REGION`)~~ — **ALL FLAGGED ROWS RESOLVED 2026-08-05**,
+      and the in-code "review before launch" flag is gone. The rule that had never been written down is
+      now recorded above `SCHOOL_REGION` in index.html: **region is where the ORGANISATION is, never
+      how the programme is delivered.** The empty fourth region ("Online", displayed "Statewide") was
+      removed.
+      ⚠ Two residual caveats, neither a task: the other **84 rows were assigned the same way and never
+      checked one by one** — nothing is known to be wrong, and they are mostly self-evident (CSU Chico
+      → Northern). And **Focus 5 → Southern is a snapshot, not a fact**: it is a Washington DC
+      organisation whose only California offering was one 2025 intensive hosted at UCSB. A touring
+      organisation could hold the next one elsewhere.
 - [x] ~~**UCLA CTE entries**~~ — **CLOSED HERE 2026-08-05. Moved to §10 Post-launch, off the client's
       ask list.** She agreed to hold it until UCLA Extension publishes the pathway page (Autumn 2026).
       Everything needed to add it is recorded in §10; the detail below is the working that got there.
@@ -347,41 +368,45 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         **minor for current UCLA undergraduates**, plus community arts programmes and internships.
         Not a credential, not a route for working artists, wrong audience. The client's "VAPAE" label
         appears to be a mix-up with UCLA Extension, which is where the Teaching Artistry pathway sits.
-      - **Region is answerable but blocked on a data-model problem — see §2 "UCLA name collision".**
+      - **Region was blocked on a data-model problem — the UCLA name collision, since fixed (§2).**
 
       </details>
 
-- [ ] 🔴 **UCLA name collision — one name, two programmes, and both region and delivery are wrong for
-      one of them.** `University of California, Los Angeles` covers TWO different offerings:
-      **CTE** (UCLA Extension — courses "delivered online via Canvas", some with a live Zoom session)
-      and **Music** (CenterX — a full-time, in-person credential inside a four-year UCLA undergraduate
-      degree). Region and delivery are keyed by SCHOOL NAME, so both programmes share one value:
-      - `SCHOOL_REGION` (index.html) and `r:` (program-index) say **Southern California** — correct for
-        Music, wrong for the online CTE programme.
-      - `d:` (program-index) says **Online only** — correct for CTE, wrong for the in-person Music
-        programme.
-      So each field is already wrong for one of the two, and changing either fixes one while breaking
-      the other. **The fix is to split the name**, listing the CTE entry as `UCLA Extension`
-      (r: Online, d: Online only) and leaving `University of California, Los Angeles` for Music
-      (r: Southern California, d: In-person). That also gives the Teaching Artistry pathway a correct
-      home when it launches, since it is also UCLA Extension and also online.
-      Consequences of the split: the Program Index gains a row (90 ➜ 91) and the CTE result pages show
-      "UCLA Extension" rather than "University of California, Los Angeles". **Needs a decision before
-      building — it changes a published link label.**
+- [x] ~~🔴 **UCLA name collision**~~ — **FIXED 2026-08-03 (commit `496013c`), confirmed in the files
+      2026-08-06.** `University of California, Los Angeles` had covered TWO offerings — **CTE** (UCLA
+      Extension, delivered online) and **Music** (CenterX, a full-time in-person credential inside an
+      undergraduate degree). Region and delivery are keyed by school NAME, so each field was right for
+      one and wrong for the other, and changing either would have broken the one it fixed.
+      **Resolved by splitting the name**, as planned: `UCLA Extension` now carries the CTE entry and
+      `University of California, Los Angeles` the Music entry. Both appear in `data/programs.json`,
+      `SCHOOL_REGION` and the Program Index.
+      **One thing went differently from the plan above, and correctly.** The plan gave UCLA Extension
+      `r: Online`. It is mapped to **Southern California** instead, because the 2026-08-05 region work
+      established the rule that region is WHERE THE ORGANISATION IS, never how a programme is
+      delivered — and UCLA Extension's four campuses are all in Los Angeles. Delivery does its own
+      work in the Program Index, where an online-deliverable programme answers to every region filter.
+      The "Online" region no longer exists.
+      Consequences, as predicted: the Program Index gained a row (90 ➜ 91) and the CTE result pages
+      now read "UCLA Extension". It also gives the Teaching Artistry pathway a correct home when it
+      launches (§10), since that is also UCLA Extension.
 
-## 3. Online-availability marking
-- [ ] Client sign-off on marker threshold, then wire in (research done for all 92 programs)
-      [`notes/online-availability-README.md`](online-availability-README.md) · `notes/online-availability-review.json`
-- [ ] 🔴 **The cross-index is now LINKED from every result page (2026-08-02) — this publishes the
-      online-availability data ahead of the sign-off above.** `program-index/index.html` groups all 92
-      programmes by delivery mode (In-Person Only / In Person or Online / Hybrid / Online Only),
-      which is the same research this section is gating. Linking it means a visitor reaches that
-      grouping even though the markers themselves are not on the programme lists yet.
-      Nothing is public while the pre-launch gate and `noindex` are in place, so there is no exposure
-      today. **Before launch, either get the client's sign-off (which covers both) or remove the row**
-      — it is one line in `resourcesHTML()` in index.html, marked with a ⚠ comment.
-      Second-order: the cross-index carries its own `noindex`; if it stays, decide whether that is
-      still wanted once the main site is meant to be found by search.
+## 3. Online-availability marking — SETTLED 2026-08-06
+- [x] **DECIDED: the markers stay on the Program Index and do NOT go on the result pages.**
+      The research was finished long ago — all 91 schools classified into four delivery categories
+      (In-person only 35 · Online only 30 · Hybrid 18 · In person or online 8), live in
+      `program-index/index.html` on the `d:` field. What was open was only *where it should appear*.
+      **Why this is the right answer, not just the cheap one:** the Program Index already carries it
+      and is linked from every result page, and the largest category is the least informative to
+      label — tagging 35 of 91 entries "in-person only" would add a lot of noise to say the ordinary
+      thing. The result pages stay clean.
+- [x] ~~🔴 **The cross-index link publishes the online-availability data ahead of sign-off**~~ —
+      **CLOSED by the same decision.** The link in `resourcesHTML()` was flagged because it exposed
+      this research before the client had agreed to any of it. She has now agreed where it lives, so
+      the row stays and the ⚠ comment beside it in index.html is spent.
+      ⚠ Second-order item still live: the Program Index carries its own `noindex`. Decide whether
+      that stays once the main site is meant to be found by search (§9).
+      Background on how the research was done: [`notes/online-availability-README.md`](online-availability-README.md)
+      — note its own header warns it is a superseded snapshot; the live data is the Index.
 
 ## 4. Email capture — Buttondown  *(was Constant Contact — replaced 2026-08-03)*
 - [x] **WIRED AND TESTED END TO END 2026-08-03.** Multiple real addresses submitted, confirmation
@@ -400,35 +425,44 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
 - [x] Confirmation **announced** to screen readers — the status line is a live region.
 - [x] Honeypot field catches bots before anything leaves the browser. No captcha, by design.
 - [x] **Privacy policy page** — built 2026-08-03 at `/privacy/`, linked from all four footers. See §8.
-- [ ] ⚠ **Buttondown settings still to confirm:** double opt-in ON (the success copy tells people to
-      check their inbox), and "Embed fingerprinting" left OFF (it penalises exactly this kind of plain
-      form, and it is fingerprinting).
-- [ ] ⚠ **Deletion requests need an owner.** The privacy policy promises we delete an address on
-      request. Unsubscribing does NOT delete it — Buttondown keeps the record so a later import cannot
-      re-add the person. Whoever watches `info@createca.org` needs to know these arrive and needs
-      Buttondown access, or a reliable route to someone who has it.
+- [x] ~~⚠ **Buttondown settings**~~ — **BOTH CONFIRMED 2026-08-06.** Double opt-in is ON, matching the
+      success copy that tells people to check their inbox, and "Embed fingerprinting" is OFF.
+- [x] ~~⚠ **Deletion requests need an owner**~~ — **CLOSED 2026-08-06, client's call: not a concern.**
+      Recorded for the record, since the underlying facts have not changed: the privacy policy promises
+      deletion on request, and unsubscribing does NOT delete — Buttondown keeps the record so a later
+      import cannot re-add the person. If a request ever arrives at `info@createca.org`, someone needs
+      Buttondown access to action it.
 
-## 5. Analytics — anonymous, third-party
-- [ ] ⚠ **The deciding factor is custom events, not privacy.** All the credible options are equally
-      private. But the whole site is one page with one address — every questionnaire screen and every
-      result renders without the address changing. A tool that only counts page visits will report one
-      visit per person and nothing else. To learn completion rate, drop-off, or which pathway anyone
-      reached, the site must send its own signals, which the tool has to support.
-- [ ] Confirm with the client **what they want to know** before choosing.
+## 5. Analytics — DONE 2026-08-05
+**Settled and built. Plausible, Starter plan at $9/mo, installed on all four pages and verified goal
+by goal against the live site. The full record — every goal name, the six dashboard setup steps, the
+two bugs found during verification, and the reporting caveat about how conversion rates are
+calculated — is in §0 under "Analytics" and "Questionnaire tracking". Read that, not this section.**
+
+Nothing here is outstanding. The rest is kept as the reasoning that led to the choice, in case the
+tool is ever reconsidered.
+
+<details><summary>How the decision was made, kept as the record</summary>
+
+⚠ **The deciding factor was custom events, not privacy.** All the credible options are equally
+private. But the whole site is one page with one address — every questionnaire screen and every
+result renders without the address changing. A tool that only counts page visits would report one
+visit per person and nothing else. To learn completion rate, drop-off, or which pathway anyone
+reached, the site has to send its own signals, which the tool has to support. That ruled out the
+free options.
 
 | Tool | Cost | Custom events | Notes |
 |---|---|---|---|
-| **Plausible** *(recommended)* | from ~$9/mo | Yes | Open source, EU-hosted, cookie-free, small script; script can be served from our own domain, which reduces exposure (§8) |
+| **Plausible** *(chosen)* | from ~$9/mo | Yes | Open source, EU-hosted, cookie-free, small script; script can be served from our own domain, which reduces exposure (§8) |
 | Fathom | from ~$15/mo | Yes | Cookie-free, EU data isolation, long retention |
 | GoatCounter | Free | Limited | Open source, admirably minimal; thin event support and effectively a one-person project — sustainability risk for a client site |
 | Cloudflare Web Analytics | Free | Very limited | Fine for basic traffic counts; not enough for questionnaire data |
 
-- [ ] **Recommendation: Plausible** — cheapest tool that can answer the client's likely questions.
-      No cookies means **no consent banner**, so nobody meets a popup before they meet the site.
-- [ ] Confirm current pricing directly; these change.
-- [ ] If the client won't fund a paid tool, the honest outcome is basic visit counts only and the
-      questionnaire stays a black box. Say so rather than pretending otherwise.
-- [ ] Adds a second third-party script — see §8.
+Plausible was the cheapest tool that could answer the client's likely questions. No cookies means
+**no consent banner**, so nobody meets a popup before they meet the site. It is the site's only
+outside dependency — a deliberate exception to the 2026-08-01 removal of Google Fonts (§8).
+
+</details>
 
 ## 6. Spanish language — CAPTIONS AND TRANSCRIPTS ONLY
 **SCOPE CUT 2026-07-31, agreed with the client.** For the time being the only Spanish on the site is
@@ -443,12 +477,17 @@ page, questionnaire, result pages, resources, footer.
 - ~~Translating region names, setting per-page `lang`, a second set of result pages~~ — all moot.
 
 **What remains, in order:**
-1. ~~Client reviews / edits the 11 Spanish transcripts~~ — **DONE, V2 installed 2026-08-04.**
-2. Build the Spanish subtitle files from the approved transcripts — **method decided 2026-08-04, see
-   below.**
-3. Wire both into the site — already built; only the files are missing.
+1. ~~Client reviews / edits the 11 Spanish transcripts~~ — **DONE. V3 installed 2026-08-06**,
+   superseding V2 (which had superseded the drafts). See the V3 record below.
+2. ~~Build the Spanish subtitle files from the approved transcripts~~ — **DONE 2026-08-06.** All 11
+   built and rebuilt against V3. Timecodes untouched, cue counts matching the English exactly.
+3. **Move the files into place and switch the nodes on — the only step left, and it waits on the
+   clips.** The built files are STAGED, not deployed: they live in `video/captions/esp/` under dated
+   names (`05_cteintro_260805.vtt`), while the player reads `video/nodes/<node-key>.es.vtt` beside
+   `<node-key>.mp4`. So each one gets copied and renamed to its node key as its clip lands, and the
+   node's `cc:` flag set. Nothing is switched on today: no node carries `v:1` or `cc:`, by design.
 
-**Spanish subtitles — METHOD DECIDED 2026-08-04, not started**
+**Spanish subtitles — BUILT 2026-08-06. Method below, kept for reference and for the next language.**
 
 The audio is English only, so the Spanish files are **subtitles** (a translation for readers), not
 captions (a transcription for deaf/HoH viewers). Use that word with the client; nothing in the code
@@ -468,19 +507,30 @@ Agreed 2026-08-04 that **Claude does this pass**: hand over `<key>.srt`, get bac
 identical timecodes and the approved Spanish distributed across the cues. Then `scripts/srt2vtt.py`
 as usual → `<key>.es.vtt`, and the CC button becomes the Off/English/Español menu on its own.
 
-⚠ **The one complication: Spanish runs ~20–25% longer than English.** With timings locked to the
-English, some cues get too dense to read. Handle it by letting cues run two lines, and by moving the
-split point between neighbouring cues — which shifts words without touching a timecode. Merge two
-short adjacent cues only as a fallback. Do **not** trim the Spanish: it's approved copy, and
-shortening it means going back to the client. Any cue still above a comfortable reading rate gets
-flagged rather than silently squeezed.
+⚠ **Reading speed is the real complication, and it is now measured.** The "Spanish runs 20–25%
+longer" figure written here on 2026-08-04 was an estimate and turned out to be wrong — measured
+against the actual files, V3 is within a couple of percent of V2 and most nodes are the same length.
+But the density problem is real, because the timings come from English speech: **102 of the 380
+Spanish cues run above the usual 21-characters-per-second reading guideline.** The worst is
+`02_tavscred` cue 6 — 50 characters in 1.09 seconds, 46 c/s, more than double.
+Line lengths are all fine: nothing over 42 characters, nothing over two lines.
+This cannot be judged properly until there is footage to read them against. **Take a pass over the
+densest dozen once the clips are in.** Fix by moving the split point between neighbouring cues, which
+shifts words without touching a timecode; merge two short adjacent cues only as a fallback. Do
+**not** trim the Spanish — it is approved copy, and shortening it means going back to the client.
+
+⚠ **Caption text is NOT the transcript text.** The captions deliberately drop the English-term glosses
+the transcripts carry — "(California Subject Examinations for Teachers…)", "(Single Subject
+Credential)", "(transcript evaluation)". Unreadable at subtitle speed, fine in a transcript read at
+the reader's own pace. Keep that rule for any future rebuild; a verbatim paste from the transcript
+will reintroduce them.
 
 Manual alternatives if this ever needs doing without Claude: Subtitle Edit (free) or Aegisub load the
 English timings and let you type the translation cue by cue. Same job, by hand.
 
-⚠ **Blocked on the videos.** The English SRTs don't exist yet — `video/nodes/` is empty (§1). Nothing
-here can start until the final clips and their English caption exports land. Suggested first pass:
-**theater**, the densest script — if it reads comfortably at these timings, the other ten will.
+✔ **No longer blocked on the videos** — this section said it was, which was out of date. The English
+caption exports are in `video/captions/eng/`, all 11, and the Spanish sidecars were built against
+them. `video/nodes/` is still empty, but that only gates step 3 above, not the subtitle work itself.
 
 **Design decided 2026-07-31:**
 - [x] **Transcript modal EN/ES switch — BUILT 2026-07-31.** Two-way toggle under the modal heading;
@@ -488,9 +538,10 @@ here can start until the final clips and their English caption exports land. Sug
       the next. Spanish text is marked as Spanish so screen readers pronounce it correctly.
       Spanish comes from `data/transcripts.es.json`, regenerated from `video/transcripts/esp/`.
       Degrades to English with no switch shown if a node has no Spanish or the file is missing.
-      ✔ **The Spanish on the site is now the client-approved V2** (installed 2026-08-04), so the old
-      "must not go live before review" flag is cleared. Twelve wording queries remain open — see
-      `notes/transcript-queries-for-client.txt` — but none of them blocks launch.
+      ✔ **The Spanish on the site is the client-approved V3** (installed 2026-08-06), so the old
+      "must not go live before review" flag is cleared. The V2 wording queries were closed by V3's
+      arrival; the corrections applied to V3 are logged in
+      `notes/transcript-queries-for-client.txt`. Nothing here blocks launch.
 - [x] **CC control three-way: off / English / Español — BUILT 2026-08-01.** Resolved as a small menu,
       not a cycling button, matching the playback-speed control beside it. The button shows what is
       showing — `CC` when off, `CC EN` / `CC ES` when on — so the language is legible without opening
@@ -518,11 +569,35 @@ here can start until the final clips and their English caption exports land. Sug
       reader inside an English interface; whether the printed PDF carries a transcript and in which
       language (it carries neither today).
 
-**Spanish transcripts — CLIENT-APPROVED V2 INSTALLED 2026-08-04**
-The client supplied their own approved translation (one document, 2026-08-03), which **replaced the
-drafts entirely** — the 11 draft files were deleted and the folder now holds
-`01_welcome_esp_V2.txt` … `11_visualart_esp_V2.txt`. `data/transcripts.es.json` was rebuilt from
-them; all 11 verified word-for-word against the site.
+**Spanish transcripts — CLIENT-APPROVED V3 INSTALLED 2026-08-06**
+The client's translator supplied a NEW translation (one document, 2026-08-06) which **replaced V2
+entirely**, exactly as V2 had replaced the drafts. The folder now holds `01_welcome_esp_V3.txt` …
+`11_visualart_esp_V3.txt`; the V2 files and the delivered document were deleted, and
+`data/transcripts.es.json` was rebuilt. Every file was diffed against the delivered document to
+confirm only the intended corrections differ.
+
+Corrections applied to V3, all recorded in `notes/transcript-queries-for-client.txt`:
+- **10 mechanical.** The systematic one: "sala" is feminine, but it carried a masculine article five
+  times across three videos and was never once right. Plus one agreement error, one plural, a missing
+  accent, two double spaces.
+- **Two meaning fixes.** (1) The real-world/classroom reversal, raised with the client during the V2
+  review and unchanged in V3, so corrected rather than queried again. (2) 🔴 **V3 dropped the CTE
+  time requirement** — it said "1000 hours of work experience" where the English, the graphic and the
+  Commission all say **per year for at least 3 years**. V2's wording restored. This lands on the three
+  extra Spanish cues that exist because the requirement is an English-only graphic, so it was the one
+  place a Spanish viewer had no other route to it.
+- **⚠ Five errors corrected in V2 came back in V3** — "a lugares educativas", "y asi puede enseñar",
+  "las Autorización Suplementarias", "todos estudiantes tienen", "lo mas antes". The new Spanish
+  appears to have been written from the original document rather than the corrected V2 files. All
+  five fixed again and flagged for the translator. **If a V4 ever arrives, expect the same and check
+  for it first.**
+- **A dozen further items were raised and deliberately left as the translator wrote them**, including
+  "Bienvenidos" (masculine plural in an otherwise feminine text), "entrenamiento" for teacher
+  training, and "de todo de California". Listed in the queries file so it is clear they were seen
+  rather than missed.
+
+⚠ **The old "V2 is client-approved, do not change it" caution no longer applies to V2** — those files
+are gone. V3 is the source of truth for both the transcripts and the subtitles.
 
 Eight mechanical errors in the approved Spanish (agreement, a missing ñ, missing accents, a
 duplicated word) were corrected in both the files and the site — listed with before/after in
@@ -533,21 +608,27 @@ The three house-style decisions below came from the *draft*. The approved V2 mak
 so these now read as a record of what was proposed, not as open questions — except where noted in the
 queries file:
 
-- [~] **Form of address: `tú`** (familiar), not `usted`. Matches the warmth of the English.
-- [~] **Credentialing terms: English name + Spanish gloss on first use** — Supplementary
+- [x] **Form of address: `tú`** (familiar), not `usted`. V3 uses `tú` throughout. Settled.
+- [x] **Credentialing terms: English name + Spanish gloss on first use** — Supplementary
       Authorization, CTC, CSET, Single/Multiple Subject Credential, CTE, Prop 28, subject matter
-      competency, student teaching, transcript evaluation. Rationale: these are the names on the CTC's
-      own forms and website, which are English-only. Translating them outright sends people searching
-      for something that doesn't exist under that name.
-- [~] **Grammatical gender: feminine where neutral phrasing isn't possible** (client instruction,
-      2026-07-31). Neutral wording is used where it reads naturally — e.g. *"te damos la bienvenida"*
-      rather than *"bienvenida/o"*. Flag for the reviewer: some organisations prefer `educador/a`
-      throughout instead.
-- [x] ~~Client review of the 11 Spanish transcripts~~ — done, V2 installed 2026-08-04
-- [ ] Second subtitle file per video (`<key>.es.vtt`) from the approved Spanish — **not** re-timed;
-      built on the English SRT timings by the method above. Blocked on the videos.
-- [ ] Mark the Spanish text so screen readers pronounce it as Spanish, not as English with an accent —
-      applies to the transcript modal and the caption layer only, since the rest of the site is English.
+      competency, student teaching, transcript evaluation. V3 does this. Rationale, still worth
+      keeping: these are the names on the CTC's own forms and website, which are English-only.
+      Translating them outright sends people searching for something that doesn't exist under that
+      name. ⚠ **The captions deliberately DROP these glosses** — unreadable at subtitle speed. That
+      asymmetry between transcript and caption is intentional; don't "fix" it.
+- [x] **Grammatical gender: feminine where neutral phrasing isn't possible** (client instruction,
+      2026-07-31). V3 is feminine throughout, with two lapses left as the translator wrote them —
+      "Bienvenidos" in the opening line and "arte educador" in CTE Intro — both raised with the client
+      and consciously declined (see the queries file). Neutral wording is used where it reads
+      naturally. Some organisations prefer `educador/a` throughout; this one does not.
+- [x] ~~Client review of the 11 Spanish transcripts~~ — done; V3 installed 2026-08-06
+- [x] ~~Second subtitle file per video from the approved Spanish~~ — **BUILT 2026-08-06**, all 11, on
+      the English SRT timings as planned; not re-timed. Staged in `video/captions/esp/`; renaming them
+      to `<node-key>.es.vtt` in `video/nodes/` is part of the clip drop, not this task.
+- [x] ~~Mark the Spanish text so screen readers pronounce it as Spanish~~ — **DONE, both surfaces.**
+      The transcript body carries `lang="es"`, and the caption layer's language attribute is set and
+      cleared as the reader switches. Confirmed in the code 2026-08-06. The rest of the site is
+      English, so nothing else needs it.
 
 **Superseded by the 2026-07-31 scope cut** — kept for the record, in case the client revisits:
 - ~~Do not start translating the interface copy until the English copy is final~~ — no interface
@@ -572,40 +653,33 @@ Pages: `laurel-butler-consulting.github.io/PATHWAYS`
 - [x] GitHub **organisation** created (`Laurel-Butler-Consulting`)
 - [x] Repository transferred; Pages confirmed live and serving the current build under the new owner
 - [x] Local clone repointed at the new remote — verified reachable, matching HEAD
-- [ ] Two-factor authentication required org-wide
-- [ ] Client added as a second Owner — needs them to have a GitHub account; settle before handover,
-      not before launch. Org contact email is ours for now, deliberately: an address nobody reads is
-      a liability while the client is hard to reach.
+- [ ] **POST-LAUNCH:** two-factor authentication required org-wide. Deferred 2026-08-06 — belongs with
+      the handover, not the launch.
+- [ ] **POST-LAUNCH:** add the client as a second Owner — needs them to have a GitHub account. Always
+      intended for handover rather than launch; confirmed 2026-08-06. Org contact email stays ours for
+      now, deliberately: an address nobody reads is a liability while the client is hard to reach.
 
-**Phase B — verify the domain FIRST** *(deliberately before connecting it)*
-- [ ] In the organisation's settings → Pages, add the domain; GitHub issues a challenge code
-- [ ] At the registrar, add a **TXT record** containing that code
-      (`_github-pages-challenge-<ORG>`)
-- [ ] Wait (up to 24h), then click Verify
-- [ ] **Why first:** verification means only that organisation's repositories can publish to the domain.
-      Skip it and if the site is ever deleted, disabled, or downgraded while DNS still points at GitHub,
-      someone else can claim the address and publish their own content on the client's domain.
-- [ ] Avoid wildcard DNS (`*.example.org`) — reintroduces takeover risk even after verification
+**Phases B, C and D — ALL DONE 2026-08-01.** Domain verified at organisation level, repository moved,
+domain connected, HTTPS enforced. Confirmed 2026-08-06 from the files themselves: `CNAME` in the repo
+root reads `artsedpathways.org`, and the remote is `Laurel-Butler-Consulting/PATHWAYS`.
 
-**Phase C — transfer the repository**
-- [ ] Transfer `ZZ72Z7Z7/PATHWAYS` to the organisation (history and settings come with it)
-- [ ] Confirm Pages is enabled and building under the new owner
-- [ ] Repoint the local clone's remote (`git remote set-url`) — otherwise the daily folder keeps pushing
-      to the old address
-- [ ] Note: `CLAUDE.md` and `.claude/` are untracked and do not transfer. The daily-folder process is
+- [x] **Phase B — domain verified first, deliberately before connecting it.** Challenge TXT record
+      added at the registrar (`_github-pages-challenge-<ORG>`) and verified.
+      **Why the order mattered:** verification means only that organisation's repositories can publish
+      to the domain. Skip it, and if the site is ever deleted, disabled or downgraded while DNS still
+      points at GitHub, someone else can claim the address and publish on the client's domain.
+      ⚠ **Standing rule: no wildcard DNS (`*.artsedpathways.org`).** It reintroduces takeover risk
+      even after verification. Applies to anyone touching the DNS later, including the client.
+- [x] **Phase C — repository transferred**, Pages confirmed building under the new owner, local clone
+      repointed. This duplicated Phase A and should never have been a separate phase.
+      Note: `CLAUDE.md` and `.claude/` are untracked and did not transfer. The daily-folder process is
       personal to this build and doesn't need to survive handover.
-
-**Phase D — connect the domain**
-- [ ] Repository Settings → Pages → enter the custom domain (this writes a `CNAME` file into the repo —
-      expect to see it appear in the working tree)
-- [ ] At the registrar:
-      - **Subdomain:** one CNAME → `<org>.github.io`
-      - **Root domain:** four A records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
-        `185.199.111.153`
-- [ ] Wait for DNS propagation (up to 24h)
-- [ ] Tick **Enforce HTTPS**; the certificate can take up to an hour and the box stays greyed out until
-      it's ready
-- [ ] Don't share any link until the domain is live
+- [x] **Phase D — domain connected**, `CNAME` written into the repo, DNS propagated, **Enforce HTTPS**
+      ticked. For reference if the DNS is ever rebuilt: root domain takes four A records —
+      `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; a subdomain would
+      take one CNAME to `<org>.github.io`.
+      ⚠ The site is live on the domain but **gated** — the pre-launch password and `noindex` are both
+      still in place (§9). Don't share the address until those come off on launch day.
 
 Docs: [custom domain](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) ·
 [verification](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages) ·
@@ -622,43 +696,62 @@ Docs: [custom domain](https://docs.github.com/en/pages/configuring-a-custom-doma
       turns out to want individual pathways shareable or findable by search.
 
 ## 8. Security + privacy
-Today the site is about as safe as a website gets: no server, no database, no passwords, no outside code
-except the fonts. **Nearly all new risk arrives with the additions above.**
+The site is about as safe as a website gets: no server, no database, no passwords, and — since the
+fonts were self-hosted on 2026-08-01 — exactly **one** piece of outside code, the analytics script.
+That script and the email form are where nearly all the new risk sits.
 
 **Third-party scripts — the main exposure**
-- [ ] The email form and the analytics tool each place another company's code on the page. That code can
-      read everything on the page — including what someone types into the email field — and can change
-      what's displayed. If either company is compromised, so is the site.
-- [ ] *Mitigations:* keep the count at **two, and no more**; prefer small single-purpose scripts; use
-      Plausible's option to serve its script from our own domain; record what each script is for so an
-      unexplained third one gets noticed.
+- [x] ⚠ **Ended up with ONE third-party script, not two.** The plan assumed the email form would add a
+      second. It doesn't: Constant Contact's widget was dropped over its Google reCAPTCHA (§4) and the
+      replacement posts straight to Buttondown from our own code, with no embedded script. So
+      **Plausible is the only outside code on the page** — verified 2026-08-06, it is the sole external
+      script and one of only four external references in total.
+      The risk it carries is unchanged and worth restating: that code can read everything on the page,
+      including what someone types into the email field, and can change what is displayed. If Plausible
+      is compromised, so is the site.
+*Standing rules, not tasks:* keep the script count at **one, and add no more without a reason**;
+prefer small single-purpose scripts; use Plausible's option to serve its script from our own domain;
+record what each script is for, so an unexplained second one gets noticed.
 
 **No security headers on GitHub Pages**
-- [ ] Normally you'd tell the browser "only run code from these places", which contains the damage if a
-      third party misbehaves. GitHub Pages can't send those instructions.
-- [ ] *Mitigation A:* put the site behind **Cloudflare's free tier**, which can add them. Another
-      service in the chain, but free and widely used, and it buys back the protection Pages can't give.
-- [ ] *Mitigation B:* accept the gap — defensible for a brochure site with two scripts, but make it a
-      decision, not an oversight.
+
+Normally you would tell the browser "only run code from these places", which contains the damage if a
+third party misbehaves. GitHub Pages cannot send those instructions, so the site has no such
+protection today. Two ways to answer that, and only one gets chosen:
+
+- **A — put the site behind Cloudflare's free tier**, which can add the headers. Another service in
+  the chain, but free and widely used, and it buys back the protection Pages cannot give.
+- **B — accept the gap.** Defensible for a brochure site with one third-party script, but it should be
+  a decision on the record rather than an oversight.
+
+- [ ] **DECIDE: A or B.** Nothing is blocked on this before launch; it is a standing exposure either
+      way, and B is a legitimate answer.
 
 **Domain takeover** — covered in §7 (verify at organisation level, no wildcard DNS)
 
 **Account access**
-- [ ] Whoever controls the organisation controls what the public sees
-- [ ] Two-factor authentication for every member; write access limited to those who need it; branch
-      protection on `main` so nothing reaches the live site unreviewed
+
+Whoever controls the organisation controls what the public sees, so this is the highest-value thing to
+get right at handover.
+
+- [ ] **POST-LAUNCH: set access rules on the organisation** — two-factor for every member, write
+      access limited to those who need it, and branch protection on `main` so nothing reaches the live
+      site unreviewed. Deferred 2026-08-06 to the handover. §7 lists the two-factor half separately.
 
 **Collecting email addresses** — new personal data the project doesn't handle today
-- [ ] Collect only the address, nothing else
-- [ ] Let the email platform hold the data, not the site
-- [ ] Publish a privacy policy; make unsubscribing obvious
-- [ ] Spam is handled by the email platform — confirm what it does
+- [x] Collect only the address, nothing else — the form has one field
+- [x] Let the email platform hold the data, not the site — Buttondown holds it; the site stores nothing
+- [x] **Privacy policy published and CLIENT-APPROVED 2026-08-06** — `/privacy/`, linked from all four
+      footers, and it covers unsubscribing and deletion
+- [ ] **POST-LAUNCH:** confirm what Buttondown does about spam. Deferred 2026-08-06. Our own honeypot
+      already catches bots before anything leaves the browser, so nothing is exposed in the meantime.
 
 **One risk that already exists**
 - [x] ~~The site loads its two typefaces from Google's servers~~ — **SELF-HOSTED 2026-08-01, done
       before the email/analytics scripts as planned.** Files in `fonts/`, both SIL Open Font License.
-      **The site now makes zero requests to any outside host** (verified: no external resource loads
-      on the landing page or a result page).
+      **This took the site to zero requests to any outside host** — true on 2026-08-01, and no longer:
+      the Plausible script was added 2026-08-05 and is now the only one. The fonts themselves still
+      make no outside request, which is the point of this entry.
       Open Sans is ONE variable file covering 300–700 — the five per-weight downloads from Google are
       byte-identical, so the `font-weight:300 700` range in the `@font-face` rule is deliberate; do
       not split it back into five files. Only the Latin pair is preloaded (English + Spanish both sit
@@ -666,7 +759,31 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       86 KB on disk, ~50 KB for a typical visitor, down from ~210 KB the old way. Type verified
       identical, all five weights resolving.
 
-- [ ] Re-run the full code review after the last third-party script is added, not before
+- [x] ~~**Re-run the full code review**~~ — **DONE 2026-08-06.** Held until the last third-party
+      script was in; Plausible went in 2026-08-05 and no more are planned. Covered `index.html`, the
+      three standalone pages, all three data files and both scripts.
+      **Clean:** no dead CSS, no unused functions, every data file aligned (11 nodes and 7 profiles
+      across three files, no orphaned keys), all 29 internal links resolve, no duplicate IDs, both
+      scripts compile, 180 programme entries all with a name and an http URL, one external script.
+      **Four defects found and fixed:**
+      1. **Transcript text was injected unescaped.** Both languages are plain text today, so nothing
+         was broken — but the Spanish arrives pasted out of Word, the same provenance that got the
+         "In Short" bullets escaped on 2026-08-02. Now escaped. ⚠ Consequence: transcripts are plain
+         text; markup in one would print as code. Neither language uses any.
+      2. **The transcript modal stranded screen-reader users.** It set `aria-modal="true"`, which
+         tells assistive tech to ignore everything outside the dialog, but never moved focus into it —
+         so the reader opened the transcript and was left on content their software now treated as
+         hidden. Focus now moves to the card, Tab is trapped inside, and it returns to the button that
+         opened it. Verified end to end on the live page. This is the item raised 2026-07-21 and
+         bundled with the lorem-ipsum fix; the lorem half shipped and this half did not.
+      3. **No `<main>` landmark** on the Program Index, privacy or confirmation pages. Added, inside
+         `.wrap` so the centred column and the page footers are untouched.
+      4. **Privacy policy clauses were `<b>`, not headings** — no way to move between them with a
+         screen reader, on the one document people scan for a single answer. Now real `<h2>`s set to
+         `display:inline`, so it looks exactly as before. Verified against a screenshot.
+      **One finding withdrawn:** the privacy page having no `noindex` was flagged as an oversight and
+      is not — a comment in that file records it as deliberate, a privacy policy being a public
+      document. Left alone. See §9 for the pre-launch question it raises.
 
 ## 9. Launch / general
 - [ ] 🔴 **FIRST ACTION ON LAUNCH DAY — remove the pre-launch gate.** Added 2026-08-01. Password:
@@ -680,6 +797,18 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       the real risk; it would not stop anyone determined. The password is stored as a SHA-256 hash so
       it isn't in the page source as plain text — obscurity, not protection. Do not reuse this password
       anywhere that matters. Genuine access control would mean Cloudflare in front of the site.
+- [ ] ⚠ **The privacy policy is deliberately NOT blocked from search — confirm that is still what you
+      want before launch day.** Raised by the 2026-08-06 code review. index.html, the Program Index and
+      the confirmation page all carry `noindex`; `/privacy/` does not, and a comment in that file says
+      so on purpose — a privacy policy is a public document people should be able to find.
+      **The consequence today:** it is the one page on the site a search engine may index while
+      everything else is hidden, and the password gate lives in index.html only, so nothing else
+      covers it. Discovery is unlikely (index.html carries `nofollow`, so there is no link path in),
+      but not impossible — the domain is visible in public certificate logs.
+      Two defensible answers: leave it, on the grounds that the exposure is one uncontroversial legal
+      page; or add `noindex` now and remove it on launch day with the other three. **Decide, do not
+      drift into it.**
+
 - [ ] 🔴 **AND remove the search-engine block.** `index.html` carries
       `<meta name="robots" content="noindex,nofollow">` near the top, added 2026-08-01 so the
       connected domain stays out of Google while the content isn't final. **Leave it in and the
@@ -709,19 +838,17 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       without touching the site if it starts attracting harvested spam. A public mailto in a footer
       is readable by address scrapers — if the alias is ever retired, swap the destination rather
       than leaving a dead link.
-- [ ] **Cross-index: SSC / TA / CTE have no visible explanation on desktop.** Raised and DEFERRED
-      2026-08-02 — left as is for now, review before launch. The desktop table abbreviates the
-      Pathway column to save width; each chip carries a hover tooltip with the full wording, but the
-      tooltip is close to invisible in practice: it needs about a second of stationary hover, and the
-      dotted underline that normally signals "this abbreviation expands" was removed to keep the chip
-      clean. So nothing on the page tells a desktop reader what SSC means. Mobile is unaffected — the
-      panels spell the pathway out in full — and the dropdown above the table shows full wording, which
-      is the argument for leaving it. Three fixes, cheapest first: restore the dotted underline on the
-      chips (one line, standard cue, keeps the width saving); a one-line key under the filters
-      (`SSC Single Subject Credential · TA Teaching Artist`, always visible, costs ~20px — the only
-      option that doesn't rely on the reader discovering something); or widen the column and drop the
-      abbreviation on desktop too (costs ~74px, which the 1080px container can now absorb).
-- [ ] Delete unused `images/createca_logo_color.png` (48K; only the `_EDIT` version is referenced)?
+- [x] ~~**Cross-index: SSC / TA / CTE have no visible explanation on desktop.**~~ — **CLOSED
+      2026-08-06, client's call: not a concern.** The desktop table abbreviates the Pathway column to
+      save width. Each chip carries a hover tooltip with the full wording, but it needs about a second
+      of stationary hover and the dotted underline that normally signals "this expands" was removed to
+      keep the chip clean — so in practice nothing on the page tells a desktop reader what SSC means.
+      What made it acceptable: mobile is unaffected (the panels spell the pathway out in full), and the
+      dropdown above the table shows the full wording on desktop too.
+      If it is ever reopened, the cheapest fix is restoring the dotted underline on the chips — one
+      line, a standard cue, and it keeps the width saving.
+- [x] ~~Delete unused `images/createca_logo_color.png`~~ — **DONE.** Confirmed gone 2026-08-06; only
+      the `_EDIT` version remains and it is the one referenced.
 - [x] **`build-scan.py` false readings — ALL THREE FIXED 2026-08-01.** Root cause in every case: the
       scan read `index.html` for text that had moved to `data/content.en.json`. It now reads both.
       1. ~~*"Transcripts written (0/11)"*~~ — reads the content file; correctly reports 11/11, and
@@ -746,7 +873,8 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
 ### From the 2026-07-27 code inspection — your call, none started
 - [ ] **Base text size overrides browser settings** (`html{font-size:20px}`) — people who enlarge their
       default text get overridden. Fixing means re-checking every size sitewide.
-- [~] **Moving content can't be paused.** Split in two 2026-08-01; the accessibility half is done.
+- [x] **Moving content can't be paused — CLOSED 2026-08-01.** Split in two: one half built, the other
+      decided against. Nothing outstanding.
       - [x] **"Reduce motion" is now respected** across the whole site. With the setting on, the hero
             photos stay put (and the other seven aren't even fetched), the quote carousel doesn't
             advance on its own, and both crossfade transitions are off. The arrows and dots still
@@ -755,8 +883,8 @@ except the fonts. **Nearly all new risk arrives with the additions above.**
       - [x] **A visible pause control — DECIDED 2026-08-01: not building one.** Respecting the OS
             setting is the accessibility requirement and that is done. The quote carousel already
             pauses on hover and has arrows; the hero is decorative. Closed, not deferred.
-- [ ] Note for local previews: the site must be served over http (`python3 -m http.server 8765`), not
-      opened by double-clicking — the program list can't load from a `file://` page.
+ℹ **Note, not a task:** local previews must be served over http (`python3 -m http.server 8765 --bind
+127.0.0.1`), not opened by double-clicking — the program list can't load from a `file://` page.
 
 ---
 

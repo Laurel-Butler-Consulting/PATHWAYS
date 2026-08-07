@@ -1135,7 +1135,11 @@ function qvTextModal(n,key){
   // other, so the reader's scroll position and the open modal survive the change.
   function body(arr,l){
     return '<div class="qv-tx-body'+(l===lang?' on':'')+'" data-lang="'+l+'"'+(l==='es'?' lang="es"':'')+'>'+
-      arr.map(function(t){return '<p>'+t+'</p>';}).join('')+'</div>';
+      // Escaped: the Spanish is written outside the project and arrives pasted out of a Word
+      // document, so a stray < or & would break the modal or swallow the rest of a line. Same
+      // reasoning as the "In Short" bullets. ⚠ Consequence: transcripts are PLAIN TEXT — markup in
+      // one will print as code rather than render. Neither language uses any today.
+      arr.map(function(t){return '<p>'+escapeHTML(t)+'</p>';}).join('')+'</div>';
   }
   function langBtn(l,txt){
     var on=(l===lang);
@@ -1148,7 +1152,7 @@ function qvTextModal(n,key){
   var title=n.label?T.transcript+' <span class="tm-node">– '+n.label+'</span>':T.transcript;
   var spoken=n.label?T.transcript+' – '+n.label:T.transcript;
   return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="'+spoken+'" onclick="if(event.target===this)qvText(this)">'+
-    '<div class="qv-textmodal-card">'+
+    '<div class="qv-textmodal-card" tabindex="-1">'+   // focus target on open — see qvTxOpen
       '<div class="qv-textmodal-head">'+
         '<h3>'+title+'</h3>'+switcher+
         '<button class="qv-textmodal-x" aria-label="'+T.close+'" onclick="qvText(this)">'+ICON_EXIT+'</button>'+
@@ -1370,14 +1374,49 @@ function qvTap(win,ev){
   if(v.paused){v.play().catch(function(){});win.classList.remove('paused');}
   else{v.pause();win.classList.add('paused');}
 }
+// FOCUS HANDLING FOR THE TRANSCRIPT MODAL.
+// The dialog carries aria-modal="true", which tells a screen reader to ignore everything OUTSIDE it.
+// So focus has to move inside on open, or the reader is left standing on content their software now
+// treats as hidden — they open the transcript and land nowhere. Focus goes to the card itself
+// (tabindex="-1") rather than the first button, so the dialog is announced and reading starts at the
+// heading. On close it goes back to whatever opened it.
+var PW_TXRETURN=null;
+function qvTxFocusable(m){
+  return [].slice.call(m.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'))
+           .filter(function(el){return el.offsetParent!==null;});
+}
+function qvTxOpen(m,trigger){
+  m.classList.add('open');
+  PW_TXRETURN=trigger||null;
+  var card=m.querySelector('.qv-textmodal-card')||m;
+  try{card.focus();}catch(e){}
+}
+function qvTxClose(m){
+  if(!m||!m.classList.contains('open'))return;
+  m.classList.remove('open');
+  var back=PW_TXRETURN;PW_TXRETURN=null;
+  if(back&&document.contains(back)){try{back.focus();}catch(e){}}
+}
 function qvText(el){
   var root=el.closest('.qv-screen')||document;
   var m=root.querySelector('.qv-textmodal');if(!m)return;
-  var open=m.classList.toggle('open');
-  if(open)pwStat('Transcript Opened');               // counted on opening only, not on closing again
-  if(open){var v=root.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}}  // pause video while reading
+  if(m.classList.contains('open')){qvTxClose(m);return;}   // close button, or a click on the backdrop
+  qvTxOpen(m,el);
+  pwStat('Transcript Opened');                       // counted on opening only, not on closing again
+  var v=root.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}  // pause video while reading
 }
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){qvCloseMenus();var m=document.querySelector('.qv-textmodal.open');if(m)m.classList.remove('open');}});
+// Keep Tab inside the open dialog. Without this the focus ring walks out into the page behind,
+// which aria-modal has just told the screen reader does not exist.
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Tab')return;
+  var m=document.querySelector('.qv-textmodal.open');if(!m)return;
+  var f=qvTxFocusable(m);if(!f.length)return;
+  var first=f[0],last=f[f.length-1],a=document.activeElement;
+  if(!m.contains(a)){e.preventDefault();first.focus();}
+  else if(e.shiftKey&&a===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&a===last){e.preventDefault();first.focus();}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){qvCloseMenus();qvTxClose(document.querySelector('.qv-textmodal.open'));}});
 function qvMute(btn){
   var muted=btn.getAttribute('data-muted')!=='false';      // default muted
   muted=!muted;
