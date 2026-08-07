@@ -133,8 +133,10 @@ Everything below is blocked on one of these. Grouped by who has to act.
       would then differ from what is spoken. The next video in the branch (CTE Path) already says
       "work experience", so the footage is already inconsistent with itself.
 - [ ] Confirmation of the PROVISIONAL region assignments (§2)
-- [ ] **A privacy policy**, or a decision about who writes one — required before collecting email
-      addresses, and the site has none today (§4, §8)
+- [x] ~~**A privacy policy**, or a decision about who writes one~~ — **WRITTEN AND CLIENT-APPROVED
+      2026-08-06.** Live at `/privacy/`, linked from all four footers. Off their list. (§4, §8)
+- [x] **Email confirmation page — CLIENT-APPROVED 2026-08-06.** `/subscribed/`, the page a new
+      subscriber lands on after clicking the confirmation link. Off their list. (§4)
 - [ ] **Approval** of the media below once delivered
 
 **Media — our purview, client approves** *(not a client deliverable; do not put on their ask list)*
@@ -222,7 +224,11 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       redundant. Dropping it on desktop too, or trimming the card padding, would put width back and
       may resolve the overlap without touching the controls at all.
       ⚠ Will look like a NEW fault the moment clips land. Take it to the client as known, not found in review.
-- [ ] **Speaker name/title strips (client request 2026-08-05) — DECIDE ONCE THE CLIPS ARE IN.**
+- [~] **Speaker name/title strips (client request 2026-08-05) — PRELIMINARY DESIGN APPROVED BY THE
+      CLIENT 2026-08-06.** Approval is of the mock-up, not of finished work: nothing is built yet,
+      and the two things that gate it are unchanged — the eight speakers' job titles have to be
+      collected before anything is built (the longest one sets the box size), and the copy as
+      supplied is too long at phone width. Build once the clips are in.
       Mocked up on the real player at phone size; nothing built, nothing changed in the site.
       **Draw them in the site, do not burn them into the video.** On a small phone the bottom 423px
       of a 1080×1920 export is cropped away before the player's own furniture takes another 335px,

@@ -1,6 +1,10 @@
 ARTS EDUCATOR PATHWAYS
 Results-page summaries
-Draft for client review, prepared 2026-08-05
+Draft prepared 2026-08-05. Revised 2026-08-06 with your answers to the queries at
+the end of this document. This file now matches what is on the site.
+
+Still to come: your final edits to this copy. Until those arrive the summaries stay
+marked as unfinished in the build, so they cannot be published by accident.
 
 These are the summary panels that appear at the top of each results page, above the
 list of programmes. One panel per pathway, seven in total.
@@ -90,17 +94,17 @@ REQUIREMENTS:
 
 QUALIFICATIONS:
     Three years of employer-verified work experience in the industry sector,
-    at least 1,000 clock hours each year, full or part time, paid or
+    at least 1000 clock hours each year, full or part time, paid or
     unpaid. One year must fall within the last five, or two within the
     last ten. Up to two years may be substituted by 48 semester units of
     related postsecondary vocational training.
 
 PROCESS:
     Apply through an approved program sponsor, which recommends you for the
-    preliminary credential. It is valid three years. Clearing it takes two
-    years of successful teaching plus a program approved by the Commission
-    on Teacher Credentialing covering the US Constitution, health
-    education and computer technology.
+    preliminary credential. It lasts three years. Converting it to a full,
+    renewable credential — the Commission calls this "clearing" your
+    credential — takes two years of successful teaching plus a
+    Commission-approved program.
 
 NOTES:
     No university degree is required, and the credential is completed while
@@ -130,8 +134,7 @@ QUALIFICATIONS:
 PROCESS:
     Complete a Commission-approved preparation program, including a music
     methods course, student teaching and a Teaching Performance
-    Assessment. Also complete a US Constitution course or examination and
-    receive a formal recommendation from the program.
+    Assessment.
 
 NOTES:
     Planning subject coursework early shortens the path, since any gaps must
@@ -160,8 +163,7 @@ QUALIFICATIONS:
 PROCESS:
     Complete a Commission-approved preparation program, including a theatre
     methods course, student teaching and a Teaching Performance
-    Assessment. Also complete a US Constitution course or examination and
-    receive a formal recommendation from the program.
+    Assessment.
 
 NOTES:
     The coursework route, which programs call transcript evaluation, has a
@@ -183,18 +185,17 @@ REQUIREMENTS:
     a field other than professional education.
 
 QUALIFICATIONS:
-    Subject matter competency in dance: a dance degree major, a subject matter
-    program approved by the Commission on Teacher Credentialing, the CSET
-    in Dance, coursework verified by an approved preparation program, or a
+    Subject matter competency in dance: a dance degree major, at least 32
+    units of dance-related college coursework, a subject matter program
+    approved by the Commission on Teacher Credentialing, the CSET in
+    Dance, coursework verified by an approved preparation program, or a
     coursework and examination combination for candidates already enrolled
     in a program.
 
 PROCESS:
     Complete a Commission-approved preparation program, including student
-    teaching and a Teaching Performance Assessment. Also complete a US
-    Constitution course or examination and receive a formal
-    recommendation. Programs run statewide in online, in-person and hybrid
-    formats.
+    teaching and a Teaching Performance Assessment. Programs run statewide
+    in online, in-person and hybrid formats.
 
 NOTES:
     The CSET in Dance has only existed since October 2021, so older guidance
@@ -224,9 +225,7 @@ QUALIFICATIONS:
 
 PROCESS:
     Complete a Commission-approved preparation program, including student
-    teaching and a Teaching Performance Assessment. Also complete a US
-    Constitution course or examination and receive a formal recommendation
-    from the program.
+    teaching and a Teaching Performance Assessment.
 
 NOTES:
     Admission criteria vary by institution and may add a portfolio review,
@@ -236,18 +235,46 @@ NOTES:
 
 ==============================================================================
 
-QUERIES FOR THE CLIENT
+QUERIES FOR THE CLIENT — ALL THREE ANSWERED 2026-08-06
 
-1. The US Constitution course and the formal programme recommendation appear on the
-   four discipline pages. Both are genuine requirements for every candidate, but
-   neither is mentioned in any of the videos. Keep them, or cut back to what the
+1. ASKED: The US Constitution course and the formal programme recommendation appear
+   on the four discipline pages. Both are genuine requirements for every candidate,
+   but neither is mentioned in any of the videos. Keep them, or cut back to what the
    videos cover?
 
-2. The dance video states that 32 units of dance-related coursework is an accepted
-   alternative to a degree. That figure does not appear in any Commission source we
-   could find, so it has been left out of the summary. Please confirm with Lindsay.
+   ANSWERED: Cut back to what the videos cover. Both are gone from Music, Theatre,
+   Dance and Visual Art. Each PROCESS entry now ends at the Teaching Performance
+   Assessment.
 
-3. The CTE video says the three years of experience must be PAID. The Commission
-   counts it whether paid or unpaid, full time or part time. The summary and the
-   on-screen question follow the Commission; the video narration still says paid.
+   The formal recommendation was worth losing on its own merits. It is not a task the
+   reader performs — the preparation program applies to the Commission on the
+   candidate's behalf, and it happens automatically on finishing the program. Listed
+   among things to complete, it read as one more errand.
+
+   A fifth mention of the US Constitution, on the CTE page, was not part of this query
+   and has also been rewritten. It described what CLEARING the preliminary credential
+   later requires, rather than what earning it takes. The three-year limit and the
+   two-stage structure are kept, because a reader deciding on CTE needs to know the
+   first credential expires; the coursework list is gone, and the Commission's term is
+   now glossed rather than assumed.
+
+2. ASKED: The dance video states that 32 units of dance-related coursework is an
+   accepted alternative to a degree. That figure does not appear in any Commission
+   source we could find, so it has been left out of the summary. Please confirm with
+   Lindsay.
+
+   ANSWERED: Confirmed accurate. Added to the Dance QUALIFICATIONS entry, alongside
+   the degree route.
+
+3. ASKED: The CTE video says the three years of experience must be PAID. The
+   Commission counts it whether paid or unpaid, full time or part time. The summary
+   and the on-screen question follow the Commission; the video narration still says
+   paid.
+
+   ANSWERED: "Work experience" everywhere, in both languages. The on-screen graphic
+   was re-cut and now reads WORK EXPERIENCE; the narration never said the word, so no
+   re-record was needed. The English and Spanish transcripts and the Spanish subtitles
+   were all corrected to match. The rule statement in the CTE QUALIFICATIONS entry
+   above still reads "paid or unpaid" — that phrase is doing the opposite job there,
+   telling people unpaid work counts, and stays.
 
