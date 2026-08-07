@@ -797,23 +797,34 @@ get right at handover.
       the real risk; it would not stop anyone determined. The password is stored as a SHA-256 hash so
       it isn't in the page source as plain text — obscurity, not protection. Do not reuse this password
       anywhere that matters. Genuine access control would mean Cloudflare in front of the site.
-- [ ] ⚠ **The privacy policy is deliberately NOT blocked from search — confirm that is still what you
-      want before launch day.** Raised by the 2026-08-06 code review. index.html, the Program Index and
-      the confirmation page all carry `noindex`; `/privacy/` does not, and a comment in that file says
-      so on purpose — a privacy policy is a public document people should be able to find.
-      **The consequence today:** it is the one page on the site a search engine may index while
-      everything else is hidden, and the password gate lives in index.html only, so nothing else
-      covers it. Discovery is unlikely (index.html carries `nofollow`, so there is no link path in),
-      but not impossible — the domain is visible in public certificate logs.
-      Two defensible answers: leave it, on the grounds that the exposure is one uncontroversial legal
-      page; or add `noindex` now and remove it on launch day with the other three. **Decide, do not
-      drift into it.**
+- [x] ~~**Should the privacy policy be findable by search?**~~ — **DECIDED 2026-08-06: NO.** It now
+      carries `noindex,nofollow` like the other three, and that tag is **permanent** — it does not come
+      off on launch day.
+      Why: it is reached from the footer of every page, which is where anyone looks for it, so it has
+      nothing to gain from search. It was also previously the only page a search engine could index
+      while everything else sat behind the pre-launch gate — the gate lives in index.html alone.
+      ⚠ A comment in that file used to say the opposite ("deliberately indexable — a privacy policy is
+      a public document"). It has been replaced, not merely contradicted.
+- [x] ~~**Should the Program Index be findable by search?**~~ — **DECIDED 2026-08-06: NO.** Its
+      `noindex` stays and is now documented in the file as **permanent**.
+      Why: it is a supporting page reached from every result page, not a front door. Search traffic
+      landing straight on the table would skip the questionnaire the site exists to run.
+      The argument the other way, recorded in case it is ever revisited: it is a genuinely useful
+      public document — 91 programmes in one filterable table, and nothing else on the web lists them
+      together. If the client ever wants it found on its own, this is the decision to reopen.
 
 - [ ] 🔴 **AND remove the search-engine block.** `index.html` carries
       `<meta name="robots" content="noindex,nofollow">` near the top, added 2026-08-01 so the
       connected domain stays out of Google while the content isn't final. **Leave it in and the
       launched site is invisible to search with nothing on the page to show it.** Delete the tag and
       its comment, push, then confirm at `view-source:artsedpathways.org` that it's gone.
+      ⚠ **This is index.html's tag ONLY. Delete one, leave three.** All four pages now carry
+      `noindex`, and index.html's is the only one that is temporary. The other three are permanent by
+      decision (2026-08-06) and each says so in a comment beside it:
+        • `program-index/` — supporting page, not a front door
+        • `privacy/` — reached from every footer, nothing to gain from search
+        • `subscribed/` — reached only from a link in an email; nobody should arrive cold
+      Clearing them all by reflex would publish the sign-up confirmation page to search.
 - [ ] Full QA pass — cross-browser and real devices, not the preview pane
 - [ ] **Save one result page as a PDF from the LIVE domain and click the links in it.** Two separate
       things to confirm, both about a minute's work:

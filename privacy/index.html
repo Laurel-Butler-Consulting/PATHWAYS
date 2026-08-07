@@ -3,6 +3,12 @@
 <meta charset="utf-8">
 <title>Privacy Policy — Arts Educator Pathways</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- PERMANENT — do NOT delete this on launch day. Decided 2026-08-06: the privacy policy is kept out
+     of search. It is reached from the footer of every page, which is where someone looks for it; it
+     has no value as a search result, and it was previously the only page a search engine could index
+     while the rest of the site was hidden behind the pre-launch gate.
+     Only index.html's noindex comes off at launch. See notes/BUILD-CHECKLIST.md §9. -->
+<meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <!-- Visitor statistics, added 2026-08-05. Same Plausible tag as index.html, so this page is
      counted too. No cookies, no IP addresses stored, processed in the EU; named in the privacy
@@ -14,8 +20,9 @@
   plausible.init()
 </script>
 <style>
-  /* Standalone page, deliberately indexable — a privacy policy is a public document people should
-     be able to find. The site's own tokens, COPIED not shared, exactly as program-index/ and
+  /* Standalone page, kept OUT of search (decided 2026-08-06 — see the robots tag above; this replaces
+     an earlier note here saying the opposite). It is reached from the footer of every page, which is
+     where people look for it. The site's own tokens, COPIED not shared, exactly as program-index/ and
      subscribed/ do it. If the palette changes in index.html it has to be mirrored here by hand.
      ⚠ The wording is a legal document, not decoration. Do not reword it to fit the layout, and keep
      it in step with what the site actually does — it currently states no cookies, no tracking, and
