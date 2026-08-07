@@ -93,3 +93,134 @@ in place: the missing space in "académicos (transcript evaluation)", and the se
 ending "...una especialidad menor." The paragraph beginning "You should know that not all
 theater majors..." has been removed from both the English and Spanish, per the corrected
 files.
+
+
+
+===============================================================================
+
+V3 — NEW TRANSLATION, RECEIVED 2026-08-06
+Logged 2026-08-06.
+
+Your translator's new Spanish replaced the V2 text entirely. The eleven transcript files
+and the site were rebuilt from it. This section records what was changed in it, and what
+was deliberately left alone.
+
+
+ONE MEANING CHANGE — PLEASE READ
+
+  Video 5, CTE Intro. This is item 1 from the V2 list above. It is unchanged in the new
+  translation, so rather than query it a second time it has been corrected.
+
+    As delivered:  "...que quieren llevar su experiencia del mundo del sala de clase."
+    Now reads:     "...que quieren llevar su experiencia del mundo real a la sala de clase."
+
+  The English is "bring their real world expertise into the classroom." As delivered, the
+  Spanish said the experience came FROM the world of the classroom, reversing the point of
+  the sentence — and it is the sentence that explains what CTE is for. It also becomes a
+  subtitle, so it could not be left as written.
+
+
+A DROPPED REQUIREMENT — PLEASE READ
+
+  Video 5, CTE Intro. The new translation removed the time requirement from the key
+  sentence and replaced it with something else. The V2 wording has been restored.
+
+    English (and the on-screen graphic):
+      "...at least 1000 hours of work experience PER YEAR FOR AT LEAST 3 YEARS..."
+    V3 as delivered:
+      "...al menos 1000 horas de experiencia laboral EN TU DISCIPLINA ARTÍSTICA, O EN UNA
+       INDUSTRIA RELACIONADA..."
+    Now reads (V2 wording, restored):
+      "...al menos 1000 horas de experiencia laboral POR AÑO DURANTE AL MENOS 3 AÑOS..."
+
+  As delivered, the Spanish said 1000 hours; the requirement is 1000 hours a year for three
+  years. That is a materially different — and much lower — bar.
+
+  It matters more in this video than anywhere else on the site. The requirement is shown as
+  an on-screen graphic in English, which is why the Spanish subtitles carry three extra cues
+  at that point. Those cues are the only way a Spanish viewer receives the requirement at
+  all, so an incomplete version there is not recoverable from anything else on screen.
+
+
+WORDING CHANGED ON YOUR INSTRUCTION
+
+  Video 5, CTE Intro.   "experiencia remunerada"  ->  "experiencia laboral"
+
+  The Commission counts three years of work experience "full-time or part-time, paid or
+  unpaid", so the word "paid" turns away people who actually qualify. The narration, the
+  on-screen graphic and the English transcript were all settled on "work experience" on
+  2026-08-06, and the Spanish now matches. Video 6, CTE Path, already said "experiencia
+  laboral" and is unchanged.
+
+
+NUMBERS
+
+  The 1000-hour figure appeared on the site three different ways — "1000", "1,000" and
+  "1,000 horas". It is now written 1000 everywhere, with no comma. Three instances in the
+  Spanish were affected (Videos 1, 5 and 6). No wording changed.
+
+
+ALREADY CORRECTED — FOR YOUR RECORDS, NO ACTION NEEDED
+
+Mechanical only: agreement, one missing accent, two double spaces.
+
+  Video 2   "lleva  su práctica"  (double space)   ->  "lleva su práctica"
+  Video 2   "a  tiempo completo"  (double space)   ->  "a tiempo completo"
+  Video 2   "a lugares educativas"                 ->  "a lugares educativos"
+  Video 4   "poner una artista en un sala de clase"->  "...en una sala de clase"
+  Video 4   "el manejo del sala de clase"          ->  "el manejo de la sala de clase"
+  Video 4   "y asi puede enseñar"                  ->  "y así puede enseñar"
+  Video 4   "en el sala de clase"                  ->  "en la sala de clase"
+  Video 5   "del mundo del sala de clase"          ->  see the meaning change above
+  Video 6   "enseñando en un sala de clase"        ->  "enseñando en una sala de clase"
+  Video 7   "las Autorización Suplementarias"      ->  "las Autorizaciones Suplementarias"
+  Video 8   "lo mas antes"                         ->  "lo más antes"  (see item 3 above)
+  Video 9   "todos estudiantes tienen"             ->  "todos los estudiantes tienen"
+
+"Sala" is feminine. It carried a masculine article five times across three videos and was
+never once correct, so it reads as a systematic slip rather than a typo.
+
+
+LEFT EXACTLY AS YOUR TRANSLATOR WROTE IT
+
+Seen, considered, and deliberately not changed:
+
+  Video 1   "Bienvenidos" — masculine plural, though the rest of the text uses feminine
+            forms and addresses one person as "tú"
+  Video 3   "preguntas a qué vas a responder"  (rather than "a las que")
+  Video 3   "...no en las artes en general, que también significa..."  (rather than "lo que")
+  Video 4   "tener un poco de entrenamiento" — "entrenamiento" is athletic training; the
+            same paragraph later uses "formación"
+  Video 4   "puedes ir de proyecto a otro"  (rather than "de un proyecto a otro")
+  Video 4   "talleres individuales o de residencias más largas"
+  Video 5   "más cerca de ser arte educador" — masculine, and a word-for-word lift of
+            "arts educator"
+  Video 5   "Carrera Técnica Educacional" for Career Technical Education — item 2 above,
+            still open, but now used consistently across both CTE videos
+  Video 7   "más sencillo de lo que tal vez pensarás"  (tense)
+  Video 8   "lo más antes planifiques" — the construction itself is item 3 above and is
+            still open; only the missing accent was restored
+  Video 9   "distritos de todo de California"  (doubled "de")
+  Video 9   "muchas de nuestros estudiantes"  (agreement)
+  Video 9   "una especialidad menor" for an academic minor
+  Video 10  "totalmente remotos en el internet"
+  Various   Gender treatment varies between videos — "las candidatas" (8), "los aspirantes"
+            (9), "nuestros estudiantes" (9)
+
+
+WORTH KNOWING
+
+Five items corrected in V2, and listed in the earlier section of this file, came back in
+the new translation:
+
+  "a lugares educativas"  ·  "y asi puede enseñar"  ·  "las Autorización Suplementarias"
+  "todos estudiantes tienen"  ·  "lo mas antes"
+
+All five have been corrected again, so nothing is outstanding. But it suggests the new
+Spanish was written from the original document rather than from the corrected V2 files.
+Worth raising with your translator before any further round, so the same items do not have
+to be found a third time.
+
+Separately: the new translation says "sala de clase" throughout where V2 said "aula". Both
+are correct. The existing Spanish subtitle files still say "aula", so that wording will
+change when they are rebuilt from this text.
