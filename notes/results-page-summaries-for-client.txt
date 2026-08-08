@@ -1,10 +1,12 @@
 ARTS EDUCATOR PATHWAYS
 Results-page summaries
 Draft prepared 2026-08-05. Revised 2026-08-06 with your answers to the queries at
-the end of this document. This file now matches what is on the site.
+the end of this document, and again 2026-08-07 with your own edits. This file now
+matches what is on the site.
 
-Still to come: your final edits to this copy. Until those arrive the summaries stay
-marked as unfinished in the build, so they cannot be published by accident.
+Your edits are listed at the end, under YOUR EDITS. They arrived as suggested
+changes in a Word copy of the 2026-08-05 draft, so five of the deletions had
+already been made on 2026-08-06 and needed no action; the rest are in.
 
 These are the summary panels that appear at the top of each results page, above the
 list of programmes. One panel per pathway, seven in total.
@@ -24,10 +26,9 @@ SUPPLEMENTARY AUTHORIZATION
 
 DESCRIPTION:
     Adds an arts subject to a California teaching credential you already hold.
-    Multiple Subject holders get an Introductory authorization, limited to
+    Multiple Subject holders can get an introductory authorization, limited to
     material taught in grade 9 and below. Single Subject holders can get a
-    Specific authorization, covering the subject at any level, preschool
-    through 12 and adult classes.
+    specific authorization, covering the subject at any level.
 
 REQUIREMENTS:
     A California teaching credential: Multiple Subject, Standard Elementary,
@@ -46,10 +47,11 @@ PROCESS:
     Commission with form 41-4, official transcripts and the fee.
 
 NOTES:
-    A letter from the subject department chair may be requested if a course's
-    relevance is unclear. Single Subject holders may instead add a second
-    Single Subject credential by verifying subject matter competency and
-    completing a methods course of at least three semester units.
+    Single Subject holders may instead add a second Single Subject credential
+    by verifying subject matter competency and completing a methods course of
+    at least three semester units. Teachers credentialed in English before Jan
+    2022 are already eligible to teach theatre, and teachers credentialed in PE
+    before Jan 2022 are already eligible to teach dance.
 
 ==============================================================================
 
@@ -101,10 +103,7 @@ QUALIFICATIONS:
 
 PROCESS:
     Apply through an approved program sponsor, which recommends you for the
-    preliminary credential. It lasts three years. Converting it to a full,
-    renewable credential — the Commission calls this "clearing" your
-    credential — takes two years of successful teaching plus a
-    Commission-approved program.
+    preliminary credential.
 
 NOTES:
     No university degree is required, and the credential is completed while
@@ -194,8 +193,7 @@ QUALIFICATIONS:
 
 PROCESS:
     Complete a Commission-approved preparation program, including student
-    teaching and a Teaching Performance Assessment. Programs run statewide
-    in online, in-person and hybrid formats.
+    teaching and a Teaching Performance Assessment.
 
 NOTES:
     The CSET in Dance has only existed since October 2021, so older guidance
@@ -228,7 +226,7 @@ PROCESS:
     teaching and a Teaching Performance Assessment.
 
 NOTES:
-    Admission criteria vary by institution and may add a portfolio review,
+    Admission criteria vary by institution and may include a portfolio review,
     early field experience in K-12 settings, and an interview. Program
     formats vary, including accelerated, traditional and internship
     options for candidates already employed in a school.
@@ -258,6 +256,10 @@ QUERIES FOR THE CLIENT — ALL THREE ANSWERED 2026-08-06
    first credential expires; the coursework list is gone, and the Commission's term is
    now glossed rather than assumed.
 
+   ⚠ SUPERSEDED 2026-08-07. That rewritten sentence has since been cut in full — see
+   YOUR EDITS below. The CTE PROCESS entry no longer mentions the three-year limit or
+   clearing the credential at all.
+
 2. ASKED: The dance video states that 32 units of dance-related coursework is an
    accepted alternative to a degree. That figure does not appear in any Commission
    source we could find, so it has been left out of the summary. Please confirm with
@@ -277,4 +279,48 @@ QUERIES FOR THE CLIENT — ALL THREE ANSWERED 2026-08-06
    were all corrected to match. The rule statement in the CTE QUALIFICATIONS entry
    above still reads "paid or unpaid" — that phrase is doing the opposite job there,
    telling people unpaid work counts, and stays.
+
+==============================================================================
+
+YOUR EDITS — RECEIVED 2026-08-07, ALL APPLIED
+
+Delivered as suggested changes in a Word copy of the 2026-08-05 draft. Because that
+draft predates the 2026-08-06 revisions, five of the deletions had already been made
+and needed no action: the US Constitution course and the formal programme
+recommendation on Music, Theatre, Dance and Visual Art. The six changes below are
+new, and all six are live on the site.
+
+SUPPLEMENTARY AUTHORIZATION — DESCRIPTION
+    "Multiple Subject holders get" ➜ "Multiple Subject holders CAN get"
+    "Introductory" ➜ "introductory", "Specific" ➜ "specific" (lower case)
+    Cut: ", preschool through 12 and adult classes" — the entry now ends
+    "covering the subject at any level."
+
+SUPPLEMENTARY AUTHORIZATION — NOTES
+    Cut the opening sentence: "A letter from the subject department chair may be
+    requested if a course's relevance is unclear."
+    Added at the end: "Teachers credentialed in English before Jan 2022 are already
+    eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are
+    already eligible to teach dance."
+    ⚠ This sentence is the one piece of copy in the summaries that does not come
+    from the videos or from the Commission leaflets listed at the top. It was
+    supplied and confirmed by the client on 2026-08-07.
+
+CTE CREDENTIAL — PROCESS
+    Cut everything after the first sentence. The entry now reads only: "Apply
+    through an approved program sponsor, which recommends you for the preliminary
+    credential."
+    Client's comment on the change: "I think we only need process notes for how to
+    get in to the credentialing program itself."
+    ⚠ Consequence, and it is deliberate: nothing on the CTE page now tells a
+    reader that the preliminary credential expires after three years, or what
+    clearing it involves. Moving that into NOTES was proposed and DECIDED
+    AGAINST on 2026-08-08. Not an oversight and not outstanding — do not add it
+    back without asking.
+
+DANCE — PROCESS
+    Cut: "Programs run statewide in online, in-person and hybrid formats."
+
+VISUAL ART — NOTES
+    "may add a portfolio review" ➜ "may INCLUDE a portfolio review"
 

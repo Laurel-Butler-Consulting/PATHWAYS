@@ -339,8 +339,6 @@
     "moreLink": "California Commission on Teacher Credentialing &#8599;"
   },
   "summaries": {
-    "placeholder": true,
-    "placeholderNote": "DRAFT copy, written 2026-08-05 from the node video transcripts and checked against Commission on Teacher Credentialing sources. The old filler copy is gone. Client edits and approval are still required before launch — leave this flag true until she signs off.",
     "bulletOrder": "Every page runs the same five entries in this order, and the labels below print above them. Label and copy pair BY POSITION, so if the copy is ever reordered the labels must move with it.",
     "labels": [
       "Description",
@@ -351,11 +349,11 @@
     ],
     "items": {
       "supp": [
-        "Adds an arts subject to a California teaching credential you already hold. Multiple Subject holders get an Introductory authorization, limited to material taught in grade 9 and below. Single Subject holders can get a Specific authorization, covering the subject at any level, preschool through 12 and adult classes.",
+        "Adds an arts subject to a California teaching credential you already hold. Multiple Subject holders can get an introductory authorization, limited to material taught in grade 9 and below. Single Subject holders can get a specific authorization, covering the subject at any level.",
         "A California teaching credential: Multiple Subject, Standard Elementary, Single Subject, Standard Secondary or Special Secondary.",
         "20 semester units, or 10 upper division units, of non-remedial coursework in the subject from a regionally accredited community college or university. Alternatives: a collegiate major in a directly related subject, the relevant CSET, or a coursework and examination combination through a program approved by the Commission on Teacher Credentialing.",
         "No preparation program or examination required. Apply directly to the Commission with form 41-4, official transcripts and the fee.",
-        "A letter from the subject department chair may be requested if a course's relevance is unclear. Single Subject holders may instead add a second Single Subject credential by verifying subject matter competency and completing a methods course of at least three semester units."
+        "Single Subject holders may instead add a second Single Subject credential by verifying subject matter competency and completing a methods course of at least three semester units. Teachers credentialed in English before Jan 2022 are already eligible to teach theatre, and teachers credentialed in PE before Jan 2022 are already eligible to teach dance."
       ],
       "ta": [
         "A practicing artist who teaches in schools, museums, community organizations and after-school settings. No state credential required.",
@@ -368,7 +366,7 @@
         "Teaching authorization based on your professional experience. Covers career technical, trade and vocational courses in the named subject, in grades 12 and below and adult classes.",
         "A high school diploma, GED or foreign equivalent, plus fingerprint clearance and CPR training.",
         "Three years of employer-verified work experience in the industry sector, at least 1000 clock hours each year, full or part time, paid or unpaid. One year must fall within the last five, or two within the last ten. Up to two years may be substituted by 48 semester units of related postsecondary vocational training.",
-        "Apply through an approved program sponsor, which recommends you for the preliminary credential. It lasts three years. Converting it to a full, renewable credential — the Commission calls this “clearing” your credential — takes two years of successful teaching plus a Commission-approved program.",
+        "Apply through an approved program sponsor, which recommends you for the preliminary credential.",
         "No university degree is required, and the credential is completed while teaching. Holders commonly continue their arts practice alongside the classroom work."
       ],
       "music": [
@@ -389,7 +387,7 @@
         "Authorizes teaching dance in departmentalized classes at any grade level, preschool through 12, and adult classes.",
         "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
         "Subject matter competency in dance: a dance degree major, at least 32 units of dance-related college coursework, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Dance, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
-        "Complete a Commission-approved preparation program, including student teaching and a Teaching Performance Assessment. Programs run statewide in online, in-person and hybrid formats.",
+        "Complete a Commission-approved preparation program, including student teaching and a Teaching Performance Assessment.",
         "The CSET in Dance has only existed since October 2021, so older guidance may state that no examination is available. Adding a physical education credential lets a dance class carry either dance or PE credit, widening hiring options."
       ],
       "art": [
@@ -397,7 +395,7 @@
         "A bachelor's degree from a regionally accredited college or university, in a field other than professional education.",
         "Subject matter competency in art: an art degree major, a subject matter program approved by the Commission on Teacher Credentialing, the CSET in Art, coursework verified by an approved preparation program, or a coursework and examination combination for candidates already enrolled in a program.",
         "Complete a Commission-approved preparation program, including student teaching and a Teaching Performance Assessment.",
-        "Admission criteria vary by institution and may add a portfolio review, early field experience in K-12 settings, and an interview. Program formats vary, including accelerated, traditional and internship options for candidates already employed in a school."
+        "Admission criteria vary by institution and may include a portfolio review, early field experience in K-12 settings, and an interview. Program formats vary, including accelerated, traditional and internship options for candidates already employed in a school."
       ]
     }
   }

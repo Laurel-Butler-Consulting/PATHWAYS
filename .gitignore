@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+# Client-supplied working documents. The repository is PUBLIC — anything committed
+# here is published, so this folder stays out of it.
+documents/

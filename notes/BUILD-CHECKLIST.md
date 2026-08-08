@@ -280,28 +280,40 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       `build-scan.py` (which only reads `index.html`) still reports them missing — see §9.
 - [x] **English transcripts live on the site (2026-07-31)** — all 11 in the Transcript modal; the
       `welcome` lorem ipsum is gone. Apostrophes verified safe (11 render in the welcome text alone).
-- [~] **Result-page summaries — DRAFTED BY US 2026-08-05, awaiting the client's final edits.** The
+- [x] **Result-page summaries — CLIENT EDITS RECEIVED AND APPLIED 2026-08-08. FINAL.** The
       2026-08-01 plan had the client writing these; that changed — we drafted all seven from the video
       transcripts, checked against the Commission's own leaflets (CL-560C, CL-603, CL-629, CL-888 and
-      coded correspondence 21-05). Live on the site behind the placeholder flag. Full text and the
-      audit trail: [`notes/results-page-summaries-for-client.txt`](results-page-summaries-for-client.txt).
+      coded correspondence 21-05). Full text and the audit trail:
+      [`notes/results-page-summaries-for-client.txt`](results-page-summaries-for-client.txt).
       Five headings per pathway — Description, Requirements, Qualifications, Process, Notes.
       Three queries went to the client with the draft; **all three answered 2026-08-06**: the US
       Constitution course and the formal programme recommendation cut from the four discipline pages
       ("stick to what the videos cover"), the dance video's 32-unit figure confirmed accurate and
       added, and the CTE "paid" wording resolved in favour of "work experience".
-      **Outstanding: the client's own edits to this copy.** Until they land the `placeholder` flag
-      stays set and `build-scan.py` reports the section as incomplete, so it cannot ship by accident.
+      **Her own edits arrived 2026-08-08** as tracked changes in a Word copy of the 08-05 draft, so
+      five of her deletions had already been made on 08-06 and needed no action. Six were new and all
+      six are in: three wording changes on Supplementary Authorization plus a new sentence on
+      pre-2022 English and PE credential holders (her copy, the one line in the summaries not
+      traceable to the videos or the leaflets — confirmed by her 08-07); the CTE PROCESS entry cut
+      back to its first sentence, on her note that process should cover only how to get in; the
+      "Programs run statewide…" sentence cut from Dance; and "may add" ➜ "may include" on Visual Art.
+      **The `placeholder` flag and its note are gone from `data/content.en.json`** — the scan now
+      reads "7 of 7 pages have copy". ⚠ **Nothing guards this copy any more.** The on-page warning
+      band came off on 08-01 and the flag was the last safeguard; further edits change the live text
+      with no check in front of them.
+      ⚠ **The CTE page no longer states that the preliminary credential expires after three years.**
+      Putting it in NOTES was proposed and **decided against 2026-08-08.** Deliberate, not an
+      oversight — don't add it back without asking.
 - [x] **Container for those summaries BUILT 2026-08-01**, so the copy is a paste, not a build. Sits
       between the pathway title and the programme list, inside `#resultDoc` so it carries into the
       printed page and the saved PDF. White card, gold left rule, heading "In Short" (editable).
       Copy lives in `data/content.en.json` under `summaries`.
-      **No longer lorem — real drafted copy went in 2026-08-05** (see the entry above); the flag stays
-      set only because the client's final edits are still to come. ⚠ The on-page red warning band was **removed on request
-      2026-08-01** — nothing on the page or in the printed version now marks this copy as unfinished.
-      The only remaining safeguard is the `"placeholder": true` line in `data/content.en.json`, which
-      `build-scan.py` reports on. **Run the scan before launch; the page will not warn you.**
-      Two edits when the client's copy lands: paste the bullets, delete the `"placeholder"` line.
+      **Real copy went in 2026-08-05 and the client's edits on 2026-08-08** (see the entry above).
+      The `"placeholder"` flag and its note were deleted the same day, so the block is now ordinary
+      finished copy. ⚠ The on-page red warning band was **removed on request 2026-08-01**, so with the
+      flag gone there is nothing left — on the page, in the printed version or in the scan — marking
+      this copy as anything other than final. That is correct today; it also means any FUTURE change
+      to these bullets ships unguarded.
       A page with no bullets renders no block at all, so a partial delivery just omits those pages.
       Verified on all 7 result pages, both states, phone and desktop, and with the section absent.
 - [x] **Captions default ON, in English — DECIDED AND BUILT 2026-08-01.** Playback starts muted, so
