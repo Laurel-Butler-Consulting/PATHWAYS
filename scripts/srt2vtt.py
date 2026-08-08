@@ -6,11 +6,13 @@ Premiere Pro exports caption sidecars as .srt only; the site's <track> elements 
 The two formats are the same apart from a `WEBVTT` header and dots instead of commas in the
 timestamps, so this is a small, lossless rewrite.
 
-    python3 scripts/srt2vtt.py video/nodes/*.srt      # convert every SRT in the folder
-    python3 scripts/srt2vtt.py video/nodes/welcome.srt
+    python3 scripts/srt2vtt.py video/captions/eng/*.srt   # convert every SRT in the folder
+    python3 scripts/srt2vtt.py video/captions/eng/01_welcome_260806.srt
 
-Each `<name>.srt` is written out as `<name>.vtt` beside it, so `welcome.srt` lands as
-`welcome.vtt` next to `welcome.mp4`. Re-run it after any caption revision.
+Each `<name>.srt` is written out as `<name>.vtt` beside it. Premiere's exports carry a number and
+a date, so the output does too — rename it to the NODE KEY afterwards, because that is what the
+site loads: video/captions/eng/welcome.vtt, video/captions/esp/welcome.vtt. The dated .srt stays
+as the record of which export the captions were cut from. Re-run after any caption revision.
 
 What it deliberately does NOT do
 --------------------------------

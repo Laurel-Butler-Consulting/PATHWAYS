@@ -194,27 +194,27 @@
   .qv-textmodal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:4vh 5vw;background:rgba(0,18,38,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
   .qv-textmodal.open{display:flex}
   .qv-textmodal-card{position:relative;background:#fff;color:var(--navy);width:min(680px,100%);max-height:90vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 24px 70px rgba(0,18,38,.4);overflow:hidden;animation:stepIn .25s ease}
-  .qv-textmodal-head{flex:0 0 auto;padding:1.5rem 1.7rem 1.1rem;border-bottom:1px solid rgba(0,38,71,.1)}
-  /* padding-right keeps a long node title clear of the close button, which floats over this row */
-  .qv-textmodal-head h3{font-family:var(--font-display);font-weight:400;font-size:1.275rem;letter-spacing:.02em;color:var(--navy);line-height:1.08;margin:0;padding-right:1.7rem}
-  /* Node title inherits the display face, so it reads as caps — Bebas Neue carries no lowercase
-     glyphs. Colour is the only thing separating it from the "TRANSCRIPT" label. */
-  .qv-textmodal-head h3 .tm-node{color:var(--blue)}
-  .qv-textmodal-x{position:absolute;top:1.1rem;right:1.1rem;width:34px;height:34px;border-radius:50%;border:none;background:var(--ice);color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .15s}
+  /* Header carries the controls only — no title (2026-08-08). "TRANSCRIPT – <NODE>" was removed as
+     redundant: the reader opens this from the node they are on, one tap earlier. The dialog still
+     ANNOUNCES itself as "Transcript – <node>" through aria-label, which is not redundant for a
+     screen-reader user who cannot see which node is behind the sheet.
+     One flex row: language switch left, close right. With no Spanish the row holds only the close
+     button, which is why the button is in the flow rather than floating over a heading that no
+     longer exists — an absolutely-positioned X would have left an empty strip under it. */
+  .qv-textmodal-head{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:1rem;padding:.85rem 1.1rem;border-bottom:1px solid rgba(0,38,71,.1)}
+  .qv-tx-lang{margin-right:auto}   /* pushes the close button to the far edge; absent on English-only nodes */
+  .qv-textmodal-x{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:none;background:var(--ice);color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .15s}
   .qv-textmodal-x:hover{background:rgba(0,38,71,.12)}
   .qv-textmodal-x svg{width:14px;height:14px}
-  /* Narrow screens: the longest node title ran to four lines and pushed the transcript off the
-     card. Smaller heading keeps the reading area the point of the dialog. */
   @media(max-width:600px){
-    .qv-textmodal-head{padding:1.2rem 1.3rem .9rem}
-    .qv-textmodal-head h3{font-size:.94rem}
+    .qv-textmodal-head{padding:.7rem .9rem}
   }
   .qv-textmodal-body{flex:1;overflow-y:auto;padding:1.4rem 1.7rem 1.8rem}
   .qv-textmodal-body p{font-size:1rem;line-height:1.7;color:var(--navy);margin-bottom:1rem}
   .qv-textmodal-body p:last-child{margin-bottom:0}
-  /* Transcript language switch — sits under the heading, clear of the close button. Only rendered
-     when a Spanish transcript exists for that node. */
-  .qv-tx-lang{display:inline-flex;margin-top:.9rem;border:1px solid rgba(0,38,71,.2);border-radius:999px;overflow:hidden}
+  /* Transcript language switch — first item in the header row. Only rendered when a Spanish
+     transcript exists for that node. */
+  .qv-tx-lang{display:inline-flex;border:1px solid rgba(0,38,71,.2);border-radius:999px;overflow:hidden}
   .qv-tx-lang-btn{font-family:var(--font-body);font-weight:700;font-size:.72rem;letter-spacing:.09em;padding:.42rem .9rem;border:none;background:transparent;color:var(--navy);opacity:.5;cursor:pointer;transition:background .15s,color .15s,opacity .15s}
   .qv-tx-lang-btn:hover{opacity:.8}
   .qv-tx-lang-btn.on{background:var(--navy);color:#fff;opacity:1}
@@ -265,6 +265,42 @@
     .qv-skip{left:14px;transform:none}
     .qv-window.ended .qv-replay-overlay{display:flex}
     .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-cc-wrap,.qv-window.ended .qv-skip,.qv-window.ended .qv-speed-wrap{display:none}
+  }
+  /* COMPACT CONTROL ROW — short landscape windows (fix 2026-08-08, first real clip).
+     In landscape the video is sized by HEIGHT and its width follows from 9:16, so a shorter browser
+     window makes a NARROWER video: 1024×700 gives a 236px column. The four controls are anchored
+     independently (Skip left, then CC / speed / mute off the right edge) and at full size they need
+     ~295px, so below that they run into each other — Skip overlapped CC by 50px, measured.
+     Threshold: the video is `100dvh - 280` tall until the window passes ~933px, so 295px of width
+     needs ~804px of window height. Anything shorter gets the compact row.
+     ⚠ The 820 below is derived from the 280 allowance in --vidH above. Change one, recheck the other.
+     Compact = Skip drops to its icon (font-size:0 hides the label; aria-label still carries "Skip
+     video" for screen readers, so nothing is lost to assistive tech) and the buttons tighten to
+     34px. Nothing is removed — every control stays operable. */
+  @media(orientation:landscape) and (min-width:720px) and (max-height:820px){
+    .qv-skip{left:10px;font-size:0;gap:0;padding:.5rem 9px}
+    .qv-skip svg{width:15px;height:15px}
+    .qv-cc,.qv-cc-wrap{right:92px}
+    .qv-cc{min-width:34px;height:34px;padding:0 7px;font-size:.7rem}
+    .qv-speed-wrap{right:52px}
+    .qv-speed{min-width:34px;height:34px;padding:0 7px}
+    .qv-mute{right:10px;width:34px;height:34px}
+  }
+  /* Second tier — windows shorter than ~660px, where the column falls under ~215px and even the
+     34px row runs out of room (measured: still overlapping by 17px at 1024×600). Same idea, tighter:
+     30px buttons, smaller gaps. Labels are NOT abbreviated — "CC EN" stays, because the button
+     showing which language is on is the whole point of it. Every control stays present and usable.
+     ⚠ Floor: below roughly 570px of window height the row crowds again. At that point the video is
+     under 160px wide on a desktop screen and the layout has bigger problems than the controls. */
+  @media(orientation:landscape) and (min-width:720px) and (max-height:660px){
+    .qv-skip{left:8px;padding:.4rem 6px}
+    .qv-skip svg{width:13px;height:13px}
+    .qv-cc,.qv-cc-wrap{right:76px}
+    .qv-cc{min-width:30px;height:30px;padding:0 5px;font-size:.62rem;letter-spacing:.03em}
+    .qv-speed-wrap{right:43px}
+    .qv-speed{min-width:30px;height:30px;padding:0 5px;font-size:.64rem}
+    .qv-mute{right:8px;width:30px;height:30px}
+    .qv-mute svg{width:15px;height:15px}
   }
   /* Phone portrait: drop the "Pathways Questionnaire" label (2026-08-05).
      It is the same four words on all eleven screens and says nothing the presenter and the question
@@ -662,15 +698,16 @@ if(!document.documentElement.classList.contains('pw-open')){
       <p class="section-subtitle">Guided by statewide arts education experts, our interactive questionnaire will match your skills, interests, and experience with a personalized pathway of programs and resources to support your professional development in the field.<br><br><em>(3–7 minutes to complete)</em></p>
       <div class="fyp-frame">
         <div class="fyp-video">
-          <!-- Sources are tried in order: the final export wins as soon as it exists, and the demo
-               clip covers the frame until then (a failed <source> falls through to the next one).
-               When the final lands: delete the demo <source> and swap the poster to
-               video/preview/find-your-path.jpg. Export settings differ from the node clips —
-               no audio track, 1.5–2 Mbps, first frame == last frame so the loop seam is invisible:
-               notes/video-export-spec.md § "Landing loop". -->
-          <video class="fyp-loop" autoplay loop muted playsinline preload="metadata" poster="video/demo/demo_questionnaire_preview_thumb.png">
-            <source src="video/preview/find-your-path.mp4" type="video/mp4">
-            <source src="video/demo/demo_questionnaire_preview.mp4" type="video/mp4">
+          <!-- The landing loop is NOT a node, so it has no node key of its own. It is named
+               `questprev` after its export, and follows the same rule as the clips: video/clips/
+               for the film, video/stills/ for the poster. The stand-in demo clip that used to cover
+               this frame was removed in the 2026-08-08 folder reorganisation, so if either file is
+               missing the frame is simply empty — there is no fallback left.
+               Export settings differ from the node clips — no audio track, 1.5–2 Mbps, first frame
+               == last frame so the loop seam is invisible: notes/video-export-spec.md § "Landing
+               loop". Same 1080 × 1920 portrait frame as every other clip. -->
+          <video class="fyp-loop" autoplay loop muted playsinline preload="metadata" poster="video/stills/questprev.jpg">
+            <source src="video/clips/questprev.mp4" type="video/mp4">
           </video>
           <button class="hero-btn" onclick="pwStart()">Take the Questionnaire <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -748,27 +785,46 @@ const ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 
 const VP_DIR='images/video%20placeholder%20stills/';
 function vp(n){return VP_DIR+'vp_'+n+'.jpg';}  // %20 in VP_DIR — folder name has spaces
 
-// Node videos live at NODE_VID_DIR + <node key> + .mp4/.vtt — named per NODE, not per persona
+// Node videos live at NODE_VID_DIR + <node key> + .mp4 — named per NODE, not per persona
 // (11 videos, 8 personas: Laurel and Ricky each carry three distinct clips, so persona
 // basenames would collide). Export spec: notes/video-export-spec.md
 //   v:1   → clip has landed; render <video> instead of stills. Absent → stills only, as before.
 //   cc:[…] → WHICH caption languages have landed for this node, e.g. cc:['en'] or cc:['en','es'].
-//           English lives at <key>.vtt, every other language at <key>.<lang>.vtt — so Spanish is
-//           welcome.es.vtt beside welcome.mp4 (scripts/srt2vtt.py needs no change; export the
-//           Spanish sidecar as welcome.es.srt). One language → the plain on/off CC button, exactly
+//           Captions do NOT sit beside the clip — each language has its own folder (CC_DIR below),
+//           and the file inside is named for the node: video/captions/eng/welcome.vtt and
+//           video/captions/esp/welcome.vtt. One language → the plain on/off CC button, exactly
 //           as before. Two → the button opens a small Off / English / Español menu. Never list a
 //           language whose file has not landed: the node would offer a choice that shows nothing.
 //           Legacy cc:1 still means English-only. Absent → no CC button at all.
 //   poster:'…' → final poster still; defaults to the node's first placeholder still.
 // Flipping a clip live is a one-token edit on its NODES entry. A flagged-but-missing file
 // degrades to the stills via qvVideoFail().
-const NODE_VID_DIR='video/nodes/';
+//
+// ⚠ FILENAMES ARE NODE KEYS, NOT EXPORT NAMES (settled 2026-08-08). Premiere exports carry a
+// number and a date — 01_welcome_260806.mp4 — and those stay on the SOURCE files. What is copied
+// into the folders below is renamed to the node key: welcome.mp4, welcome.jpg, welcome.vtt.
+// The alternative, teaching the site the dated names, needs a lookup table of 11 clips and 22
+// caption files that must be re-edited on every re-export, and a stale entry fails SILENTLY —
+// the node drops back to the placeholder still rather than reporting anything.
+const NODE_VID_DIR='video/clips/';
+
+// Captions, one folder per language, file named for the node. Adding a language means adding a
+// folder and a line here; a language absent from this map is simply never offered.
+const CC_DIR={en:'video/captions/eng/',es:'video/captions/esp/'};
+
+// Final poster stills (the per-node `poster:` value). The eight vp_*.jpg under images/ are the
+// PLACEHOLDER set and stay where they are until every node has a real still.
+const NODE_STILL_DIR='video/stills/';
 
 // Structure only — presenter, stills, routing, video flags. The label, question, answer-button
 // text and transcript for each node come from data/content.en.json, matched on these keys and on
 // the ORDER of the o:[] array. Adding or reordering an answer here means doing the same there.
 const NODES={
-  welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],o:[
+  // FIRST CLIP SWITCHED ON, 2026-08-08. poster is a chosen frame, not frame 1 — deliberate, so it
+  // reads well in the moment before playback starts. The two placeholder stills stay as the
+  // fallback layer beneath the video, used only if the file ever fails to load.
+  welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],v:1,cc:['en','es'],
+    poster:NODE_STILL_DIR+'welcome.jpg',o:[
     {to:'suppAuth'},{to:'cteIntro'},{to:'taVsCred'},{to:'taVsCred'}
   ]},
   suppAuth:{p:'Chris',img:vp('chris'),o:[
@@ -844,7 +900,9 @@ function ccActive(langs){
   if(!langs.length||PW_CCLANG==='off')return null;
   return langs.indexOf(PW_CCLANG)>-1?PW_CCLANG:langs[0];
 }
-function ccVtt(base,lang){return base+(lang==='en'?'':'.'+lang)+'.vtt';}
+// name = the node key (or the override on n.v), NOT the full clip path — captions live in their
+// own per-language folder, not beside the clip. See CC_DIR.
+function ccVtt(name,lang){var d=CC_DIR[lang];return d?d+name+'.vtt':'';}
 function ccLangName(l){return (T.captionLangs&&T.captionLangs[l])||l;}
 // "CC" alone on a one-language node; "CC ES" where there's a choice, so what's showing is legible
 // without opening the menu. EN/ES are language codes, not copy — they don't translate.
@@ -1082,7 +1140,8 @@ function renderNode(n,key){
   // The stills stay in the DOM beneath the video as the fallback layer — the <video> is emitted
   // after them, so it paints on top, and qvVideoFail() drops back to them if the file is missing.
   // Single MP4 via src= (not a <source> child) so an load failure fires `error` on the element itself.
-  var base=n.v?NODE_VID_DIR+(typeof n.v==='string'?n.v:key):null;
+  var vname=(typeof n.v==='string'?n.v:key);   // basename shared by the clip, its stills and its captions
+  var base=n.v?NODE_VID_DIR+vname:null;
   var ccl=base?ccLangs(n):[];        // caption languages that have actually landed for this node
   if(base){
     // data-cc carries the node's caption languages, so the controls can read them off the window.
@@ -1090,7 +1149,7 @@ function renderNode(n,key){
       ' playsinline muted preload="auto" data-cc="'+ccl.join(' ')+'"'+
       ' onended="qvShowEnd(this.closest(\'.qv-window\'))" onerror="qvVideoFail(this)">'+
       ccl.map(function(l){
-        return '<track kind="captions" src="'+ccVtt(base,l)+'" srclang="'+l+'" label="'+ccLangName(l)+'">';
+        return '<track kind="captions" src="'+ccVtt(vname,l)+'" srclang="'+l+'" label="'+ccLangName(l)+'">';
       }).join('')+
     '</video>';
   }
@@ -1147,14 +1206,15 @@ function qvTextModal(n,key){
   }
   var switcher=es?'<div class="qv-tx-lang" role="group" aria-label="'+T.transcriptLangGroup+'">'+
     langBtn('en','EN')+langBtn('es','ES')+'</div>':'';
-  // Heading names which video this is — "TRANSCRIPT – Welcome". The node title stays English even
-  // when the Spanish text is showing, since the interface itself is English-only.
-  var title=n.label?T.transcript+' <span class="tm-node">– '+n.label+'</span>':T.transcript;
+  // No visible heading (2026-08-08) — see the header CSS. `spoken` is still built, and is the only
+  // place the node is named now: it is the dialog's accessible name, so a screen-reader user hears
+  // "Transcript – Welcome" on open. Stays English even when the Spanish text is showing, as the
+  // interface is English-only.
   var spoken=n.label?T.transcript+' – '+n.label:T.transcript;
   return '<div class="qv-textmodal" role="dialog" aria-modal="true" aria-label="'+spoken+'" onclick="if(event.target===this)qvText(this)">'+
     '<div class="qv-textmodal-card" tabindex="-1">'+   // focus target on open — see qvTxOpen
       '<div class="qv-textmodal-head">'+
-        '<h3>'+title+'</h3>'+switcher+
+        switcher+
         '<button class="qv-textmodal-x" aria-label="'+T.close+'" onclick="qvText(this)">'+ICON_EXIT+'</button>'+
       '</div>'+
       '<div class="qv-textmodal-body">'+

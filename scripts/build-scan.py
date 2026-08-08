@@ -79,15 +79,23 @@ missing_transcripts = [n for n in video_nodes if n not in have_text]
 # ---- Video / caption assets ----
 vtt_files = glob.glob(rp("**", "*.vtt"), recursive=True)
 stills = glob.glob(rp("images", "video placeholder stills", "vp_*.jpg"))
-landing_is_demo = "demo/demo_questionnaire_preview.mp4" in html
+# The landing loop used to be detected by spotting the stand-in demo clip in index.html. That clip
+# was removed in the 2026-08-08 folder reorganisation, which would have made this line read GREEN on
+# an empty frame. Check the actual files instead: the clip AND its poster have to be on disk.
+landing_clip = os.path.exists(rp("video", "clips", "questprev.mp4"))
+landing_poster = os.path.exists(rp("video", "stills", "questprev.jpg"))
 # presenter video wiring: code renders .qv-still images, no <video class="qv-video"> is created
 video_wiring_built = "qv-video" in html and re.search(r"<video[^>]*qv-video", html) is not None
 
 # ---- Section 1: video & transcript content ----
 S1 = "1. Video & transcript content"
-add(S1, DONE if not landing_is_demo else PEND,
+add(S1, DONE if (landing_clip and landing_poster) else PEND,
     "Landing preview video finalized",
-    "still the demo clip (video/demo/demo_questionnaire_preview.mp4)" if landing_is_demo else "replaced")
+    "video/clips/questprev.mp4 + video/stills/questprev.jpg present"
+    if (landing_clip and landing_poster) else
+    "missing: " + ", ".join(
+        ([] if landing_clip else ["video/clips/questprev.mp4"])
+        + ([] if landing_poster else ["video/stills/questprev.jpg"])))
 add(S1, DONE if video_wiring_built else PEND,
     "Video-playback wiring built",
     "not built — personas render as stills only" if not video_wiring_built else "present")

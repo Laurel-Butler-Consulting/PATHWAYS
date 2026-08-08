@@ -143,8 +143,8 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [ ] **Approval** of the media below once delivered
 
 **Media — our purview, client approves** *(not a client deliverable; do not put on their ask list)*
-- [ ] 11 presenter videos, final (§1)
-- [ ] Landing "Find Your Path" preview clip + poster (§1)
+- [~] 11 presenter videos, final — **1 in (`welcome`), 10 to come** (§1)
+- [x] ~~Landing "Find Your Path" preview clip + poster~~ — **IN AND VERIFIED 2026-08-08** (§1)
 - [x] ~~Final poster stills~~ — **CLIENT-APPROVED 2026-08-06.** The eight `vp_*.jpg` in use are the
       final ones. ℹ They still sit in a folder called `images/video placeholder stills/`; the name is
       now wrong but nothing depends on it. (§1)
@@ -211,23 +211,40 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       measured against the live player at phone width and confirmed within 2px. Keep-clear: bottom
       156px, or bottom 335px when captions are on. **Regenerated after the Skip/speed changes above —
       re-export if you composited against the earlier versions.**
-- [ ] 11 presenter videos recorded & final → `video/nodes/<node-key>.mp4`
-- [ ] **Desktop video column is NARROWER than a phone's — unresolved, found 2026-08-05.** In the
-      landscape card the video is sized by HEIGHT (`--vidH: min(70vh, 800px, 100dvh - 280px)`) and the
-      width follows from 9:16. A phone gives it the full 375; a laptop window gives less:
-      700px tall → 236 wide · 760 → 270 · 800 → 293 · 900 → 349 · only past ~1080 does it beat a phone.
-      Two consequences, BOTH INVISIBLE TODAY because no clips exist and the controls are gated on one:
-      • **Controls overlap.** Skip is pinned `left:14px` in landscape, CC/speed/mute to `right:106/60/14`.
-        In a 236px column Skip runs to 112 and CC starts at 91 — a 21px overlap at an ordinary
-        1024×700 desktop. Previously logged as a short-landscape-window problem; it is wider than that.
-      • **Captions wrap badly.** A cue that sets as 2 lines at phone width becomes 4 lines at 236px,
-        86px tall, a fifth of the video, sitting across the presenter's chest.
-      Where a fix comes from: up to ~1150px tall the video is limited by `100dvh - 280px`, so the 280
-      allowance comes straight off the video (each px of height ≈ half a px of width). That 280 was
-      measured with the card's title in place — and the title is what we established today is
-      redundant. Dropping it on desktop too, or trimming the card padding, would put width back and
-      may resolve the overlap without touching the controls at all.
-      ⚠ Will look like a NEW fault the moment clips land. Take it to the client as known, not found in review.
+- [~] **11 presenter videos recorded & final → `video/clips/<node-key>.mp4`. 1 of 11 in: `welcome`,
+      switched on and verified 2026-08-08.** Folders were reorganised the same day —
+      `video/clips` · `video/stills` · `video/captions/eng|esp` · `video/transcripts/eng|esp` — and
+      the site was repointed at them. **Site filenames are node keys; Premiere's dated export names
+      stay on the source files only.** Full layout and naming rules:
+      [`notes/video-export-spec.md`](video-export-spec.md).
+      Encoding settled the same day: **3 Mbps target / 5 max**, down from 4/6, holding the repository
+      near 265 MB instead of 345 MB. `welcome` came in at 3.12 Mbps, 21.5 MB, 54.93s.
+      ⚠ **Commit only the cut you intend to keep.** Git stores every version of a video whole and
+      forever; deleting one later frees nothing, and undoing it means rewriting history and breaking
+      every dated build folder.
+- [x] **Desktop video column is NARROWER than a phone's — BOTH CONSEQUENCES CLOSED 2026-08-08**, on
+      the first real clip. The cause is unchanged and worth keeping: in the landscape card the video is
+      sized by HEIGHT (`--vidH: min(70vh, 800px, 100dvh - 280px)`) and the width follows from 9:16, so
+      a shorter browser window makes a NARROWER video. A phone gives the full 375; a laptop window
+      gives less: 700px tall → 236 wide · 760 → 270 · 800 → 293 · 900 → 349.
+      • **Controls overlapped — FIXED.** Worse than the 21px estimated here: measured at 50px on a
+        1024×700 window, with Skip running into the CC button. Fixed with two compact tiers in the
+        landscape rules — under 820px of window height the buttons drop to 34px and Skip shows its
+        icon alone; under 660px they go to 30px. Nothing is removed, every control stays operable,
+        and Skip keeps its "Skip video" name for screen readers even where the label is hidden.
+        Verified with no overlap at 1440×900 (349px column), 1366×768 (275), 1024×700 (236) and
+        1024×600 (180), and unchanged on a phone at 375.
+        ⚠ **Floor: below ~570px of window height it crowds again** (measured: 3px overlap at
+        1024×560, where the column is 158px). Judged not worth a third tier — at that size the video
+        is smaller than a playing card and the layout has bigger problems.
+        ⚠ The 820/660 thresholds are derived from the `280` allowance in `--vidH`. Change one and
+        recheck the other; there is a comment beside the CSS saying so.
+      • **Captions wrapping — NOT A PROBLEM, withdrawn.** The prediction was 4 lines at 236px, 86px
+        tall. Measured against the real welcome captions: they stay 2 lines, 45px, about 11% of the
+        video. Premiere's exports carry their own line breaks and keep cues short, so nothing
+        reflows. Assumes the other ten export the same way — recheck if any cue looks long.
+      The width itself was NOT changed: dropping the card title on desktop to reclaim space is still
+      available if the small column ever bothers the client, but it is no longer needed to fix this.
 - [~] **Speaker name/title strips (client request 2026-08-05) — PRELIMINARY DESIGN APPROVED BY THE
       CLIENT 2026-08-06.** Approval is of the mock-up, not of finished work: nothing is built yet,
       and the two things that gate it are unchanged — the eight speakers' job titles have to be
@@ -256,11 +273,26 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       ⚠ Measured on the PLACEHOLDER still, not final footage, and one rule governs all 8 presenters.
       If anyone was shot tighter, 35% could clip them. Add consistent headroom to the export spec —
       far easier to fix at export than to work around in the site.
-- [ ] Landing "Find Your Path" preview video — final clip + poster (muted loop; no transcript)
+- [x] **Landing "Find Your Path" preview video — DONE 2026-08-08.** `video/clips/questprev.mp4` with
+      `video/stills/questprev.jpg`. On spec throughout: 1080×1920, 1.52 Mbps, 1.85 MB, no audio
+      track, faststart, and first and last frame pixel-identical so the loop seam is invisible.
+      ⚠ **It has no fallback.** The stand-in demo clip was removed in the reorganisation, so if
+      either file is missing or misnamed the landing page shows an empty frame — the first thing
+      anyone sees. `build-scan.py` checks both files exist.
 - [x] ~~Poster stills finalized~~ — **CLIENT-APPROVED 2026-08-06**, the eight already in use. The
       folder is still named `images/video placeholder stills/`, which now misdescribes its contents.
-- [ ] Switch each node on as its clip lands (`v:1`, plus `cc:1` once its `.vtt` is beside it)
-- [ ] Captions (`.srt` → `.vtt`) for all narrated videos
+- [~] Switch each node on as its clip lands — `v:1`, `cc:['en','es']`, and `poster:` pointing at its
+      still in `video/stills/`. **1 of 11 done: `welcome`, 2026-08-08.** Verified end to end: clip,
+      poster and both caption files serve, playback runs, English captions default on, the Español
+      switch works and is marked as Spanish for screen readers, and Skip / CC / speed / mute all
+      render without overlapping at phone, laptop and short-window sizes.
+      ℹ Posters are **chosen frames, not frame 1** — the client picks the most flattering frame.
+      Don't report the difference as a defect.
+- [~] Captions (`.srt` → `.vtt`) for all narrated videos — **1 of 11 converted and named
+      (`welcome`, both languages, 29 cues each, timings matching).** New dated SRTs are being
+      supplied for the remaining ten; convert with `scripts/srt2vtt.py` and rename the output to the
+      node key. ⚠ If a re-export changes any TIMECODE, the Spanish sidecar was built on the old
+      timings and must be rebuilt — check before assuming it still lines up.
 - [x] **Questionnaire + results copy moved out of `index.html` into `data/content.en.json`
       (2026-07-31)** — transcripts, node labels, questions, answer buttons, result titles, resource
       headings, the Supplementary Authorization page, and all button/label text. `index.html` keeps
@@ -545,8 +577,9 @@ caption exports are in `video/captions/eng/`, all 11, and the Spanish sidecars w
 them. `video/nodes/` is still empty, but that only gates step 3 above, not the subtitle work itself.
 
 **Design decided 2026-07-31:**
-- [x] **Transcript modal EN/ES switch — BUILT 2026-07-31.** Two-way toggle under the modal heading;
-      stacking the two languages was rejected. The choice is remembered and carries from one video to
+- [x] **Transcript modal EN/ES switch — BUILT 2026-07-31.** Two-way toggle; sat under the modal
+      heading until the heading was removed 2026-08-08, and now shares one row with the close button.
+      Stacking the two languages was rejected. The choice is remembered and carries from one video to
       the next. Spanish text is marked as Spanish so screen readers pronounce it correctly.
       Spanish comes from `data/transcripts.es.json`, regenerated from `video/transcripts/esp/`.
       Degrades to English with no switch shown if a node has no Spanish or the file is missing.
@@ -898,11 +931,21 @@ get right at handover.
       default text get overridden. Fixing means re-checking every size sitewide.
 - [x] **Moving content can't be paused — CLOSED 2026-08-01.** Split in two: one half built, the other
       decided against. Nothing outstanding.
-      - [x] **"Reduce motion" is now respected** across the whole site. With the setting on, the hero
-            photos stay put (and the other seven aren't even fetched), the quote carousel doesn't
-            advance on its own, and both crossfade transitions are off. The arrows and dots still
-            work, so the quotes remain reachable — automatic movement is what stops, not navigation.
-            Verified in both states, including that manual use doesn't restart the drift.
+      - [x] **"Reduce motion" is respected for the hero photos and the quote carousel.** With the
+            setting on, the hero photos stay put (and the other seven aren't even fetched), the quote
+            carousel doesn't advance on its own, and both crossfade transitions are off. The arrows
+            and dots still work, so the quotes remain reachable — automatic movement is what stops,
+            not navigation. Verified in both states, including that manual use doesn't restart the
+            drift.
+            ⚠ **It does NOT cover video** — corrected 2026-08-08; this entry previously claimed
+            "across the whole site", which was written before the player existed. The landing loop
+            autoplays for everyone, and each node clip starts playing as its screen opens; neither
+            consults the setting. **Reviewed 2026-08-08 and deliberately left as is.**
+            If it is ever revisited, the landing loop is the one that matters: ten seconds of motion
+            repeating indefinitely with no pause control anywhere on the page. Node clips are far
+            less exposed — the visitor chose to start the questionnaire, and each has Skip and
+            tap-to-pause. Holding the landing frame on its poster for that setting would also give
+            the chosen poster frames a real audience rather than a flash.
       - [x] **A visible pause control — DECIDED 2026-08-01: not building one.** Respecting the OS
             setting is the accessibility requirement and that is done. The quote carousel already
             pauses on hover and has arrows; the hero is decorative. Closed, not deferred.
@@ -1113,7 +1156,25 @@ Things that are researched, decided and ready, but should not ship on 2026-08-17
 - [x] Overlay templates rebuilt for Photoshop — it ignores the SVG vertical-centring instruction,
       so labels sat low. Now positioned on explicit baselines with icons in absolute coordinates.
       Verified centred to within 0.1px. **Do not reintroduce `dominant-baseline` in these files.**
-- [x] Transcript modal names its video — "TRANSCRIPT – TEACHING ARTIST VS. CREDENTIALED TEACHER".
+- [x] ~~Transcript modal names its video — "TRANSCRIPT – TEACHING ARTIST VS. CREDENTIALED TEACHER"~~
+      — **TITLE REMOVED 2026-08-08. This entry is superseded; kept as the record of why the title
+      looked the way it did, in case it ever comes back.**
+      Removed as redundant: the transcript can only be opened from the node the reader is already on,
+      one tap earlier, so the heading repeated what they had just clicked. Dropping it also settled a
+      small oddity — the node name stayed English even while the Spanish text was showing.
+      The header was reworked rather than just trimmed, because deleting the heading would have left
+      an empty strip: it is now ONE row, language switch left and close button right, 73px with
+      Spanish and 69px without. The close button moved into the flow instead of floating over a
+      heading that no longer exists.
+      ✔ **The node name survives where it is not redundant.** The dialog's spoken name — "Transcript
+      – Welcome" — comes from `aria-label` and was always separate from the visible title, so a
+      screen-reader user who cannot see which node is behind the sheet is still told. Do not remove
+      that too.
+      Verified after the change: focus enters the card, Tab stays trapped and wraps across the three
+      controls, Escape closes, focus returns to the trigger, and the EN/ES switch still swaps the
+      text and marks it as Spanish. The three CSS rules that existed only for the title were deleted.
+      <details><summary>Original entry, kept as the record</summary>
+
       Node titles stay English when the Spanish text is showing, per the §6 scope cut.
       Both parts are set in Bebas Neue, distinguished only by colour (title in `--blue`).
       **Titles read as all caps, and that is intended.** Bebas Neue carries no lowercase glyphs, so
@@ -1122,6 +1183,8 @@ Things that are researched, decided and ready, but should not ship on 2026-08-17
       Sizes reduced 25% at the client's request (desktop 1.7rem → 1.275rem, narrow 1.25rem → .94rem).
       Header is 11–19% of the card, and the title clears the close button on all 11 nodes at phone
       and desktop width.
+
+      </details>
 
 **2026-07-30**
 - [x] Result actions reduced to Print / Save PDF + Restart Questionnaire, side by side

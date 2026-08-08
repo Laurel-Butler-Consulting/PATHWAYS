@@ -65,13 +65,25 @@ all 11 clips are identical. Send to **Media Encoder** to queue them rather than 
 | Profile | **High** |
 | Level | **4.0** |
 | Bitrate Encoding | **VBR, 2 pass** |
-| Target Bitrate | **4 Mbps** |
-| Maximum Bitrate | **6 Mbps** |
+| Target Bitrate | **3 Mbps** |
+| Maximum Bitrate | **5 Mbps** |
 | Key Frame Distance | **60** (tick the box to enable the field) |
 | Performance | **Software Encoding** — hardware/VideoToolbox is faster but worse per bit |
 | Use Maximum Render Quality | on, if scaling from a larger source |
 
-Premiere has no CRF mode; the 4/6 Mbps VBR pair is the equivalent target for this content.
+Premiere has no CRF mode; the 3/5 Mbps VBR pair is the equivalent target for this content.
+
+**Lowered from 4/6 on 2026-08-08**, to hold the repository nearer 265 MB than 345 MB (see Repo size
+below). The content is the easy case for it — a seated presenter against a plain background barely
+changes between frames, and the player never shows a clip above about 375 px wide, so detail lost at
+3 Mbps is detail no visitor sees. **The ceiling went to 5, not 4.5, deliberately:** the maximum is
+the encoder's allowance for its hardest seconds, and lowering the average makes that headroom matter
+more. The places to check a test export are the CTE Intro text graphic (sharp edges show artefacts
+first), rapid hand gestures, and smooth gradients on a plainly lit wall.
+⚠ Compare a test at the size the SITE uses, not full screen — full screen exaggerates a difference
+no visitor will meet.
+⚠ `welcome` was exported at 4 Mbps before this change and was left alone. Re-export it only if it is
+being re-cut anyway; the saving on its own is about 7 MB.
 
 **Color Management** — set the output/export color space to **Rec. 709**. This is the setting that
 handles HLG/Log source correctly. (Exact label placement shifts between releases — verify the tag
@@ -103,10 +115,12 @@ The site's `<track>` elements need `.vtt`. The two formats differ only by a `WEB
 dots instead of commas in the timestamps, so conversion is lossless:
 
 ```bash
-python3 scripts/srt2vtt.py video/nodes/*.srt
+python3 scripts/srt2vtt.py video/captions/eng/*.srt
 ```
 
-Writes each `.vtt` beside its `.srt`. Re-run after any caption revision. It leaves dialogue commas
+Writes each `.vtt` beside its `.srt` — so the output keeps the dated export name and then gets
+**renamed to the node key**, which is what the site loads (see Naming below). Re-run after any
+caption revision. It leaves dialogue commas
 alone (a blanket comma→dot replace would mangle the text), strips the byte-order mark Premiere
 sometimes writes — which silently invalidates the whole caption file — and warns if styling tags
 came through. Keep Premiere as the source of truth: don't hand-edit a `.vtt`, since the next run
@@ -146,22 +160,49 @@ Then play it in **Safari** — that's where color and VFR problems surface.
   most viewers and captions are the main comprehension path — plus WCAG 1.2.2. The CC button is
   wired and appears only on nodes that have a `.vtt`. It currently defaults to **off**
   (`PW_CC`, index.html) — worth revisiting given playback starts silent.
-- **Repo size** — a 4 Mbps target is ~30 MB/min, so 11 × 60 s ≈ 330 MB committed to git history
-  permanently (repo has one 4.7 MB clip today). Prefer 30–45 s clips, else drop the target to
-  3 Mbps (~22 MB/min), else Git LFS. GitHub hard-fails files >100 MB.
+- **Repo size** — git keeps every version of every file forever, and video cannot be stored as
+  differences: each re-export is kept whole, alongside the old ones. Deleting a clip later frees
+  nothing. The 11 transcripts run ~2,250 words ≈ **11–12 minutes of finished video**; at 3 Mbps
+  (~22 MB/min) that is roughly **265 MB** committed permanently, against ~345 MB at the old 4 Mbps.
+  **Commit only the cut you intend to keep** — three passes at a 28 MB clip costs 84 MB forever,
+  and that is the largest avoidable waste here. GitHub refuses any single file >100 MB (no clip is
+  close) and warns on repositories over 1 GB. Undoing it later means rewriting history, which breaks
+  every existing clone — including every dated build folder — so the decision is effectively
+  one-way once pushed.
 - **CDN later?** Cross-origin `.vtt` needs CORS headers *and* `crossorigin` on `<video>`, or
   captions break silently. Video itself is fine cross-origin.
+
+## Where the files go — reorganised 2026-08-08
+
+Four folders under `video/`, one kind of file in each. Nothing sits "beside the clip" any more.
+
+```
+video/clips/welcome.mp4            the film
+video/stills/welcome.jpg           its poster
+video/captions/eng/welcome.vtt     English captions   (+ the dated .srt they came from)
+video/captions/esp/welcome.vtt     Spanish subtitles
+video/transcripts/eng|esp/         transcript text, read into data/transcripts.*.json
+```
+
+The landing loop is not a node and has no node key; it is named `questprev` and lives in the same
+two folders — `video/clips/questprev.mp4`, `video/stills/questprev.jpg`.
 
 ## Naming
 
 Name each file after its **node**, not its presenter — there are 11 videos but only 8 presenters
 (Laurel and Ricky each carry three separate clips), so persona basenames would collide. No spaces
-(the stills folder needs `%20` — standing papercut). The basename is the node key the site already
-uses, so a correctly named file needs no path edits:
+(the placeholder-stills folder needs `%20` — standing papercut).
 
-```
-video/nodes/welcome.mp4 / .srt → .vtt / .jpg
-```
+**Premiere export names are not site filenames.** Exports carry a number and a date —
+`01_welcome_260806.mp4` — and that is right for the source files: it keeps a visible link between a
+clip and the caption file cut from the same version. But the site addresses everything by node key,
+so **the copy that goes into the folders above is renamed**: `welcome.mp4`, `welcome.jpg`,
+`welcome.vtt`. The dated `.srt` stays as it is, in `video/captions/eng/`, as the record of which
+export the captions came from.
+
+Settled 2026-08-08. The alternative — teaching the site the dated names — needs a lookup table of
+11 clips and 22 caption files, re-edited on every re-export, and a stale entry fails **silently**:
+the node drops back to its placeholder still and nothing reports a problem.
 
 | Basename | Video | Presenter |
 |---|---|---|
@@ -178,14 +219,19 @@ video/nodes/welcome.mp4 / .srt → .vtt / .jpg
 | `mArt` | Teaching Visual Art | Kristin |
 
 Dropping the file in doesn't switch it on by itself — each node is enabled in `index.html` with
-`v:1` on its `NODES` entry, plus `cc:1` once a `.vtt` sits beside it. Until then the node keeps
-rendering its placeholder still, and a `v:1` with no file falls back to the still rather than
-showing a broken player.
+`v:1` on its `NODES` entry, plus `cc:['en']` (or `cc:['en','es']`) once the caption files are in
+`video/captions/`. Until then the node keeps rendering its placeholder still, and a `v:1` with no
+file falls back to the still rather than showing a broken player.
 
 ## Landing loop (`.fyp-loop`) — differs
 
 Muted forever and autoplaying: **uncheck Export Audio** entirely, encode harder (target
 **1.5–2 Mbps**), trim so first and last frame match. Keep its poster current.
+
+Named `questprev`, not by node key — it isn't a node. ⚠ **It has no fallback.** The stand-in demo
+clip that used to cover this frame was removed on 2026-08-08, so if `video/clips/questprev.mp4` or
+`video/stills/questprev.jpg` is missing or misnamed, the landing page shows an empty frame. This is
+the first thing anyone sees; `build-scan.py` checks both files exist.
 
 ## Why 1080 × 1920
 
