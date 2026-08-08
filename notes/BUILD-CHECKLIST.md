@@ -243,13 +243,36 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         tall. Measured against the real welcome captions: they stay 2 lines, 45px, about 11% of the
         video. Premiere's exports carry their own line breaks and keep cues short, so nothing
         reflows. Assumes the other ten export the same way — recheck if any cue looks long.
-      The width itself was NOT changed: dropping the card title on desktop to reclaim space is still
-      available if the small column ever bothers the client, but it is no longer needed to fix this.
+      • **The width itself — ALSO ADDRESSED, later the same day.** Two changes, both measured:
+        the "Pathways Questionnaire" label was dropped in landscape (it was 59px of card furniture)
+        and the reserve in `--vidH` came down with it, 280 → 225; then the height cap went 70vh → 78vh.
+        Result: 1024×700 → 267px (was 236) · 1366×768 → 305 (275) · **1440×900 → 380 (349)** ·
+        1512×950 → 408 (374) · 1920×1080 → 450 (425). A phone gets 375, so **an ordinary laptop now
+        beats a phone**, where before it needed a ~950px-tall window. The crossover is now ~890px.
+        ⚠ Short windows gained from the label removal only — 78vh never binds below ~1025px, where
+        the reserve governs instead. That is why raising vh alone would have looked like it did
+        nothing on a laptop. The three limits and which one governs when are documented in the CSS.
+        ⚠ Accepted trade-off: the landscape card no longer has a header naming it. The label survives
+        only on tablets in portrait.
+      • **Control ORDER made consistent 2026-08-08.** Landscape had pinned Skip left and moved CC to
+        the right cluster, so CC and Skip swapped ends between phone and desktop, with no recorded
+        reason. Now one arrangement everywhere: **CC → Skip → Speed → Mute**, Skip centred.
+        ⚠ In the compact tiers, an anchor must only ever set the side it belongs to — giving CC a
+        `right` or Skip a `left` is exactly what reversed the order before.
+      • **CC button restyled 2026-08-08 (client request).** When a language is showing and there is
+        more than one to choose from, it is a split pill: "CC" navy-on-gold, the live language
+        gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
+        button has one border and the gold one was drawing a ring around the navy half. Off and
+        single-language nodes keep the plain button, unchanged.
 - [~] **Speaker name/title strips (client request 2026-08-05) — PRELIMINARY DESIGN APPROVED BY THE
-      CLIENT 2026-08-06.** Approval is of the mock-up, not of finished work: nothing is built yet,
-      and the two things that gate it are unchanged — the eight speakers' job titles have to be
-      collected before anything is built (the longest one sets the box size), and the copy as
-      supplied is too long at phone width. Build once the clips are in.
+      CLIENT 2026-08-06.** Approval is of the mock-up, not of finished work: nothing is built yet.
+      ✔ **All eight names and titles supplied 2026-08-08** — that gate is cleared. They are recorded
+      verbatim, with the node mapping and the measurements, in
+      [`notes/speaker-names-and-titles.txt`](speaker-names-and-titles.txt).
+      **Three decisions now block it, all listed in that file:** one title line or both (every
+      speaker but Ricky supplied two, where the mock-up assumed one); how the two-presenter nodes
+      work (welcome and whatTeach each carry Laurel AND Ricky); and how long the strip holds before
+      fading. Build once those are answered and the clips are in.
       Mocked up on the real player at phone size; nothing built, nothing changed in the site.
       **Draw them in the site, do not burn them into the video.** On a small phone the bottom 423px
       of a 1080×1920 export is cropped away before the player's own furniture takes another 335px,

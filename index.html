@@ -137,7 +137,13 @@
   .step-screen.qv-screen{position:relative;width:100%;max-width:none;min-height:100dvh;margin:0;padding:1rem 0;flex-direction:column;align-items:center;justify-content:center;background:var(--navy)}
   .qv-group{width:100%;container-type:inline-size;display:flex;flex-direction:column;align-items:center}
   .qv-stage{position:relative;width:100%}
-  .qv-subtitle{align-self:stretch;text-align:center;white-space:nowrap;font-family:var(--font-body);font-weight:600;text-transform:uppercase;color:var(--gold);font-size:4.37cqw;letter-spacing:.16em;line-height:1.1;margin-bottom:1rem}
+  /* "Pathways Questionnaire" label — HIDDEN EVERYWHERE (2026-08-08). It went first on phone portrait
+     (2026-08-05), then in landscape, and the last two places it survived were viewports that fell
+     between those two rules: portrait 600–719px wide, and any landscape under 720px (a phone turned
+     sideways). Rather than add a third breakpoint, it is now off in all cases — the element still
+     renders so the layout keeps its slot in the flex column, it just paints nothing.
+     Its old styling (gold, uppercase, 4.37cqw, .16em tracking) is in git history if it comes back. */
+  .qv-subtitle{display:none}
   .step-screen.qv-screen.active{display:flex}
   /* The 140px is the rest of the screen: 40px padding + title and its margin (~38) + the Back/Exit
      row and its margin (~57). Measured 2026-08-05 — it was 100px, which was 35px short, so on a
@@ -147,23 +153,48 @@
      svh, NOT dvh: svh assumes the browser's toolbars are SHOWING, which is the case that breaks.
      Firefox Focus keeps a top bar and a bottom bar on screen permanently; Safari retracts them on
      scroll, which is why it looks fine there and clipped elsewhere. */
-  .qv-window{position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px);border-radius:0;overflow:hidden;background:var(--navy)}
+  /* --ctlPad is the buffer used TWICE, by design (2026-08-08): controls to the bottom edge of the
+     video, and captions to the top of the controls. Equal above and below the control row.
+     --ctlH is the height of the TALLEST control, which is Skip — it is padding-driven and runs a few
+     px above the round buttons beside it, so it, not the 38px buttons, sets where the row's top edge
+     is. The compact tiers shrink Skip, so each one restates --ctlH and the caption line follows on
+     its own. Change either value here and both gaps stay equal; there is no third number to update.
+     ⚠ ALL FOUR CONTROLS ARE NOW THE SAME HEIGHT (2026-08-08). Skip used to be sized by its padding
+     while the round buttons were fixed at 38px, so it stood 2.5px taller and quietly set where the
+     caption line had to sit. Every control now takes its height from --ctlH, its side inset from
+     --ctlEdge, and the speed button's offset is derived from both — so a tier only restates those
+     two values and the whole row, including the captions above it, follows.
+     Equalised UPWARD (38 → 40) rather than trimming Skip: on a phone these are touch targets and the
+     row had the room. --ctlGap is the space between the speed and mute buttons. */
+  .qv-window{--ctlPad:16px;--ctlH:40px;--ctlEdge:14px;--ctlGap:8px;position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px);border-radius:0;overflow:hidden;background:var(--navy)}
   .qv-video,.qv-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;background:var(--navy)}
   .qv-still{opacity:0}
   .qv-still.is-active{opacity:1}
-  .qv-skip{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:.45rem;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.5rem 1.05rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
+  .qv-skip{position:absolute;left:50%;bottom:var(--ctlPad);transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:.45rem;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;height:var(--ctlH);padding:0 1.05rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
   .qv-skip:hover{background:rgba(0,38,71,.85)}
   .qv-skip svg{width:13px;height:13px;fill:currentColor}
-  .qv-mute{position:absolute;right:14px;bottom:16px;z-index:3;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
+  .qv-mute{position:absolute;right:var(--ctlEdge);bottom:var(--ctlPad);z-index:3;display:inline-flex;align-items:center;justify-content:center;width:var(--ctlH);height:var(--ctlH);background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
   .qv-mute:hover{background:rgba(0,38,71,.85)}
   .qv-mute svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .qv-cc{position:absolute;left:14px;bottom:16px;z-index:3;display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.74rem;font-weight:700;letter-spacing:.05em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+  .qv-cc{position:absolute;left:var(--ctlEdge);bottom:var(--ctlPad);z-index:3;display:inline-flex;align-items:center;justify-content:center;min-width:var(--ctlH);height:var(--ctlH);padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.74rem;font-weight:700;letter-spacing:.05em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
   .qv-cc:hover{background:rgba(0,38,71,.85)}
   .qv-cc.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
   .qv-cc.on:hover{background:var(--gold);opacity:.9}
+  /* Split pill: "CC" navy-on-gold, the live language gold-on-navy, halves meeting down the middle.
+     Only when a language is showing AND there is more than one to choose from — otherwise the button
+     stays a single tone (see ccBtnLabel). Padding moves off the button and onto the halves so each
+     fills its side to the rounded end; overflow:hidden is what makes them meet the curve cleanly. */
+  /* No border in split mode. The button's single border cannot be two colours, so the gold one from
+     .on was drawing a gold ring around the NAVY half. Dropping it lets each half's own fill define
+     its edge — gold against gold was invisible anyway, so only the navy half changes. Sizes are
+     unaffected: box-sizing is border-box, so the pill keeps its 38/34/30px height either way. */
+  .qv-cc.split{padding:0;overflow:hidden;gap:0;border:0}
+  .qv-cc.split .qv-cc-k,.qv-cc.split .qv-cc-l{display:inline-flex;align-items:center;height:100%;padding:0 8px}
+  .qv-cc.split .qv-cc-k{background:var(--gold);color:var(--navy)}
+  .qv-cc.split .qv-cc-l{background:var(--navy);color:var(--gold)}
   /* Two-language nodes wrap the CC button in a menu (Off / English / Español), mirroring the speed
      control. One-language nodes keep the plain on/off button, unwrapped — see qvCcHTML(). */
-  .qv-cc-wrap{position:absolute;left:14px;bottom:16px;z-index:4}
+  .qv-cc-wrap{position:absolute;left:var(--ctlEdge);bottom:var(--ctlPad);z-index:4}
   .qv-cc-wrap .qv-cc{position:static}
   .qv-cc-menu{position:absolute;left:0;bottom:46px;display:none;flex-direction:column;gap:2px;padding:5px;background:rgba(0,18,38,.92);border:1px solid rgba(255,255,255,.2);border-radius:10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
   .qv-cc-menu.open{display:flex}
@@ -173,8 +204,10 @@
   .qv-cc:focus-visible,.qv-cc-menu button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   /* Playback speed — button + pop-up list, paired with mute on the right. The wrapper is what's
      positioned; the menu opens upward from it so it never runs off the bottom of the picture. */
-  .qv-speed-wrap{position:absolute;right:60px;bottom:16px;z-index:4}
-  .qv-speed{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.03em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+  /* Sits one control-width plus a gap in from the mute button, so the pair stays together whatever
+     --ctlH is. Never hard-code this offset: it has to move when the buttons resize. */
+  .qv-speed-wrap{position:absolute;right:calc(var(--ctlEdge) + var(--ctlH) + var(--ctlGap));bottom:var(--ctlPad);z-index:4}
+  .qv-speed{display:inline-flex;align-items:center;justify-content:center;min-width:var(--ctlH);height:var(--ctlH);padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.03em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
   .qv-speed:hover{background:rgba(0,38,71,.85)}
   .qv-speed.off{background:var(--gold);color:var(--navy);border-color:var(--gold)}  /* anything but 1x */
   .qv-speed.off:hover{background:var(--gold);opacity:.9}
@@ -184,9 +217,12 @@
   .qv-speed-menu button:hover{background:rgba(255,255,255,.14)}
   .qv-speed-menu button[aria-checked="true"]{background:var(--gold);color:var(--navy);font-weight:700}
   .qv-speed:focus-visible,.qv-speed-menu button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  /* Caption layer — sits above the 54px chrome row (bottom:16px + 38px button). Not the browser's
-     native caption box: that renders behind the chrome and can't be repositioned. See qvRenderCue. */
-  .qv-caps{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
+  /* Caption layer — clears the control row by the SAME buffer the row leaves at the bottom edge:
+     --ctlPad below the row, --ctlPad above it, with the row's own height in between. Derived, not a
+     fixed number, so shrinking the controls in a compact tier moves the captions down with them.
+     Not the browser's native caption box: that renders behind the chrome and can't be repositioned
+     (VTTCue.line is ignored inside Blink's shadow caption area). See qvRenderCue. */
+  .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
   .qv-caps.on{display:block}
   .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5)}
   .qv-window.ended .qv-caps{display:none}
@@ -250,69 +286,83 @@
   .qv-exitlink svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
   /* Desktop / landscape: the whole block (header + video/questions + footer) is ONE rounded
      navy card, centered + floating on the ice page background — narrows focus on a big window.
-     Header anchored to card top, footer to card bottom, both with buffers. */
+     Header anchored to card top, footer to card bottom, both with buffers.
+
+     --vidH IS THE WHOLE BALANCE OF THIS LAYOUT, and it takes the SMALLEST of three limits. The video
+     is sized by HEIGHT; its width just follows from 9:16. Which limit is doing the work changes with
+     the window, and that is why a change can look like it did nothing:
+       78vh                  — governs tall windows (over ~1025px). Raised from 70 on 2026-08-08.
+       800px                 — hard ceiling; binds on very tall windows, e.g. 1920×1080.
+       100dvh - 225px        — the card's furniture; governs everything under ~1025px, i.e. every
+                               ordinary laptop. Reduced from 280 when the "Pathways Questionnaire"
+                               label was dropped here (measured at 59px). What remains: 3vh top and
+                               bottom screen padding, the stage's 34px top padding, ~97px footer.
+     Measured after both changes: 1024×600 → 211px wide · 1024×700 → 267 · 1366×768 → 305 ·
+     1440×900 → 380 · 1512×950 → 408 · 1920×1080 → 450. A phone gets 375, so a desktop window now
+     beats a phone from about 890px of height, down from ~950.
+     ⚠ Cutting the reserve further needs measurement, not arithmetic — too small and the card grows
+     past the window and the page scrolls, which is worse than a narrow video. Verified fitting with
+     no scroll at 1024×600 through 1920×1080. */
   @media(orientation:landscape) and (min-width:720px){
     .step-screen.qv-screen{padding:3vh 2vw;background:var(--ice)}
-    .qv-group{--vidH:min(70vh,800px,calc(100dvh - 280px));--panelW:min(42vw,440px);--colGap:2.75rem;width:auto;max-width:min(94vw,1040px);background:var(--navy);border-radius:18px;box-shadow:0 18px 50px rgba(0,38,71,.22);justify-content:flex-start;container-type:normal}
-    .qv-subtitle{align-self:stretch;width:100%;margin:0;padding:1.3rem 1.5rem .2rem;font-size:calc((var(--vidH) * 9 / 16 + var(--colGap) + var(--panelW)) * .0314);letter-spacing:.18em}
+    .qv-group{--vidH:min(78vh,800px,calc(100dvh - 225px));--panelW:min(42vw,440px);--colGap:2.75rem;width:auto;max-width:min(94vw,1040px);background:var(--navy);border-radius:18px;box-shadow:0 18px 50px rgba(0,38,71,.22);justify-content:flex-start;container-type:normal}
+    /* The "Pathways Questionnaire" label was dropped here on 2026-08-08 (it is now hidden globally —
+       see the .qv-subtitle rule near the top). It cost 59px of card furniture, and in this layout
+       that is WIDTH: the video is sized by height, so every 2px of furniture is ~1px of picture.
+       The 225px reserve above already has that 59px taken out of it.
+       ⚠ Trade-off, accepted deliberately: on desktop the questionnaire is a card floating on a light
+       ground, and this label was its header — the only thing naming the card. Nothing replaces it. */
     .qv-stage{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:var(--colGap);width:auto;max-width:none;margin:0;padding:1.7rem 2rem 0}
     .qv-window{width:auto;height:var(--vidH);aspect-ratio:9/16;max-height:none;border-radius:12px}
     .qv-end{position:static;inset:auto;display:flex!important;width:var(--panelW);background:none;overflow:visible;padding:0;justify-content:center}
     .qv-opts{margin:0}
     .qv-endfoot{display:none}
     .qv-foot{margin:0;padding:1.5rem 2rem 1.6rem}
-    .qv-cc,.qv-cc-wrap{left:auto;right:106px}
-    .qv-skip{left:14px;transform:none}
+    /* Control ORDER now matches the phone (2026-08-08): CC far left, Skip centred, speed and mute
+       right. Landscape used to pin Skip left and move CC over to the right cluster, which swapped
+       the two ends between layouts for no recorded reason. One arrangement everywhere. */
     .qv-window.ended .qv-replay-overlay{display:flex}
     .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-cc-wrap,.qv-window.ended .qv-skip,.qv-window.ended .qv-speed-wrap{display:none}
   }
   /* COMPACT CONTROL ROW — short landscape windows (fix 2026-08-08, first real clip).
      In landscape the video is sized by HEIGHT and its width follows from 9:16, so a shorter browser
-     window makes a NARROWER video: 1024×700 gives a 236px column. The four controls are anchored
-     independently (Skip left, then CC / speed / mute off the right edge) and at full size they need
-     ~295px, so below that they run into each other — Skip overlapped CC by 50px, measured.
-     Threshold: the video is `100dvh - 280` tall until the window passes ~933px, so 295px of width
-     needs ~804px of window height. Anything shorter gets the compact row.
-     ⚠ The 820 below is derived from the 280 allowance in --vidH above. Change one, recheck the other.
+     window makes a NARROWER video. The four controls are anchored independently — CC off the left
+     edge, Skip centred, speed and mute off the right — and at full size that arrangement needs about
+     296px of width before the centred Skip meets its neighbours.
+     ⚠ Anchors only ever set the side they belong to. Never give CC a `right` or Skip a `left` here:
+     that is what previously reversed the order between phone and desktop.
      Compact = Skip drops to its icon (font-size:0 hides the label; aria-label still carries "Skip
      video" for screen readers, so nothing is lost to assistive tech) and the buttons tighten to
-     34px. Nothing is removed — every control stays operable. */
+     34px, then 30px. Nothing is removed — every control stays operable. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:820px){
-    .qv-skip{left:10px;font-size:0;gap:0;padding:.5rem 9px}
+    .qv-window{--ctlH:37px;--ctlEdge:10px}   /* every control and offset follows from these two */
+    .qv-skip{font-size:0;gap:0;padding:0 9px}
     .qv-skip svg{width:15px;height:15px}
-    .qv-cc,.qv-cc-wrap{right:92px}
-    .qv-cc{min-width:34px;height:34px;padding:0 7px;font-size:.7rem}
-    .qv-speed-wrap{right:52px}
-    .qv-speed{min-width:34px;height:34px;padding:0 7px}
-    .qv-mute{right:10px;width:34px;height:34px}
+    .qv-cc{font-size:.7rem}
+    .qv-speed{padding:0 7px}
   }
-  /* Second tier — windows shorter than ~660px, where the column falls under ~215px and even the
-     34px row runs out of room (measured: still overlapping by 17px at 1024×600). Same idea, tighter:
-     30px buttons, smaller gaps. Labels are NOT abbreviated — "CC EN" stays, because the button
-     showing which language is on is the whole point of it. Every control stays present and usable.
+  /* Second tier — windows shorter than ~660px, where the column narrows further. Same idea, tighter:
+     30px buttons. Labels are NOT abbreviated — "CC EN" stays, because the button showing which
+     language is on is the whole point of it.
      ⚠ Floor: below roughly 570px of window height the row crowds again. At that point the video is
      under 160px wide on a desktop screen and the layout has bigger problems than the controls. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:660px){
-    .qv-skip{left:8px;padding:.4rem 6px}
+    .qv-window{--ctlH:31px;--ctlEdge:8px}
+    .qv-skip{padding:0 6px}
     .qv-skip svg{width:13px;height:13px}
-    .qv-cc,.qv-cc-wrap{right:76px}
-    .qv-cc{min-width:30px;height:30px;padding:0 5px;font-size:.62rem;letter-spacing:.03em}
-    .qv-speed-wrap{right:43px}
-    .qv-speed{min-width:30px;height:30px;padding:0 5px;font-size:.64rem}
-    .qv-mute{right:8px;width:30px;height:30px}
+    .qv-cc{padding:0 5px;font-size:.62rem;letter-spacing:.03em}
+    .qv-speed{padding:0 5px;font-size:.64rem}
     .qv-mute svg{width:15px;height:15px}
   }
-  /* Phone portrait: drop the "Pathways Questionnaire" label (2026-08-05).
-     It is the same four words on all eleven screens and says nothing the presenter and the question
-     below them don't already make obvious — redundant chrome on the most cramped screen in the site.
-     Removing it hands 38px straight to the video, ~7% more picture.
-     The reserve MUST come down with it, 140px → 102px, or the label goes and the hole it sat in
-     stays, which gains nothing. The 102 is 40px padding + the Back/Exit row and its margin (~57),
+  /* Phone portrait. The "Pathways Questionnaire" label was dropped here first (2026-08-05) — the
+     same four words on all eleven screens, redundant chrome on the most cramped screen in the site —
+     and it is now hidden everywhere, so only the RESERVE below is still doing work here.
+     That reserve MUST match the missing label: 140px → 102px, or the label goes and the hole it sat
+     in stays, which gains nothing. The 102 is 40px padding + the Back/Exit row and its margin (~57),
      with a few px of slack. See the .qv-window rule above for where 140 came from.
-     KEPT on tablets and in landscape: there the questionnaire is a card floating on a light ground
-     and the label is the card's header, so it has a job it does not have on a phone. */
+     ⚠ The reserve is still keyed to this 599px breakpoint even though the label is not. A portrait
+     tablet at 600–1023px keeps the 140px reserve, which is correct — it has the room. */
   @media(orientation:portrait) and (max-width:599px){
-    .qv-subtitle{display:none}
     .qv-window{max-height:calc(100svh - 102px)}
   }
   /* Tablet portrait: re-introduce the enclosing, centered 9:16 box (phones stay full-bleed) */
@@ -906,7 +956,17 @@ function ccVtt(name,lang){var d=CC_DIR[lang];return d?d+name+'.vtt':'';}
 function ccLangName(l){return (T.captionLangs&&T.captionLangs[l])||l;}
 // "CC" alone on a one-language node; "CC ES" where there's a choice, so what's showing is legible
 // without opening the menu. EN/ES are language codes, not copy — they don't translate.
-function ccBtnLabel(langs,act){return T.cc+(act&&langs.length>1?' '+act.toUpperCase():'');}
+// The CC button's face. With a language showing AND a choice to make, it is a split pill: "CC" in
+// navy on gold, then the language in gold on navy. That reads as one control in two states rather
+// than a label with a suffix, and the language stays legible without opening the menu.
+// Anything else — captions off, or a node with only one language — keeps the plain single-tone
+// button. Returns HTML, so callers must set innerHTML, not textContent.
+function ccBtnSplit(langs,act){return !!(act&&langs.length>1);}
+function ccBtnLabel(langs,act){
+  var cc=escapeHTML(T.cc);
+  if(!ccBtnSplit(langs,act))return cc;
+  return '<span class="qv-cc-k">'+cc+'</span><span class="qv-cc-l">'+escapeHTML(act.toUpperCase())+'</span>';
+}
 // Playback speed. Structure, not copy — "1.25x" reads the same in any language. Client-requested
 // range; 1 must stay in the list as the default. Adding a value here is all that's needed to offer it.
 const PW_SPEEDS=[0.75,1,1.25,1.5];
@@ -1336,7 +1396,8 @@ function qvCcHTML(langs){
         '" onclick="qvCcSet(this)">'+o.t+'</button>';
     }).join('');
   return '<div class="qv-cc-wrap">'+
-    '<button class="qv-cc'+(on?' on':'')+'" aria-haspopup="true" aria-expanded="false" aria-label="'+
+    '<button class="qv-cc'+(on?' on':'')+(ccBtnSplit(langs,act)?' split':'')+
+      '" aria-haspopup="true" aria-expanded="false" aria-label="'+
       T.captionsLabel+'" onclick="qvCcToggle(this)">'+ccBtnLabel(langs,act)+'</button>'+
     '<div class="qv-cc-menu" role="menu" aria-label="'+T.captionsLabel+'">'+items+'</div>'+
   '</div>';
@@ -1347,8 +1408,9 @@ function qvCcSync(win){
   var langs=qvWinLangs(win),act=ccActive(langs),on=!!act;
   var btn=win.querySelector('.qv-cc');
   if(btn){
-    btn.textContent=ccBtnLabel(langs,act);
+    btn.innerHTML=ccBtnLabel(langs,act);        // HTML, not text — see ccBtnLabel (split pill)
     btn.classList.toggle('on',on);
+    btn.classList.toggle('split',ccBtnSplit(langs,act));
     if(btn.hasAttribute('aria-pressed'))btn.setAttribute('aria-pressed',on?'true':'false');
   }
   win.querySelectorAll('.qv-cc-menu button').forEach(function(b){
