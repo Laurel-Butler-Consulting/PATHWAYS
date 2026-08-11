@@ -157,6 +157,16 @@
   .qv-spk{display:grid;width:100%;background:var(--navy);padding:.55rem .8rem .6rem;text-align:center;font-family:var(--font-body)}
   .qv-spk-slot{grid-area:1/1;visibility:hidden}
   .qv-spk-slot.is-on{visibility:visible}
+  /* Speaker change: a single wipe travelling left to right. The outgoing block is clipped away from
+     the left at exactly the rate the incoming one is uncovered, so there is one moving edge and the
+     type is solid on both sides of it — never half-transparent, which is what ruled a crossfade out.
+     Both slots sit in the same grid cell, so this needs no extra layout.
+     It covers the WHOLE block, not just the name: the two presenters have a different number of
+     title lines, and wiping the name alone would leave the lines beneath it to pop. */
+  .qv-spk-slot.is-wipe-in{visibility:visible;animation:qvSpkIn 190ms cubic-bezier(.33,0,.15,1) both}
+  .qv-spk-slot.is-wipe-out{visibility:visible;animation:qvSpkOut 190ms cubic-bezier(.33,0,.15,1) both}
+  @keyframes qvSpkIn{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  @keyframes qvSpkOut{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 0 0 100%)}}
   .qv-spk-name{display:block;color:var(--white);font-weight:700;font-size:.9rem;letter-spacing:.07em;line-height:1.25;text-transform:uppercase}
   .qv-spk-rule{display:none}
   .qv-spk-role{display:block;color:var(--gold);font-weight:400;font-size:.7rem;line-height:1.35;margin-top:.18em}
@@ -340,7 +350,14 @@
        It is the card's header and the only thing naming it — on desktop the questionnaire is a card
        floating on a light ground, where a phone has it full-bleed. Cost is documented above.
        Hidden globally by the .qv-subtitle rule near the top; this is the one place it shows. */
-    .qv-subtitle{display:block;font-family:var(--font-body);color:var(--gold);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.62rem;text-align:center;padding:1.15rem 1rem .1rem;width:100%}
+    /* Size is 3.14% of the card's INNER WIDTH (video + gap + panel), not a fixed rem — the original
+       formula, restored 2026-08-11 after the 08-10 rebuild set a flat .62rem and came out at 12.4px,
+       less than half the size this label had always been. It scales with the card, so it holds its
+       proportion from a 1024px window up to 1920. */
+    .qv-subtitle{display:block;align-self:stretch;width:100%;margin:0;padding:1.3rem 1.5rem .2rem;
+      font-family:var(--font-body);color:var(--gold);font-weight:600;text-transform:uppercase;
+      text-align:center;white-space:nowrap;line-height:1.1;letter-spacing:.18em;
+      font-size:calc((var(--vidH) * 9 / 16 + var(--colGap) + var(--panelW)) * .0314)}
     .qv-stage{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:var(--colGap);width:auto;max-width:none;margin:0;padding:1.7rem 2rem 0}
     .qv-window{width:auto;height:var(--vidH);aspect-ratio:9/16;max-height:none;border-radius:12px}
     .qv-end{position:static;inset:auto;display:flex!important;width:var(--panelW);background:none;overflow:visible;padding:0;justify-content:center}
@@ -1080,17 +1097,44 @@ function qvSpeakerAt(segs,t){
   for(var i=1;i<segs.length;i++){if(t>=segs[i].at)k=segs[i].k;else break;}
   return k;
 }
+// The wipe is 190ms; anything slower draws attention to itself, and on welcome this happens four
+// times inside 55 seconds. Held here rather than read back off the stylesheet so the class cleanup
+// can never outlive the animation.
+var QV_SPK_WIPE=190;
 function qvSpeakerSync(v){
   var group=v&&v.closest('.qv-group');if(!group)return;
   var boxes=group.querySelectorAll('.qv-spk');if(!boxes.length)return;
   var segs=qvSpeakerList(NODES[group.getAttribute('data-node')]);if(!segs.length)return;
   var k=qvSpeakerAt(segs,v.currentTime||0);
+  // Someone who asked their system not to animate gets the change as a straight cut. Same rule the
+  // hero photos and the quote carousel already follow.
+  var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   boxes.forEach(function(box){                             // the phone band and the desktop column
-    if(box.getAttribute('data-showing')===k)return;        // nothing changed — don't touch the DOM
+    var was=box.getAttribute('data-showing');
+    if(was===k)return;                                     // nothing changed — don't touch the DOM
     box.setAttribute('data-showing',k);
-    box.querySelectorAll('.qv-spk-slot').forEach(function(el){
-      el.classList.toggle('is-on',el.getAttribute('data-spk')===k);
+    var slots=box.querySelectorAll('.qv-spk-slot');
+    // A wipe already running is finished on the spot before the next one starts — a scrub through
+    // the timeline can ask for two changes inside the animation.
+    if(box.qvWipe){clearTimeout(box.qvWipe);box.qvWipe=null;
+      slots.forEach(function(el){el.classList.remove('is-wipe-in','is-wipe-out');});}
+    var first=!was;                                        // opening frame: no wipe, just show
+    if(first||still){
+      slots.forEach(function(el){el.classList.toggle('is-on',el.getAttribute('data-spk')===k);});
+      return;
+    }
+    slots.forEach(function(el){
+      var mine=el.getAttribute('data-spk')===k;
+      if(mine){el.classList.add('is-on','is-wipe-in');}
+      else if(el.classList.contains('is-on')){el.classList.add('is-wipe-out');}
     });
+    box.qvWipe=setTimeout(function(){
+      box.qvWipe=null;
+      slots.forEach(function(el){
+        el.classList.remove('is-wipe-in','is-wipe-out');
+        el.classList.toggle('is-on',el.getAttribute('data-spk')===k);
+      });
+    },QV_SPK_WIPE+10);
   });
 }
 // Measures the band once the fonts and text have settled and publishes it as --spkH, so the
