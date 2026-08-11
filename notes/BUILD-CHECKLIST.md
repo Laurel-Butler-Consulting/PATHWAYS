@@ -252,8 +252,12 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         ⚠ Short windows gained from the label removal only — 78vh never binds below ~1025px, where
         the reserve governs instead. That is why raising vh alone would have looked like it did
         nothing on a laptop. The three limits and which one governs when are documented in the CSS.
-        ⚠ Accepted trade-off: the landscape card no longer has a header naming it. The label survives
-        only on tablets in portrait.
+        ⚠ **REVERSED 2026-08-10 on request — the label is back in landscape**, and the reserve went
+        with it, 225 → 284. The trade-off recorded here (a card with no header naming it) is what the
+        client chose not to accept. Cost, measured: 1440×900 → 347px wide, down from 380, so a laptop
+        is under a phone's 375 again. Current widths are in the CSS comment beside `--vidH`.
+        ℹ The claim that the label "survives only on tablets in portrait" was wrong even on 08-08 —
+        it was hidden globally, and nothing re-showed it anywhere. It now shows in landscape only.
       • **Control ORDER made consistent 2026-08-08.** Landscape had pinned Skip left and moved CC to
         the right cluster, so CC and Skip swapped ends between phone and desktop, with no recorded
         reason. Now one arrangement everywhere: **CC → Skip → Speed → Mute**, Skip centred.
@@ -264,28 +268,45 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
         button has one border and the gold one was drawing a ring around the navy half. Off and
         single-language nodes keep the plain button, unchanged.
-- [~] **Speaker name/title strips (client request 2026-08-05) — PRELIMINARY DESIGN APPROVED BY THE
-      CLIENT 2026-08-06.** Approval is of the mock-up, not of finished work: nothing is built yet.
-      ✔ **All eight names and titles supplied 2026-08-08** — that gate is cleared. They are recorded
-      verbatim, with the node mapping and the measurements, in
+- [x] **Speaker name/title strips — BUILT 2026-08-10.** Names and job titles live in
+      `data/content.en.json` → `speakers`; each node's `sp:[…]` in index.html says WHO and, on a
+      two-presenter clip, WHEN. Verbatim copy and the node mapping stay in
       [`notes/speaker-names-and-titles.txt`](speaker-names-and-titles.txt).
-      **Three decisions now block it, all listed in that file:** one title line or both (every
-      speaker but Ricky supplied two, where the mock-up assumed one); how the two-presenter nodes
-      work (welcome and whatTeach each carry Laurel AND Ricky); and how long the strip holds before
-      fading. Build once those are answered and the clips are in.
-      Mocked up on the real player at phone size; nothing built, nothing changed in the site.
-      **Draw them in the site, do not burn them into the video.** On a small phone the bottom 423px
-      of a 1080×1920 export is cropped away before the player's own furniture takes another 335px,
-      so a burned-in strip has to sit above y≈1163 to survive — 60% up the frame, which reads as a
-      floating label, not a lower third. Drawing it also means a misspelled name is a text edit
-      rather than a re-cut, and the job title can be translated.
-      Position: above the caption line at a fixed offset, so nothing shifts when captions appear.
-      Captions do NOT move — move the transient element, never the persistent one.
-      ⚠ Copy is too long as supplied. Measured at phone width: 3 lines incl. "Senior Faculty, Loyola
-      Marymount University College of Communication and Fine Arts" = 97px, 19% of the visible video,
-      wrapping to 4 lines. Dropping "College of Communication and Fine Arts" → 80px. Name + role
-      only → 2 lines. Recommended: name + role; the university affiliation belongs on a result page.
-      Collect ALL EIGHT speakers' titles before building — the longest one sets the box size.
+      **Not an overlay — page furniture**, which is the decision that took the longest to land. On a
+      phone it is a navy band ABOVE the picture; on desktop it fills the column beside the video.
+      Nothing sits on the presenter, so the caption line and the control row never move, and the crop
+      question below stopped competing with it.
+      **The four decisions, all answered 2026-08-10:**
+      • **Name + first title on the phone; both titles on desktop.** The phone band is 67px either
+        way; a second line would have cost another ~20px of picture on the smallest screen.
+      • **The strip switches as the presenters alternate** (`welcome`: four turns). Hard cut, no fade.
+      • **It holds for the whole clip.** Fading was only ever needed to get it off the picture.
+      • **On desktop the right column is SHARED** — name while the clip runs, questions when it ends.
+        Nobody can answer during playback any more; accepted because Skip jumps straight there.
+      **Measured:** band 67px · phone 375×812 video 667 → 643 (2.4%) · phone 375×667 video 565 → 498
+      (11.9%, the full band, because that screen has no slack) · desktop unchanged at 347×616 on a
+      1440×900 window, the column being space that was empty anyway · name movement between speakers
+      0px at both sizes.
+      **How the name is anchored:** every speaker on a node is rendered and stacked in ONE grid cell,
+      so the box is as tall as the tallest and the name sits at a fixed height — only the lines under
+      the gold rule change. Hidden slots use `visibility`, which keeps their height and keeps them out
+      of the screen-reader path, so one name is announced, not all of them.
+      **Only over a real clip.** A node showing placeholder stills renders no strip — a two-presenter
+      node shows both stills at once, so there is nobody to name — and a flagged-but-missing clip has
+      its strips removed with the rest of the clip-only controls, which hands the desktop column back
+      to the questions on its own. Verified by simulating an absent file.
+      ⚠ **`discipline` has no cut times yet.** Laurel and Ricky alternate there as they do in
+      `welcome`, but the clip has not landed, so there is nothing to time against; the node names
+      Laurel throughout until `at:` values are added. Do that the day the clip goes in.
+      ⚠ **Read cut times off the FINISHED EXPORT, not the Premiere timeline.** `welcome`'s sequence
+      displays 30-per-second timecode on a 23.976 timebase, so every number read off it was ~20%
+      short — the last cut read as 43:26 on a clip that is 54.93s long. Converted, checked against the
+      caption timings (two of three land exactly on a cue boundary) and verified frame-complete.
+      **Why it is drawn in the site rather than burned into the video** — unchanged, and still the
+      reason: on a small phone the bottom 423px of a 1080×1920 export is cropped away before the
+      player's own furniture takes another 335px, so a burned-in strip would have to sit above y≈1163
+      to survive, 60% up the frame. Drawing it also means a misspelled name is a text edit rather than
+      a re-cut, and the job title can be translated.
 - [ ] **Video crop position — RE-CHECK WITH REAL FOOTAGE, then set it.** On phones the player is
       shorter than 9:16 and the video is top-aligned (`object-position:50% 0`), so the crop currently
       comes off the BOTTOM and the presenter sits low under a band of empty sky. Cropping entirely
@@ -311,11 +332,20 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       render without overlapping at phone, laptop and short-window sizes.
       ℹ Posters are **chosen frames, not frame 1** — the client picks the most flattering frame.
       Don't report the difference as a defect.
-- [~] Captions (`.srt` → `.vtt`) for all narrated videos — **1 of 11 converted and named
-      (`welcome`, both languages, 29 cues each, timings matching).** New dated SRTs are being
-      supplied for the remaining ten; convert with `scripts/srt2vtt.py` and rename the output to the
-      node key. ⚠ If a re-export changes any TIMECODE, the Spanish sidecar was built on the old
-      timings and must be rebuilt — check before assuming it still lines up.
+      ℹ **`welcome.jpg` predates the 2026-08-10 re-cut and STAYS — decided, not overlooked.** The
+      clip was reframed that day and the poster was not re-exported, so the still shows the earlier
+      framing of the frame it was taken from. Raised and declined. Don't flag it again.
+- [x] Captions (`.srt` → `.vtt`) for all narrated videos — **ALL 11 CONVERTED AND NODE-KEY NAMED, in
+      BOTH languages: 22 files, confirmed in the folders 2026-08-10.** They sit in
+      `video/captions/eng/` and `video/captions/esp/` beside the dated Premiere SRT exports
+      (`…_260806.srt`), which stay as the source. Cue counts match language for language on all 11
+      nodes — 380 English cues, 383 Spanish — the only difference being `cteIntro` (22 vs 25), which
+      is deliberate and documented in §0.
+      ⚠ **Converted is not switched on.** A caption file only reaches a visitor when its node carries
+      `cc:['en','es']` and its clip is present — today that is `welcome` alone. The other ten are
+      staged and waiting on their clips, not on any further caption work.
+      ⚠ If a re-export changes any TIMECODE, the Spanish sidecar was built on the old timings and must
+      be rebuilt — check before assuming it still lines up.
 - [x] **Questionnaire + results copy moved out of `index.html` into `data/content.en.json`
       (2026-07-31)** — transcripts, node labels, questions, answer buttons, result titles, resource
       headings, the Supplementary Authorization page, and all button/label text. `index.html` keeps

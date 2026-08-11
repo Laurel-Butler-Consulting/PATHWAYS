@@ -208,7 +208,7 @@ the node drops back to its placeholder still and nothing reports a problem.
 |---|---|---|
 | `welcome` | Welcome | Laurel & Ricky |
 | `taVsCred` | Teaching Artist vs. Credentialed Teacher | Laurel |
-| `whatTeach` | Choosing a Discipline | Laurel / Ricky |
+| `discipline` | Choosing a Discipline | Laurel / Ricky |
 | `lifeTA` | Life of a Teaching Artist | Laurel |
 | `cteIntro` | The CTE Certificate | Ricky |
 | `cteVideo` | The CTE Pathway | Tiffany |

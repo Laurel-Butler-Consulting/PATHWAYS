@@ -51,6 +51,31 @@
     "Southern California": "Southern",
     "Unsorted": "Unsorted"
   },
+  "speakers": {
+    "laurel":    {"name": "Dr. Laurel Butler",
+                  "titles": ["Lead Consultant, Arts Educator Pathways",
+                             "Senior Faculty, Loyola Marymount University College of Communication and Fine Arts"]},
+    "ricky":     {"name": "Ricky Abilez, MPA",
+                  "titles": ["Program Director, Create CA"]},
+    "tiffany":   {"name": "Tiffany Owens, MS",
+                  "titles": ["Senior Program Leader, Owens Consulting Lab",
+                             "Veteran Credentialed Educator & District Arts Education Specialist"]},
+    "christiane":{"name": "Dr. Christiane Wood",
+                  "titles": ["Associate Professor, California State University San Marcos",
+                             "Program Coordinator, CREATE Residency / Associate Director, Center ARTES"]},
+    "eric":      {"name": "Dr. Eric Engdahl",
+                  "titles": ["Professor, California State University East Bay",
+                             "California Educational Theatre Association"]},
+    "lindsay":   {"name": "Dr. Lindsay Lindberg",
+                  "titles": ["Post-Doctoral Research Scholar, UCLA",
+                             "California Dance Education Association"]},
+    "kristin":   {"name": "Dr. Kristin Vanderlip Taylor",
+                  "titles": ["Associate Professor, California State University Northridge",
+                             "Co-founder, Art Education ColLab"]},
+    "matthew":   {"name": "Matthew Armstrong",
+                  "titles": ["Lecturer, California State University San Marcos",
+                             "Program Manager, CREATE Residency / Faculty Fellow, Center ARTES"]}
+  },
   "nodes": {
     "welcome": {
       "label": "Welcome",
@@ -120,7 +145,7 @@
         "You can pursue it through your county office of education, university extensions, and other continuing education programs with a preliminary CTE. You can even work towards your credential while you're teaching in a classroom. And typically, those with a CTE credential continue to pursue their arts practice and stay active in their creative field. There are other details outlined in this website, but the most important point to remember is that your experience, your knowledge, insight, and skills from working in the field of arts, media, and entertainment are requirements for earning that CTE credential, and they're also what distinguish you and make you eligible to teach."
       ]
     },
-    "whatTeach": {
+    "discipline": {
       "label": "Choosing a Discipline",
       "q": "What do you want to teach?",
       "o": [

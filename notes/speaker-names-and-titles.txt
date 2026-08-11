@@ -10,11 +10,11 @@ the strips, trim it in the code and leave this file as the record of what was gi
 Dr. Laurel Butler
     Lead Consultant, Arts Educator Pathways
     Senior Faculty, Loyola Marymount University College of Communication and Fine Arts
-    NODES: welcome · taVsCred · whatTeach · lifeTA
+    NODES: welcome · taVsCred · discipline · lifeTA
 
 Ricky Abilez, MPA
     Program Director, Create CA
-    NODES: welcome · whatTeach · cteIntro
+    NODES: welcome · discipline · cteIntro
 
 Tiffany Owens, MS
     Senior Program Leader, Owens Consulting Lab
@@ -52,7 +52,7 @@ NODE KEYS — the client listed videos by their export names. The mapping:
 
     welcome      = welcome                 Laurel + Ricky
     tavscred     = taVsCred                Laurel
-    discipline   = whatTeach               Laurel + Ricky
+    discipline   = discipline              Laurel + Ricky
     lifeta       = lifeTA                  Laurel
     cteintro     = cteIntro                Ricky
     ctepath      = cteVideo                Tiffany
@@ -90,7 +90,7 @@ THREE DECISIONS STILL OPEN — nothing is built until these are answered
    second line is usually the institutional affiliation, which the 2026-08-06 note argued belongs on
    a result page rather than across the presenter. Recommended: name + first title only.
 
-2. THE TWO-PRESENTER NODES (welcome, whatTeach).
+2. THE TWO-PRESENTER NODES (welcome, discipline).
    Both names at once, or each name as that person speaks? Per-speaker timing means cue points for
    every clip — real work, and it cannot be built until the clips are in. Both-at-once is one static
    strip but doubles its height on the node people see first.

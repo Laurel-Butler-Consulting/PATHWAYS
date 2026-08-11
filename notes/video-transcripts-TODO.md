@@ -24,7 +24,7 @@ points on each result page / PDF). Awaiting transcript text from user/client.
 ### 2. Laurel — Teaching Artist vs. Credentialed Teacher  [node: taVsCred]
 > 
 
-### 3. Laurel / Ricky — Choosing a Discipline  [node: whatTeach]
+### 3. Laurel / Ricky — Choosing a Discipline  [node: discipline]
 > 
 
 ### 4. Chris — Supplementary Authorization  [node: suppAuth] → Supp Auth page

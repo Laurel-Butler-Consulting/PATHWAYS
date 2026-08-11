@@ -144,6 +144,30 @@
      renders so the layout keeps its slot in the flex column, it just paints nothing.
      Its old styling (gold, uppercase, 4.37cqw, .16em tracking) is in git history if it comes back. */
   .qv-subtitle{display:none}
+  /* Speaker name/title strip — a band ABOVE the picture, not an overlay on it. Nothing sits on the
+     presenter, so the caption line and the control row are untouched. Built 2026-08-10.
+     Every speaker on the node is rendered and stacked in ONE grid cell, so the box is as tall as
+     the tallest and the NAME never moves when the speaker changes mid-clip. Hidden slots use
+     visibility, not display, which keeps their height AND keeps them out of the accessibility tree.
+     ⚠ The band's measured height is published as --spkH by qvSpeakerBind and subtracted from the
+     video's max-height below. Change the padding or the type size here and the video follows on its
+     own — there is no second number to update.
+     ⚠ The phone carries the FIRST title line only (.is-extra is hidden). The second is usually the
+     institutional affiliation and it would cost another 20px of picture. */
+  .qv-spk{display:grid;width:100%;background:var(--navy);padding:.55rem .8rem .6rem;text-align:center;font-family:var(--font-body)}
+  .qv-spk-slot{grid-area:1/1;visibility:hidden}
+  .qv-spk-slot.is-on{visibility:visible}
+  .qv-spk-name{display:block;color:var(--white);font-weight:700;font-size:.9rem;letter-spacing:.07em;line-height:1.25;text-transform:uppercase}
+  .qv-spk-rule{display:none}
+  .qv-spk-role{display:block;color:var(--gold);font-weight:400;font-size:.7rem;line-height:1.35;margin-top:.18em}
+  .qv-spk-role.is-extra{display:none}
+  .qv-spk-panel{display:none}                     /* desktop-only variant — see the landscape rules */
+  /* END OF CLIP, PHONE: the questions cover the picture, so there is no longer anyone on screen to
+     name — and the band would otherwise sit above the question naming whoever spoke last. Blanked,
+     not removed: the band keeps its height so the frame does not jump as the questions appear, and
+     an empty band is invisible because it is the same navy as the card behind it.
+     Replay clears .ended, and the name comes back with it. */
+  .qv-group:has(.qv-window.ended) .qv-spk-band .qv-spk-slot{visibility:hidden}
   .step-screen.qv-screen.active{display:flex}
   /* The 140px is the rest of the screen: 40px padding + title and its margin (~38) + the Back/Exit
      row and its margin (~57). Measured 2026-08-05 — it was 100px, which was 35px short, so on a
@@ -166,7 +190,7 @@
      two values and the whole row, including the captions above it, follows.
      Equalised UPWARD (38 → 40) rather than trimming Skip: on a phone these are touch targets and the
      row had the room. --ctlGap is the space between the speed and mute buttons. */
-  .qv-window{--ctlPad:16px;--ctlH:40px;--ctlEdge:14px;--ctlGap:8px;position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px);border-radius:0;overflow:hidden;background:var(--navy)}
+  .qv-window{--ctlPad:16px;--ctlH:40px;--ctlEdge:14px;--ctlGap:8px;position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px - var(--spkH,0px));border-radius:0;overflow:hidden;background:var(--navy)}
   .qv-video,.qv-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;background:var(--navy)}
   .qv-still{opacity:0}
   .qv-still.is-active{opacity:1}
@@ -293,28 +317,53 @@
      the window, and that is why a change can look like it did nothing:
        78vh                  — governs tall windows (over ~1025px). Raised from 70 on 2026-08-08.
        800px                 — hard ceiling; binds on very tall windows, e.g. 1920×1080.
-       100dvh - 225px        — the card's furniture; governs everything under ~1025px, i.e. every
-                               ordinary laptop. Reduced from 280 when the "Pathways Questionnaire"
-                               label was dropped here (measured at 59px). What remains: 3vh top and
-                               bottom screen padding, the stage's 34px top padding, ~97px footer.
-     Measured after both changes: 1024×600 → 211px wide · 1024×700 → 267 · 1366×768 → 305 ·
-     1440×900 → 380 · 1512×950 → 408 · 1920×1080 → 450. A phone gets 375, so a desktop window now
-     beats a phone from about 890px of height, down from ~950.
+       100dvh - 284px        — the card's furniture; governs everything under ~1025px, i.e. every
+                               ordinary laptop. It was 280, then 225 on 2026-08-08 when the
+                               "Pathways Questionnaire" label was dropped, and now 284: the label
+                               was PUT BACK on 2026-08-10 at the client's request, and the reserve
+                               has to carry it again. What it covers: 3vh top and bottom screen
+                               padding, the label (~59px), the stage's 34px top padding, ~97px footer.
+     ⚠ Restoring the label cost the picture, and the number is on the record: at 1440×900 the video
+     went 380px wide → 347, i.e. back under a phone's 375. Asked for and confirmed 2026-08-10 after
+     being measured — it is the header the card had always had, and nothing else names it.
+     Measured with the label back, 2026-08-10: 1024×700 → 234px wide · 1366×768 → 272 ·
+     1440×900 → 347 · 1920×1080 → 448. Note the 800px ceiling no longer governs even at 1080 tall:
+     100dvh - 284 is 796, four pixels under it, so the reserve is what binds at every size that
+     matters. The ceiling only comes back into play above ~1084px of window height.
      ⚠ Cutting the reserve further needs measurement, not arithmetic — too small and the card grows
      past the window and the page scrolls, which is worse than a narrow video. Verified fitting with
      no scroll at 1024×600 through 1920×1080. */
   @media(orientation:landscape) and (min-width:720px){
     .step-screen.qv-screen{padding:3vh 2vw;background:var(--ice)}
-    .qv-group{--vidH:min(78vh,800px,calc(100dvh - 225px));--panelW:min(42vw,440px);--colGap:2.75rem;width:auto;max-width:min(94vw,1040px);background:var(--navy);border-radius:18px;box-shadow:0 18px 50px rgba(0,38,71,.22);justify-content:flex-start;container-type:normal}
-    /* The "Pathways Questionnaire" label was dropped here on 2026-08-08 (it is now hidden globally —
-       see the .qv-subtitle rule near the top). It cost 59px of card furniture, and in this layout
-       that is WIDTH: the video is sized by height, so every 2px of furniture is ~1px of picture.
-       The 225px reserve above already has that 59px taken out of it.
-       ⚠ Trade-off, accepted deliberately: on desktop the questionnaire is a card floating on a light
-       ground, and this label was its header — the only thing naming the card. Nothing replaces it. */
+    .qv-group{--vidH:min(78vh,800px,calc(100dvh - 284px));--panelW:min(42vw,440px);--colGap:2.75rem;width:auto;max-width:min(94vw,1040px);background:var(--navy);border-radius:18px;box-shadow:0 18px 50px rgba(0,38,71,.22);justify-content:flex-start;container-type:normal}
+    /* The "Pathways Questionnaire" label: dropped here 2026-08-08, restored 2026-08-10 on request.
+       It is the card's header and the only thing naming it — on desktop the questionnaire is a card
+       floating on a light ground, where a phone has it full-bleed. Cost is documented above.
+       Hidden globally by the .qv-subtitle rule near the top; this is the one place it shows. */
+    .qv-subtitle{display:block;font-family:var(--font-body);color:var(--gold);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.62rem;text-align:center;padding:1.15rem 1rem .1rem;width:100%}
     .qv-stage{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:var(--colGap);width:auto;max-width:none;margin:0;padding:1.7rem 2rem 0}
     .qv-window{width:auto;height:var(--vidH);aspect-ratio:9/16;max-height:none;border-radius:12px}
     .qv-end{position:static;inset:auto;display:flex!important;width:var(--panelW);background:none;overflow:visible;padding:0;justify-content:center}
+    /* THE RIGHT COLUMN IS SHARED, and the two take turns (decided 2026-08-10). While the clip runs
+       it holds the speaker's name; when the clip ends it holds the questions. Nobody can answer
+       during playback any more — that was weighed and accepted, because Skip jumps straight to the
+       questions for anyone who wants them now.
+       Keyed to the PANEL EXISTING, not to the layout: a node with no clip renders no panel, so its
+       questions show immediately, exactly as before. A clip that is flagged but missing has its
+       strips removed by qvVideoFail, and the questions come back on their own. */
+    .qv-stage:has(.qv-spk-panel) .qv-end{display:none!important}
+    .qv-stage:has(.qv-spk-panel) .qv-window.ended~.qv-end{display:flex!important}
+    .qv-stage:has(.qv-spk-panel) .qv-window.ended~.qv-spk-panel{display:none}
+    /* The band is the phone's; the column is the desktop's. Only one is ever rendered visible.
+       Vertically centred on the video, with the NAME anchored: every speaker's slot starts at the
+       top of the same grid cell, so the name sits at a fixed height and only the lines beneath it
+       change when the speaker does. Measured at 0px of movement between Laurel and Ricky. */
+    .qv-spk-band{display:none}
+    .qv-spk-panel{display:grid;width:var(--panelW);align-self:center;text-align:left;background:none;padding:0}
+    .qv-spk-panel .qv-spk-name{font-size:1.68rem;letter-spacing:.04em;line-height:1.15}
+    .qv-spk-panel .qv-spk-rule{display:block;width:58px;height:3px;background:var(--gold);margin:.55rem 0 .75rem}
+    .qv-spk-panel .qv-spk-role{color:rgba(240,248,255,.86);font-size:.82rem;line-height:1.5;margin-top:0}
+    .qv-spk-panel .qv-spk-role.is-extra{display:block}
     .qv-opts{margin:0}
     .qv-endfoot{display:none}
     .qv-foot{margin:0;padding:1.5rem 2rem 1.6rem}
@@ -363,7 +412,7 @@
      ⚠ The reserve is still keyed to this 599px breakpoint even though the label is not. A portrait
      tablet at 600–1023px keeps the 140px reserve, which is correct — it has the room. */
   @media(orientation:portrait) and (max-width:599px){
-    .qv-window{max-height:calc(100svh - 102px)}
+    .qv-window{max-height:calc(100svh - 102px - var(--spkH,0px))}
   }
   /* Tablet portrait: re-introduce the enclosing, centered 9:16 box (phones stay full-bleed) */
   @media(orientation:portrait) and (min-width:600px){
@@ -797,7 +846,7 @@ const PROGRAMS_READY=fetch('data/programs.json').then(function(r){return r.json(
 // PROFILES / RESOURCES once the file lands; nothing renders before that (see showScreen).
 // Why the copy moved out: text inside this file sits between quote marks, so an apostrophe in a
 // transcript ("you're") ended the string early and blanked the whole page. JSON has no such trap.
-let T={},SUPP={},REGION_LABEL={},SUMMARY={},CONTENT_OK=false;
+let T={},SUPP={},REGION_LABEL={},SUMMARY={},SPEAKERS={},CONTENT_OK=false;
 const CONTENT_READY=fetch('data/content.en.json').then(function(r){return r.json();}).then(function(c){
   applyContent(c);CONTENT_OK=true;
 }).catch(function(){});
@@ -813,6 +862,7 @@ const SITE_READY=Promise.all([CONTENT_READY,TXES_READY]);
 var PW_TXLANG=(function(){try{return localStorage.getItem('pwTxLang')==='es'?'es':'en';}catch(e){return 'en';}})();
 function applyContent(c){
   T=c.ui||{};SUPP=c.suppPage||{};REGION_LABEL=c.regionLabels||{};SUMMARY=c.summaries||{};
+  SPEAKERS=c.speakers||{};                      // names + job titles for the on-screen strip
   Object.keys(c.nodes||{}).forEach(function(k){
     var n=NODES[k],d=c.nodes[k];if(!n)return;
     n.label=d.label;n.q=d.q;n.text=d.text;
@@ -869,42 +919,62 @@ const NODE_STILL_DIR='video/stills/';
 // Structure only — presenter, stills, routing, video flags. The label, question, answer-button
 // text and transcript for each node come from data/content.en.json, matched on these keys and on
 // the ORDER of the o:[] array. Adding or reordering an answer here means doing the same there.
+// sp:[…] → WHO is on screen, for the name/title strip. Each entry is a speaker key from
+// data/content.en.json → speakers (which holds the names and job titles — the copy lives there,
+// not here), optionally with `at:` — the second, in the FINISHED CLIP, where that person starts
+// speaking. The first entry needs no `at:`; it runs from zero.
+//   sp:['laurel']                                   one presenter, named for the whole clip
+//   sp:['laurel',{k:'ricky',at:17.434},…]           two presenters, strip switches at each cut
+// ⚠ The strip only renders over a REAL CLIP (v:1). Over a placeholder still it stays hidden —
+// a two-presenter node shows both stills at once, so there is no one person to name.
+// ⚠ Cut times are read off the FINISHED export, not off a Premiere timeline whose display format
+// may differ from its timebase. welcome's were converted from a 30-per-second readout on a
+// 23.976 sequence; see notes/video-export-spec.md before adding more.
 const NODES={
   // FIRST CLIP SWITCHED ON, 2026-08-08. poster is a chosen frame, not frame 1 — deliberate, so it
   // reads well in the moment before playback starts. The two placeholder stills stay as the
   // fallback layer beneath the video, used only if the file ever fails to load.
+  // Speaker cuts confirmed 2026-08-10 off a sequence set to a 23.976 DISPLAY format, so the frame
+  // numbers are real frames: 17:10, 34:18, 50:09. They agree within one frame with the first
+  // reading, which came off a 30-labelled display and had to be converted.
+  // ⚠ Do not "verify" these by sampling a fast-forwarded video: at 8x the painted frame trails
+  // currentTime by 1-2 seconds, which makes a correct map look wrong. Watch it at normal speed.
   welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],v:1,cc:['en','es'],
+    sp:['laurel',{k:'ricky',at:17.417},{k:'laurel',at:34.751},{k:'ricky',at:50.375}],
     poster:NODE_STILL_DIR+'welcome.jpg',o:[
     {to:'suppAuth'},{to:'cteIntro'},{to:'taVsCred'},{to:'taVsCred'}
   ]},
-  suppAuth:{p:'Chris',img:vp('chris'),o:[
+  suppAuth:{p:'Chris',img:vp('chris'),sp:['christiane'],o:[
     {to:'@supp'},{to:'cteIntro'}
   ]},
-  taVsCred:{p:'Laurel',img:vp('laurel'),o:[
+  taVsCred:{p:'Laurel',img:vp('laurel'),sp:['laurel'],o:[
     {to:'cteIntro'},{to:'lifeTA'}
   ]},
-  cteIntro:{p:'Ricky',img:vp('ricky'),o:[
-    {to:'cteVideo'},{to:'whatTeach'}
+  cteIntro:{p:'Ricky',img:vp('ricky'),sp:['ricky'],o:[
+    {to:'cteVideo'},{to:'discipline'}
   ]},
-  cteVideo:{p:'Tiffany',img:vp('tiffany'),o:[
-    {to:'@cte'},{to:'whatTeach'}
+  cteVideo:{p:'Tiffany',img:vp('tiffany'),sp:['tiffany'],o:[
+    {to:'@cte'},{to:'discipline'}
   ]},
-  whatTeach:{p:'Laurel / Ricky',img:[vp('laurel'),vp('ricky')],o:[
+  // ⚠ TWO PRESENTERS, CUT TIMES NOT YET SUPPLIED. Laurel and Ricky alternate here as they do in
+  // welcome, but the clip has not landed, so there is nothing to time against. Until `at:` values
+  // are added the strip names Laurel for the whole clip — add them the day the clip goes in.
+  discipline:{p:'Laurel / Ricky',img:[vp('laurel'),vp('ricky')],sp:['laurel'],o:[
     {to:'mMusic'},{to:'mTheater'},{to:'mDance'},{to:'mArt'}
   ]},
-  lifeTA:{p:'Laurel',img:vp('laurel'),o:[
+  lifeTA:{p:'Laurel',img:vp('laurel'),sp:['laurel'],o:[
     {to:'@ta'},{to:'cteIntro',alt:1}
   ]},
-  mMusic:{p:'Matthew',img:vp('matthew'),o:[
+  mMusic:{p:'Matthew',img:vp('matthew'),sp:['matthew'],o:[
     {to:'@music'},{to:'@reset',alt:1}
   ]},
-  mTheater:{p:'Eric',img:vp('eric'),o:[
+  mTheater:{p:'Eric',img:vp('eric'),sp:['eric'],o:[
     {to:'@theatre'},{to:'@reset',alt:1}
   ]},
-  mDance:{p:'Lindsay',img:vp('lindsay'),o:[
+  mDance:{p:'Lindsay',img:vp('lindsay'),sp:['lindsay'],o:[
     {to:'@dance'},{to:'@reset',alt:1}
   ]},
-  mArt:{p:'Kristin',img:vp('kristin'),o:[
+  mArt:{p:'Kristin',img:vp('kristin'),sp:['kristin'],o:[
     {to:'@art'},{to:'@reset',alt:1}
   ]}
 };
@@ -954,6 +1024,98 @@ function ccActive(langs){
 // own per-language folder, not beside the clip. See CC_DIR.
 function ccVtt(name,lang){var d=CC_DIR[lang];return d?d+name+'.vtt':'';}
 function ccLangName(l){return (T.captionLangs&&T.captionLangs[l])||l;}
+
+// === Speaker name/title strip ==================================================================
+// Names who is on screen. Drawn by the site, never burned into the video: a burned-in strip has to
+// clear a crop that changes with the phone, and a misspelling would mean a re-cut rather than a
+// text edit. Copy comes from data/content.en.json → speakers; the node only says WHO and WHEN.
+//
+// It is page furniture, not an overlay — a band above the picture on a phone. Nothing sits on the
+// presenter, so nothing has to dodge the captions or the controls, and the caption line never
+// moves, which is the rule this player has followed since the caption layer was built.
+//
+// ⚠ The band costs the phone height: 67px, and on a short phone that is the full 67 off the video
+// (565 → 498 at 375×667). On a taller phone it is nearly free (667 → 643 at 375×812) because the
+// video was limited by WIDTH there and had slack going spare. --spkH carries the measured height
+// into the video's max-height so the card never grows past the screen; qvSpeakerBind sets it.
+//
+// Every speaker on a node is written into the page and one is made visible. Heights are therefore
+// equal by construction — the slots are stacked in one grid cell, so the tallest sets the box and
+// the NAME never moves when the speaker changes. Hidden slots are `visibility:hidden`, which keeps
+// them out of the accessibility tree, so a screen reader is told one name, not all of them.
+function qvSpeakerList(n){
+  if(!n||!Array.isArray(n.sp))return [];
+  return n.sp.map(function(s){
+    var k=(typeof s==='string')?s:s.k;
+    var sp=SPEAKERS[k];
+    return sp?{k:k,at:(typeof s==='object'&&s.at)||0,name:sp.name,titles:sp.titles||[]}:null;
+  }).filter(Boolean);
+}
+// Rendered TWICE per node — once as the phone band, once as the desktop column — because the two
+// sit in different places in the layout (above the stage; inside it, beside the video) and one
+// element cannot be in both. Each media query shows one and sets the other to display:none, which
+// also takes it out of the accessibility tree, so only one name is ever announced.
+// One slot per DISTINCT speaker — welcome has four segments but only two people, and rendering the
+// same name twice would just make the box taller for nothing.
+function qvSpeakerHTML(n,variant){
+  var segs=qvSpeakerList(n);if(!segs.length)return '';
+  var seen={},slots=[];
+  segs.forEach(function(s){
+    if(seen[s.k])return;seen[s.k]=1;
+    slots.push('<div class="qv-spk-slot'+(slots.length?'':' is-on')+'" data-spk="'+escapeHTML(s.k)+'">'+
+      '<span class="qv-spk-name">'+escapeHTML(s.name)+'</span>'+
+      '<span class="qv-spk-rule" aria-hidden="true"></span>'+
+      // The phone band carries the first title only; the desktop column has room for both.
+      s.titles.map(function(t,i){
+        return '<span class="qv-spk-role'+(i?' is-extra':'')+'">'+escapeHTML(t)+'</span>';
+      }).join('')+
+    '</div>');
+  });
+  return '<div class="qv-spk qv-spk-'+(variant==='panel'?'panel':'band')+'">'+slots.join('')+'</div>';
+}
+// Which segment covers this moment. Segments are in order and `at` is the second the person starts,
+// so the answer is the last one that has begun. A hard cut, by decision — no fade.
+function qvSpeakerAt(segs,t){
+  var k=segs.length?segs[0].k:null;
+  for(var i=1;i<segs.length;i++){if(t>=segs[i].at)k=segs[i].k;else break;}
+  return k;
+}
+function qvSpeakerSync(v){
+  var group=v&&v.closest('.qv-group');if(!group)return;
+  var boxes=group.querySelectorAll('.qv-spk');if(!boxes.length)return;
+  var segs=qvSpeakerList(NODES[group.getAttribute('data-node')]);if(!segs.length)return;
+  var k=qvSpeakerAt(segs,v.currentTime||0);
+  boxes.forEach(function(box){                             // the phone band and the desktop column
+    if(box.getAttribute('data-showing')===k)return;        // nothing changed — don't touch the DOM
+    box.setAttribute('data-showing',k);
+    box.querySelectorAll('.qv-spk-slot').forEach(function(el){
+      el.classList.toggle('is-on',el.getAttribute('data-spk')===k);
+    });
+  });
+}
+// Measures the band once the fonts and text have settled and publishes it as --spkH, so the
+// video's max-height can subtract it. Re-measured on resize because the band wraps differently
+// at different widths.
+function qvSpeakerBind(win){
+  var group=win&&win.closest('.qv-group');if(!group)return;
+  var box=group.querySelector('.qv-spk-band'),v=win.querySelector('.qv-video');
+  if(!box||!v)return;
+  // Only the BAND is measured. The desktop column sits beside the video in space that was empty
+  // anyway, so it costs the picture nothing; on a phone the band is stacked above and every pixel
+  // of it comes off the video. A hidden band measures 0, which is the right answer on desktop.
+  var measure=function(){
+    group.style.setProperty('--spkH',Math.round(box.getBoundingClientRect().height)+'px');
+  };
+  measure();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+  if(!group.qvSpkResize){group.qvSpkResize=true;window.addEventListener('resize',measure);}
+  if(!v.qvSpkBound){
+    v.qvSpkBound=true;
+    v.addEventListener('timeupdate',function(){qvSpeakerSync(v);});
+    v.addEventListener('seeked',function(){qvSpeakerSync(v);});
+  }
+  qvSpeakerSync(v);
+}
 // "CC" alone on a one-language node; "CC ES" where there's a choice, so what's showing is legible
 // without opening the menu. EN/ES are language codes, not copy — they don't translate.
 // The CC button's face. With a language showing AND a choice to make, it is a split pill: "CC" in
@@ -1008,7 +1170,7 @@ function pwStartStillCycle(app){           // multi-presenter nodes: crossfade s
 // line in Plausible and orphans everything gathered under the old name — leave them alone.
 const PW_STAT_STEP={
   welcome:'welcome', suppAuth:'supplementary-authorization', taVsCred:'teaching-artist-or-credentialed',
-  cteIntro:'cte-introduction', cteVideo:'cte-pathway', whatTeach:'choose-discipline',
+  cteIntro:'cte-introduction', cteVideo:'cte-pathway', discipline:'choose-discipline',
   lifeTA:'life-of-a-teaching-artist', mMusic:'music', mTheater:'theatre', mDance:'dance', mArt:'visual-art'
 };
 const PW_STAT_RESULT={
@@ -1116,7 +1278,7 @@ function showScreen(s){                               // pure renderer — histo
   }
   app.innerHTML=(s.t==='node')?renderNode(NODES[s.k],s.k):renderProfile(s.k);
   if(s.t==='node'){var _v=app.querySelector('.qv-video');
-    if(_v){qvApplyRate(_v.closest('.qv-window'));_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));}
+    if(_v){qvApplyRate(_v.closest('.qv-window'));_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));qvSpeakerBind(_v.closest('.qv-window'));}
     else{pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -1214,8 +1376,11 @@ function renderNode(n,key){
     '</video>';
   }
   return '<div class="step-screen qv-screen active">'+
-    '<div class="qv-group">'+
+    '<div class="qv-group" data-node="'+escapeHTML(key)+'">'+
       '<div class="qv-subtitle">'+T.questionnaireSubtitle+'</div>'+
+      // Named only over a real clip — see qvSpeakerHTML. Sits above the picture, so it never
+      // collides with the caption line or the control row.
+      (base?qvSpeakerHTML(n,'band'):'')+
       '<div class="qv-stage">'+
         '<div class="qv-window" onclick="qvTap(this,event)">'+
           media+
@@ -1237,6 +1402,10 @@ function renderNode(n,key){
             (n.text?'<button class="qv-transcript" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+
           '</div>'+
         '</div>'+
+        // Desktop only: the same strip again, filling the column beside the video while the clip
+        // plays. It and the questions take turns — see the landscape rules in the stylesheet.
+        // Emitted AFTER .qv-end so both can be reached from .qv-window with a sibling selector.
+        (base?qvSpeakerHTML(n,'panel'):'')+
       '</div>'+
       '<div class="qv-foot">'+
         '<button class="qv-backlink" onclick="pwBack()">'+ICON_BACK+' '+T.back+'</button>'+
@@ -1323,6 +1492,12 @@ function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → 
   // Every control that only makes sense over a real clip goes with it — a speed button left sitting
   // over a placeholder still would open a menu that changes nothing.
   ['.qv-mute','.qv-cc-wrap','.qv-cc','.qv-speed-wrap','.qv-caps'].forEach(function(sel){var b=win.querySelector(sel);if(b)b.remove();});
+  // The name strip goes too: it names whoever is SPEAKING, and a two-presenter node falls back to
+  // both stills at once, so there is no one person left to name. Clear the height it reserved.
+  // Removing both strips also hands the desktop column back to the questions on its own: the rule
+  // that hides them is keyed to the panel being present.
+  var grp=win.closest('.qv-group');
+  if(grp){grp.querySelectorAll('.qv-spk').forEach(function(s){s.remove();});grp.style.removeProperty('--spkH');}
   pwStartStillCycle(win);                            // resume the crossfade the video had suppressed
 }
 // Captions are rendered by us, not by the browser. The native caption box sits on the bottom line of
