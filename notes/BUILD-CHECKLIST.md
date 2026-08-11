@@ -148,7 +148,9 @@ Everything below is blocked on one of these. Grouped by who has to act.
 - [x] ~~Final poster stills~~ — **CLIENT-APPROVED 2026-08-06.** The eight `vp_*.jpg` in use are the
       final ones. ℹ They still sit in a folder called `images/video placeholder stills/`; the name is
       now wrong but nothing depends on it. (§1)
-- [ ] Captions — Premiere SRT export → `scripts/srt2vtt.py` (§1)
+- [x] ~~Captions — Premiere SRT export → `scripts/srt2vtt.py`~~ — **ALL 11 CONVERTED, both languages,
+      22 files, confirmed 2026-08-10.** Converted is not switched on: a file only reaches a visitor
+      once its clip lands and the node carries `cc:`. Today that is `welcome` alone. (§1)
 - **CTE Intro is the ONE file where English and Spanish cue counts differ on purpose — 22 vs 25.
   Do not "fix" it.** From 18.6s to 25.9s the video shows a text graphic spelling out the 1,000-hour
   requirement, over a new Ricky voice-over, so the English captions leave that stretch empty: an
@@ -222,6 +224,12 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       ⚠ **Commit only the cut you intend to keep.** Git stores every version of a video whole and
       forever; deleting one later frees nothing, and undoing it means rewriting history and breaking
       every dated build folder.
+      ℹ **`welcome` has been through three exports (08-08, then twice on 08-10/11) and all three are
+      in history.** Reframed to clear the caption line, then re-exported once more because the first
+      attempt went out with the safe-zone overlay still enabled on a track. Every version came in at
+      exactly 54.930s / 1317 frames / 23.976fps, which is why the captions and the speaker cut times
+      survived each one untouched — check that before assuming the next re-export is as harmless.
+      Poster re-exported to match, 2026-08-11.
 - [x] **Desktop video column is NARROWER than a phone's — BOTH CONSEQUENCES CLOSED 2026-08-08**, on
       the first real clip. The cause is unchanged and worth keeping: in the landscape card the video is
       sized by HEIGHT (`--vidH: min(70vh, 800px, 100dvh - 280px)`) and the width follows from 9:16, so
@@ -256,6 +264,13 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         with it, 225 → 284. The trade-off recorded here (a card with no header naming it) is what the
         client chose not to accept. Cost, measured: 1440×900 → 347px wide, down from 380, so a laptop
         is under a phone's 375 again. Current widths are in the CSS comment beside `--vidH`.
+        ⚠ **Restored at the WRONG SIZE and fixed 2026-08-11.** It went back as a flat `.62rem`, which
+        renders 12.4px — less than half what this label had always been. Its original size is FLUID,
+        3.14% of the card's inner width, so it holds its proportion from a 1024px window to 1920:
+        22.6px at 1024×700, 26.4px at 1440×900, 29.6px at 1920×1080. Weight 600, tracking .18em.
+        Header height and video width are unchanged by the fix, so the 284 reserve still holds.
+        ℹ If this label is ever moved or restyled again, take the rule out of git history rather than
+        re-typing one — that is exactly how the size was lost.
         ℹ The claim that the label "survives only on tablets in portrait" was wrong even on 08-08 —
         it was hidden globally, and nothing re-showed it anywhere. It now shows in landscape only.
       • **Control ORDER made consistent 2026-08-08.** Landscape had pinned Skip left and moved CC to
@@ -279,7 +294,7 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       **The four decisions, all answered 2026-08-10:**
       • **Name + first title on the phone; both titles on desktop.** The phone band is 67px either
         way; a second line would have cost another ~20px of picture on the smallest screen.
-      • **The strip switches as the presenters alternate** (`welcome`: four turns). Hard cut, no fade.
+      • **The strip switches as the presenters alternate** (`welcome`: four turns).
       • **It holds for the whole clip.** Fading was only ever needed to get it off the picture.
       • **On desktop the right column is SHARED** — name while the clip runs, questions when it ends.
         Nobody can answer during playback any more; accepted because Skip jumps straight there.
@@ -298,25 +313,80 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       ⚠ **`discipline` has no cut times yet.** Laurel and Ricky alternate there as they do in
       `welcome`, but the clip has not landed, so there is nothing to time against; the node names
       Laurel throughout until `at:` values are added. Do that the day the clip goes in.
+      **TRANSITION — a left-to-right WIPE, built 2026-08-11.** A crossfade was tried in principle and
+      rejected: the objection is that both names are semi-transparent through the middle of it. The
+      wipe has one travelling edge, with the incoming block uncovered at exactly the rate the outgoing
+      one is clipped away, so the type is solid on both sides. 190ms — it happens four times inside
+      55 seconds, and anything slower starts asking for attention.
+      It covers the WHOLE block, not just the name, because the two presenters have a different number
+      of title lines and wiping the name alone would leave the lines beneath it to pop.
+      ⚠ **Under `prefers-reduced-motion` it is a straight cut, by design** — same rule the hero photos
+      and the quote carousel follow. This is not a bug, and it is the first thing to check if someone
+      reports the wipe "not working": iOS Reduce Motion was exactly that on 08-11.
+      ⚠ Cleanup runs on a timer, not on the animation finishing, so a throttled background tab still
+      lands in the right state rather than sticking half-wiped. A change arriving mid-wipe completes
+      the one in flight first.
+      ℹ Visible artefact, accepted: while the edge crosses, the tail of the taller block's last line
+      hangs to the right of it with nothing beneath. Inherent to a wipe; gone in 190ms.
       ⚠ **Read cut times off the FINISHED EXPORT, not the Premiere timeline.** `welcome`'s sequence
-      displays 30-per-second timecode on a 23.976 timebase, so every number read off it was ~20%
-      short — the last cut read as 43:26 on a clip that is 54.93s long. Converted, checked against the
-      caption timings (two of three land exactly on a cue boundary) and verified frame-complete.
+      displayed 30-per-second timecode on a 23.976 timebase, so every number read off it was ~20%
+      short — the last cut read as 43:26 on a clip that is 54.93s long. Re-read on 08-11 with the
+      display format set to 23.976 (17:10 · 34:18 · 50:09) and the two readings agree within one
+      frame. Current values: 17.417 · 34.751 · 50.375.
+      ⚠ **Do not verify a speaker map against a fast-forwarded video.** At 8× the painted frame trails
+      `currentTime` by 1–2 seconds, which made a correct map look wrong for half an hour on 08-11.
       **Why it is drawn in the site rather than burned into the video** — unchanged, and still the
       reason: on a small phone the bottom 423px of a 1080×1920 export is cropped away before the
       player's own furniture takes another 335px, so a burned-in strip would have to sit above y≈1163
       to survive, 60% up the frame. Drawing it also means a misspelled name is a text edit rather than
       a re-cut, and the job title can be translated.
-- [ ] **Video crop position — RE-CHECK WITH REAL FOOTAGE, then set it.** On phones the player is
-      shorter than 9:16 and the video is top-aligned (`object-position:50% 0`), so the crop currently
-      comes off the BOTTOM and the presenter sits low under a band of empty sky. Cropping entirely
-      from the top instead cuts 226px past Laurel's hairline, to her eyebrows — too far.
-      Measured on `vp_laurel.jpg` (1116×1984, hair starts ≈210px down): **`50% 35%` is the sweet
-      spot**, taking 153px off the top and 283 off the bottom, leaving ~57px above the hair, and
-      still ~53px at the smallest phone size.
-      ⚠ Measured on the PLACEHOLDER still, not final footage, and one rule governs all 8 presenters.
-      If anyone was shot tighter, 35% could clip them. Add consistent headroom to the export spec —
-      far easier to fix at export than to work around in the site.
+- [x] **Video crop position — SETTLED 2026-08-10: it STAYS at `object-position:50% 0`.** The proposal
+      was `50% 35%`, to lift the presenter out of the empty sky above their head. Killed by real
+      footage: 24 test frames covering every framing in all 11 clips put the top of the head anywhere
+      from y58 to y212, because the clips cut between wide shots and tight close-ups. One crop rule
+      governs every clip, so a 35% crop — 170px off the top on a small phone — would slice into the
+      tightest shot in seven of the eleven. Even a gentle 20% clips three of them.
+      **What `50% 0` means in practice, and it is the reassuring half:** the picture is pinned to the
+      TOP of the player, so nothing is EVER cut from the top. Headroom cannot clip a head, whatever
+      the framing. Everything lost comes off the bottom, and how much depends on the screen: 68px of
+      1920 on a 375×812 phone, 486px on a 375×667 one, nothing at all on a laptop.
+      ⚠ The consequence is that **headroom consistency is now an aesthetic question, not a technical
+      one** — presenters sitting at different heights reads as less considered when you move between
+      videos, but nothing breaks. The binding rule moved to the BOTTOM of the frame: see the caption
+      line item below.
+      ℹ The old figure of `35%` came from `vp_laurel.jpg`, a PLACEHOLDER still, and was wrong the
+      moment real footage existed. Superseded, not merely revised.
+- [~] **THE CAPTION LINE IS THE FRAMING RULE — keep every chin above y1090.** Established 2026-08-10
+      from 24 test frames, one per distinct framing across all 11 clips. Client's instruction:
+      captions over a presenter's face are not acceptable.
+      Measured on the live player, in source pixels of a 1080×1920 export:
+      • **y1090** — where the caption box starts on the smallest phone (375×667) with a two-line cue.
+        THE binding number. Everything above it is clear on every screen.
+      • **y1273** — the Skip/CC/speed/mute row on that phone, with captions off.
+      • **y1434** — where the picture ends on that phone. y1852 on a 375×812 phone. A laptop shows all 1920.
+      **Overlay to check against: [`video/preview-overlays/master-safe-zones.svg`](../video/preview-overlays/master-safe-zones.svg)**
+      — 1080×1920, drop at 100%, no repositioning. Premiere will not import SVG; open it in Photoshop
+      and save a PNG. It supersedes the earlier `headroom-check.svg`, which was built around a head
+      band that the crop decision above made advisory.
+      **Five framings failed when measured (08-10), all in clips not yet delivered:**
+      `01_welcome_02` · `01_welcome_04` · `04_lifeta_02` · `08_music_02` · `09_theatre_01` — the line
+      fell on a lip, chin or jaw. **`welcome` has since been re-cut and passes**; the other three clips
+      still carry it. Five more sat within a hand's breadth of the line and are worth a second look:
+      `01_welcome_05` · `04_lifeta_03` · `07_suppauth_01` · `09_theatre_02` · `10_dance_02`.
+      ⚠ Judged from one frame per framing. A shot that reads clear can still drop below the line when
+      the presenter shifts, so check against the overlay across the whole take, not a single frame.
+      ⚠ The test stills themselves were deleted after measuring — 13MB of one-off frames, deliberately
+      never committed. Re-export from Premiere if this needs redoing.
+- [ ] 🔴 **CTE requirement graphic sits too low — needs a re-cut of that one card.** The full-frame
+      "1000 HOURS WORK EXPERIENCE PER YEAR FOR AT LEAST 3 YEARS" card in `cteintro` runs from y370 to
+      y1308. On a small phone the control row starts at y1273, so the bottom 35px of "3 YEARS" is
+      behind the buttons even with captions off — and **for a Spanish viewer the caption box covers
+      the bottom 218px for a full 7 seconds**, because the Spanish track carries three cues across the
+      exact window (18.64–25.90s) where the English track is deliberately silent. That asymmetry is
+      by design: the graphic is English-only, so those three cues are the ONLY route a Spanish reader
+      has to the requirement, and they land on top of the thing they exist to replace.
+      **Fix at export: end the text block above y1090** and it is clear in both languages everywhere.
+      Timings must not change, or the three Spanish cues need rebuilding with them.
 - [x] **Landing "Find Your Path" preview video — DONE 2026-08-08.** `video/clips/questprev.mp4` with
       `video/stills/questprev.jpg`. On spec throughout: 1080×1920, 1.52 Mbps, 1.85 MB, no audio
       track, faststart, and first and last frame pixel-identical so the loop seam is invisible.
@@ -937,8 +1007,13 @@ get right at handover.
          worth knowing before someone reports it. Test in Firefox specifically.
       Page-side is already confirmed (2026-08-02): 36 real links inside the printed area, none hidden
       by the print styles, collapsed sections expanded so nothing is omitted.
-- [ ] Play one real clip through in a normal browser — the preview pane suspends video, so continuous
-      playback is the one thing never confirmed on a real file
+- [~] Play one real clip through in a normal browser — the preview pane suspends video, so continuous
+      playback is the one thing that cannot be confirmed here.
+      **`welcome` DONE 2026-08-11**, on phones against the live site: playback, the speaker strip
+      changing hands, and the wipe all confirmed. Repeat per clip as the other ten land.
+      ⚠ The pane's video decoding is not merely limited, it is INTERMITTENT — it played twice in one
+      session and refused either side of that, and it will not seek at all. Treat any playback-based
+      check here as unreliable and confirm it in a real browser.
 - [ ] Final content review with the client
 - [x] ~~Welcome transcript is lorem ipsum~~ — fixed 2026-07-31; real transcript now loads.
 - [x] **"Civil Cyber Arts" credit link wired 2026-08-03** — `mailto:civilcyberarts@electrobeam.net`,
