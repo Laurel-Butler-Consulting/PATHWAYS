@@ -332,9 +332,9 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       render without overlapping at phone, laptop and short-window sizes.
       ℹ Posters are **chosen frames, not frame 1** — the client picks the most flattering frame.
       Don't report the difference as a defect.
-      ℹ **`welcome.jpg` predates the 2026-08-10 re-cut and STAYS — decided, not overlooked.** The
-      clip was reframed that day and the poster was not re-exported, so the still shows the earlier
-      framing of the frame it was taken from. Raised and declined. Don't flag it again.
+      ℹ **`welcome.jpg` was re-exported 2026-08-11 to match the re-framed clip.** It had been left
+      alone deliberately when the clip was first reframed on 08-10 — raised then and declined — and
+      that decision was reversed once the framing changed again. Poster and clip are now in step.
 - [x] Captions (`.srt` → `.vtt`) for all narrated videos — **ALL 11 CONVERTED AND NODE-KEY NAMED, in
       BOTH languages: 22 files, confirmed in the folders 2026-08-10.** They sit in
       `video/captions/eng/` and `video/captions/esp/` beside the dated Premiere SRT exports
