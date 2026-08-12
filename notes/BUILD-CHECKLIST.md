@@ -283,6 +283,17 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
         button has one border and the gold one was drawing a ring around the navy half. Off and
         single-language nodes keep the plain button, unchanged.
+- [x] **ALL 11 CLIPS DELIVERED AND SWITCHED ON 2026-08-11.** The last four — `mMusic` · `mTheater` ·
+      `mDance` · `mArt` — landed the same evening with their stills, correctly named first time
+      (including `mTheater`'s deliberate American spelling). All four: 1080×1920, faststart,
+      3.12–3.13 Mbps, durations 33.3s / 115.5s / 60.7s / 65.3s, each matching its caption files.
+      **Final check across all eleven:** every node carries its clip, its own poster and both caption
+      languages; CC, Skip, speed and mute render on every one; all 50 media and data files serve.
+      ℹ `discipline` read as 0 caption cues in one pass — a too-short wait in the check, not a fault.
+      It parses 23/23 and both files serve 200.
+      ℹ The site is still behind the pre-launch password and `noindex`, so pushing this does not
+      expose anything (§9).
+      <details><summary>The 01-07 delivery, kept as the record</summary>
 - [~] **Clips 01-07 DELIVERED AND SWITCHED ON 2026-08-11 — 7 of 11 live.** `welcome` · `taVsCred` ·
       `discipline` · `lifeTA` · `cteIntro` · `cteVideo` · `suppAuth`. Each carries `v:1`,
       `cc:['en','es']` and its own poster. Remaining: `mMusic` · `mTheater` · `mDance` · `mArt`.
@@ -321,6 +332,7 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       held back on the assumption its 1000-hour graphic still needed re-framing; it did not. The
       graphic was corrected in Premiere before the 20:58 export, so the delivered file already
       carries the fix (see the closed red item below). Commit all six.
+      </details>
 - [x] **"Turn your phone upright" prompt — BUILT 2026-08-11 (approved the same day).** Found while
       answering how common a sub-590px window really is: the answer is **a phone held sideways**, and
       the control row was the least of it.

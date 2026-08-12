@@ -1086,16 +1086,24 @@ const NODES={
     poster:NODE_STILL_DIR+'lifeTA.jpg',o:[
     {to:'@ta'},{to:'cteIntro',alt:1}
   ]},
-  mMusic:{p:'Matthew',img:vp('matthew'),sp:['matthew'],o:[
+  // LAST FOUR SWITCHED ON 2026-08-11 — all 11 nodes now carry a real clip.
+  mMusic:{p:'Matthew',img:vp('matthew'),v:1,cc:['en','es'],sp:['matthew'],
+    poster:NODE_STILL_DIR+'mMusic.jpg',o:[
     {to:'@music'},{to:'@reset',alt:1}
   ]},
-  mTheater:{p:'Eric',img:vp('eric'),sp:['eric'],o:[
+  // ⚠ mTheater keeps the AMERICAN spelling — it is an internal key, never shown, and index.html,
+  // data/content.en.json and the clip/poster/caption filenames must all agree on it. Everything a
+  // visitor reads says "theatre". Renaming this means renaming five files and two data keys.
+  mTheater:{p:'Eric',img:vp('eric'),v:1,cc:['en','es'],sp:['eric'],
+    poster:NODE_STILL_DIR+'mTheater.jpg',o:[
     {to:'@theatre'},{to:'@reset',alt:1}
   ]},
-  mDance:{p:'Lindsay',img:vp('lindsay'),sp:['lindsay'],o:[
+  mDance:{p:'Lindsay',img:vp('lindsay'),v:1,cc:['en','es'],sp:['lindsay'],
+    poster:NODE_STILL_DIR+'mDance.jpg',o:[
     {to:'@dance'},{to:'@reset',alt:1}
   ]},
-  mArt:{p:'Kristin',img:vp('kristin'),sp:['kristin'],o:[
+  mArt:{p:'Kristin',img:vp('kristin'),v:1,cc:['en','es'],sp:['kristin'],
+    poster:NODE_STILL_DIR+'mArt.jpg',o:[
     {to:'@art'},{to:'@reset',alt:1}
   ]}
 };
