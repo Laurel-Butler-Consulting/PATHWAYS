@@ -283,6 +283,44 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
         button has one border and the gold one was drawing a ring around the navy half. Off and
         single-language nodes keep the plain button, unchanged.
+- [~] **Clips 01-07 DELIVERED AND SWITCHED ON 2026-08-11 — 7 of 11 live.** `welcome` · `taVsCred` ·
+      `discipline` · `lifeTA` · `cteIntro` · `cteVideo` · `suppAuth`. Each carries `v:1`,
+      `cc:['en','es']` and its own poster. Remaining: `mMusic` · `mTheater` · `mDance` · `mArt`.
+      **Checked on delivery, all seven:** 1080×1920 · faststart · 3.12–3.15 Mbps, on the 3/5 spec ·
+      durations 46.1s to 100.0s, each agreeing with the caption files built against it · both caption
+      tracks parse with the expected cue counts (380 English / 383 Spanish across all 11; `cteIntro`
+      22 vs 25 as designed) · CC, mute and speed render on every node · speaker strips name the right
+      people, `discipline` correctly Ricky then Laurel.
+      🔴 **FILENAME TRAP, FOUND AND FIXED ON DELIVERY — this one would have passed every local test
+      and broken the live site.** Five clips arrived lowercase (`cteintro.mp4`, `lifeta.mp4`,
+      `suppauth.mp4`, `tavscred.mp4`) and one under its Premiere name (`ctepath.mp4`). **macOS disks
+      are case-INSENSITIVE and GitHub Pages is case-SENSITIVE**, so `cteIntro.mp4` resolves locally to
+      `cteintro.mp4` and 404s in production — where the player would quietly fall back to the
+      placeholder still. Renamed to the node keys, along with their stills. Done BEFORE committing,
+      which matters: git stores each video whole and forever, so renaming afterwards would have kept
+      both copies for good.
+      ⚠ **The node key is ONE name doing THREE jobs** — clip, poster and both caption files are all
+      looked up from it. The caption files were already node-key named, which is why the clips had to
+      move rather than the captions.
+      ⚠ **THE LAST FOUR MUST BE EXPORTED AS `mMusic.mp4` · `mTheater.mp4` · `mDance.mp4` ·
+      `mArt.mp4`** — not `music.mp4`, not `08_music_260806.mp4`. Note **`mTheater` is the American
+      spelling on purpose**: it is an internal key that no visitor ever sees, and index.html and
+      `data/content.en.json` must keep matching. Everything a visitor reads still says *theatre*.
+      ⚠ **Not yet checked on the delivered footage, and only checkable by eye:** whether every chin
+      clears the y1090 caption line. `04_lifeta_02` was one of the five framings that failed the
+      2026-08-10 measurement and `lifeTA` is now live; `07_suppauth_01` and `04_lifeta_03` were both
+      close. The preview pane cannot seek reliably, so this needs a real browser.
+      ⚠ **`discipline`'s speaker cut (23.209s) is still unconfirmed against the export** — it came off
+      the Premiere timeline, the reading that was ~20% out on `welcome`. The clip is 46.129s, so the
+      cut lands almost exactly halfway, which is consistent with what was supplied.
+      **Size, measured 2026-08-11:** the seven clips are **184 MB**; the four still to come are 274.7s
+      of footage between them, so about **107 MB more at 3.13 Mbps — roughly 291 MB of clips in all**,
+      against the 265 MB this was estimated at. Comfortably inside GitHub Pages' 1 GB published-site
+      limit. `.git` is already 158 MB, a third of it the three `welcome` exports.
+      ✔ **All six are final as delivered — nothing is waiting on a re-cut.** `cteIntro` was briefly
+      held back on the assumption its 1000-hour graphic still needed re-framing; it did not. The
+      graphic was corrected in Premiere before the 20:58 export, so the delivered file already
+      carries the fix (see the closed red item below). Commit all six.
 - [x] **"Turn your phone upright" prompt — BUILT 2026-08-11 (approved the same day).** Found while
       answering how common a sub-590px window really is: the answer is **a phone held sideways**, and
       the control row was the least of it.
@@ -467,16 +505,27 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       the presenter shifts, so check against the overlay across the whole take, not a single frame.
       ⚠ The test stills themselves were deleted after measuring — 13MB of one-off frames, deliberately
       never committed. Re-export from Premiere if this needs redoing.
-- [ ] 🔴 **CTE requirement graphic sits too low — needs a re-cut of that one card.** The full-frame
-      "1000 HOURS WORK EXPERIENCE PER YEAR FOR AT LEAST 3 YEARS" card in `cteintro` runs from y370 to
-      y1308. On a small phone the control row starts at y1273, so the bottom 35px of "3 YEARS" is
-      behind the buttons even with captions off — and **for a Spanish viewer the caption box covers
-      the bottom 218px for a full 7 seconds**, because the Spanish track carries three cues across the
-      exact window (18.64–25.90s) where the English track is deliberately silent. That asymmetry is
-      by design: the graphic is English-only, so those three cues are the ONLY route a Spanish reader
-      has to the requirement, and they land on top of the thing they exist to replace.
-      **Fix at export: end the text block above y1090** and it is clear in both languages everywhere.
-      Timings must not change, or the three Spanish cues need rebuilding with them.
+- [x] ~~🔴 **CTE requirement graphic sits too low**~~ — **RE-FRAMED AND RE-EXPORTED 2026-08-11, and
+      the corrected export is the one now in the repo.** Re-framed in Premiere against
+      `master-safe-zones.svg` so the text block ends above y1090, then exported at 20:58 as part of
+      the 01-07 delivery — so the fix arrived with the first delivery rather than after it.
+      Kept as the record of what was wrong: the full-frame "1000 HOURS WORK EXPERIENCE PER YEAR FOR
+      AT LEAST 3 YEARS" card used to run from y370 to y1308. On a small phone the control row starts
+      at y1273, so the bottom of "3 YEARS" sat behind the buttons even with captions off — and for a
+      Spanish viewer the caption box covered the bottom 218px for a full 7 seconds, because the
+      Spanish track carries three cues across the exact window (18.643–25.900s) where the English
+      track is deliberately silent. Those three cues are the ONLY route a Spanish reader has to the
+      requirement, and they were landing on top of the thing they exist to replace.
+      ✔ **Timings did NOT change** — the export is still 47.464s and the caption grid is untouched,
+      so the three Spanish cues still sit over the graphic and no rebuild is needed. Verified on the
+      delivered file, along with 1080×1920, faststart and 3.12 Mbps.
+      ⚠ **The y1090 clearance itself was confirmed in Premiere against the overlay, not re-measured
+      from the export.** Nothing here can measure it: the preview pane will not seek, so no frame
+      from inside the graphic window can be read. Worth one look on a real phone during the QA pass,
+      in Spanish, where the caption box is doing the most covering.
+      ℹ The y1308 figure was measured on 2026-08-10 from an earlier cut. It was quoted against the
+      delivered file on 08-11 and that was wrong — **the number on record described a superseded
+      export.** Re-measure before repeating a figure like this against a new delivery.
 - [x] **Landing "Find Your Path" preview video — DONE 2026-08-08.** `video/clips/questprev.mp4` with
       `video/stills/questprev.jpg`. On spec throughout: 1080×1920, 1.52 Mbps, 1.85 MB, no audio
       track, faststart, and first and last frame pixel-identical so the loop seam is invisible.
