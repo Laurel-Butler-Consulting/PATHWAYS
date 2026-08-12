@@ -283,6 +283,68 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
         button has one border and the gold one was drawing a ring around the navy half. Off and
         single-language nodes keep the plain button, unchanged.
+- [x] **"Turn your phone upright" prompt — BUILT 2026-08-11 (approved the same day).** Found while
+      answering how common a sub-590px window really is: the answer is **a phone held sideways**, and
+      the control row was the least of it.
+      **What landscape actually did on a phone, measured:** at 844×390 (an iPhone 14/15 on its side)
+      the picture came out **60×106px** — the card reserves 284px of window height for its header,
+      questions and footer, leaving 106px — with the control row needing 166px in a 60px column and
+      113px of it cut off by the picture edge. A smaller phone (667×375) falls below the 720px
+      landscape rules instead and gets a 667×168 letterbox: nothing clipped, but a 9:16 video cropped
+      to a slot. Neither is watchable. **This predates the 08-11 row work; it was never right.**
+      **Built:** on a touchscreen in landscape under 500px tall, the questionnaire card is replaced by
+      a navy panel — turning-phone icon, "Turn your phone upright", one line of explanation, and a
+      **Continue anyway** button. Copy lives in `data/content.en.json` → `ui.rotateTitle` /
+      `rotateBody` / `rotateContinue`, per the rule that questionnaire text is not in index.html.
+      ⚠ **"Continue anyway" is a WCAG 1.3.4 (Orientation, AA) requirement, not a nicety.** Locking
+      content to one orientation fails that rule: a mounted device, or rotation locked for someone's
+      own reasons, must not become a dead end. Pressing it sets `.rot-ok` for the rest of the visit,
+      so the reader is asked once rather than on all eleven nodes; a later visit asks again.
+      ⚠ **`(pointer:coarse)` is what keeps it off desktop.** A desktop window under 500px tall is rare
+      but real, and "turn your phone upright" would be nonsense there. Do not simplify the query.
+      **Verified** with the shipped rule on an emulated touchscreen at 740×360: message shown and card
+      hidden; Continue anyway restores the card and moves focus to Skip (the pressed button is now
+      hidden, and focus left on a hidden control strands a keyboard user); the choice carries to the
+      next node. Hidden as intended in phone portrait, on tablet, and on desktop at every size; result
+      pages and the landing page carry none of it. No console errors.
+      ℹ The 12px of page scroll at 844×390 is pre-existing and identical with the message or the card —
+      measured both ways, not introduced here.
+      ℹ First attempt put white type straight on the ice page background, because hiding the card also
+      hides the navy it was written for. The panel now wears the card's own navy, radius and shadow.
+- [x] 🔴 **Speed button overlapped Skip — FIXED 2026-08-11 by rebuilding the control row.** Reported
+      as "at certain resolutions the speed control overlaps the skip button when activated".
+      **Cause:** "1.25x" is 20px wider than "1x". The button was pinned to the right, so a longer
+      label grew LEFTWARD into Skip, which was pinned to the exact centre. Nothing was too big — the
+      centre pinning meant one gap absorbed every extra pixel while the other sat unused. Measured
+      before the fix, at 0.75x/1.25x: **9.2px of overlap at 1440×860 · 9.7px at 1024×700 · 7.3px at
+      1024×640**, and the sizes that passed did so by as little as 2.1px (1440×900). Phones were
+      always clear. Because the speed choice is remembered between videos and between visits, one
+      person picking 1.25x once had a broken row from then on.
+      **Fix: the four controls are now ONE FLEX ROW of three cells** (CC · Skip · speed+mute)
+      instead of four independently pinned items. The side cells share the spare space equally, so
+      Skip holds the true centre line while there is room and slides off it only as far as it must.
+      Two controls can no longer overlap at any width — this was the third overlap bug in this row.
+      The speed button also reserves the width of its widest label, so it no longer changes size
+      when a speed is picked and the row stops shifting under the reader's finger.
+      **After, measured at ten sizes** — 1920×1080 · 1440×900 · 1440×860 · 1366×768 · 1024×700 ·
+      1024×640 · 1024×600 · 768×1024 · 375×812 · 375×667 — **no overlap at any of the four speeds,
+      nothing clipped, gaps 8px (5px on the smallest tier)**. Skip stays exactly centred at 1920,
+      1366, both phones and tablet; it gives way by 6.6px at 1440×900 and 16.9px at 1440×860.
+      Also confirmed unchanged: both pop-up menus open inside the picture 6px above their button,
+      a tap in the gaps between controls still pauses the video, the mute fix below still holds, and
+      a missing clip still leaves Skip alone and dead centre.
+      ✔ **Tab and screen-reader order now match what is on screen** (CC → Skip → speed → mute). The
+      old DOM order was Skip, mute, speed, CC — a consequence of the pinning, and nobody's choice.
+      ⚠ **Two traps for anyone editing this row.**
+      • **Never put `min-width:0` on `.qv-ctlcell`.** It lets a cell shrink past its own buttons and
+        reproduces the exact overlap the row exists to prevent — done by accident on 08-11 and
+        measured at 9.9px before it was caught. A comment in the CSS says so.
+      • **Never restore `position:absolute` on a control.** Placement comes from the cell now.
+      ⚠ **New floor, measured: below about 590px of window height the row is wider than the video**
+      and the picture's edge clips it — 5.8px at 1024×580. The smallest tier was tightened (gap,
+      edge inset, CC half-padding, Skip padding, speed reserve) to buy ~37px and hold 1024×600
+      exactly. This is still a large improvement on the old behaviour, which at 1024×580 overlapped
+      by 8px at 1x and 24px at 1.25x. The old note put this floor at ~570px; 590 is the real number.
 - [x] 🔴 **Mute button also paused the video — FOUND AND FIXED 2026-08-11.** Reported as "pressing
       mute usually just pauses the video, sometimes it works". It was a real fault, not a small
       icon, and it had been live on `welcome` since 08-08.

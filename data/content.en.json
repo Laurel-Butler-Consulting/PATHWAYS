@@ -43,7 +43,10 @@
     "transcriptLangGroup": "Transcript language",
     "skipVideoAria": "Skip video",
     "speedLabel": "Playback speed",
-    "speedNormal": "(normal)"
+    "speedNormal": "(normal)",
+    "rotateTitle": "Turn your phone upright",
+    "rotateBody": "These videos are filmed upright, so there's very little room for them on a sideways screen.",
+    "rotateContinue": "Continue anyway"
   },
   "regionLabels": {
     "Northern California": "Northern",

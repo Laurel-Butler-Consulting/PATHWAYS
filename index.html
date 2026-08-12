@@ -200,14 +200,45 @@
      two values and the whole row, including the captions above it, follows.
      Equalised UPWARD (38 → 40) rather than trimming Skip: on a phone these are touch targets and the
      row had the room. --ctlGap is the space between the speed and mute buttons. */
+  /* THE CONTROL ROW IS ONE FLEX ROW (2026-08-11) — it used to be four independently anchored
+     controls, CC pinned left, Skip pinned to the exact centre, speed and mute pinned right.
+     ⚠ THAT IS WHY IT KEPT OVERLAPPING, and this is the third such bug. Pinning Skip to the centre
+     fixes its position while the right-hand pair grows LEFTWARD, so every extra pixel on that side
+     ate into one gap while the other sat unused. The trigger was the speed label: "1.25x" is 20px
+     wider than "1x", enough to bury Skip's right end on any video column under ~343px. Measured
+     2026-08-11: 9.2px of overlap on a 1440×860 window, 9.7px at 1024×700, 7.3px at 1024×640 — and
+     even the sizes that passed did so by 2.1px. The room was there all along; the pinning is what
+     stopped the row using it.
+     Now: three cells in one row. The two side cells share the leftover space EQUALLY (flex:1 1 0),
+     which keeps Skip on the true centre line whenever there is room for it. When there is not, a
+     side cell stops at its contents instead of shrinking past them, the other takes what is left,
+     and Skip slides off centre by however much it must. Gaps get smaller; they never go negative.
+     ⚠ The row spans the full width, so it must NOT swallow taps meant for the picture: the row and
+     its cells are pointer-events:none and only the controls themselves take presses. Tapping the
+     empty space between controls still pauses, as before.
+     ⚠ Do not restore `position:absolute` on any control to "fix" a position. Their placement now
+     comes from the cell they sit in — CC left, Skip centre, speed+mute right — and that order is the
+     DOM order, so it is also the order a screen reader and the Tab key follow. */
+  .qv-ctlrow{position:absolute;left:0;right:0;bottom:var(--ctlPad);z-index:3;display:flex;align-items:center;gap:var(--ctlGap);padding:0 var(--ctlEdge);pointer-events:none}
+  .qv-ctlrow>*{pointer-events:none}
+  .qv-ctlrow button,.qv-ctlrow .qv-cc-wrap,.qv-ctlrow .qv-speed-wrap{pointer-events:auto}
+  /* ⚠ NO `min-width:0` HERE. A flex item defaults to min-width:auto, which is what stops a cell
+     shrinking past its own contents — the whole mechanism. Setting it to 0 lets both side cells
+     take an equal share and the wider one's buttons simply overflow their cell, which reproduces
+     the exact overlap this row exists to prevent (tried 2026-08-11; Skip sat dead centre and the
+     speed button ran 9.9px under it). */
+  .qv-ctlcell{display:flex;align-items:center;gap:var(--ctlGap)}
+  .qv-ctlcell-l{flex:1 1 0;justify-content:flex-start}
+  .qv-ctlcell-c{flex:0 0 auto}
+  .qv-ctlcell-r{flex:1 1 0;justify-content:flex-end}
   .qv-window{--ctlPad:16px;--ctlH:40px;--ctlEdge:14px;--ctlGap:8px;position:relative;container-type:inline-size;width:100%;aspect-ratio:9/16;max-height:calc(100svh - 140px - var(--spkH,0px));border-radius:0;overflow:hidden;background:var(--navy)}
   .qv-video,.qv-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;background:var(--navy)}
   .qv-still{opacity:0}
   .qv-still.is-active{opacity:1}
-  .qv-skip{position:absolute;left:50%;bottom:var(--ctlPad);transform:translateX(-50%);z-index:3;display:inline-flex;align-items:center;gap:.45rem;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;height:var(--ctlH);padding:0 1.05rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
+  .qv-skip{display:inline-flex;align-items:center;gap:.45rem;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;height:var(--ctlH);padding:0 1.05rem;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
   .qv-skip:hover{background:rgba(0,38,71,.85)}
   .qv-skip svg{width:13px;height:13px;fill:currentColor}
-  .qv-mute{position:absolute;right:var(--ctlEdge);bottom:var(--ctlPad);z-index:3;display:inline-flex;align-items:center;justify-content:center;width:var(--ctlH);height:var(--ctlH);background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
+  .qv-mute{position:relative;display:inline-flex;align-items:center;justify-content:center;width:var(--ctlH);flex:0 0 auto;height:var(--ctlH);background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s}
   .qv-mute:hover{background:rgba(0,38,71,.85)}
   /* ⚠ THE TWO RULES BELOW ARE A BUG FIX (2026-08-11) — measured, not cosmetic. Don't drop either.
      1. pointer-events:none on the icon. Pressing mute REPLACES this svg with the other icon, so a
@@ -222,7 +253,7 @@
         It does NOT grow the box, so the gap to the speed button is unchanged. */
   .qv-mute svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
   .qv-mute::after{content:"";position:absolute;inset:0}
-  .qv-cc{position:absolute;left:var(--ctlEdge);bottom:var(--ctlPad);z-index:3;display:inline-flex;align-items:center;justify-content:center;min-width:var(--ctlH);height:var(--ctlH);padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.74rem;font-weight:700;letter-spacing:.05em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+  .qv-cc{display:inline-flex;align-items:center;justify-content:center;min-width:var(--ctlH);flex:0 0 auto;height:var(--ctlH);padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.74rem;font-weight:700;letter-spacing:.05em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
   .qv-cc:hover{background:rgba(0,38,71,.85)}
   .qv-cc.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
   .qv-cc.on:hover{background:var(--gold);opacity:.9}
@@ -240,20 +271,23 @@
   .qv-cc.split .qv-cc-l{background:var(--navy);color:var(--gold)}
   /* Two-language nodes wrap the CC button in a menu (Off / English / Español), mirroring the speed
      control. One-language nodes keep the plain on/off button, unwrapped — see qvCcHTML(). */
-  .qv-cc-wrap{position:absolute;left:var(--ctlEdge);bottom:var(--ctlPad);z-index:4}
-  .qv-cc-wrap .qv-cc{position:static}
+  .qv-cc-wrap{position:relative;z-index:4;flex:0 0 auto}
   .qv-cc-menu{position:absolute;left:0;bottom:46px;display:none;flex-direction:column;gap:2px;padding:5px;background:rgba(0,18,38,.92);border:1px solid rgba(255,255,255,.2);border-radius:10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
   .qv-cc-menu.open{display:flex}
   .qv-cc-menu button{min-width:90px;text-align:left;padding:.42rem .6rem;background:transparent;border:none;border-radius:6px;color:#fff;font-family:var(--font-body);font-size:.7rem;font-weight:600;letter-spacing:.03em;cursor:pointer;white-space:nowrap;transition:background .12s}
   .qv-cc-menu button:hover{background:rgba(255,255,255,.14)}
   .qv-cc-menu button[aria-checked="true"]{background:var(--gold);color:var(--navy);font-weight:700}
   .qv-cc:focus-visible,.qv-cc-menu button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  /* Playback speed — button + pop-up list, paired with mute on the right. The wrapper is what's
-     positioned; the menu opens upward from it so it never runs off the bottom of the picture. */
-  /* Sits one control-width plus a gap in from the mute button, so the pair stays together whatever
-     --ctlH is. Never hard-code this offset: it has to move when the buttons resize. */
-  .qv-speed-wrap{position:absolute;right:calc(var(--ctlEdge) + var(--ctlH) + var(--ctlGap));bottom:var(--ctlPad);z-index:4}
-  .qv-speed{display:inline-flex;align-items:center;justify-content:center;min-width:var(--ctlH);height:var(--ctlH);padding:0 10px;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.03em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
+  /* Playback speed — button + pop-up list, paired with mute at the right-hand end of the row. The
+     wrapper is the menu's anchor (position:relative), which is all it does now; the row places it.
+     ⚠ It used to carry `right:calc(--ctlEdge + --ctlH + --ctlGap)` to sit itself one button-width in
+     from the mute button. The flex row does that, so the offset is gone — do not put it back.
+     ⚠ min-width RESERVES the widest label ("1.25x") at every rate, so the button does not change
+     size when a speed is picked and the row does not shift under the reader's finger. It is in `em`
+     so it tracks the font-size a compact tier sets; the two tiers restate it because they also
+     change the padding it has to cover. Adding a LONGER value to PW_SPEEDS means re-checking it. */
+  .qv-speed-wrap{position:relative;z-index:4;flex:0 0 auto}
+  .qv-speed{display:inline-flex;align-items:center;justify-content:center;min-width:4.35em;height:var(--ctlH);padding:0 10px;flex:0 0 auto;background:rgba(0,38,71,.55);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.03em;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,border-color .15s}
   .qv-speed:hover{background:rgba(0,38,71,.85)}
   .qv-speed.off{background:var(--gold);color:var(--navy);border-color:var(--gold)}  /* anything but 1x */
   .qv-speed.off:hover{background:var(--gold);opacity:.9}
@@ -398,26 +432,28 @@
     .qv-foot{margin:0;padding:1.5rem 2rem 1.6rem}
     /* Control ORDER now matches the phone (2026-08-08): CC far left, Skip centred, speed and mute
        right. Landscape used to pin Skip left and move CC over to the right cluster, which swapped
-       the two ends between layouts for no recorded reason. One arrangement everywhere. */
+       the two ends between layouts for no recorded reason. One arrangement everywhere — and since
+       2026-08-11 it is the DOM order inside .qv-ctlrow, so there is nothing here that could
+       reverse it. */
     .qv-window.ended .qv-replay-overlay{display:flex}
-    .qv-window.ended .qv-mute,.qv-window.ended .qv-cc,.qv-window.ended .qv-cc-wrap,.qv-window.ended .qv-skip,.qv-window.ended .qv-speed-wrap{display:none}
+    .qv-window.ended .qv-ctlrow{display:none}
   }
   /* COMPACT CONTROL ROW — short landscape windows (fix 2026-08-08, first real clip).
      In landscape the video is sized by HEIGHT and its width follows from 9:16, so a shorter browser
-     window makes a NARROWER video. The four controls are anchored independently — CC off the left
-     edge, Skip centred, speed and mute off the right — and at full size that arrangement needs about
-     296px of width before the centred Skip meets its neighbours.
-     ⚠ Anchors only ever set the side they belong to. Never give CC a `right` or Skip a `left` here:
-     that is what previously reversed the order between phone and desktop.
+     window makes a NARROWER video — which is why the row has to keep tightening as the window gets
+     SHORTER. At full size the four controls need about 296px of column before they touch.
+     These tiers are no longer what PREVENTS an overlap — the flex row does that on its own, at any
+     width, and will let Skip slide off centre rather than collide. They are here so the controls
+     stay a comfortable size and the row keeps breathing room instead of being squeezed to nothing.
      Compact = Skip drops to its icon (font-size:0 hides the label; aria-label still carries "Skip
      video" for screen readers, so nothing is lost to assistive tech) and the buttons tighten to
-     34px, then 30px. Nothing is removed — every control stays operable. */
+     37px, then 31px. Nothing is removed — every control stays operable. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:820px){
-    .qv-window{--ctlH:37px;--ctlEdge:10px}   /* every control and offset follows from these two */
+    .qv-window{--ctlH:37px;--ctlEdge:10px}   /* every control follows from these two */
     .qv-skip{font-size:0;gap:0;padding:0 9px}
     .qv-skip svg{width:15px;height:15px}
     .qv-cc{font-size:.7rem}
-    .qv-speed{padding:0 7px}
+    .qv-speed{padding:0 7px;min-width:3.9em}   /* restated with the padding it has to cover */
   }
   /* Second tier — windows shorter than ~660px, where the column narrows further. Same idea, tighter:
      30px buttons. Labels are NOT abbreviated — "CC EN" stays, because the button showing which
@@ -425,11 +461,17 @@
      ⚠ Floor: below roughly 570px of window height the row crowds again. At that point the video is
      under 160px wide on a desktop screen and the layout has bigger problems than the controls. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:660px){
-    .qv-window{--ctlH:31px;--ctlEdge:8px}
-    .qv-skip{padding:0 6px}
+    /* ⚠ The gap, the edge inset and the CC half-padding are all trimmed here for ROOM, not for
+       looks (2026-08-11). The flex row never lets two controls overlap, but it cannot invent width:
+       once the four controls plus their gaps exceed the column, the row runs past the picture edge
+       and .qv-window clips it — at 1024x600 that cost 26px of the 31px mute button. Measured need
+       at that size was 211.7px in a 177.8px column; these five trims recover ~37px. */
+    .qv-window{--ctlH:31px;--ctlEdge:6px;--ctlGap:5px}
+    .qv-skip{padding:0 4px}
     .qv-skip svg{width:13px;height:13px}
     .qv-cc{padding:0 5px;font-size:.62rem;letter-spacing:.03em}
-    .qv-speed{padding:0 5px;font-size:.64rem}
+    .qv-cc.split .qv-cc-k,.qv-cc.split .qv-cc-l{padding:0 4px}
+    .qv-speed{padding:0 5px;font-size:.64rem;min-width:3.4em}
     .qv-mute svg{width:15px;height:15px}
   }
   /* Phone portrait. The "Pathways Questionnaire" label was dropped here first (2026-08-05) — the
@@ -628,6 +670,37 @@
     .hero-banner .hero-text h1{font-size:1.7rem}
     .hero-btn{margin-top:.6rem;padding:.7rem 1.8rem}
     .hero-scroll{display:none}
+  }
+  /* PHONE HELD SIDEWAYS, QUESTIONNAIRE ONLY — added 2026-08-11.
+     The clips are 9:16 and the card reserves 284px of window height for its header, the questions
+     and the footer row. On a phone in landscape there is almost nothing left: measured at 844x390
+     (an iPhone 14/15 on its side) the picture came out 60x106px, smaller than a postage stamp, with
+     the control row needing 166px in a 60px column and 113px of it cut off by the picture edge. A
+     smaller phone (667x375) drops below the 720px landscape rules instead and gets a 667x168
+     letterbox — nothing clipped, but a vertical video cropped to a slot. Neither is watchable.
+     So the questionnaire asks for the phone to be turned upright rather than serving that.
+     ⚠ (pointer:coarse) is what keeps this on touchscreens. A desktop window under 500px tall is
+     rare but real, and "turn your phone upright" would be nonsense there — the row now fits at
+     those sizes anyway. Do not drop that condition to "simplify" the query.
+     ⚠ THE "CONTINUE ANYWAY" BUTTON IS NOT OPTIONAL — it is what keeps this WCAG 1.3.4 (Orientation,
+     AA) compliant. Locking content to one orientation fails that rule outright: someone with a
+     mounted device, or with rotation locked for a reason of their own, must still be able to get
+     through. The button sets .rot-ok on the screen, which stands down the message for the rest of
+     the visit. Removing it turns a nudge into a barrier.
+     Result pages and the landing page are deliberately untouched — they are text and they reflow. */
+  /* It stands IN FOR the card, so it wears the card's clothes — same navy, radius and shadow as
+     .qv-group in the landscape rules. Without them the message lands as white type straight on the
+     ice page background and the body line is invisible (caught on screen 2026-08-11). */
+  .qv-rotate{display:none;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;padding:1.4rem 1.6rem;width:min(94vw,1040px);margin:auto;min-height:min(66svh,300px);background:var(--navy);border-radius:18px;box-shadow:0 18px 50px rgba(0,38,71,.22)}
+  .qv-rotate svg{width:38px;height:38px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .qv-rotate h2{font-family:var(--font-display);font-weight:400;font-size:1.45rem;letter-spacing:.03em;color:var(--white);margin:0}
+  .qv-rotate p{font-family:var(--font-body);font-size:.82rem;line-height:1.5;color:var(--ice);margin:0;max-width:42ch}
+  .qv-rotate button{font-family:var(--font-body);font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--white);background:transparent;border:1px solid rgba(255,255,255,.45);border-radius:100px;padding:.6rem 1.3rem;cursor:pointer}
+  .qv-rotate button:hover{background:rgba(255,255,255,.12)}
+  .qv-rotate button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  @media(orientation:landscape) and (max-height:500px) and (pointer:coarse){
+    .qv-screen:not(.rot-ok) .qv-group{display:none}
+    .qv-screen:not(.rot-ok) .qv-rotate{display:flex}
   }
   @media print{
     footer,.actions-row,.qv-foot,.qv-result-foot,.hero-banner,#homeSections,.qv-optin{display:none!important}
@@ -910,6 +983,8 @@ const ICON_EXIT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const ICON_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>';
 const ICON_MUTED='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 L6 9 H3 V15 H6 L11 19 Z"/><line x1="16" y1="9.5" x2="21" y2="14.5"/><line x1="21" y1="9.5" x2="16" y2="14.5"/></svg>';
 const ICON_UNMUTED='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 L6 9 H3 V15 H6 L11 19 Z"/><path d="M15.4 8.8a4.6 4.6 0 0 1 0 6.4"/><path d="M18.2 6a8.6 8.6 0 0 1 0 12"/></svg>';
+// Upright phone with a turning arrow each side — the "turn your phone upright" prompt (.qv-rotate).
+const ICON_ROTATE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.9" y="1.9" width="6.2" height="12.2" rx="1.4"/><line x1="11.1" y1="3.9" x2="12.9" y2="3.9"/><path d="M5.6 14.8a7.2 7.2 0 0 0 2.9 4.8"/><path d="M3.6 11.9 5.6 14.8 8.5 12.8"/><path d="M18.4 14.8a7.2 7.2 0 0 1-2.9 4.8"/><path d="M20.4 11.9 18.4 14.8 15.5 12.8"/></svg>';
 const ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 4 20 12 6 20"/></svg>';
 const VP_DIR='images/video%20placeholder%20stills/';
 function vp(n){return VP_DIR+'vp_'+n+'.jpg';}  // %20 in VP_DIR — folder name has spaces
@@ -1431,7 +1506,7 @@ function renderNode(n,key){
       }).join('')+
     '</video>';
   }
-  return '<div class="step-screen qv-screen active">'+
+  return '<div class="step-screen qv-screen active'+(PW_ROTOK?' rot-ok':'')+'">'+
     '<div class="qv-group" data-node="'+escapeHTML(key)+'">'+
       '<div class="qv-subtitle">'+T.questionnaireSubtitle+'</div>'+
       // Named only over a real clip — see qvSpeakerHTML. Sits above the picture, so it never
@@ -1442,14 +1517,24 @@ function renderNode(n,key){
           media+
           (base&&ccl.length?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
-          // Visible label is short to keep the control row uncluttered; the spoken name stays full,
-          // so a screen-reader user still hears what is being skipped.
-          '<button class="qv-skip" aria-label="'+T.skipVideoAria+'" onclick="qvSkip(this)">'+T.skipVideo+' '+ICON_SKIP+'</button>'+
-          // mute and CC are gated on what actually exists — both are inert over a still, and CC
-          // additionally needs a .vtt beside the clip or it toggles nothing (WCAG 1.2.2).
-          (base?'<button class="qv-mute" data-muted="true" aria-label="'+T.unmuteVideo+'" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
-          (base?qvSpeedHTML():'')+
-          (base&&ccl.length?qvCcHTML(ccl):'')+
+          // ONE ROW, three cells — see .qv-ctlrow. Written in the order they appear on screen, which
+          // is therefore also the Tab and screen-reader order: CC, Skip, speed, mute.
+          // Skip is the only control that is always present; the other three are gated on what
+          // actually exists — all are inert over a still, and CC additionally needs a .vtt beside
+          // the clip or it toggles nothing (WCAG 1.2.2). A gated-out control leaves its cell EMPTY,
+          // which is what re-centres Skip on a placeholder still, with no rule needed for that case.
+          '<div class="qv-ctlrow">'+
+            '<div class="qv-ctlcell qv-ctlcell-l">'+(base&&ccl.length?qvCcHTML(ccl):'')+'</div>'+
+            // Visible label is short to keep the control row uncluttered; the spoken name stays
+            // full, so a screen-reader user still hears what is being skipped.
+            '<div class="qv-ctlcell qv-ctlcell-c">'+
+              '<button class="qv-skip" aria-label="'+T.skipVideoAria+'" onclick="qvSkip(this)">'+T.skipVideo+' '+ICON_SKIP+'</button>'+
+            '</div>'+
+            '<div class="qv-ctlcell qv-ctlcell-r">'+
+              (base?qvSpeedHTML():'')+
+              (base?'<button class="qv-mute" data-muted="true" aria-label="'+T.unmuteVideo+'" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
+            '</div>'+
+          '</div>'+
           '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' '+T.replay+'</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+'</div>'+
         '</div>'+
         '<div class="qv-end">'+prompt+'<div class="qv-opts">'+opts+'</div>'+
@@ -1469,7 +1554,26 @@ function renderNode(n,key){
       '</div>'+
       (n.text?qvTextModal(n,key):'')+
     '</div>'+
+    // Shown INSTEAD of everything above when a touchscreen is held sideways — see .qv-rotate in the
+    // stylesheet for why, and for why "Continue anyway" has to stay. Emitted on every node, hidden
+    // by default, and the class below carries a reader's "continue" choice onto the next node so
+    // they are asked once, not eleven times.
+    '<div class="qv-rotate">'+ICON_ROTATE+
+      '<h2>'+T.rotateTitle+'</h2>'+
+      '<p>'+T.rotateBody+'</p>'+
+      '<button type="button" onclick="pwRotateOk(this)">'+T.rotateContinue+'</button>'+
+    '</div>'+
   '</div>';
+}
+// "Continue anyway" on the turn-your-phone prompt. Remembered for the visit only — a later visit
+// gets the nudge again, which is the point of it. Focus moves to Skip because the button that was
+// just pressed is now hidden, and focus left on a hidden control strands a keyboard user.
+var PW_ROTOK=false;
+function pwRotateOk(btn){
+  PW_ROTOK=true;
+  var s=btn.closest('.qv-screen');if(!s)return;
+  s.classList.add('rot-ok');
+  var f=s.querySelector('.qv-skip');if(f){try{f.focus();}catch(e){}}
 }
 
 function qvTextModal(n,key){
