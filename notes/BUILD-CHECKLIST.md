@@ -283,6 +283,31 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
         gold-on-navy, halves meeting down the middle. The border is dropped in that state only — a
         button has one border and the gold one was drawing a ring around the navy half. Off and
         single-language nodes keep the plain button, unchanged.
+- [x] 🔴 **Mute button also paused the video — FOUND AND FIXED 2026-08-11.** Reported as "pressing
+      mute usually just pauses the video, sometimes it works". It was a real fault, not a small
+      icon, and it had been live on `welcome` since 08-08.
+      **Cause:** pressing mute swaps the icon for the other one. The video's own tap-to-pause check
+      then asks "did this press come from a control?" — but the icon it came from had just been
+      replaced, so the check matched nothing and treated it as a press on the picture. One press =
+      mute AND pause; two presses = back to muted with the video stopped, which is why it read as
+      "nothing happens but the video pauses".
+      **Measured on the live player before the fix** (40×40 button): **19% of its face landed on the
+      icon and broke**, dead centre where people aim · 62% worked · the remaining 19% was the corners
+      of the square box falling outside the round pill and hitting the video. So roughly **4 presses
+      in 10 moved the video.** On a short laptop window (1024×700, button 37px) the broken centre
+      grew to 24%, the icon staying 17px at every size.
+      **Two fixes, both in the CSS beside `.qv-mute`, both commented there:** the icon no longer
+      takes presses, and a square hit area sits behind the round button. After: **0% hits the icon,
+      94% reaches the button**, and the last 6% is a one-pixel line along two edges — a rounding
+      artefact of the button's fractional position, not a dead zone. Holds at every control size,
+      down to the smallest tier (31px button at 1024×640: 0% / 91.5%).
+      Verified with the real handlers: pressing mute now changes only the sound and makes no
+      play/pause call at all, at the centre and in the corners, while a press on the picture still
+      pauses as before.
+      ⚠ **Mute is the only control that rewrites its own contents mid-press**, which is why it alone
+      was affected — CC, Skip and Speed were all checked and pass. The single-language CC button is
+      safe for a different reason: its label is plain text, so the press lands on the button itself.
+      **Any NEW control that redraws itself when pressed needs the same `pointer-events:none`.**
 - [x] **Speaker name/title strips — BUILT 2026-08-10.** Names and job titles live in
       `data/content.en.json` → `speakers`; each node's `sp:[…]` in index.html says WHO and, on a
       two-presenter clip, WHEN. Verbatim copy and the node mapping stay in
@@ -310,9 +335,12 @@ transcript text template: [`notes/video-transcripts-TODO.md`](video-transcripts-
       node shows both stills at once, so there is nobody to name — and a flagged-but-missing clip has
       its strips removed with the rest of the clip-only controls, which hands the desktop column back
       to the questions on its own. Verified by simulating an absent file.
-      ⚠ **`discipline` has no cut times yet.** Laurel and Ricky alternate there as they do in
-      `welcome`, but the clip has not landed, so there is nothing to time against; the node names
-      Laurel throughout until `at:` values are added. Do that the day the clip goes in.
+      ✔ **`discipline` cut times supplied 2026-08-11 and in place.** One cut, and the order is the
+      REVERSE of `welcome`: **Ricky from zero, Laurel from 23:05** (frame 5 of second 23 on a
+      23.976 timebase) = `at:23.209`. The clip itself has not landed, so the strip stays hidden
+      until it does — the map cannot be watched through until then, and the timing came off the
+      Premiere timeline rather than a finished export, which is the reading that went wrong on
+      `welcome`. **Check it against the export on the day the clip goes in.**
       **TRANSITION — a left-to-right WIPE, built 2026-08-11.** A crossfade was tried in principle and
       rejected: the objection is that both names are semi-transparent through the middle of it. The
       wipe has one travelling edge, with the incoming block uncovered at exactly the rate the outgoing
