@@ -327,6 +327,16 @@
      gets today's behaviour, so there is nothing to fall back to. */
   .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5);text-wrap:balance}
   .qv-window.ended .qv-caps{display:none}
+  /* ⚠ BACKSTOP for the iPad bug of 2026-08-13 — do not remove without reading qvSetTrackModes.
+     iPadOS has Settings ▸ Accessibility ▸ Subtitles & Captioning ▸ "Show when Muted" ON BY DEFAULT,
+     and every clip here starts muted, so the system switches a caption track on by itself moments
+     after playback begins — on top of the one this site is already drawing. It picked the SPANISH
+     track (English being the one we hold), so a visitor saw English in our line and Spanish in the
+     browser's own box, jammed behind the control row. This affects every browser on an iPad or
+     iPhone: they all use Safari's engine underneath, and it was reproduced in Firefox Focus too.
+     qvSetTrackModes puts the track straight back; this rule hides the browser's own caption box
+     regardless, so nothing can appear there in the gap before that happens. */
+  .qv-video::-webkit-media-text-track-container{display:none!important}
   /* Text version (written equivalent of the video) — reading dialog */
   .qv-textmodal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:4vh 5vw;background:rgba(0,18,38,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
   .qv-textmodal.open{display:flex}
@@ -1847,9 +1857,15 @@ function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → 
 // qvApplyCaptions — every other is 'disabled', so its cues never fire.
 function qvCapTrack(v){
   if(!v||!v.textTracks)return null;
+  var alt=null;
   for(var i=0;i<v.textTracks.length;i++){var t=v.textTracks[i];
-    if((t.kind==='captions'||t.kind==='subtitles')&&t.mode==='hidden')return t;}
-  return null;
+    if(t.kind!=='captions'&&t.kind!=='subtitles')continue;
+    if(t.mode==='hidden')return t;
+    // A track the BROWSER switched on behind our back (see qvSetTrackModes). qvSetTrackModes puts it
+    // back to 'hidden' immediately, but taking it here too means our caption line never goes blank in
+    // the gap — without this, a track flipped to 'showing' would match nothing and the text vanish.
+    if(t.mode==='showing'&&!alt)alt=t;}
+  return alt;
 }
 function qvWinLangs(win){                          // the node's caption languages, off the <video>
   var v=win&&win.querySelector('.qv-video');
@@ -1873,21 +1889,40 @@ function qvRenderCue(v){
   }
   box.classList.add('on');
 }
-function qvApplyCaptions(win){
-  var v=win&&win.querySelector('.qv-video');if(!v||!v.textTracks)return;
-  var act=ccActive(qvWinLangs(win));
+// Puts every caption track into the state this site wants: the language on show at 'hidden' (cues
+// parse and fire cuechange, the browser draws nothing, we paint them into .qv-caps), everything else
+// at 'disabled' so its cues never fire. Returns true if anything actually had to be corrected.
+function qvSetTrackModes(win,v){
+  var act=ccActive(qvWinLangs(win)),fixed=false;
   for(var i=0;i<v.textTracks.length;i++){
     var t=v.textTracks[i];
     if(t.kind!=='captions'&&t.kind!=='subtitles')continue;
-    if(act&&t.language===act){
-      t.mode='hidden';                                // 'hidden' (never 'showing') = parse cues, draw nothing
-      if(!t.qvBound){t.qvBound=true;t.addEventListener('cuechange',function(){qvRenderCue(v);});}
-    }else{
-      t.mode='disabled';                              // the language not on show, and every track when off
-    }
+    var want=(act&&t.language===act)?'hidden':'disabled';   // 'showing' is never wanted — see .qv-caps in the CSS
+    if(t.mode!==want){t.mode=want;fixed=true;}
+    if(want==='hidden'&&!t.qvBound){t.qvBound=true;t.addEventListener('cuechange',function(){qvRenderCue(v);});}
+  }
+  return fixed;
+}
+function qvApplyCaptions(win){
+  var v=win&&win.querySelector('.qv-video');if(!v||!v.textTracks)return;
+  qvSetTrackModes(win,v);
+  // ⚠ The device can switch a caption track on by ITSELF, against what we just set — iPadOS does it
+  // for any muted video, which is how every clip here starts (full note in the CSS beside .qv-caps).
+  // Setting the modes once at mount is therefore not enough: this watches the track list and puts
+  // them back the moment that happens, which is what the visitor previously had to do by hand by
+  // tapping CC. Our own corrections change nothing on the second pass, so they settle immediately.
+  // The cap is a stop against a device that insists on re-enabling forever; the CSS rule hides the
+  // browser's caption box regardless, so nothing becomes visible if the cap is ever reached.
+  if(!v.qvTrackGuard){
+    v.qvTrackGuard=true;
+    v.textTracks.addEventListener('change',function(){
+      if((v.qvTrackFixes||0)>20)return;
+      if(qvSetTrackModes(win,v)){v.qvTrackFixes=(v.qvTrackFixes||0)+1;qvRenderCue(v);}
+    });
   }
   // Marks the caption line with its language. Note the layer also carries aria-hidden, so screen
   // readers skip it either way — see the aria-hidden note where .qv-caps is emitted in renderNode().
+  var act=ccActive(qvWinLangs(win));
   var box=win.querySelector('.qv-caps');
   if(box){if(act)box.setAttribute('lang',act);else box.removeAttribute('lang');}
   qvRenderCue(v);
