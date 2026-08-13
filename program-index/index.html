@@ -46,12 +46,11 @@
     --raise:rgba(240,248,255,.12);
     --raise-hover:rgba(240,248,255,.18);
     --line-strong:rgba(240,248,255,.26);   /* pill outline — reads as an edge, not a suggestion */
-    /* Category dots. Unique to this page — index.html has no equivalent — lifted to carry on navy.
-       The label beside each dot names the category; the dot is a repeated tag, not the only cue. */
-    --c-inperson:#93A6D2;
-    --c-online:#7FB8E8;
-    --c-hybrid:#FECF43;
-    --c-onlineonly:#6FD6B5;
+    /* The four category dot colours (--c-inperson / --c-online / --c-hybrid / --c-onlineonly) were
+       removed 2026-08-11: nothing had consumed them since this page was rebuilt as a filterable
+       table on 2026-08-02, which replaced the four delivery-mode groups the dots belonged to.
+       Delivery is now a Format column and a filter, both plain text. Recover from git if the dots
+       ever come back — and note they had no counterpart in index.html, by design. */
   }
   @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/bebas-neue-latin.woff2') format('woff2')}
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/open-sans-latin.woff2') format('woff2')}
@@ -72,7 +71,10 @@
   /* Title — the site name in the result pages' display face, with the page's own name under it in
      the small gold treatment the result pages give "Your pathway" (.res-label), only underneath
      rather than above. Both stay inside the h1 so the heading still reads as the whole phrase.
-     Padding and radius match .qv-result .results-header.
+     ⚠ This band does NOT match .results-header on the result pages, and the claim that it did was
+     removed 2026-08-11 as stale: that rule is 1.75rem padding on a 4px radius, this one is 1.6rem
+     on 18px. They are deliberately different — the result pages are a navy card on ice, this is a
+     lifted band on navy, and the radius belongs to the pills and dropdowns below it.
      The margin-bottom equals .x-filters' own: the filter block then sits evenly between the title
      band above it and the results block below. Change the two together or the balance goes. */
   /* Same 1px edge as the dropdowns below (--line-strong), so the band reads as part of the same

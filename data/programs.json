@@ -2,7 +2,7 @@
   "_meta": {
     "description": "Verified program links for PATHWAYS questionnaire decision profiles. Each entry: name, url, conf (High/Med/Low), src (source type). Links fetched and confirmed loading 2026-06-17.",
     "sourceAuthority": "School lists are from the CTC approved-programs list (authoritative). All flagged schools ARE state-approved for the discipline.",
-    "flagHandling": "Keep ALL schools on every profile. Render entries with a 'flag' field with a subtle footnote marker (e.g. superscript) meaning: approved program, link points to the school's general credential page rather than a discipline-specific page — confirm specifics with the school. Do NOT drop flagged schools.",
+    "flagHandling": "Keep ALL schools on every profile — never drop a flagged school. The 'flag' field means: approved program, but the link points to the school's general credential page rather than a discipline-specific one. SUPERSEDED 2026-08-11: this used to instruct rendering a footnote marker. It is no longer rendered. The dagger marks and the 'confirm specifics with the school' footnote were removed from the result pages on 2026-07-30 and the client confirmed that as final on 2026-08-01. The 21 flags stay in this file, unread by the site, so the caveat is one display change away if it is ever wanted back.",
     "profiles": {
       "dance": "Credentialed Dance Teacher (Lindsay -> yes)",
       "theatre": "Credentialed Theatre Teacher (Eric -> yes)",

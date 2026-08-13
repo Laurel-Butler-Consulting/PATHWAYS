@@ -3,3 +3,16 @@
 # Client-supplied working documents. The repository is PUBLIC — anything committed
 # here is published, so this folder stays out of it.
 documents/
+
+# Internal working material, untracked 2026-08-11 for the same reason as documents/ above.
+# These are how the build is run, not part of the site, and the repository is PUBLIC.
+#   CLAUDE.md — working method and project rules. It always DESCRIBED itself as gitignored;
+#               it simply never was, so this restores the documented intent.
+#   notes/    — the build checklist plus client correspondence and copy drafts
+#               (transcript-queries-for-client.txt, results-page-summaries-for-client.txt).
+# ⚠ They still travel with the daily dated-folder copy, because that is a filesystem copy and not
+# a clone. They will NOT come down with a fresh `git clone` — keep the folder copy as the record.
+# ⚠ Untracking hides them from here on. It does NOT remove them from git history, which is public
+# on a public repo. See notes/BUILD-CHECKLIST.md §9 for what that means for the gate password.
+CLAUDE.md
+notes/
