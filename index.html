@@ -865,28 +865,28 @@ if(!document.documentElement.classList.contains('pw-open')){
       <div class="quote-carousel" id="quoteCarousel" aria-roledescription="carousel" aria-label="Educator quotes">
         <div class="quote-track">
           <figure class="quote-slide is-active">
-            <div class="quote-photo"><img loading="lazy" src="images/PAED_sherrick_oquinn_1X1.jpg" alt="Sherrick O’Quinn" width="120" height="120"></div>
+            <div class="quote-photo"><img loading="lazy" src="images/AEP_sherrick_oquinn_1X1.jpg" alt="Sherrick O’Quinn" width="120" height="120"></div>
             <div class="quote-body">
               <blockquote class="quote-text">“I’m a teaching artist, and I love teaching the arts because I love using arts education to be a change agent and empower youth with a greater voice.”</blockquote>
               <figcaption class="quote-cite"><strong>Sherrick O’Quinn</strong>, <span class="quote-role">Teaching Artist &amp; Educator</span></figcaption>
             </div>
           </figure>
           <figure class="quote-slide">
-            <div class="quote-photo"><img loading="lazy" src="images/PAED_michael_diaz_1X1.jpg" alt="Michael Diaz" width="120" height="120"></div>
+            <div class="quote-photo"><img loading="lazy" src="images/AEP_michael_diaz_1X1.jpg" alt="Michael Diaz" width="120" height="120"></div>
             <div class="quote-body">
               <blockquote class="quote-text">“I have a Single Subject Teaching Credential in Theatre. I love teaching the arts because they give students the chance to discover meaningful stories, find their own voice, and build empathy through the powerful and creative world of theatre.”</blockquote>
               <figcaption class="quote-cite"><strong>Michael Diaz</strong>, <span class="quote-role">Theatre Teacher, Huron Middle School</span></figcaption>
             </div>
           </figure>
           <figure class="quote-slide">
-            <div class="quote-photo"><img loading="lazy" src="images/PAED_taylor_moore_1X1.jpg" alt="Taylor Moore" width="120" height="120"></div>
+            <div class="quote-photo"><img loading="lazy" src="images/AEP_taylor_moore_1X1.jpg" alt="Taylor Moore" width="120" height="120"></div>
             <div class="quote-body">
               <blockquote class="quote-text">“I hold a Dance Teaching Credential, a Physical Education Credential, and a Career Technical Education (CTE) Credential in Arts, Media, and Entertainment. The arts often serve as more than just an academic subject; they become a source of inspiration, self-expression, and belonging. For some students, their performing arts class is the reason they look forward to coming to school each day. It is a place where they can feel supported, valued, and free to express themselves.”</blockquote>
               <figcaption class="quote-cite"><strong>Taylor Moore</strong>, <span class="quote-role">Dance Teacher, Ventura High School</span></figcaption>
             </div>
           </figure>
           <figure class="quote-slide">
-            <div class="quote-photo"><img loading="lazy" src="images/PAED_kim_hoj_1X1.jpg" alt="Kim Hoj" width="120" height="120"></div>
+            <div class="quote-photo"><img loading="lazy" src="images/AEP_kim_hoj_1X1.jpg" alt="Kim Hoj" width="120" height="120"></div>
             <div class="quote-body">
               <blockquote class="quote-text">“I have a Career Technical Education Credential in Arts, Media and Entertainment and a Physical Education Credential. I am blessed to have found a path that marries my deep love of dance and movement with the ability to earn a stable income with health insurance. There are numerous job openings for credentialled dance educators here in California! I encourage every passionate dancer and dance student to envision a life that centers dance education. Go get that credential!”</blockquote>
               <figcaption class="quote-cite"><strong>Kim Hoj</strong>, <span class="quote-role">Dance Teacher, Nordhoff Junior &amp; High School Dance, Ojai</span></figcaption>
@@ -1001,8 +1001,9 @@ const ICON_UNMUTED='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 L
 // Upright phone with a turning arrow each side — the "turn your phone upright" prompt (.qv-rotate).
 const ICON_ROTATE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.9" y="1.9" width="6.2" height="12.2" rx="1.4"/><line x1="11.1" y1="3.9" x2="12.9" y2="3.9"/><path d="M5.6 14.8a7.2 7.2 0 0 0 2.9 4.8"/><path d="M3.6 11.9 5.6 14.8 8.5 12.8"/><path d="M18.4 14.8a7.2 7.2 0 0 1-2.9 4.8"/><path d="M20.4 11.9 18.4 14.8 15.5 12.8"/></svg>';
 const ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 4 20 12 6 20"/></svg>';
-const VP_DIR='images/video%20placeholder%20stills/';
-function vp(n){return VP_DIR+'vp_'+n+'.jpg';}  // %20 in VP_DIR — folder name has spaces
+// VP_DIR / vp() removed 2026-08-11 with `images/video placeholder stills/`. Those eight per-presenter
+// photos stood in for the clips before they existed; every node now has a real poster frame in
+// video/stills/, which the player uses for both the poster and the missing-clip fallback.
 
 // Node videos live at NODE_VID_DIR + <node key> + .mp4 — named per NODE, not per persona
 // (11 videos, 8 personas: Laurel and Ricky each carry three distinct clips, so persona
@@ -1058,18 +1059,18 @@ const NODES={
   // reading, which came off a 30-labelled display and had to be converted.
   // ⚠ Do not "verify" these by sampling a fast-forwarded video: at 8x the painted frame trails
   // currentTime by 1-2 seconds, which makes a correct map look wrong. Watch it at normal speed.
-  welcome:{p:'Laurel & Ricky',img:[vp('laurel'),vp('ricky')],v:1,cc:['en','es'],
+  welcome:{p:'Laurel & Ricky',v:1,cc:['en','es'],
     sp:['laurel',{k:'ricky',at:17.417},{k:'laurel',at:34.751},{k:'ricky',at:50.375}],
     poster:NODE_STILL_DIR+'welcome.jpg',o:[
     {to:'suppAuth'},{to:'cteIntro'},{to:'taVsCred'},{to:'taVsCred'}
   ]},
   // SWITCHED ON 2026-08-11 with the 01-07 delivery. All six are 1080x1920, faststart, ~3.1 Mbps,
   // and their durations agree with the caption files that were built against them.
-  suppAuth:{p:'Chris',img:vp('chris'),v:1,cc:['en','es'],sp:['christiane'],
+  suppAuth:{p:'Chris',v:1,cc:['en','es'],sp:['christiane'],
     poster:NODE_STILL_DIR+'suppAuth.jpg',o:[
     {to:'@supp'},{to:'cteIntro'}
   ]},
-  taVsCred:{p:'Laurel',img:vp('laurel'),v:1,cc:['en','es'],sp:['laurel'],
+  taVsCred:{p:'Laurel',v:1,cc:['en','es'],sp:['laurel'],
     poster:NODE_STILL_DIR+'taVsCred.jpg',o:[
     {to:'cteIntro'},{to:'lifeTA'}
   ]},
@@ -1077,13 +1078,13 @@ const NODES={
   // and that corrected export is the one delivered here — the y1308 figure on record came off an
   // earlier cut. Duration is unchanged at 47.464s, so the three extra Spanish cues that cover the
   // graphic window (18.643-25.900s, where the English track is deliberately silent) still line up.
-  cteIntro:{p:'Ricky',img:vp('ricky'),v:1,cc:['en','es'],sp:['ricky'],
+  cteIntro:{p:'Ricky',v:1,cc:['en','es'],sp:['ricky'],
     poster:NODE_STILL_DIR+'cteIntro.jpg',o:[
     {to:'cteVideo'},{to:'discipline'}
   ]},
   // ⚠ The clip was delivered as ctepath.mp4 and renamed to the node key. The name here drives BOTH
   // the clip and its two caption files, so it has to be cteVideo — see the note above NODES.
-  cteVideo:{p:'Tiffany',img:vp('tiffany'),v:1,cc:['en','es'],sp:['tiffany'],
+  cteVideo:{p:'Tiffany',v:1,cc:['en','es'],sp:['tiffany'],
     poster:NODE_STILL_DIR+'cteVideo.jpg',o:[
     {to:'@cte'},{to:'discipline'}
   ]},
@@ -1092,32 +1093,32 @@ const NODES={
   // opens here. Clip is 46.129s, so the cut sits almost exactly halfway, as described.
   // ⚠ Still unconfirmed against the finished export — the time came off the Premiere timeline, the
   // reading that was ~20% out on welcome. Watch it through at normal speed before launch.
-  discipline:{p:'Laurel / Ricky',img:[vp('laurel'),vp('ricky')],v:1,cc:['en','es'],
+  discipline:{p:'Laurel / Ricky',v:1,cc:['en','es'],
     sp:['ricky',{k:'laurel',at:23.209}],
     poster:NODE_STILL_DIR+'discipline.jpg',o:[
     {to:'mMusic'},{to:'mTheater'},{to:'mDance'},{to:'mArt'}
   ]},
-  lifeTA:{p:'Laurel',img:vp('laurel'),v:1,cc:['en','es'],sp:['laurel'],
+  lifeTA:{p:'Laurel',v:1,cc:['en','es'],sp:['laurel'],
     poster:NODE_STILL_DIR+'lifeTA.jpg',o:[
     {to:'@ta'},{to:'cteIntro',alt:1}
   ]},
   // LAST FOUR SWITCHED ON 2026-08-11 — all 11 nodes now carry a real clip.
-  mMusic:{p:'Matthew',img:vp('matthew'),v:1,cc:['en','es'],sp:['matthew'],
+  mMusic:{p:'Matthew',v:1,cc:['en','es'],sp:['matthew'],
     poster:NODE_STILL_DIR+'mMusic.jpg',o:[
     {to:'@music'},{to:'@reset',alt:1}
   ]},
   // ⚠ mTheater keeps the AMERICAN spelling — it is an internal key, never shown, and index.html,
   // data/content.en.json and the clip/poster/caption filenames must all agree on it. Everything a
   // visitor reads says "theatre". Renaming this means renaming five files and two data keys.
-  mTheater:{p:'Eric',img:vp('eric'),v:1,cc:['en','es'],sp:['eric'],
+  mTheater:{p:'Eric',v:1,cc:['en','es'],sp:['eric'],
     poster:NODE_STILL_DIR+'mTheater.jpg',o:[
     {to:'@theatre'},{to:'@reset',alt:1}
   ]},
-  mDance:{p:'Lindsay',img:vp('lindsay'),v:1,cc:['en','es'],sp:['lindsay'],
+  mDance:{p:'Lindsay',v:1,cc:['en','es'],sp:['lindsay'],
     poster:NODE_STILL_DIR+'mDance.jpg',o:[
     {to:'@dance'},{to:'@reset',alt:1}
   ]},
-  mArt:{p:'Kristin',img:vp('kristin'),v:1,cc:['en','es'],sp:['kristin'],
+  mArt:{p:'Kristin',v:1,cc:['en','es'],sp:['kristin'],
     poster:NODE_STILL_DIR+'mArt.jpg',o:[
     {to:'@art'},{to:'@reset',alt:1}
   ]}
@@ -1559,10 +1560,16 @@ function renderNode(n,key){
     return '<button class="'+(o.alt?'alt':'')+'" onclick="pwChoose(\''+o.to+'\')">'+o.t+'</button>';
   }).join('');
   var prompt=n.q?'<div class="qv-prompt">'+n.q+'</div>':'';
-  var imgs=Array.isArray(n.img)?n.img:[n.img];
+  // THE FALLBACK STILL IS THE NODE'S OWN POSTER (changed 2026-08-11). It used to be a per-presenter
+  // photo from `images/video placeholder stills/`, which existed only because there were no clips —
+  // a two-presenter node showed both and crossfaded between them. All 11 clips and their posters
+  // landed on 08-11, the folder was deleted, and `vp()` went with it. The poster is a better
+  // fallback anyway: it is a frame of the actual clip, so a failed load shows the right person on
+  // the right set instead of a studio portrait.
+  var imgs=n.poster?[n.poster]:[];
   var media=imgs.map(function(src,i){return '<img class="qv-still'+(i===0?' is-active':'')+'" src="'+src+'" alt="">';}).join('');
-  // The stills stay in the DOM beneath the video as the fallback layer — the <video> is emitted
-  // after them, so it paints on top, and qvVideoFail() drops back to them if the file is missing.
+  // The still stays in the DOM beneath the video as the fallback layer — the <video> is emitted
+  // after it, so it paints on top, and qvVideoFail() drops back to it if the file is missing.
   // Single MP4 via src= (not a <source> child) so an load failure fires `error` on the element itself.
   var vname=(typeof n.v==='string'?n.v:key);   // basename shared by the clip, its stills and its captions
   var base=n.v?NODE_VID_DIR+vname:null;
