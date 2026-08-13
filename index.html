@@ -426,7 +426,10 @@
   .qv-opts button.alt{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;font-weight:500;font-size:clamp(.74rem,3.7cqi,.85rem)}
   .qv-opts button.alt:hover{background:rgba(255,255,255,.14)}
   .qv-endfoot{display:flex;flex-direction:column;align-items:center;gap:.35rem;margin-top:1.4rem}
-  .qv-replay,.qv-transcript{display:inline-flex;align-items:center;gap:.45rem;background:none;border:none;color:rgba(255,255,255,.7);font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:.35rem;transition:color .15s}
+  /* .75rem, NOT .68rem — matched to .qv-backlink / .qv-exitlink on 2026-08-13. These two sit a
+     short distance above Back and Exit on a phone, in the same uppercase style, and the old .68rem
+     read as a mismatch rather than a hierarchy. Keep the three in step if any one of them changes. */
+  .qv-replay,.qv-transcript{display:inline-flex;align-items:center;gap:.45rem;background:none;border:none;color:rgba(255,255,255,.7);font-family:var(--font-body);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:.35rem;transition:color .15s}
   .qv-replay:hover,.qv-transcript:hover{color:var(--gold)}
   .qv-replay svg,.qv-transcript svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .qv-foot{margin-top:1.1rem;display:flex;align-items:center;justify-content:center;gap:1.6rem}
