@@ -1802,7 +1802,7 @@ function qvSpeedHTML(){
   var items=PW_SPEEDS.map(function(r){
     var on=(r===PW_RATE);
     return '<button role="menuitemradio" aria-checked="'+(on?'true':'false')+'" data-rate="'+r+'" onclick="qvSpeedSet(this)">'+
-      pwRateLabel(r)+(r===1?' '+T.speedNormal:'')+'</button>';
+      pwRateLabel(r)+'</button>';
   }).join('');
   return '<div class="qv-speed-wrap">'+
     '<button class="qv-speed'+(PW_RATE!==1?' off':'')+'" aria-haspopup="true" aria-expanded="false" aria-label="'+T.speedLabel+'" onclick="qvSpeedToggle(this)">'+pwRateLabel(PW_RATE)+'</button>'+
