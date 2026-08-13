@@ -172,6 +172,12 @@
   .qv-spk-role{display:block;color:var(--gold);font-weight:400;font-size:.7rem;line-height:1.35;margin-top:.18em}
   .qv-spk-role.is-extra{display:none}
   .qv-spk-panel{display:none}                     /* desktop-only variant — see the landscape rules */
+  /* ℹ The name and title stay VISIBLE through the opening hold, on both layouts (settled
+     2026-08-11). Hiding them during the hold was tried and reverted: on a phone the band's measured
+     height is published as --spkH and subtracted from the video's max-height, so an empty band
+     either leaves a 67px navy gap above the picture or collapses and RESIZES the video the moment
+     playback starts. Having the name already in place also gives someone something to read during
+     the wait, which is the reason the hold exists. Do not add a rule hiding .qv-spk while holding. */
   /* END OF CLIP, PHONE: the questions cover the picture, so there is no longer anyone on screen to
      name — and the band would otherwise sit above the question naming whoever spoke last. Blanked,
      not removed: the band keeps its height so the frame does not jump as the questions appear, and
@@ -364,7 +370,28 @@
      ⚠ It sits ABOVE the control row (z-index 5) but is only 3px tall and pointer-events:none, so it
      covers nothing and catches no taps.
      ⚠ Duration comes from --holdMs, set per node in JS, so the CSS never hard-codes the timing. */
-  .qv-hold{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:5;pointer-events:none;background:rgba(255,255,255,.18);display:none}
+  /* The hold covers the picture with plain navy and a gold spinner, rather than resting on the
+     poster (tried first, 2026-08-11, and rejected on sight). Holding a chosen poster for two seconds
+     gave the eye time to learn that frame, so the cut to the clip's real first frame — invisible
+     when it flashed past — became a visible jump. Measured across the eleven: the poster differs
+     from frame 1 by 9 to 27 points of average brightness, worst on mArt.
+     ⚠ z-index 2 is deliberate: ABOVE the video and its poster, BELOW the captions (3), the control
+     row (3/4) and the progress line (5). The controls must stay visible and usable through the hold
+     — letting people find them is half the reason the hold exists. pointer-events:none so a tap
+     still reaches the window and starts the clip early. */
+  /* Navy, matching the card the player sits in. #7E9FD3 — the studio backdrop the presenters were
+     shot against — was tried on 2026-08-11 and reverted: the idea was that the hold and the clip's
+     own background would match so the switch to video was invisible, but it did not look right in
+     place, and gold on that light blue is a weak contrast for the spinner. */
+  .qv-holdveil{position:absolute;inset:0;z-index:2;display:none;align-items:center;justify-content:center;background:var(--navy);pointer-events:none}
+  .qv-window.holding .qv-holdveil{display:flex}
+  .qv-spin{width:clamp(26px,12cqw,46px);height:clamp(26px,12cqw,46px);border-radius:50%;border:3px solid rgba(254,207,67,.22);border-top-color:var(--gold);animation:qvSpin .85s linear infinite}
+  @keyframes qvSpin{to{transform:rotate(360deg)}}
+  /* TOP by default, i.e. on a phone: the name band sits directly above the picture there, so a bar
+     along the player's top edge lands immediately under the name and the two read as one unit.
+     Desktop puts it back at the bottom — see the landscape rules — because there the name is in a
+     column beside the video, and a bar under the picture sits with the controls instead. */
+  .qv-hold{position:absolute;left:0;right:0;top:0;height:3px;z-index:5;pointer-events:none;background:rgba(255,255,255,.18);display:none}
   .qv-window.holding .qv-hold{display:block}
   .qv-hold i{display:block;height:100%;width:0;background:var(--gold);animation:qvHoldFill var(--holdMs,2000ms) linear forwards}
   @keyframes qvHoldFill{from{width:0}to{width:100%}}
@@ -373,6 +400,9 @@
      photos and the quote carousel follow. */
   @media(prefers-reduced-motion:reduce){
     .qv-hold i{animation:none;width:100%}
+    /* Spinner stops spinning and reads as a complete gold ring — still says "a moment, deliberately"
+       without motion. The navy veil and the hold itself are unaffected: timing is not decoration. */
+    .qv-spin{animation:none;border-color:var(--gold)}
   }
   .qv-playicon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;display:none;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:rgba(0,38,71,.5);color:#fff;pointer-events:none;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
   .qv-window.paused .qv-playicon{display:flex}
@@ -454,6 +484,9 @@
        top of the same grid cell, so the name sits at a fixed height and only the lines beneath it
        change when the speaker does. Measured at 0px of movement between Laurel and Ricky. */
     .qv-spk-band{display:none}
+    /* Name is in the column beside the video here, not above it, so the hold bar goes back to the
+       bottom edge where it reads with the control row. Phone keeps it at the top — see .qv-hold. */
+    .qv-hold{top:auto;bottom:0}
     .qv-spk-panel{display:grid;width:var(--panelW);align-self:center;text-align:left;background:none;padding:0}
     .qv-spk-panel .qv-spk-name{font-size:1.68rem;letter-spacing:.04em;line-height:1.15}
     .qv-spk-panel .qv-spk-rule{display:block;width:58px;height:3px;background:var(--gold);margin:.55rem 0 .75rem}
@@ -1350,10 +1383,17 @@ function qvPlay(v){
 // OPENING HOLD — client request, 2026-08-11. Every clip rests on its poster before it starts, so a
 // visitor has a moment to read the speaker's name and find the controls before anyone speaks.
 // TWO LENGTHS, on purpose: orientation is mostly a first-encounter job. Two seconds on the first
-// clip of a visit; three-quarters of a second on the ten after it, which is a beat to register a new
-// speaker rather than a full stop repeated eleven times.
-var PW_HOLD_FIRST=2000, PW_HOLD_NEXT=750, PW_HELD_ONE=false, pwHoldTimer=null;
+// clip of a visit; one second on the ten after it, which is a beat to register a new speaker rather
+// than a full stop repeated eleven times. (The second value was 750ms until 2026-08-11.)
+var PW_HOLD_FIRST=2000, PW_HOLD_NEXT=1000, PW_HELD_ONE=false, pwHoldTimer=null;
 function pwCancelHold(){ if(pwHoldTimer){clearTimeout(pwHoldTimer);pwHoldTimer=null;} }
+// One place that turns the hold on and off, so the navy cover, the progress line and the caption
+// blackout can never disagree with each other. It briefly also toggled a class on the surrounding
+// group, to hide the speaker name during the hold; that was reverted the same day (see .qv-spk).
+function qvSetHolding(win,on){
+  if(!win)return;
+  win.classList.toggle('holding',on);
+}
 // ⚠ The timer is cancelled on every node change. Without that, answering or skipping DURING a hold
 // leaves a timer that fires against the node the visitor has already left.
 function qvHoldThenPlay(v){
@@ -1361,7 +1401,7 @@ function qvHoldThenPlay(v){
   pwCancelHold();
   var ms=PW_HELD_ONE?PW_HOLD_NEXT:PW_HOLD_FIRST; PW_HELD_ONE=true;
   win.style.setProperty('--holdMs',ms+'ms');
-  win.classList.add('holding');                 // hides captions (see qvRenderCue) and shows the bar
+  qvSetHolding(win,true);                       // hides captions (see qvRenderCue) and shows the bar
   qvRenderCue(v);                               // clear any cue already active at 0.000
   pwHoldTimer=setTimeout(function(){
     pwHoldTimer=null;
@@ -1373,7 +1413,7 @@ function qvHoldThenPlay(v){
 function qvReleaseHold(win){
   if(!win||!win.classList.contains('holding'))return;
   pwCancelHold();
-  win.classList.remove('holding');
+  qvSetHolding(win,false);
   var v=win.querySelector('.qv-video');
   if(v){qvPlay(v);qvRenderCue(v);}
 }
@@ -1642,7 +1682,9 @@ function renderNode(n,key){
           media+
           (base&&ccl.length?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
-          // Opening-hold indicator — see .qv-hold. Only visible while .qv-window carries `holding`.
+          // Opening hold — navy cover + gold spinner, plus the progress line. Both only while
+          // .qv-window carries `holding`. See .qv-holdveil / .qv-hold.
+          (base?'<div class="qv-holdveil" aria-hidden="true"><div class="qv-spin"></div></div>':'')+
           (base?'<div class="qv-hold" aria-hidden="true"><i></i></div>':'')+
           // ONE ROW, three cells — see .qv-ctlrow. Written in the order they appear on screen, which
           // is therefore also the Tab and screen-reader order: CC, Skip, speed, mute.
@@ -1762,7 +1804,7 @@ function qvTxLang(btn){
 function qvShowEnd(win){
   // Kill any opening hold first — Skip can be pressed during it, and a timer left running would
   // start the clip again behind the questions.
-  pwCancelHold();win.classList.remove('holding');
+  pwCancelHold();qvSetHolding(win,false);
   var v=win.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}
   win.classList.add('ended');                              // landscape: dim + replay overlay
   var stage=win.closest('.qv-stage');
@@ -1774,7 +1816,7 @@ function qvReplay(btn){
   var stage=btn.closest('.qv-stage');
   var win=stage.querySelector('.qv-window');
   // No opening hold on a replay — pressing Replay IS the visitor saying they are ready.
-  pwCancelHold();win.classList.remove('holding');
+  pwCancelHold();qvSetHolding(win,false);
   win.classList.remove('ended');win.classList.remove('paused');
   var end=stage.querySelector('.qv-end');if(end)end.classList.remove('show');
   var v=win.querySelector('.qv-video');if(v){v.currentTime=0;qvApplyRate(win);qvPlay(v);qvApplyCaptions(win);}
