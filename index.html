@@ -304,7 +304,22 @@
      (VTTCue.line is ignored inside Blink's shadow caption area). See qvRenderCue. */
   .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
   .qv-caps.on{display:block}
-  .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  /* ⚠ text-wrap:balance is doing real work here — added 2026-08-11, keep it.
+     EVERY caption line break on this site is made by the browser, not by Premiere. A newline inside
+     a .vtt cue does NOT survive: getCueAsHTML() renders it as a plain text newline, which HTML
+     collapses to a space. So the source files' own line breaks are already ignored, and how a cue
+     splits is entirely a question of the box width — which is why the same cue breaks differently
+     on a phone and on a laptop.
+     Left to itself the browser fills line one and drops the remainder onto line two, which strands
+     a word or two: "…voters passed Prop / 28,". Measured across all 757 cues in both languages,
+     average unevenness between the two lines was 24px, with 65 cues lopsided by more than 150px.
+     With balance: 4px average, ZERO over 150px, 99 cues improved, none made worse — and, the part
+     that matters for the framing rule, NOT ONE cue gained a line. Max is still two lines, so the
+     caption box height and the y1090 line above it are unchanged.
+     `pretty` is inherited here from body and is NOT enough: it only tidies the last line or two of
+     a long block and leaves a two-line cue lopsided. A browser too old for `balance` ignores it and
+     gets today's behaviour, so there is nothing to fall back to. */
+  .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5);text-wrap:balance}
   .qv-window.ended .qv-caps{display:none}
   /* Text version (written equivalent of the video) — reading dialog */
   .qv-textmodal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:4vh 5vw;background:rgba(0,18,38,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
