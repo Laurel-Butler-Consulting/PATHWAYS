@@ -357,6 +357,23 @@
   .qv-replay-overlay .qv-replay-btn:hover{background:rgba(255,255,255,.22)}
   .qv-replay-overlay .qv-replay-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .qv-window:has(.qv-video){cursor:pointer}
+  /* OPENING HOLD (2026-08-11, client request). Each clip rests on its poster for a moment before it
+     starts, so a visitor can take in the speaker's name and find the controls before anyone speaks.
+     The line across the bottom fills over that time. Its only job is to say the pause is deliberate —
+     without it a silent still reads as a stall, which is worse than no pause at all.
+     ⚠ It sits ABOVE the control row (z-index 5) but is only 3px tall and pointer-events:none, so it
+     covers nothing and catches no taps.
+     ⚠ Duration comes from --holdMs, set per node in JS, so the CSS never hard-codes the timing. */
+  .qv-hold{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:5;pointer-events:none;background:rgba(255,255,255,.18);display:none}
+  .qv-window.holding .qv-hold{display:block}
+  .qv-hold i{display:block;height:100%;width:0;background:var(--gold);animation:qvHoldFill var(--holdMs,2000ms) linear forwards}
+  @keyframes qvHoldFill{from{width:0}to{width:100%}}
+  /* Reduce Motion: the hold still happens — it is a timing decision, not decoration — but nothing
+     animates. The bar shows filled so the pause still reads as intentional. Same rule the hero
+     photos and the quote carousel follow. */
+  @media(prefers-reduced-motion:reduce){
+    .qv-hold i{animation:none;width:100%}
+  }
   .qv-playicon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;display:none;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:rgba(0,38,71,.5);color:#fff;pointer-events:none;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
   .qv-window.paused .qv-playicon{display:flex}
   .qv-playicon svg{width:26px;height:26px;margin-left:3px;fill:currentColor}
@@ -1330,6 +1347,36 @@ function qvPlay(v){
     v.play().catch(function(){});
   });
 }
+// OPENING HOLD — client request, 2026-08-11. Every clip rests on its poster before it starts, so a
+// visitor has a moment to read the speaker's name and find the controls before anyone speaks.
+// TWO LENGTHS, on purpose: orientation is mostly a first-encounter job. Two seconds on the first
+// clip of a visit; three-quarters of a second on the ten after it, which is a beat to register a new
+// speaker rather than a full stop repeated eleven times.
+var PW_HOLD_FIRST=2000, PW_HOLD_NEXT=750, PW_HELD_ONE=false, pwHoldTimer=null;
+function pwCancelHold(){ if(pwHoldTimer){clearTimeout(pwHoldTimer);pwHoldTimer=null;} }
+// ⚠ The timer is cancelled on every node change. Without that, answering or skipping DURING a hold
+// leaves a timer that fires against the node the visitor has already left.
+function qvHoldThenPlay(v){
+  var win=v&&v.closest('.qv-window'); if(!win){qvPlay(v);return;}
+  pwCancelHold();
+  var ms=PW_HELD_ONE?PW_HOLD_NEXT:PW_HOLD_FIRST; PW_HELD_ONE=true;
+  win.style.setProperty('--holdMs',ms+'ms');
+  win.classList.add('holding');                 // hides captions (see qvRenderCue) and shows the bar
+  qvRenderCue(v);                               // clear any cue already active at 0.000
+  pwHoldTimer=setTimeout(function(){
+    pwHoldTimer=null;
+    if(!document.contains(win))return;          // node changed under us
+    qvReleaseHold(win);
+  },ms);
+}
+// Ends the hold early or on time. Safe to call twice.
+function qvReleaseHold(win){
+  if(!win||!win.classList.contains('holding'))return;
+  pwCancelHold();
+  win.classList.remove('holding');
+  var v=win.querySelector('.qv-video');
+  if(v){qvPlay(v);qvRenderCue(v);}
+}
 // Put a node's mute button into whatever state PW_MUTED is in — used when a node mounts and when
 // the autoplay fallback above has to overrule the visitor.
 function qvSyncMute(win){
@@ -1481,8 +1528,8 @@ function showScreen(s){                               // pure renderer — histo
   }
   app.innerHTML=(s.t==='node')?renderNode(NODES[s.k],s.k):renderProfile(s.k);
   if(s.t==='node'){var _v=app.querySelector('.qv-video');
-    if(_v){qvApplyRate(_v.closest('.qv-window'));qvPlay(_v);qvApplyCaptions(_v.closest('.qv-window'));qvSpeakerBind(_v.closest('.qv-window'));}
-    else{pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
+    if(_v){qvApplyRate(_v.closest('.qv-window'));qvHoldThenPlay(_v);qvApplyCaptions(_v.closest('.qv-window'));qvSpeakerBind(_v.closest('.qv-window'));}
+    else{pwCancelHold();pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
   window.scrollTo({top:0,behavior:'instant'});
 }
 
@@ -1595,6 +1642,8 @@ function renderNode(n,key){
           media+
           (base&&ccl.length?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
+          // Opening-hold indicator — see .qv-hold. Only visible while .qv-window carries `holding`.
+          (base?'<div class="qv-hold" aria-hidden="true"><i></i></div>':'')+
           // ONE ROW, three cells — see .qv-ctlrow. Written in the order they appear on screen, which
           // is therefore also the Tab and screen-reader order: CC, Skip, speed, mute.
           // Skip is the only control that is always present; the other three are gated on what
@@ -1711,6 +1760,9 @@ function qvTxLang(btn){
 }
 
 function qvShowEnd(win){
+  // Kill any opening hold first — Skip can be pressed during it, and a timer left running would
+  // start the clip again behind the questions.
+  pwCancelHold();win.classList.remove('holding');
   var v=win.querySelector('.qv-video');if(v){try{v.pause();}catch(e){}}
   win.classList.add('ended');                              // landscape: dim + replay overlay
   var stage=win.closest('.qv-stage');
@@ -1721,6 +1773,8 @@ function qvSkip(btn){pwStat('Video Skipped');qvShowEnd(btn.closest('.qv-window')
 function qvReplay(btn){
   var stage=btn.closest('.qv-stage');
   var win=stage.querySelector('.qv-window');
+  // No opening hold on a replay — pressing Replay IS the visitor saying they are ready.
+  pwCancelHold();win.classList.remove('holding');
   win.classList.remove('ended');win.classList.remove('paused');
   var end=stage.querySelector('.qv-end');if(end)end.classList.remove('show');
   var v=win.querySelector('.qv-video');if(v){v.currentTime=0;qvApplyRate(win);qvPlay(v);qvApplyCaptions(win);}
@@ -1764,6 +1818,10 @@ function qvRenderCue(v){
   var box=win&&win.querySelector('.qv-caps');if(!box)return;
   var t=qvCapTrack(v);
   box.textContent='';
+  // ⚠ Nothing during the opening hold. Almost every clip's first cue starts at 00:00.000, so a video
+  // parked at zero has that cue ACTIVE — without this the opening line of dialogue would sit on
+  // screen for the whole pause, before the speaker has said it.
+  if(win.classList.contains('holding')){box.classList.remove('on');return;}
   if(!t||!t.activeCues||!t.activeCues.length){box.classList.remove('on');return;}
   for(var i=0;i<t.activeCues.length;i++){
     if(i)box.appendChild(document.createElement('br'));
@@ -1908,6 +1966,10 @@ document.addEventListener('click',function(e){
 function qvTap(win,ev){
   if(ev.target.closest('.qv-skip,.qv-mute,.qv-cc,.qv-cc-wrap,.qv-speed-wrap,.qv-replay-overlay'))return;  // let controls handle their own clicks
   if(win.classList.contains('ended'))return;                            // ended → use Replay overlay
+  // Tapping during the opening hold means "I'm ready" — start now rather than pausing a video that
+  // has not begun. Without this the tap would set `paused` on a stopped clip and the hold would then
+  // release into a paused player.
+  if(win.classList.contains('holding')){qvReleaseHold(win);return;}
   var v=win.querySelector('.qv-video');if(!v)return;                     // no-op on still/gradient placeholders
   if(v.paused){qvPlay(v);win.classList.remove('paused');}
   else{v.pause();win.classList.add('paused');}
