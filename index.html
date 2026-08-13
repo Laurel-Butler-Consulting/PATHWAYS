@@ -1306,6 +1306,37 @@ const PW_SPEEDS=[0.75,1,1.25,1.5];
 var PW_RATE=(function(){try{var r=parseFloat(localStorage.getItem('pwRate'));
   return PW_SPEEDS.indexOf(r)>-1?r:1;}catch(e){return 1;}})();          // persisted, falls back to 1x
 function pwRateLabel(r){return (r===1?'1':String(r))+'x';}
+// SOUND CARRIES FROM ONE NODE TO THE NEXT (2026-08-11). Before this, every node re-mounted its
+// player from the template with `muted` hard-coded, so a visitor who unmuted was silently muted
+// again on the next question. Speed and captions already carried, through pwRate and pwCapLang.
+// ⚠ DELIBERATELY NOT IN localStorage, unlike those two. It resets to muted on every page load, so
+// the FIRST clip a visitor sees is always silent — which is both what was asked for and the only
+// thing that works: browsers refuse to autoplay with sound before the visitor has interacted with
+// the page, so an unmuted `welcome` would simply not start. From the second node on they have
+// clicked an answer, the interaction test is satisfied, and sound is allowed.
+// To make it survive a reload instead, persist it like PW_RATE — but keep forcing the first node
+// muted, or autoplay breaks.
+var PW_MUTED=true;
+// Start playback, and cope with a browser that still refuses sound. If play() is rejected while
+// unmuted we fall back to muted and try once more, so the visitor gets a silent video rather than a
+// frozen poster — and the button is put back in step so it never claims sound that is not playing.
+function qvPlay(v){
+  if(!v)return;
+  v.play().catch(function(){
+    if(v.muted)return;                       // refused for some other reason; nothing more to try
+    PW_MUTED=true;v.muted=true;
+    qvSyncMute(v.closest('.qv-window'));
+    v.play().catch(function(){});
+  });
+}
+// Put a node's mute button into whatever state PW_MUTED is in — used when a node mounts and when
+// the autoplay fallback above has to overrule the visitor.
+function qvSyncMute(win){
+  var b=win&&win.querySelector('.qv-mute');if(!b)return;
+  b.setAttribute('data-muted',PW_MUTED?'true':'false');
+  b.innerHTML=PW_MUTED?ICON_MUTED:ICON_UNMUTED;
+  b.setAttribute('aria-label',PW_MUTED?T.unmuteVideo:T.muteVideo);
+}
 var pwImgTimer=null;
 function pwStopStillCycle(){if(pwImgTimer){clearInterval(pwImgTimer);pwImgTimer=null;}}
 function pwStartStillCycle(app){           // multi-presenter nodes: crossfade stills every 3s
@@ -1449,7 +1480,7 @@ function showScreen(s){                               // pure renderer — histo
   }
   app.innerHTML=(s.t==='node')?renderNode(NODES[s.k],s.k):renderProfile(s.k);
   if(s.t==='node'){var _v=app.querySelector('.qv-video');
-    if(_v){qvApplyRate(_v.closest('.qv-window'));_v.play().catch(function(){});qvApplyCaptions(_v.closest('.qv-window'));qvSpeakerBind(_v.closest('.qv-window'));}
+    if(_v){qvApplyRate(_v.closest('.qv-window'));qvPlay(_v);qvApplyCaptions(_v.closest('.qv-window'));qvSpeakerBind(_v.closest('.qv-window'));}
     else{pwStartStillCycle(app);}}   // stills crossfade only when no clip is playing over them
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -1539,7 +1570,7 @@ function renderNode(n,key){
   if(base){
     // data-cc carries the node's caption languages, so the controls can read them off the window.
     media+='<video class="qv-video" src="'+base+'.mp4" poster="'+(n.poster||imgs[0])+'"'+
-      ' playsinline muted preload="auto" data-cc="'+ccl.join(' ')+'"'+
+      ' playsinline'+(PW_MUTED?' muted':'')+' preload="auto" data-cc="'+ccl.join(' ')+'"'+
       ' onended="qvShowEnd(this.closest(\'.qv-window\'))" onerror="qvVideoFail(this)">'+
       ccl.map(function(l){
         return '<track kind="captions" src="'+ccVtt(vname,l)+'" srclang="'+l+'" label="'+ccLangName(l)+'">';
@@ -1572,7 +1603,10 @@ function renderNode(n,key){
             '</div>'+
             '<div class="qv-ctlcell qv-ctlcell-r">'+
               (base?qvSpeedHTML():'')+
-              (base?'<button class="qv-mute" data-muted="true" aria-label="'+T.unmuteVideo+'" onclick="qvMute(this)">'+ICON_MUTED+'</button>':'')+
+              // Mounts in whatever state the visitor last chose — see PW_MUTED. The <video> tag's
+              // own `muted` attribute is set from the same value, so the button and the sound can
+              // never disagree at mount.
+              (base?'<button class="qv-mute" data-muted="'+(PW_MUTED?'true':'false')+'" aria-label="'+(PW_MUTED?T.unmuteVideo:T.muteVideo)+'" onclick="qvMute(this)">'+(PW_MUTED?ICON_MUTED:ICON_UNMUTED)+'</button>':'')+
             '</div>'+
           '</div>'+
           '<div class="qv-replay-overlay"><button class="qv-replay-btn" onclick="qvReplay(this)">'+ICON_REPLAY+' '+T.replay+'</button>'+(n.text?'<button class="qv-replay-btn" onclick="qvText(this)">'+ICON_DOC+' '+T.transcript+'</button>':'')+'</div>'+
@@ -1682,7 +1716,7 @@ function qvReplay(btn){
   var win=stage.querySelector('.qv-window');
   win.classList.remove('ended');win.classList.remove('paused');
   var end=stage.querySelector('.qv-end');if(end)end.classList.remove('show');
-  var v=win.querySelector('.qv-video');if(v){v.currentTime=0;qvApplyRate(win);v.play().catch(function(){});qvApplyCaptions(win);}
+  var v=win.querySelector('.qv-video');if(v){v.currentTime=0;qvApplyRate(win);qvPlay(v);qvApplyCaptions(win);}
 }
 function qvVideoFail(v){        // clip flagged v:1 but missing/undecodable → fall back to the stills
   var win=v.closest('.qv-window');
@@ -1868,7 +1902,7 @@ function qvTap(win,ev){
   if(ev.target.closest('.qv-skip,.qv-mute,.qv-cc,.qv-cc-wrap,.qv-speed-wrap,.qv-replay-overlay'))return;  // let controls handle their own clicks
   if(win.classList.contains('ended'))return;                            // ended → use Replay overlay
   var v=win.querySelector('.qv-video');if(!v)return;                     // no-op on still/gradient placeholders
-  if(v.paused){v.play().catch(function(){});win.classList.remove('paused');}
+  if(v.paused){qvPlay(v);win.classList.remove('paused');}
   else{v.pause();win.classList.add('paused');}
 }
 // FOCUS HANDLING FOR THE TRANSCRIPT MODAL.
@@ -1915,13 +1949,11 @@ document.addEventListener('keydown',function(e){
 });
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){qvCloseMenus();qvTxClose(document.querySelector('.qv-textmodal.open'));}});
 function qvMute(btn){
-  var muted=btn.getAttribute('data-muted')!=='false';      // default muted
-  muted=!muted;
-  btn.setAttribute('data-muted',muted?'true':'false');
-  btn.innerHTML=muted?ICON_MUTED:ICON_UNMUTED;
-  btn.setAttribute('aria-label',muted?'Unmute video':'Mute video');
-  var win=btn.closest('.qv-window');var v=win?win.querySelector('.qv-video'):null;
-  if(v)v.muted=muted;
+  PW_MUTED=btn.getAttribute('data-muted')==='false';       // flip whatever the button currently says
+  var win=btn.closest('.qv-window');
+  qvSyncMute(win);                                         // one place decides how the button looks
+  var v=win?win.querySelector('.qv-video'):null;
+  if(v)v.muted=PW_MUTED;
 }
 
 // Shared resources block — identical on every result page.
