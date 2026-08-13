@@ -373,46 +373,61 @@
   .qv-replay-overlay .qv-replay-btn:hover{background:rgba(255,255,255,.22)}
   .qv-replay-overlay .qv-replay-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .qv-window:has(.qv-video){cursor:pointer}
-  /* OPENING HOLD (2026-08-11, client request). Each clip rests on its poster for a moment before it
-     starts, so a visitor can take in the speaker's name and find the controls before anyone speaks.
-     The line across the bottom fills over that time. Its only job is to say the pause is deliberate —
-     without it a silent still reads as a stall, which is worse than no pause at all.
-     ⚠ It sits ABOVE the control row (z-index 5) but is only 3px tall and pointer-events:none, so it
-     covers nothing and catches no taps.
-     ⚠ Duration comes from --holdMs, set per node in JS, so the CSS never hard-codes the timing. */
+  /* OPENING HOLD (2026-08-11, client request). Each clip rests for a moment before it starts, so a
+     visitor can take in the speaker's name and find the controls before anyone speaks. A gold disc
+     fills clockwise over that time, like a clock hand sweeping — its only job is to say the pause is
+     deliberate and to show how much of it is left, because a silent still with nothing happening
+     reads as a stall, which is worse than no pause at all.
+     ⚠ Duration comes from --holdMs, set per node in JS, so the CSS never hard-codes the timing.
+     ℹ A 3px gold line used to fill across the edge of the picture instead. Dropped 2026-08-13 when
+     the disc took over the same job: two indicators counting out the same second is clutter. */
   /* The hold covers the picture with plain navy and a gold spinner, rather than resting on the
      poster (tried first, 2026-08-11, and rejected on sight). Holding a chosen poster for two seconds
      gave the eye time to learn that frame, so the cut to the clip's real first frame — invisible
      when it flashed past — became a visible jump. Measured across the eleven: the poster differs
      from frame 1 by 9 to 27 points of average brightness, worst on mArt.
-     ⚠ z-index 2 is deliberate: ABOVE the video and its poster, BELOW the captions (3), the control
-     row (3/4) and the progress line (5). The controls must stay visible and usable through the hold
-     — letting people find them is half the reason the hold exists. pointer-events:none so a tap
-     still reaches the window and starts the clip early. */
+     ⚠ z-index 2 is deliberate: ABOVE the video and its poster, BELOW the captions (3) and the
+     control row (3/4). The controls must stay visible and usable through the hold — letting people
+     find them is half the reason the hold exists. pointer-events:none so a tap still reaches the
+     window and starts the clip early. */
   /* Navy, matching the card the player sits in. #7E9FD3 — the studio backdrop the presenters were
      shot against — was tried on 2026-08-11 and reverted: the idea was that the hold and the clip's
      own background would match so the switch to video was invisible, but it did not look right in
      place, and gold on that light blue is a weak contrast for the spinner. */
   .qv-holdveil{position:absolute;inset:0;z-index:2;display:none;align-items:center;justify-content:center;background:var(--navy);pointer-events:none}
   .qv-window.holding .qv-holdveil{display:flex}
-  .qv-spin{width:clamp(26px,12cqw,46px);height:clamp(26px,12cqw,46px);border-radius:50%;border:3px solid rgba(254,207,67,.22);border-top-color:var(--gold);animation:qvSpin .85s linear infinite}
-  @keyframes qvSpin{to{transform:rotate(360deg)}}
-  /* TOP by default, i.e. on a phone: the name band sits directly above the picture there, so a bar
-     along the player's top edge lands immediately under the name and the two read as one unit.
-     Desktop puts it back at the bottom — see the landscape rules — because there the name is in a
-     column beside the video, and a bar under the picture sits with the controls instead. */
-  .qv-hold{position:absolute;left:0;right:0;top:0;height:3px;z-index:5;pointer-events:none;background:rgba(255,255,255,.18);display:none}
-  .qv-window.holding .qv-hold{display:block}
-  .qv-hold i{display:block;height:100%;width:0;background:var(--gold);animation:qvHoldFill var(--holdMs,2000ms) linear forwards}
-  @keyframes qvHoldFill{from{width:0}to{width:100%}}
+  /* THE DISC (2026-08-13, client request — replaced a spinning ring). A solid gold circle that fills
+     itself clockwise from a thin wedge, matching the site favicon's light-on-dark form: the same flat
+     gold disc, #FECF43 = var(--gold). favicon.svg cannot read this CSS, so if the gold ever changes,
+     change it there too.
+     ⚠ HOW THE FILL IS DRAWN, because it does not look like what it is: this is a circle of radius 8
+     wearing a 16-wide stroke. A stroke straddles its path, so 16 wide on r=8 reaches from the exact
+     centre out to r=16 — the stroke alone paints a solid disc, no fill involved. Growing it is then
+     just a dash: dasharray is the r=8 circumference (2π×8 = 50.27), and the offset walks from nearly
+     all of it down to none. It is done this way rather than with a conic-gradient because dashes
+     animate in every browser this site supports, including older iPads.
+     ⚠ rotate(-90deg) starts the wedge at 12 o'clock; SVG draws a circle clockwise from 3 o'clock, so
+     the direction needs nothing doing. The 48.26 start leaves ~4% showing, the "initial sliver".
+     ⚠ Sized in cqw, so the disc holds its proportion as the video column changes width. */
+  /* ⚠ Centred on the BROWSER WINDOW vertically (2026-08-13, client request), not on the picture —
+     the two differ because the name band above the video and the Back/Exit row below it are not the
+     same height. --discShift is the gap between the two centres, measured per node in JS; see
+     qvCentreDisc, which also explains why this is not done with position:fixed. Horizontal centring
+     is the veil's, untouched, so the disc stays over the middle of the picture in every layout. */
+  .qv-spin{transform:translateY(var(--discShift,0px));width:clamp(26px,12cqw,46px);height:clamp(26px,12cqw,46px);overflow:visible}
+  .qv-spin circle{fill:none;stroke:var(--gold);stroke-width:16;stroke-dasharray:50.27;stroke-dashoffset:48.26;transform:rotate(-90deg);transform-origin:50% 50%;animation:qvHoldSweep var(--holdMs,2000ms) linear forwards}
+  @keyframes qvHoldSweep{from{stroke-dashoffset:48.26}to{stroke-dashoffset:0}}
+  /* The clip was not ready when the hold ran out — see qvReleaseHold. The disc is full by now and
+     breathes gently rather than sitting dead, so a slow connection reads as "still coming" instead
+     of a fault. Opacity on the SVG, so it cannot collide with the dash animation on the circle. */
+  @keyframes qvHoldPulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .qv-window.waiting .qv-spin{animation:qvHoldPulse 1.4s ease-in-out infinite}
   /* Reduce Motion: the hold still happens — it is a timing decision, not decoration — but nothing
-     animates. The bar shows filled so the pause still reads as intentional. Same rule the hero
+     animates. The disc shows complete, so the pause still reads as intentional. Same rule the hero
      photos and the quote carousel follow. */
   @media(prefers-reduced-motion:reduce){
-    .qv-hold i{animation:none;width:100%}
-    /* Spinner stops spinning and reads as a complete gold ring — still says "a moment, deliberately"
-       without motion. The navy veil and the hold itself are unaffected: timing is not decoration. */
-    .qv-spin{animation:none;border-color:var(--gold)}
+    .qv-spin circle{animation:none;stroke-dashoffset:0}
+    .qv-window.waiting .qv-spin{animation:none}
   }
   .qv-playicon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;display:none;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:rgba(0,38,71,.5);color:#fff;pointer-events:none;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
   .qv-window.paused .qv-playicon{display:flex}
@@ -497,9 +512,6 @@
        top of the same grid cell, so the name sits at a fixed height and only the lines beneath it
        change when the speaker does. Measured at 0px of movement between Laurel and Ricky. */
     .qv-spk-band{display:none}
-    /* Name is in the column beside the video here, not above it, so the hold bar goes back to the
-       bottom edge where it reads with the control row. Phone keeps it at the top — see .qv-hold. */
-    .qv-hold{top:auto;bottom:0}
     .qv-spk-panel{display:grid;width:var(--panelW);align-self:center;text-align:left;background:none;padding:0}
     .qv-spk-panel .qv-spk-name{font-size:1.68rem;letter-spacing:.04em;line-height:1.15}
     .qv-spk-panel .qv-spk-rule{display:block;width:58px;height:3px;background:var(--gold);margin:.55rem 0 .75rem}
@@ -1400,12 +1412,39 @@ function qvPlay(v){
 // than a full stop repeated eleven times. (The second value was 750ms until 2026-08-11.)
 var PW_HOLD_FIRST=2000, PW_HOLD_NEXT=1000, PW_HELD_ONE=false, pwHoldTimer=null;
 function pwCancelHold(){ if(pwHoldTimer){clearTimeout(pwHoldTimer);pwHoldTimer=null;} }
-// One place that turns the hold on and off, so the navy cover, the progress line and the caption
-// blackout can never disagree with each other. It briefly also toggled a class on the surrounding
-// group, to hide the speaker name during the hold; that was reverted the same day (see .qv-spk).
+// One place that turns the hold on and off, so the navy cover, the disc and the caption blackout can
+// never disagree with each other. It briefly also toggled a class on the surrounding group, to hide
+// the speaker name during the hold; that was reverted the same day (see .qv-spk).
 function qvSetHolding(win,on){
   if(!win)return;
+  // Measured three times: the speaker name band above the picture mounts AFTER the hold starts and
+  // moves the video down by a few pixels, so a single reading at hold time is taken against a layout
+  // that no longer exists a frame later. The disc is a sliver at that point, so the correction is
+  // invisible; without it the disc sits several pixels low for the whole hold.
+  if(on){qvCentreDisc(win);requestAnimationFrame(function(){qvCentreDisc(win);});setTimeout(function(){qvCentreDisc(win);},120);}
   win.classList.toggle('holding',on);
+  if(!on)win.classList.remove('waiting');
+}
+// The disc sits in the middle of the BROWSER WINDOW, not the middle of the picture (client request,
+// 2026-08-13). This measures the gap between the two and hands it to the CSS as --discShift.
+// ⚠ Why not position:fixed, which would do this in one line: .qv-window and .qv-group both carry
+// container-type, and a container is allowed to become the anchor a fixed child measures itself
+// from. Engines differ on that, and this site's audience is largely iPads — the same class of
+// browser-difference as the caption bug on 2026-08-13. Measuring is the same result everywhere.
+// ⚠ Read off offsetTop, NOT getBoundingClientRect: the card's entry animation slides the whole
+// screen up by 12px over its first quarter-second, and a rect measured during it would leave the
+// disc 12px low for the whole hold. offsetTop ignores that movement and gives the settled position.
+// ⚠ The shift is clamped so the disc always stays fully inside the picture. On a phone the video
+// is nearly the whole window and the shift is a few pixels; the clamp only ever bites in a layout
+// where the picture is small and far from the middle, where an unclamped disc would float outside
+// the navy cover with nothing behind it.
+function qvCentreDisc(win){
+  var top=0,el=win;
+  while(el){top+=el.offsetTop;el=el.offsetParent;}
+  top-=(window.pageYOffset||0);
+  var h=win.offsetHeight, disc=46, room=Math.max(0,(h-disc)/2-8);
+  var shift=Math.round((window.innerHeight/2)-(top+h/2));
+  win.style.setProperty('--discShift',Math.max(-room,Math.min(room,shift))+'px');
 }
 // ⚠ The timer is cancelled on every node change. Without that, answering or skipping DURING a hold
 // leaves a timer that fires against the node the visitor has already left.
@@ -1414,7 +1453,7 @@ function qvHoldThenPlay(v){
   pwCancelHold();
   var ms=PW_HELD_ONE?PW_HOLD_NEXT:PW_HOLD_FIRST; PW_HELD_ONE=true;
   win.style.setProperty('--holdMs',ms+'ms');
-  qvSetHolding(win,true);                       // hides captions (see qvRenderCue) and shows the bar
+  qvSetHolding(win,true);                       // hides captions (see qvRenderCue) and shows the disc
   qvRenderCue(v);                               // clear any cue already active at 0.000
   pwHoldTimer=setTimeout(function(){
     pwHoldTimer=null;
@@ -1423,12 +1462,27 @@ function qvHoldThenPlay(v){
   },ms);
 }
 // Ends the hold early or on time. Safe to call twice.
+// ⚠ If the clip is NOT ready when the hold runs out — a slow connection — the navy cover stays up
+// and the disc, full by now, pulses until the picture actually moves (.qv-window.waiting in the CSS).
+// Dropping the cover on time would hand the visitor a frozen poster, which is the stall the hold
+// exists to avoid. Cleared by the first frame playing, with a failsafe in case a clip never reports
+// it: without that the cover could sit there for good. A tap during the wait drops it immediately —
+// the tap means "get on with it", the same as a tap during the hold itself.
 function qvReleaseHold(win){
   if(!win||!win.classList.contains('holding'))return;
   pwCancelHold();
-  qvSetHolding(win,false);
   var v=win.querySelector('.qv-video');
-  if(v){qvPlay(v);qvRenderCue(v);}
+  if(v)qvPlay(v);
+  if(v&&v.readyState<3&&!win.qvWaiting){        // <3 = cannot yet play through the next frames
+    win.qvWaiting=true;
+    win.classList.add('waiting');
+    var go=function(){win.qvWaiting=false;qvSetHolding(win,false);qvRenderCue(v);};
+    v.addEventListener('playing',go,{once:true});
+    setTimeout(go,6000);                        // failsafe — the cover can never outlive this
+    return;
+  }
+  qvSetHolding(win,false);
+  if(v)qvRenderCue(v);
 }
 // Put a node's mute button into whatever state PW_MUTED is in — used when a node mounts and when
 // the autoplay fallback above has to overrule the visitor.
@@ -1695,10 +1749,9 @@ function renderNode(n,key){
           media+
           (base&&ccl.length?'<div class="qv-caps" aria-hidden="true"></div>':'')+   // our caption layer — see qvRenderCue
           '<div class="qv-playicon" aria-hidden="true">'+ICON_PLAY+'</div>'+
-          // Opening hold — navy cover + gold spinner, plus the progress line. Both only while
-          // .qv-window carries `holding`. See .qv-holdveil / .qv-hold.
-          (base?'<div class="qv-holdveil" aria-hidden="true"><div class="qv-spin"></div></div>':'')+
-          (base?'<div class="qv-hold" aria-hidden="true"><i></i></div>':'')+
+          // Opening hold — navy cover with the gold disc filling clockwise inside it, shown only
+          // while .qv-window carries `holding`. See .qv-holdveil / .qv-spin.
+          (base?'<div class="qv-holdveil" aria-hidden="true"><svg class="qv-spin" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8"/></svg></div>':'')+
           // ONE ROW, three cells — see .qv-ctlrow. Written in the order they appear on screen, which
           // is therefore also the Tab and screen-reader order: CC, Skip, speed, mute.
           // Skip is the only control that is always present; the other three are gated on what
