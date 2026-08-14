@@ -472,8 +472,35 @@
      ⚠ Restoring the label cost the picture, and the number is on the record: at 1440×900 the video
      went 380px wide → 347, i.e. back under a phone's 375. Asked for and confirmed 2026-08-10 after
      being measured — it is the header the card had always had, and nothing else names it.
-     Measured with the label back, 2026-08-10: 1024×700 → 234px wide · 1366×768 → 272 ·
-     1440×900 → 347 · 1920×1080 → 448. Note the 800px ceiling no longer governs even at 1080 tall:
+
+     ⚠⚠ THE FRAME IS 13:20 SINCE 2026-08-13, NOT 9:16 — this is where the widths come from now.
+     The clip is 9:16 and the picture is pinned to the top, so a wider frame simply crops more off
+     the BOTTOM, which is what every phone has always done (a phone frame is about 3:4). Nothing is
+     ever cut from the top, at any size, so headroom is untouched: the green band in
+     master-safe-zones.svg starts at source y80 on every screen, and 80 source pixels is what it
+     stays. What the change buys is ~15% more picture everywhere and, with it, room for the word
+     "SKIP" at every resolution (see the compact tier below).
+     TWO LIMITS BOUND THE RATIO, and 13:20 sits between them at every size measured:
+       • not narrower than the labelled control row needs — 260px of picture in the compact tiers,
+         279px at full size;
+       • not wider than the point where the caption box top reaches source y1090 — the orange line
+         in master-safe-zones.svg, the line all 11 clips were framed against and signed off on.
+     Measured 2026-08-13, worst-case long cue, picture width at 13:20 (y1090 limit in brackets):
+       1024×660 → 244 (245) · 1024×700 → 270 (278) · 1133×744 iPad Mini → 299 (322) ·
+       1366×768 → 315 (365) · 1180×820 iPad → 348 (411) · 1440×900 → 400 (479) ·
+       1366×1024 iPad Pro → 481 (598) · 1920×1080 → 517 (653).
+     🔴 1024×700 IS THE PINCH POINT and the whole safety budget: it tolerates a ratio between .625
+     (row stops fitting) and .668 (captions cross the line). 13:20 = .65 leaves about 10px of slack
+     one way and 8px the other. ANY change to the caption type size, the caption box padding or the
+     control row eats into that — re-measure both bounds at 1024×700 before shipping one.
+     ⚠ At 1920×1080 the card's own max-width (1040px) starts to bind before the caption line does,
+     so the picture stops at 517px. That is the card design's ceiling, deliberately left alone.
+     ⚠ Below 660px of window height the caption line is ALREADY broken without this change — at
+     1024×600 an ordinary 51-character cue lands at y1016, inside the face. Pre-existing, out of the
+     scope this ratio was measured for (desktop and tablet), and still open.
+     Superseded widths, kept only so nobody re-measures them: at 9:16 the same windows gave
+     1024×700 → 234 · 1366×768 → 272 · 1440×900 → 347 · 1920×1080 → 448.
+     Note the 800px ceiling no longer governs even at 1080 tall:
      100dvh - 284 is 796, four pixels under it, so the reserve is what binds at every size that
      matters. The ceiling only comes back into play above ~1084px of window height.
      ⚠ Cutting the reserve further needs measurement, not arithmetic — too small and the card grows
@@ -493,9 +520,13 @@
     .qv-subtitle{display:block;align-self:stretch;width:100%;margin:0;padding:1.3rem 1.5rem .2rem;
       font-family:var(--font-body);color:var(--gold);font-weight:600;text-transform:uppercase;
       text-align:center;white-space:nowrap;line-height:1.1;letter-spacing:.18em;
-      font-size:calc((var(--vidH) * 9 / 16 + var(--colGap) + var(--panelW)) * .0314)}
+      font-size:calc((var(--vidH) * 13 / 20 + var(--colGap) + var(--panelW)) * .0314)}
     .qv-stage{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:var(--colGap);width:auto;max-width:none;margin:0;padding:1.7rem 2rem 0}
-    .qv-window{width:auto;height:var(--vidH);aspect-ratio:9/16;max-height:none;border-radius:12px}
+    /* 13:20, NOT 9:16 — changed 2026-08-13. The clip is 9:16, so a wider frame crops the bottom,
+       exactly as every phone already does. Full reasoning and the measurements are in the --vidH
+       note above. ⚠ Changing this number moves the caption line up the presenter's body; do not
+       touch it without re-running the measurement described there. */
+    .qv-window{width:auto;height:var(--vidH);aspect-ratio:13/20;max-height:none;border-radius:12px}
     .qv-end{position:static;inset:auto;display:flex!important;width:var(--panelW);background:none;overflow:visible;padding:0;justify-content:center}
     /* THE RIGHT COLUMN IS SHARED, and the two take turns (decided 2026-08-10). While the clip runs
        it holds the speaker's name; when the clip ends it holds the questions. Nobody can answer
@@ -540,8 +571,13 @@
      37px, then 31px. Nothing is removed — every control stays operable. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:820px){
     .qv-window{--ctlH:37px;--ctlEdge:10px}   /* every control follows from these two */
-    .qv-skip{font-size:0;gap:0;padding:0 9px}
-    .qv-skip svg{width:15px;height:15px}
+    /* THE WORD "SKIP" SHOWS AT EVERY RESOLUTION (client request, 2026-08-13). It used to be the
+       other way round here — font-size:0 hid the label and left the arrow alone, and the client
+       could not tell what the button did. The icon goes instead: it costs the same width and
+       carries none of the meaning. Measured need for the labelled row is 260px of picture in this
+       tier, and the 13:20 frame gives at least 244px at 1024×660 and 270px at 1024×700. */
+    .qv-skip{gap:0;padding:0 9px}
+    .qv-skip svg{display:none}
     .qv-cc{font-size:.7rem}
     .qv-speed{padding:0 7px;min-width:3.9em}   /* restated with the padding it has to cover */
   }
@@ -557,8 +593,7 @@
        and .qv-window clips it — at 1024x600 that cost 26px of the 31px mute button. Measured need
        at that size was 211.7px in a 177.8px column; these five trims recover ~37px. */
     .qv-window{--ctlH:31px;--ctlEdge:6px;--ctlGap:5px}
-    .qv-skip{padding:0 4px}
-    .qv-skip svg{width:13px;height:13px}
+    .qv-skip{padding:0 4px}   /* label stays; the icon is already hidden by the tier above */
     .qv-cc{padding:0 5px;font-size:.62rem;letter-spacing:.03em}
     .qv-cc.split .qv-cc-k,.qv-cc.split .qv-cc-l{padding:0 4px}
     .qv-speed{padding:0 5px;font-size:.64rem;min-width:3.4em}
