@@ -369,9 +369,18 @@
   .qv-tx-body{display:none}
   .qv-tx-body.on{display:block}
   .qv-replay-overlay{position:absolute;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:rgba(0,38,71,.62);-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px)}
-  .qv-replay-overlay .qv-replay-btn{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.55);color:#fff;font-family:var(--font-body);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.4rem;border-radius:100px;cursor:pointer;transition:background .15s}
-  .qv-replay-overlay .qv-replay-btn:hover{background:rgba(255,255,255,.22)}
-  .qv-replay-overlay .qv-replay-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  /* PLAIN TEXT, NOT PILLS — changed 2026-08-13 (client request). These are the same two controls the
+     phone shows under the questions, and they now wear the same treatment: no fill, no border, no
+     radius, uppercase, dimmed white, gold on hover. Matches .qv-replay / .qv-transcript below.
+     ⚠ EVERYTHING HERE IS PROPORTIONAL, which is the other half of the request. The type is 4% of the
+     PICTURE's width — .qv-window carries container-type, so cqw reads it — and the icon, the gap and
+     the padding are all in em, so they follow the type instead of being three more numbers to keep in
+     step. 4cqw lands on 16px at 1440×900, which is exactly the fixed size these buttons used to have,
+     so the most common laptop is unchanged and the others now scale with it.
+     The clamp floor keeps them legible on a short window; the ceiling stops them ballooning at 1920. */
+  .qv-replay-overlay .qv-replay-btn{display:inline-flex;align-items:center;gap:.35em;background:none;border:none;color:rgba(255,255,255,.7);font-family:var(--font-body);font-size:clamp(.62rem,4cqw,1.1rem);font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.4em .5em;cursor:pointer;transition:color .15s}
+  .qv-replay-overlay .qv-replay-btn:hover{color:var(--gold)}
+  .qv-replay-overlay .qv-replay-btn svg{width:.95em;height:.95em;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
   .qv-window:has(.qv-video){cursor:pointer}
   /* OPENING HOLD (2026-08-11, client request). Each clip rests for a moment before it starts, so a
      visitor can take in the speaker's name and find the controls before anyone speaks. A gold disc
