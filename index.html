@@ -592,12 +592,70 @@
        once the four controls plus their gaps exceed the column, the row runs past the picture edge
        and .qv-window clips it — at 1024x600 that cost 26px of the 31px mute button. Measured need
        at that size was 211.7px in a 177.8px column; these five trims recover ~37px. */
-    .qv-window{--ctlH:31px;--ctlEdge:6px;--ctlGap:5px}
+    .qv-window{--ctlH:31px;--ctlEdge:6px;--ctlGap:5px;--ctlPad:8px}
     .qv-skip{padding:0 4px}   /* label stays; the icon is already hidden by the tier above */
     .qv-cc{padding:0 5px;font-size:.62rem;letter-spacing:.03em}
     .qv-cc.split .qv-cc-k,.qv-cc.split .qv-cc-l{padding:0 4px}
     .qv-speed{padding:0 5px;font-size:.64rem;min-width:3.4em}
     .qv-mute svg{width:15px;height:15px}
+    /* 🔴 CAPTIONS WERE LANDING ON FACES AT THIS SIZE — FIXED 2026-08-13. Found while measuring the
+       13:20 frame; it was NOT caused by that change and had been true for as long as these tiers
+       have existed. At 1024×600 an ordinary 51-character cue reached source y1016 and the longest
+       real cue in the files (77 characters, esp/mDance) reached y879 — both inside the face, against
+       the y1090 line every clip was framed to.
+       Cause: the caption type has a FLOOR of .72rem = 14.4px, which stops being small type once the
+       picture is only 205px wide. Cues that fit two lines on a phone wrapped to four here, and each
+       extra line pushes the box further up the presenter.
+       Two changes, both confined to this tier: --ctlPad drops 16px → 8px, which lowers the caption
+       line by 16px (worth ~85 source pixels at this size), and the type floor comes down. It is
+       still proportionally LARGER than a phone's — 12px in a 205px picture is 5.8% of the width,
+       against 15px in 375px = 4.0%.
+       Measured after, longest real cue: 1024×600 → y1147 · 1024×640 → y1187 · 1024×660 → y1212.
+       Caption box still clears the control row by 6.8px. */
+    .qv-caps span{font-size:clamp(.6rem,4cqw,1.02rem)}
+  }
+  /* Third step, captions only. Below ~620px the picture is under 210px wide and even 12px type
+     wraps the longest cues to four lines, which puts them back over the face. 11px holds the line
+     down to 590px of window height — which is where the CONTROL ROW gives out anyway (it runs past
+     the picture edge and gets clipped, a separate and still-open problem, noted above). So captions
+     and controls now fail at the same point rather than captions failing first and silently.
+     ⚠ Do not lower this floor further to chase smaller windows. Below 590 the layout is broken in
+     ways type size cannot fix. */
+  @media(orientation:landscape) and (min-width:720px) and (max-height:620px){
+    .qv-caps span{font-size:clamp(.55rem,4cqw,1.02rem)}
+  }
+  /* LAST-RESORT ICON — the word "SKIP" goes back to being an arrow ONLY where the row would
+     otherwise run past the edge of the picture (client's rule, 2026-08-13). Everywhere else the
+     word stays: see the note in the first compact tier for why it was wrong to hide it by default.
+     ⚠ These are CONTAINER queries, not window sizes, and that is the point: they measure the
+     PICTURE, which is the thing that actually runs out of room. A window-height breakpoint would
+     be a guess at the same number and would go stale the moment the frame ratio changes — .qv-window
+     carries container-type:inline-size, so this reads its real width.
+     Measured 2026-08-13, the width at which the labelled row starts being clipped:
+       37px buttons — fits at 250px of picture, clipped by 4.4px at 245 → switch under 249
+       31px buttons — fits at 190px, clipped by 2.8px at 185 → switch under 189
+     With the arrow the row then survives to ~232px and ~168px respectively, which is about 545px
+     of window height — BELOW the 590px point where the captions give out, so the control row is no
+     longer the first thing to fail anywhere the player is otherwise valid.
+     ℹ This also closes a gap that was live before it: at window heights of about 661–664 the button
+     size steps up to 37px while the picture is still ~245px, and the labelled row was clipped by
+     ~4px. A hand-picked breakpoint would have missed it; measuring the picture catches it.
+     ⚠ The two blocks are deliberately mutually exclusive (min-height:661 on the first). Without it
+     the 37px threshold would also match short windows and drop the word at 249px, where the smaller
+     buttons still have room for it down to 189px.
+     ℹ Container queries need Safari 16 / Chrome 105 (2022). Anything older keeps the word and
+     clips exactly as it does today — no worse, just not fixed. */
+  @media(orientation:landscape) and (min-width:720px) and (max-height:820px) and (min-height:661px){
+    @container (max-width:249px){
+      .qv-skip{font-size:0;gap:0}
+      .qv-skip svg{display:inline;width:15px;height:15px}
+    }
+  }
+  @media(orientation:landscape) and (min-width:720px) and (max-height:660px){
+    @container (max-width:189px){
+      .qv-skip{font-size:0;gap:0}
+      .qv-skip svg{display:inline;width:13px;height:13px}
+    }
   }
   /* Phone portrait. The "Pathways Questionnaire" label was dropped here first (2026-08-05) — the
      same four words on all eleven screens, redundant chrome on the most cramped screen in the site —
