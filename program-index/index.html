@@ -307,7 +307,7 @@
       <tbody id="rows"></tbody>
     </table>
   </div>
-  <!-- Phone view. The same programmes as the table above, as expandable panels — a six-column table
+  <!-- Phone view. The same programs as the table above, as expandable panels — a six-column table
        cannot be read on a 375px screen without sideways scrolling, and sideways scrolling on a list
        of 90 hides most of it. Both are always in the DOM and CSS shows one, so resizing needs no
        re-render. -->
@@ -329,9 +329,9 @@
 
 <script>
 // Region and delivery method are the only two facts not already in data/programs.json, so they are
-// the only ones kept here. Everything else — which programmes exist, what they are called, and the
+// the only ones kept here. Everything else — which programs exist, what they are called, and the
 // address of each one — is read from that file at load, so this page cannot drift out of step with
-// the result pages when a programme is added or a link changes.
+// the result pages when a program is added or a link changes.
 // ⚠ Region IS duplicated: index.html holds the same mapping in SCHOOL_REGION. A change there has to
 // be made here too. Delivery method has no counterpart in index.html (see notes/online-availability-README.md).
 const XLOCAL = {
@@ -411,10 +411,13 @@ const XLOCAL = {
   "UC Irvine, Claire Trevor School of the Arts":{r:"Southern California",d:"Online only",w:"https://www.uci.edu/"},
   "United States University":{r:"Southern California",d:"Online only",w:"https://www.usuniversity.edu/"},
   "University of California, Irvine":{r:"Southern California",d:"In-person only",w:"https://www.uci.edu/"},
-  // Split 2026-08-03: one name covered two different programmes. UCLA Extension runs the CTE
+  // Split 2026-08-03: one name covered two different programs. UCLA Extension runs the CTE
   // credential online; CenterX runs the Music credential in person on campus. Region and delivery
   // are keyed by name, so a single row had one field wrong for each. Keep them separate.
   "UCLA Extension":{r:"Southern California",d:"Online only",w:"https://www.uclaextension.edu/"},
+  // Added 2026-08-14 at the client's request. Format is Hybrid on the strength of the course page's
+  // own wording ("online and in-person classes") — the program has not launched, so re-check it.
+  "UCLA VAPAE CTE in Teaching Artistry":{r:"Southern California",d:"Hybrid",w:"https://www.uclaextension.edu/"},
   "University of California, Los Angeles":{r:"Southern California",d:"In-person only",w:"https://www.ucla.edu/"},
   "University of California, Riverside":{r:"Southern California",d:"Online only",w:"https://www.ucr.edu/"},
   "University of California, Santa Barbara":{r:"Southern California",d:"In-person only",w:"https://www.ucsb.edu/"},
@@ -432,10 +435,10 @@ const XLOCAL = {
 };
 
 // The six lists in programs.json are two different things wearing one coat. music / theatre /
-// dance / art are Single Subject Credential programmes, and the list a school sits in IS its
+// dance / art are Single Subject Credential programs, and the list a school sits in IS its
 // discipline. teachingArtist and cte are pathways in their own right and record no discipline at
 // all — which is why a third of the rows show "—" in that column. It is not missing data; those
-// programmes are not organised by discipline.
+// programs are not organised by discipline.
 // Two forms, used in different places on purpose. PATHWAY is abbreviated and belongs ONLY to the
 // desktop table, where the column was 170px wide to hold three short values; abbreviating won back
 // 74px, which is what let the table fit its container at all. PATHWAY_FULL is used everywhere with
@@ -448,7 +451,7 @@ const PATHWAY_FULL = {ssc:'Single Subject Credential', ta:'Teaching Artist', cte
 // Colour belongs to discipline alone. Format used to carry colour too, which meant a hue said two
 // unrelated things a few centimetres apart; its marker is now a neutral dot.
 const DISC_COLOUR = {music:'Music', theatre:'Theatre', dance:'Dance', art:'Art'};
-// The institution's main website. Not in data/programs.json — that holds programme pages only — so
+// The institution's main website. Not in data/programs.json — that holds program pages only — so
 // it lives in XLOCAL alongside region and format. 67 were already on a bare domain, 19 were reduced
 // from a department subdomain (cah.fresnostate.edu -> fresnostate.edu), and 4 the client confirmed
 // by hand: Alameda COE, Sacramento COE, UCLA, and Alternatives in Action.
@@ -463,18 +466,18 @@ const DELIV_LABEL = {'In-person only':'In-person', 'Online only':'Online',
 const delivLabel = v => DELIV_LABEL[v] || v;
 const REGIONS = ['Northern California','Central California','Southern California'];
 // The stored values are left exactly as SCHOOL_REGION in index.html has them; only the display
-// changes. "California" goes because every programme here is Californian, so it said nothing.
+// changes. "California" goes because every program here is Californian, so it said nothing.
 // The fourth region, "Online" (displayed as "Statewide"), was REMOVED on 2026-08-05. It never meant
 // online delivery; it meant the organisation had no single campus — and on inspection all four rows
 // carrying it did have one. UCLA Extension (four LA campuses), Arts & Healing Initiative (Santa
 // Monica) and The Entertainment Community Fund (LA) went to Southern; Focus 5, a Washington DC
 // organisation, went to Central because its California offering is an in-person intensive at UCSB.
 // The rule that settled it, and that had never been written down: region is WHERE THE ORGANISATION
-// IS, never how the programme is delivered. 28 schools are delivered online only and still carry a
+// IS, never how the program is delivered. 28 schools are delivered online only and still carry a
 // geographic region, so online delivery does not remove a campus.
 // Its filter option went too. Selecting it returned everything reachable from anywhere (the 38
 // online-only plus in-person-or-online rows), but every region already includes those — see
-// has() below — so the option only served someone wanting to EXCLUDE local programmes, which the
+// has() below — so the option only served someone wanting to EXCLUDE local programs, which the
 // Format filter already does. Removed as a distinction without a difference.
 const REGION_LABEL = {
   'Northern California':'Northern', 'Central California':'Central',
@@ -482,14 +485,14 @@ const REGION_LABEL = {
 };
 const regionLabel = v => REGION_LABEL[v] || v;
 
-// A programme you can take online is available wherever you live, so geography should not hide it:
+// A program you can take online is available wherever you live, so geography should not hide it:
 // these two delivery methods match EVERY region filter. Hybrid is deliberately NOT here — it
 // requires turning up somewhere, so geography still limits it.
 const STATEWIDE_DELIVERY = ['Online only','In person or online'];
 const isStatewide = r => STATEWIDE_DELIVERY.indexOf(r.deliv) > -1;
 
 // The region cell used to append a dimmed "(statewide)" to any row that matched every region
-// filter. It is gone: the Format column two cells over already says how the programme is
+// filter. It is gone: the Format column two cells over already says how the program is
 // delivered, so the marker restated a fact instead of adding one. The note under the table now
 // carries that explanation on its own. Filtering is unaffected — isStatewide above still decides
 // which rows answer to which region, and nothing about that changed.
@@ -507,7 +510,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 fetch('../data/programs.json').then(r => r.json()).then(build).catch(function(){
   document.getElementById('empty').hidden = false;
   document.getElementById('empty').textContent =
-    'The programme list could not be loaded. Please refresh the page to try again.';
+    'The program list could not be loaded. Please refresh the page to try again.';
 });
 
 function build(data){
@@ -539,7 +542,7 @@ function build(data){
 function has(r, dim, val){
   if(dim === 'pathway') return r.pathway.has(val);
   if(dim === 'discipline') return r.disc.some(d => d.k === val);
-  // An online-deliverable programme belongs to EVERY region: geography should not hide something you
+  // An online-deliverable program belongs to EVERY region: geography should not hide something you
   // can do from anywhere. Hybrid is deliberately excluded — it requires turning up somewhere.
   // (This is why the old "Statewide" filter option was redundant and was removed: every region
   //  already returns these rows.)

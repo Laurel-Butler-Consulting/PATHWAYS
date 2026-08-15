@@ -65,6 +65,7 @@
     {"name": "Tehama County Department of Education", "url": "https://www.tehamaschools.org/Services/Educational-Services/Career-Technical-Education-Teacher-Preparation/index.html", "conf": "High", "src": "CTE-specific"},
     {"name": "Tulare County Office of Education", "url": "https://tcoe.org/NTLD/CTE", "conf": "High", "src": "CTE-specific"},
     {"name": "UCLA Extension", "url": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/specialization/career-and-technical", "conf": "High", "src": "CTE-specific (UCLA Extension)"},
+    {"name": "UCLA VAPAE CTE in Teaching Artistry", "url": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/course/artist-educator-cte-teaching", "conf": "Low", "src": "Client request 2026-08-14. WARNING: this URL is the free information session, not the program — the pathway (VAPAE with UCLA Extension) launches Fall 2026 and the session reads 'Not available this quarter'. Swap for the program page as soon as one exists."},
     {"name": "University of California, Riverside", "url": "https://extension.ucr.edu/certificates/ctetracka", "conf": "High", "src": "CTE-specific (Track A, new teachers)"},
     {"name": "Ventura County Office of Education", "url": "https://www.vcoe.org/ese/dsc/cte", "conf": "High", "src": "CTE-specific"}
   ],

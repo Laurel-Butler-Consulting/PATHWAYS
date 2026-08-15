@@ -175,7 +175,7 @@ S3 = "3. Online-availability marking"
 # ⚠ This check used to look for the STRING "online-availability" anywhere in index.html, which
 # matched a CODE COMMENT saying the work was still outstanding. It therefore reported the item as
 # done because of a note explaining that it wasn't (found 2026-08-05). Test for the marker actually
-# rendering in the programme lists instead.
+# rendering in the program lists instead.
 xindex = read(rp("program-index", "index.html"))
 oa_categories = sorted(set(re.findall(r'\bd:"([^"]+)"', xindex)))
 oa_research = len(oa_categories) >= 4
@@ -248,7 +248,7 @@ add(S4, PEND if drift else DONE, "Palette copies in step",
     "%d tokens match across index.html + %d standalone pages" % (len(base_tokens), len(STANDALONE)))
 
 # Region is declared twice: SCHOOL_REGION in index.html, and r: in program-index's meta table.
-# Also checks every programme name HAS a region — one without falls into "Unsorted" on the live page.
+# Also checks every program name HAS a region — one without falls into "Unsorted" on the live page.
 REGIONS = "Northern California|Southern California|Central California|Online"
 region_index = dict(re.findall(r'"([^"]+)":"(%s)"' % REGIONS, html))
 region_xidx = dict(re.findall(r'"([^"]+)":\{r:"([^"]+)"', read("program-index/index.html")))
@@ -270,7 +270,7 @@ region_problems = (
 )
 add(S4, PEND if region_problems else DONE, "Region data in step",
     "; ".join(region_problems) if region_problems else
-    "%d programmes, all mapped, index.html and program-index agree" % len(prog_names))
+    "%d programs, all mapped, index.html and program-index agree" % len(prog_names))
 
 # ---- Report ----
 W = 78
