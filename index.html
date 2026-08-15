@@ -933,7 +933,12 @@
        at the top of a page, cut off from the FAQs heading it belongs under. */
     details.prog-region,.res-xindex-block{break-inside:avoid;page-break-inside:avoid}
     .res-item,.prog-list a{break-inside:avoid;page-break-inside:avoid}
-    .prog-intro,.prog-resources>.prog-intro{break-after:avoid;page-break-after:avoid}
+    /* A section heading and the first thing under it are wrapped together in .pw-keep (listHTML and
+       resourcesHTML) and print as one block. break-after:avoid alone was not enough — a browser drops
+       it when what follows won't fit in the space left, which is exactly when a heading gets
+       stranded. Both are kept: the wrapper is what actually holds, the rule below helps elsewhere. */
+    .pw-keep{break-inside:avoid;page-break-inside:avoid}
+    .prog-intro,.prog-resources>.prog-intro,.prog-region-title{break-after:avoid;page-break-after:avoid}
     .prog-list{column-count:2}
     /* Never let the recap split across a page. */
     .res-summary{break-inside:avoid;page-break-inside:avoid}
@@ -2458,7 +2463,9 @@ function resourcesHTML(key){
   // control, and a two-line click target reads as a mis-tap waiting to happen.
   var xindex='<div class="res-xindex-block"><a class="prog-region-title res-xindex" href="program-index/" target="_blank" rel="noopener"><h3>'+T.crossIndex+'</h3></a>'
     + '<p class="res-xindex-blurb">'+T.crossIndexBlurb+'</p></div>';
-  return '<div class="prog-resources"><p class="prog-intro">'+T.additionalResources+'</p>'+xindex+groups+'</div>';
+  // Same treatment as the program list: "Additional Resources" and the cross-index below it print as
+  // one block, so the heading can never be left alone at the foot of a page.
+  return '<div class="prog-resources"><div class="pw-keep"><p class="prog-intro">'+T.additionalResources+'</p>'+xindex+'</div>'+groups+'</div>';
 }
 function renderProfile(key){
   const P=PROFILES[key];
@@ -2590,9 +2597,13 @@ function listHTML(P){
   const sections=REGION_ORDER.filter(function(r){return groups[r]&&groups[r].length;}).map(function(r){
     var links=groups[r].map(function(e){return '<a href="'+escapeHTML(e.u)+'" target="_blank" rel="noopener">'+escapeHTML(e.n)+'</a>';}).join('');
     return '<details class="prog-region prog-region--main" open><summary><h3 class="prog-region-title">'+(REGION_LABEL[r]||r)+'<span class="prog-count">('+groups[r].length+')</span></h3></summary><div class="prog-list">'+links+'</div></details>';
-  }).join('');
+  });
   var heading=(P.list==='teachingArtist')?T.listHeadingTeachingArtist:T.listHeadingDefault;
-  return '<p class="prog-intro">'+heading+'</p>'+sections;
+  // The heading and the first region travel as ONE block when printing — see .pw-keep in the print
+  // rules. "Tell the browser not to break after this heading" is not enough on its own: when the
+  // block that follows won't fit in what's left of the page, the request is dropped and the heading
+  // is left stranded at the foot of it. Tying the two together gives it nothing to be stranded from.
+  return '<div class="pw-keep"><p class="prog-intro">'+heading+'</p>'+(sections[0]||'')+'</div>'+sections.slice(1).join('');
 }
 
 function suppHTML(){
