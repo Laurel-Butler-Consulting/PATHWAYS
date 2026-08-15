@@ -1373,6 +1373,20 @@ function pwSyncAddress(s){
   if(location.pathname+location.search===want)return;
   try{history.replaceState(history.state,'',want);}catch(e){}
 }
+// The tab title follows the screen the same way the address does, so a result reads
+// "Arts Educator Pathways - Single Subject Credential in Music". Plain hyphen, at the designer's
+// call (2026-08-14) — an em dash reads oddly in a bookmarks list and in a filename. That name is
+// what a bookmark takes,
+// what the browser history lists, and what a saved PDF is called, so all three now say which pathway
+// it is instead of seven files all named the same thing.
+// Captured from the <title> tag rather than written out again here, so the site name lives in one
+// place. Titles arrive with data/content.en.json; a result screen never renders before that file
+// lands (showScreen waits), so PROFILES always has one by the time this matters.
+const PW_TITLE_BASE=document.title;
+function pwSyncTitle(s){
+  var p=(s&&s.t==='profile')?PROFILES[s.k]:null;
+  document.title=(p&&p.title)?(PW_TITLE_BASE+' - '+p.title):PW_TITLE_BASE;
+}
 
 let cur=null;   // current screen state object, or null on the home page
 // Caption choice: 'off', or a language code ('en' / 'es'). Persisted, so it carries from one video
@@ -1796,20 +1810,15 @@ function pwDownloadPDF(){
 // closes the others the moment a second one is opened — which would silently drop all but the last
 // resource section from the printed page. Stripping the name first lets them all stay open; it goes
 // back afterwards, so the accordion behaves normally on screen.
-// A saved PDF takes its filename from the page title, so every visitor's file would otherwise be
-// called "Arts Educator Pathways" and none of them could tell one from another later. While the
-// dialog is open the title carries the pathway as well; it is put back afterwards so the browser tab
-// reads normally. The pathway name is read off the page rather than from a stored key, so a print
-// started with Cmd+P is named just as well as one started from the button.
-let PW_DOCTITLE=null;
+// A saved PDF takes its filename from the page title. This handler used to rename the title while
+// the print dialog was open so each file said which pathway it was; that moved to pwSyncTitle on
+// 2026-08-14, which keeps the title right at all times — for the tab, for a bookmark and for the
+// saved file alike. Renaming it here as well would print "…- Theatre - Theatre".
 window.addEventListener('beforeprint',function(){
-  const h=document.querySelector('#resultDoc .results-header h2');
-  if(h&&PW_DOCTITLE===null){ PW_DOCTITLE=document.title; document.title=PW_DOCTITLE+' — '+h.textContent.trim(); }
   document.querySelectorAll('details.prog-region[name]').forEach(function(d){ d.dataset.pwName=d.getAttribute('name'); d.removeAttribute('name'); });
   document.querySelectorAll('details.prog-region').forEach(function(d){ d.dataset.pwOpen=d.open?'1':'0'; d.open=true; });
 });
 window.addEventListener('afterprint',function(){
-  if(PW_DOCTITLE!==null){ document.title=PW_DOCTITLE; PW_DOCTITLE=null; }
   document.querySelectorAll('details.prog-region').forEach(function(d){ if(d.dataset.pwOpen!==undefined){ d.open=d.dataset.pwOpen==='1'; delete d.dataset.pwOpen; } });
   document.querySelectorAll('details.prog-region[data-pw-name]').forEach(function(d){ d.setAttribute('name',d.dataset.pwName); delete d.dataset.pwName; });
 });
@@ -1825,6 +1834,7 @@ function pwExit(){                                    // Exit (X) / results "hom
 function pwExitToHome(){                              // restore the home page (no history side-effects)
   cur=null;pwStopStillCycle();
   pwSyncAddress(null);                                // home page carries no pathway in the address
+  pwSyncTitle(null);                                  // …nor in the tab title
   document.getElementById('app').innerHTML='';
   document.getElementById('heroBanner').style.display='';
   document.getElementById('homeSections').style.display='';
@@ -1835,6 +1845,7 @@ function pwExitToHome(){                              // restore the home page (
 function showScreen(s){                               // pure renderer — history is managed by pwGo / popstate
   cur=s;
   pwSyncAddress(s);                                  // keep the address on the screen being drawn (result → ?pathway=…)
+  pwSyncTitle(s);                                    // …and the tab title with it
   document.getElementById('heroBanner').style.display='none';
   document.getElementById('homeSections').style.display='none';
   document.querySelector('footer').style.display='none';
