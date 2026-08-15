@@ -85,7 +85,8 @@
     {"name": "Luna Dance Institute", "url": "https://lunadancecreativity.org/professional-learning/institutes/", "conf": "High", "src": "specific program page"},
     {"name": "Luther Burbank Center for the Arts", "url": "https://lutherburbankcenter.org/education/for-schools-and-teachers/professional-development/teaching-artist-certificate-and-practicum/", "conf": "High", "src": "specific program page"},
     {"name": "Santa Rosa Junior College", "url": "https://college-skills.santarosa.edu/arts-education-assistant-certificate", "conf": "High", "src": "specific program page"},
-    {"name": "Studio Pathways", "url": "https://www.studiopathways.org/professionallearning", "conf": "High", "src": "specific program page"}
+    {"name": "Studio Pathways", "url": "https://www.studiopathways.org/professionallearning", "conf": "High", "src": "specific program page"},
+    {"name": "UCLA VAPAE CTE in Teaching Artistry", "url": "https://www.uclaextension.edu/education/k-12-california-teacher-credentialing-authorizations/course/artist-educator-cte-teaching", "conf": "Low", "src": "Client request 2026-08-14, same entry as in cte. WARNING: this URL is the free information session, not the program — the pathway (VAPAE with UCLA Extension) launches Fall 2026 and the session reads 'Not available this quarter'. Swap for the program page as soon as one exists."}
   ],
 
   "art": [

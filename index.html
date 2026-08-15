@@ -776,6 +776,11 @@
   .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
   .btn-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--white);color:var(--navy);border:2px solid rgba(0,38,71,.15);border-radius:var(--r);padding:.7rem 1.3rem;font-family:var(--font-body);font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:border-color .15s,color .15s}
   .btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
+  /* Shown ONLY when the browser refuses to copy for us — the address, ready-selected, so it can be
+     copied by hand. Nobody sees this in a normal browser; it exists so the button is never a dead end. */
+  .ac-fallback{max-width:520px;margin:1rem auto 0;text-align:center}
+  .ac-msg{font-family:var(--font-body);font-size:.8rem;color:var(--navy);margin-bottom:.5rem}
+  .ac-url{width:100%;font-family:var(--font-body);font-size:.8rem;color:var(--navy);background:var(--white);border:2px solid rgba(0,38,71,.15);border-radius:var(--r);padding:.6rem .8rem;text-align:center}
   /* Result screen — Approach B: questionnaire-matched frame, light content */
   .qv-result{max-width:900px;padding-top:2.5rem}
   .qv-result .results-header{border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:1.6rem 2rem;margin-bottom:2.5rem}
@@ -895,7 +900,7 @@
     .qv-screen:not(.rot-ok) .qv-rotate{display:flex}
   }
   @media print{
-    footer,.actions-row,.qv-foot,.qv-result-foot,.hero-banner,#homeSections,.qv-optin{display:none!important}
+    footer,.actions-row,.ac-fallback,.qv-foot,.qv-result-foot,.hero-banner,#homeSections,.qv-optin{display:none!important}
     .step-screen{padding:0;max-width:100%}
     .results-header{background:var(--white)!important;color:var(--navy)!important;border:2px solid var(--navy)}
     .results-header .res-label{color:var(--blue)!important}
@@ -1312,6 +1317,35 @@ const PROFILES={
   art:{list:'art'}
 };
 
+// Shareable result links (added 2026-08-14). Each result answers to its own address —
+// artsedpathways.org/?pathway=teaching-artist — so it can be sent to someone or bookmarked.
+// The wording is PUBLIC and was signed off; treat it as fixed. Changing a name breaks every link
+// already shared.
+// ⚠ Nearly the same as PW_STAT_RESULT above, and deliberately NOT the same map: that one names
+// analytics paths and uses `cte-credential`, while the address says `cte`. Add a pathway and it
+// needs a line in both.
+const PATHWAY_SLUG={
+  supp:'supplementary-authorization', ta:'teaching-artist', cte:'cte',
+  music:'music', theatre:'theatre', dance:'dance', art:'visual-art'
+};
+const SLUG_PROFILE=(function(){var m={};Object.keys(PATHWAY_SLUG).forEach(function(k){m[PATHWAY_SLUG[k]]=k;});return m;})();
+function pwLinkFor(key){
+  var slug=PATHWAY_SLUG[key];
+  return location.origin+location.pathname+(slug?'?pathway='+slug:'');
+}
+// The address follows the screen, and this is the ONLY place that decides it. showScreen calls it on
+// every render — moving forward, browser Back/Forward, and the direct arrival at the foot of this
+// file — so the two can't drift apart. Without it, someone who opens a shared result and then
+// restarts keeps an address naming a pathway they have left, and a reload drops them back onto it.
+// replaceState, never pushState: this rewrites the entry the visitor is already on rather than
+// adding one, so it costs the Back button nothing.
+function pwSyncAddress(s){
+  var slug=(s&&s.t==='profile')?PATHWAY_SLUG[s.k]:null;
+  var want=location.pathname+(slug?'?pathway='+slug:'');
+  if(location.pathname+location.search===want)return;
+  try{history.replaceState(history.state,'',want);}catch(e){}
+}
+
 let cur=null;   // current screen state object, or null on the home page
 // Caption choice: 'off', or a language code ('en' / 'es'). Persisted, so it carries from one video
 // to the next.
@@ -1666,6 +1700,61 @@ function pwGo(s){
   showScreen(s);
 }
 
+// Copy Link — hands over the address of the result being read, for an email, a message or a bookmark.
+// A website cannot add a bookmark to someone's browser (removed from every browser years ago as an
+// abuse route), so copying the address is the honest version of "save this page".
+// Three ways down, because copying is one of the few things a locked-down browser refuses outright:
+// the modern clipboard, then the old command, then showing the address ready-selected so it can be
+// copied by hand. The visitor is never left with a button that did nothing.
+function pwCopyLink(btn){
+  var url=pwLinkFor(cur&&cur.t==='profile'?cur.k:null);
+  var done=function(){
+    pwStat('Result Link Copied');
+    if(!btn.dataset.pwLabel)btn.dataset.pwLabel=btn.textContent;
+    btn.textContent=T.copyLinkDone;
+    clearTimeout(btn._pwT);
+    btn._pwT=setTimeout(function(){btn.textContent=btn.dataset.pwLabel;},2200);
+    pwCopyClearFallback(btn);
+  };
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done,function(){pwCopyManual(btn,url);});
+      return;
+    }
+  }catch(e){}
+  pwCopyManual(btn,url);
+}
+// Last resort: put the address on screen, selected, with a line telling them to copy it themselves.
+// A readonly field is used rather than plain text because a field can be selected for them.
+function pwCopyManual(btn,url){
+  var ok=false;
+  try{
+    var t=document.createElement('textarea');
+    t.value=url;t.setAttribute('readonly','');t.style.position='fixed';t.style.top='-1000px';
+    document.body.appendChild(t);t.select();
+    ok=document.execCommand('copy');
+    document.body.removeChild(t);
+  }catch(e){ok=false;}
+  if(ok){
+    pwStat('Result Link Copied');
+    if(!btn.dataset.pwLabel)btn.dataset.pwLabel=btn.textContent;
+    btn.textContent=T.copyLinkDone;
+    clearTimeout(btn._pwT);
+    btn._pwT=setTimeout(function(){btn.textContent=btn.dataset.pwLabel;},2200);
+    return;
+  }
+  var row=btn.closest('.actions-row');if(!row)return;
+  var box=row.parentNode.querySelector('.ac-fallback');
+  if(!box){box=document.createElement('div');box.className='ac-fallback';row.parentNode.insertBefore(box,row.nextSibling);}
+  box.innerHTML='<p class="ac-msg" role="status"></p><input class="ac-url" type="text" readonly>';
+  box.querySelector('.ac-msg').textContent=T.copyLinkFail;
+  var inp=box.querySelector('.ac-url');inp.value=url;inp.focus();inp.select();
+}
+function pwCopyClearFallback(btn){
+  var row=btn.closest('.actions-row');if(!row)return;
+  var box=row.parentNode.querySelector('.ac-fallback');if(box)box.remove();
+}
+
 function pwDownloadPDF(){
   // "Result Page Saved", NOT "PDF Downloaded" — Plausible has its own automatic "File Download"
   // goal for the four research reports in the resources block, and two similar names in one
@@ -1707,6 +1796,7 @@ function pwExit(){                                    // Exit (X) / results "hom
 }
 function pwExitToHome(){                              // restore the home page (no history side-effects)
   cur=null;pwStopStillCycle();
+  pwSyncAddress(null);                                // home page carries no pathway in the address
   document.getElementById('app').innerHTML='';
   document.getElementById('heroBanner').style.display='';
   document.getElementById('homeSections').style.display='';
@@ -1716,6 +1806,7 @@ function pwExitToHome(){                              // restore the home page (
 
 function showScreen(s){                               // pure renderer — history is managed by pwGo / popstate
   cur=s;
+  pwSyncAddress(s);                                  // keep the address on the screen being drawn (result → ?pathway=…)
   document.getElementById('heroBanner').style.display='none';
   document.getElementById('homeSections').style.display='none';
   document.querySelector('footer').style.display='none';
@@ -2333,8 +2424,12 @@ function resourcesHTML(key){
 function renderProfile(key){
   const P=PROFILES[key];
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
+  // Three buttons, in this order on purpose: the two that keep or pass on the result sit together,
+  // and Restart — the one that throws it away — comes last. The row wraps on its own, so a window
+  // too narrow for three drops Restart to a centred second line, and a phone stacks all three.
   const actions='<div class="actions-row">'+
     '<button class="btn-primary" onclick="pwDownloadPDF()">'+T.printPdf+'</button>'+
+    '<button class="btn-secondary" onclick="pwCopyLink(this)">'+T.copyLink+'</button>'+
     '<button class="btn-secondary" onclick="pwRestart()">'+T.restart+'</button></div>';
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
@@ -2518,6 +2613,26 @@ const PW_REDUCED=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motio
   root.addEventListener('mouseenter',stop);root.addEventListener('mouseleave',start);
   root.addEventListener('focusin',stop);root.addEventListener('focusout',start);
   start();
+})();
+
+// Someone arriving on a shared result link (?pathway=…). Runs last, once every renderer above exists.
+// The result becomes this visitor's FIRST history entry (depth 0), which is what makes the rest
+// behave: Back leaves the site exactly as it would from any first page, Restart stacks the
+// questionnaire on top of it, and the footer's home link — depth 0, so nothing to unwind — simply
+// redraws the home page and clears the address.
+// An unrecognised name is ignored and the address tidied, so a mistyped or outdated link opens the
+// home page rather than an error. Counted as a view of that result, the same as reaching it by
+// answering the questions.
+(function(){
+  var slug=null;
+  try{slug=new URLSearchParams(location.search).get('pathway');}catch(e){}
+  if(!slug)return;
+  var key=SLUG_PROFILE[slug];
+  if(!key||!PROFILES[key]){try{history.replaceState(history.state,'',location.pathname);}catch(e){}return;}
+  var s={t:'profile',k:key};
+  try{history.replaceState({pw:s,i:0},'');}catch(e){}
+  pwStatScreen(s);
+  showScreen(s);
 })();
 </script>
 
