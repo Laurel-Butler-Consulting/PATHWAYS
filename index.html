@@ -938,7 +938,9 @@
        it when what follows won't fit in the space left, which is exactly when a heading gets
        stranded. Both are kept: the wrapper is what actually holds, the rule below helps elsewhere. */
     .pw-keep{break-inside:avoid;page-break-inside:avoid}
-    .prog-intro,.prog-resources>.prog-intro,.prog-region-title{break-after:avoid;page-break-after:avoid}
+    .prog-intro,.prog-region-title{break-after:avoid;page-break-after:avoid}
+    /* Repeated from the screen rules on purpose: a printed page is narrow enough to match the
+       phone breakpoint, which drops the list to one column. Two is right on paper. */
     .prog-list{column-count:2}
     /* Never let the recap split across a page. */
     .res-summary{break-inside:avoid;page-break-inside:avoid}
@@ -1096,7 +1098,7 @@ if(!document.documentElement.classList.contains('pw-open')){
           <figure class="quote-slide">
             <div class="quote-photo"><img loading="lazy" src="images/AEP_taylor_moore_1X1.jpg" alt="Taylor Moore" width="120" height="120"></div>
             <div class="quote-body">
-              <blockquote class="quote-text">“The arts often serve as more than just an academic subject; they become a source of inspiration, self-expression, and belonging. For some students, their performing arts class is the reason they look forward to coming to school each day. It is a place where they can feel supported, valued, and free to express themselves creatively.”</blockquote>
+              <blockquote class="quote-text">“For some students, their performing arts class is the reason they look forward to coming to school each day. It is a place where they can feel supported, valued, and free to express themselves creatively.”</blockquote>
               <figcaption class="quote-cite"><strong>Taylor Moore</strong>, <span class="quote-role">Dance Teacher, Ventura High School</span></figcaption>
             </div>
           </figure>
@@ -1755,21 +1757,24 @@ function pwGo(s){
 // copied by hand. The visitor is never left with a button that did nothing.
 function pwCopyLink(btn){
   var url=pwLinkFor(cur&&cur.t==='profile'?cur.k:null);
-  var done=function(){
-    pwStat('Result Link Copied');
-    if(!btn.dataset.pwLabel)btn.dataset.pwLabel=btn.textContent;
-    btn.textContent=T.copyLinkDone;
-    clearTimeout(btn._pwT);
-    btn._pwT=setTimeout(function(){btn.textContent=btn.dataset.pwLabel;},2200);
-    pwCopyClearFallback(btn);
-  };
   try{
     if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(done,function(){pwCopyManual(btn,url);});
+      navigator.clipboard.writeText(url).then(function(){pwCopyDone(btn);},function(){pwCopyManual(btn,url);});
       return;
     }
   }catch(e){}
   pwCopyManual(btn,url);
+}
+// Both routes that succeed end here, so the button says the same thing either way. The original
+// label is stashed on first use rather than assumed, so repeated clicks can't leave it reading
+// "Link Copied" for good.
+function pwCopyDone(btn){
+  pwStat('Result Link Copied');
+  if(!btn.dataset.pwLabel)btn.dataset.pwLabel=btn.textContent;
+  btn.textContent=T.copyLinkDone;
+  clearTimeout(btn._pwT);
+  btn._pwT=setTimeout(function(){btn.textContent=btn.dataset.pwLabel;},2200);
+  pwCopyClearFallback(btn);      // an address left on screen by an earlier failure is now stale
 }
 // Last resort: put the address on screen, selected, with a line telling them to copy it themselves.
 // A readonly field is used rather than plain text because a field can be selected for them.
@@ -1782,14 +1787,7 @@ function pwCopyManual(btn,url){
     ok=document.execCommand('copy');
     document.body.removeChild(t);
   }catch(e){ok=false;}
-  if(ok){
-    pwStat('Result Link Copied');
-    if(!btn.dataset.pwLabel)btn.dataset.pwLabel=btn.textContent;
-    btn.textContent=T.copyLinkDone;
-    clearTimeout(btn._pwT);
-    btn._pwT=setTimeout(function(){btn.textContent=btn.dataset.pwLabel;},2200);
-    return;
-  }
+  if(ok){pwCopyDone(btn);return;}
   var row=btn.closest('.actions-row');if(!row)return;
   var box=row.parentNode.querySelector('.ac-fallback');
   if(!box){box=document.createElement('div');box.className='ac-fallback';row.parentNode.insertBefore(box,row.nextSibling);}

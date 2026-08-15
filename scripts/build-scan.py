@@ -47,6 +47,11 @@ summaries = content.get("summaries") or {}
 summary_items = summaries.get("items") or {}
 summary_filled = [k for k, v in summary_items.items() if v]
 summary_placeholder = bool(summaries.get("placeholder"))
+# SIX result pages take a summary, not seven. The Supplementary Authorization entry was deleted on
+# 2026-08-11 at the client's request: that page has no video, so there is nothing to recap. Counting
+# against seven reported "6 of 7" forever, which read as a missing page rather than the intended
+# state. If a summary is ever added back for supp, raise this to 7.
+SUMMARY_PAGES = 6
 
 DONE, PEND, PART, INFO = "DONE", "PENDING", "PARTIAL", "INFO"
 MARK = {DONE: "[x]", PEND: "[ ]", PART: "[~]", INFO: " i "}
@@ -109,11 +114,13 @@ add(S1, DONE if vtt_files else PEND,
     "%d .vtt file(s)" % len(vtt_files) if vtt_files else "none found")
 add(S1, INFO, "Placeholder stills on disk", "%d of 8 personas" % len(stills))
 add(S1,
-    PEND if (summary_placeholder or not summary_filled) else DONE,
+    PEND if (summary_placeholder or len(summary_filled) < SUMMARY_PAGES) else DONE,
     "Result-page summaries (client copy)",
-    ("PLACEHOLDER live on %d of 7 pages — client copy not received" % len(summary_filled))
+    ("PLACEHOLDER live on %d of %d pages — client copy not received"
+     % (len(summary_filled), SUMMARY_PAGES))
     if summary_placeholder else
-    ("%d of 7 pages have copy" % len(summary_filled) if summary_filled else "none supplied"))
+    ("%d of %d pages have copy" % (len(summary_filled), SUMMARY_PAGES)
+     if summary_filled else "none supplied"))
 
 # ---- Section 2: pending client review ----
 S2 = "2. Pending client review"
@@ -163,9 +170,12 @@ elif optin_wired:
 else:
     add(S2, PEND, '"Stay in touch" opt-in wired',
         "NOT WIRED — accepts an address and silently discards it; must not ship (§4)")
-ucla = programs_raw.count("UCLA Extension CTE in Teaching Artistry")
-add(S2, DONE if ucla >= 2 else PEND, "UCLA Extension entry resolved",
-    "not in program lists (reverted, awaiting client)" if ucla == 0
+# Named UCLA **VAPAE** — the client's own label, chosen 2026-08-14 over our "UCLA Extension CTE in
+# Teaching Artistry". This check still carried the old name and so reported the entry missing for a
+# day after it went live. Two lists: CTE and Teaching Artist.
+ucla = programs_raw.count("UCLA VAPAE CTE in Teaching Artistry")
+add(S2, DONE if ucla >= 2 else PEND, "UCLA VAPAE CTE entry in the program lists",
+    "not in program lists" if ucla == 0
     else "present in %d list(s)" % ucla)
 
 # ---- Section 3: online-availability ----
