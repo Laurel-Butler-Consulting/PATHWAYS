@@ -902,16 +902,41 @@
     .qv-screen:not(.rot-ok) .qv-group{display:none}
     .qv-screen:not(.rot-ok) .qv-rotate{display:flex}
   }
+  /* PRINT / SAVE AS PDF — rewritten 2026-08-14 to match the screen design instead of standing in
+     for it. The old rules assumed background colours would never print and forced the navy header
+     band white with dark text; that was safe but the PDF looked nothing like the site.
+     ⚠ THE ONE RISK, worth knowing before changing anything here: the band is now white type on a
+     navy background. If a browser refuses to print backgrounds, that title prints white on white
+     and disappears. `print-color-adjust:exact` is what asks for the colours, and Chrome and Safari
+     honour it — but the visitor's own "Background graphics" setting can still overrule it, and no
+     page can read or change that setting. If this ever needs reverting, the safe version is in git:
+     white background, navy text, 2px navy border. */
   @media print{
+    /* Paper margins. Nothing was set before, so every browser used its own default and the same
+       page printed differently from one machine to the next. */
+    @page{margin:14mm}
+    /* These colours ARE the design, not decoration. */
+    :root{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     footer,.actions-row,.ac-fallback,.qv-foot,.qv-result-foot,.hero-banner,#homeSections,.qv-optin{display:none!important}
     .step-screen{padding:0;max-width:100%}
-    .results-header{background:var(--white)!important;color:var(--navy)!important;border:2px solid var(--navy)}
-    .results-header .res-label{color:var(--blue)!important}
-    .results-header h2{color:var(--navy)!important}
+    /* Shadows print as grey mush — there was a smear under the header band on page 1. */
+    *{box-shadow:none!important}
+    /* The header band as it appears on screen: navy, white title, gold label. */
+    .results-header{background:var(--navy)!important;border:none}
+    .results-header .res-label{color:var(--gold)!important}
+    .results-header h2{color:var(--white)!important}
+    /* Region and resource headings are <summary> elements. On paper the disclosure chevron doesn't
+       print but the space it occupied did, so every heading sat indented from its own list. */
+    details.prog-region>summary::before{display:none!important}
+    details.prog-region>summary{padding-left:0;padding-right:0}
+    /* Keep a heading with what it introduces. Without this the Pre-Service checklist was stranded
+       at the top of a page, cut off from the FAQs heading it belongs under. */
+    details.prog-region,.res-xindex-block{break-inside:avoid;page-break-inside:avoid}
+    .res-item,.prog-list a{break-inside:avoid;page-break-inside:avoid}
+    .prog-intro,.prog-resources>.prog-intro{break-after:avoid;page-break-after:avoid}
     .prog-list{column-count:2}
-    /* Backgrounds often don't print — keep the recap boxed so it still reads as one block, and
-       never let it split across a page. */
-    .res-summary{break-inside:avoid;page-break-inside:avoid;background:var(--white)!important;border:1px solid var(--navy)}
+    /* Never let the recap split across a page. */
+    .res-summary{break-inside:avoid;page-break-inside:avoid}
   }
 </style>
 <!-- Visitor statistics, added 2026-08-05. Plausible: no cookies, no IP addresses stored, no
