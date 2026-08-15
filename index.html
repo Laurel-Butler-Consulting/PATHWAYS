@@ -2260,14 +2260,17 @@ function qvMute(btn){
   if(v)v.muted=PW_MUTED;
 }
 
-// Shared resources block — identical on every result page.
+// Shared resources block on every result page — bar the few links marked `only`.
 // URLs only — group headings, link titles and the trailing descriptions come from
 // data/content.en.json, matched on ORDER. Adding a link here means adding one there too.
+// ⚠ `only` is a render-time filter for exactly that reason: the entry has to stay in this list
+// (and in content.en.json) on every page, or the order-matching would shift the titles along.
 const RESOURCES=[
   {items:[
     {u:'https://cacountyarts.org/individuals-who-want-to-teach-the-arts-in-ca/'},
     {u:'https://www.ctc.ca.gov/credentials/assignment-resources/prop-28--arts-and-music-in-schools'},
-    {u:'resources/preservice_dance_theatre_credential_checklist.pdf'}   // Pre-Service Dance and Theatre Credential Checklist
+    // Pre-Service Dance and Theatre Credential Checklist — dance and theatre result pages only.
+    {u:'resources/preservice_dance_theatre_credential_checklist.pdf',only:['dance','theatre']}
   ]},
   // The reports are served from this site (resources/), not Google Drive (2026-08-02). The Drive
   // links they replace were folder links carrying /u/1/, which pins the visitor to whichever Google
@@ -2301,9 +2304,11 @@ const RESOURCES=[
     {u:'https://theartofeducation.edu/university/masters/california-single-subject-credential-in-art/'}
   ]}
 ];
-function resourcesHTML(){
+function resourcesHTML(key){
   const groups=RESOURCES.map(function(g){
-    var items=g.items.map(function(it){
+    var items=g.items.filter(function(it){
+      return !it.only||it.only.indexOf(key)>-1;   // links pinned to particular result pages
+    }).map(function(it){
       return '<div class="res-item"><a href="'+it.u+'" target="_blank" rel="noopener">'+it.t+'</a>'+(it.s?'<span class="res-suffix">'+it.s+'</span>':'')+'</div>';
     }).join('');
     // name="pwResources" makes these an exclusive accordion — opening one closes the others.
@@ -2335,7 +2340,7 @@ function renderProfile(key){
     '<div id="resultDoc">'+
       '<div class="results-header"><div class="res-label">'+T.yourPathway+'</div><h2>'+P.title+'</h2></div>'+
       summaryHTML(key)+
-      '<div class="qv-result-body">'+body+resourcesHTML()+'</div>'+
+      '<div class="qv-result-body">'+body+resourcesHTML(key)+'</div>'+
     '</div>'+
     actions+
     // Email opt-in — entirely ours, posting to Buttondown. See pwOptinSubmit().
