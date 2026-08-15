@@ -770,7 +770,10 @@
   .supp-content li{margin-bottom:.5rem;line-height:1.55}
   /* Side by side, and tucked close under the result so the buttons group with it rather than floating
      between the result and the email band. Wraps back to a stack when the column gets too narrow. */
-  .actions-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:1rem;margin-top:2.5rem}   /* stretch: the two buttons have different padding/border, so side by side their edges wouldn't line up */
+  /* 2.75rem above and below the row (2026-08-14: 2.5rem +10%, at the designer's call). The space
+     BELOW is .qv-optin's margin-top, the next thing on the page — keep the two numbers equal.
+     `gap` is the space BETWEEN the buttons and is deliberately not part of that change. */
+  .actions-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:1rem;margin-top:2.75rem}   /* stretch: the buttons have different padding/border, so side by side their edges wouldn't line up */
   .actions-row button{min-width:240px;justify-content:center}
   .btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r);padding:.85rem 1.8rem;font-family:var(--font-body);font-size:.72rem;font-weight:700;line-height:1;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity .15s,transform .1s}
   .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
@@ -791,7 +794,7 @@
      message appears, when it clears, or when the form is replaced on success. Without this the card
      jumped ~35px the moment anyone pressed Sign Up. Re-measure if the messages in
      data/content.en.json get longer — a message that wraps to two lines would exceed this. */
-  .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.6rem 2rem;margin-top:2.5rem;min-height:225px}
+  .qv-optin{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.6rem 2rem;margin-top:2.75rem;min-height:225px}   /* = the space BELOW the button row; matches .actions-row's margin-top */
   .qv-optin .oi-label{font-family:var(--font-body);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-size:.8rem;margin-bottom:.4rem}
   .qv-optin .oi-copy{font-family:var(--font-body);font-size:.8rem;color:rgba(255,255,255,.85);margin-bottom:1.1rem}
   .qv-optin .oi-form{align-self:stretch;display:flex;justify-content:center;align-items:center;gap:.6rem;flex-wrap:wrap}   /* stretch: as a shrink-to-fit column item the form mis-sized and the field/button overlapped */
@@ -2424,12 +2427,13 @@ function resourcesHTML(key){
 function renderProfile(key){
   const P=PROFILES[key];
   const body=(P.kind==='supp')?suppHTML():listHTML(P);
-  // Three buttons, in this order on purpose: the two that keep or pass on the result sit together,
-  // and Restart — the one that throws it away — comes last. The row wraps on its own, so a window
-  // too narrow for three drops Restart to a centred second line, and a phone stacks all three.
+  // Three buttons, in this order on purpose: the two that keep or pass on the result come first and
+  // share the gold treatment, and Restart — the one that throws it away — comes last and stays quiet.
+  // The row wraps on its own, so a window too narrow for three drops Restart to a centred second
+  // line, and a phone stacks all three.
   const actions='<div class="actions-row">'+
+    '<button class="btn-primary" onclick="pwCopyLink(this)">'+T.copyLink+'</button>'+
     '<button class="btn-primary" onclick="pwDownloadPDF()">'+T.printPdf+'</button>'+
-    '<button class="btn-secondary" onclick="pwCopyLink(this)">'+T.copyLink+'</button>'+
     '<button class="btn-secondary" onclick="pwRestart()">'+T.restart+'</button></div>';
   return '<div class="step-screen qv-result active">'+
     '<div id="resultDoc">'+
