@@ -3,10 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- ⚠ PRE-LAUNCH ONLY — DELETE THIS LINE ON LAUNCH DAY (2026-08-17). It keeps the site out of
-     Google and every other search engine while the domain is connected but the content isn't final.
-     Leave it in place after launch and the site is invisible to search, with nothing to show it. -->
-<meta name="robots" content="noindex,nofollow">
 <title>Arts Educator Pathways</title>
 <!-- Navy circle, transparent background (added 2026-08-05). SVG so it stays sharp at any size and
      is editable as text. Linking it also stops the browser asking for /favicon.ico, which was 404ing
@@ -19,15 +15,6 @@
      visitor needs. The Latin-Extended pair loads on demand via unicode-range, below. -->
 <link rel="preload" href="fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin>
-<!-- ⚠ PRE-LAUNCH GATE — DELETE ON LAUNCH DAY (2026-08-17), see notes/BUILD-CHECKLIST.md §9.
-     Keeps casual visitors out while the content isn't final. It is NOT security: it runs in the
-     visitor's own browser and the repository is public, so the files can be read on GitHub either
-     way. It stops someone who stumbles on the address, which is the actual risk. The password is
-     stored as a SHA-256 hash so it isn't sitting in the page source in plain text — obscurity, not
-     protection. Runs here in <head> so nothing paints before the gate. -->
-<script>
-  try{if(localStorage.getItem('pwGate')==='1')document.documentElement.classList.add('pw-open');}catch(e){}
-</script>
 <style>
   /* Open Sans ships as ONE variable file covering every weight the site uses (300–700), so the
      weight RANGE below is deliberate — don't split it back into five separate files.
@@ -37,16 +24,6 @@
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/open-sans-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
   @font-face{font-family:'Open Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/open-sans-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  /* ⚠ PRE-LAUNCH GATE — DELETE THIS BLOCK ON LAUNCH DAY along with #pwGate and its script. */
-  html:not(.pw-open) body>*:not(#pwGate){display:none!important}
-  html.pw-open #pwGate{display:none}
-  #pwGate{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:2rem;background:var(--navy);color:var(--white);text-align:center}
-  #pwGate h1{font-family:var(--font-display);font-size:clamp(1.4rem,5.2vw,2.2rem);letter-spacing:.03em;font-weight:400;line-height:1.08;max-width:16ch}
-  #pwGate form{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.4rem}
-  #pwGate input{font-family:var(--font-body);font-size:.85rem;color:var(--navy);background:var(--white);border:none;border-radius:var(--r);padding:.8rem 1rem;min-width:min(260px,70vw)}
-  #pwGate input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  #pwGate button{font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);background:var(--gold);border:none;border-radius:var(--r);padding:.8rem 1.6rem;cursor:pointer}
-  #pwGate .pw-err{font-family:var(--font-body);font-size:.8rem;font-weight:600;color:var(--gold);min-height:1.2em}
   :root{
     --white:#FFFFFF;
     --ice:#F0F8FF;
@@ -963,46 +940,6 @@
 </script>
 </head>
 <body>
-
-<!-- ⚠ PRE-LAUNCH GATE — DELETE THIS WHOLE BLOCK ON LAUNCH DAY (2026-08-17), together with the
-     #pwGate CSS and the small script in <head>. See notes/BUILD-CHECKLIST.md §9. -->
-<div id="pwGate">
-  <h1>Arts Educator Pathways</h1>
-  <form onsubmit="return pwGateSubmit(event)">
-    <label for="pwGateInput" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Password</label>
-    <input id="pwGateInput" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Password">
-    <button type="submit">Enter</button>
-  </form>
-  <div class="pw-err" id="pwGateErr" role="status" aria-live="polite"></div>
-</div>
-<script>
-// Compares a SHA-256 of what's typed against the stored password hash, so the password itself
-// isn't in the
-// page source. Obscurity only — this runs in the visitor's browser and cannot actually protect
-// anything. Once unlocked, the answer is remembered on that device so reviewers type it once.
-var PW_GATE_HASH='a431ef027eb26b9cc6009209173b6953ff643dc646761ad5b9c15edc4d1f12ba';
-function pwGateSubmit(ev){
-  ev.preventDefault();
-  var inp=document.getElementById('pwGateInput'),err=document.getElementById('pwGateErr');
-  var val=(inp.value||'').trim().toLowerCase();
-  var bytes=new TextEncoder().encode(val);
-  crypto.subtle.digest('SHA-256',bytes).then(function(buf){
-    var hex=[].map.call(new Uint8Array(buf),function(b){return b.toString(16).padStart(2,'0');}).join('');
-    if(hex===PW_GATE_HASH){
-      try{localStorage.setItem('pwGate','1');}catch(e){}
-      document.documentElement.classList.add('pw-open');
-      window.scrollTo(0,0);
-    }else{
-      err.textContent='That password doesn’t match. Try again.';
-      inp.value='';inp.focus();
-    }
-  });
-  return false;
-}
-if(!document.documentElement.classList.contains('pw-open')){
-  document.getElementById('pwGateInput').focus();
-}
-</script>
 
 <!-- HERO -->
 <div class="hero-banner" id="heroBanner">
