@@ -693,6 +693,18 @@
   .res-summary li:last-child{margin-bottom:0}
   .prog-region{margin-bottom:1.6rem}
   .prog-region:last-of-type{margin-bottom:0}
+  /* ⚠ RESTORES THE GAP UNDER THE FIRST REGION — do not remove, and do not "simplify" the rule above.
+     `:last-of-type` means the last element OF ITS TYPE WITHIN ITS PARENT, not the last one on the
+     page. renderProfile wraps the heading and the FIRST region together in .pw-keep so the heading
+     cannot print stranded at the foot of a page — and that wrapper leaves the first region as the
+     only <details> inside it, so `:last-of-type` matched it and stripped its bottom margin.
+     The result: no space between the first and second region (Northern ➜ Central on five of the six
+     result pages), while every other gap was correct, which is what made it look arbitrary.
+     Reported and fixed 2026-08-16. 1.25rem matches details.prog-region--main below, so the restored
+     gap is identical to the others.
+     ℹ `details` is in the selector on purpose: it lifts this above `:last-of-type` on specificity,
+     so the fix holds no matter where the rule sits in the file. */
+  .pw-keep > details.prog-region{margin-bottom:1.25rem}
   .prog-region-title{font-family:var(--font-display);font-weight:400;font-size:1.05rem;letter-spacing:.05em;color:rgba(0,38,71,.72);margin-bottom:.55rem;padding-bottom:.3rem;border-bottom:1px solid rgba(0,38,71,.12)}
   /* Collapsible subsections (native <details>) */
   details.prog-region:not([open]){margin-bottom:.75rem}
