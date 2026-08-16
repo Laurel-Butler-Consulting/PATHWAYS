@@ -285,7 +285,7 @@
      fixed number, so shrinking the controls in a compact tier moves the captions down with them.
      Not the browser's native caption box: that renders behind the chrome and can't be repositioned
      (VTTCue.line is ignored inside Blink's shadow caption area). See qvRenderCue. */
-  .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
+  .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none;text-wrap:balance}
   .qv-caps.on{display:block}
   /* ⚠ text-wrap:balance is doing real work here — added 2026-08-11, keep it.
      EVERY caption line break on this site is made by the browser, not by Premiere. A newline inside
@@ -301,8 +301,26 @@
      caption box height and the y1090 line above it are unchanged.
      `pretty` is inherited here from body and is NOT enough: it only tidies the last line or two of
      a long block and leaves a two-line cue lopsided. A browser too old for `balance` ignores it and
-     gets today's behaviour, so there is nothing to fall back to. */
-  .qv-caps span{display:inline-block;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5);text-wrap:balance}
+     gets today's behaviour, so there is nothing to fall back to.
+     ⚠ balance lives on .qv-caps (the BLOCK), not on the span below. It only works on a block
+     container, so moving it back onto the inline span silently switches balancing off. */
+  /* ⚠ display MUST stay `inline` — changed from `inline-block` 2026-08-16, and the difference is
+     visible. An inline-block shrink-wraps to the UNWRAPPED text, clamped to the space available, so
+     any cue too long for one line made the dark panel the full width of the layer while `balance`
+     set both lines narrower inside it. That left dead background beside the text: measured at 375px
+     wide, an ordinary two-line cue carried 149px of empty panel, and the caption looked like a bar
+     rather than a label. Single-line cues never showed it, because they fit and shrink-wrapped
+     properly — which is exactly what was reported.
+     As `inline`, the background fragments per line and each line gets its own panel hugging its own
+     text (that is what box-decoration-break:clone below has always been for — it does nothing on an
+     inline-block, so it was inert until this change). Dead background is now 0–1px at every size.
+     ⚠ Cost, checked before shipping: two stacked panels are ~6px taller than one, so the caption
+     block sits a little higher — worst case source y1147 ➜ y1020 on the longest three-line cue at
+     1024×600. That crosses the y1090 caption guide the clips were framed to. It was accepted on
+     evidence: y1090 is a conservative placement line, and on all 11 stills the nearest chin sits
+     ~230–310 source px ABOVE it, so even the worst case stays clear of every face by ~160px.
+     Re-check that margin if a clip is ever reframed tighter. */
+  .qv-caps span{display:inline;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5)}
   .qv-window.ended .qv-caps{display:none}
   /* ⚠ BACKSTOP for the iPad bug of 2026-08-13 — do not remove without reading qvSetTrackModes.
      iPadOS has Settings ▸ Accessibility ▸ Subtitles & Captioning ▸ "Show when Muted" ON BY DEFAULT,
