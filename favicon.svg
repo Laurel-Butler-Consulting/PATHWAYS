@@ -1,14 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
   <!-- Site favicon: solid circle, transparent background.
-       Navy #002647 on a light browser tab strip, gold #FECF43 on a dark one. Both are the site
+       Blue #0C599D on a light browser tab strip, gold #FECF43 on a dark one. Both are the site
        palette values held in the CSS of index.html and the three standalone pages. If the palette
        changes, change it here too: this file cannot read the CSS.
+       Lightened from navy #002647 to the palette blue on 2026-08-16, by request. It is the same
+       blue the site already uses for focus outlines, so the favicon stays on palette rather than
+       introducing a shade that exists nowhere else. Contrast on a white tab strip goes 15.3:1 to
+       7.2:1, still far above what a 16px mark needs to read clearly.
        The colour swap lives INSIDE the SVG, so it stays one file and one link tag. A browser that
-       ignores the media query simply keeps the navy fill, which is the safe way round.
+       ignores the media query simply keeps the blue fill, which is the safe way round.
        NOTE: never write a double hyphen inside this comment. XML forbids it and it silently breaks
        the whole file, which is how the first version of this favicon failed. -->
   <style>
-    circle { fill: #002647; }
+    circle { fill: #0C599D; }
     @media (prefers-color-scheme: dark) {
       circle { fill: #FECF43; }
     }
