@@ -285,42 +285,36 @@
      fixed number, so shrinking the controls in a compact tier moves the captions down with them.
      Not the browser's native caption box: that renders behind the chrome and can't be repositioned
      (VTTCue.line is ignored inside Blink's shadow caption area). See qvRenderCue. */
-  .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none;text-wrap:balance}
+  .qv-caps{position:absolute;left:50%;bottom:calc(var(--ctlPad)*2 + var(--ctlH));transform:translateX(-50%);z-index:3;width:calc(100% - 20px);display:none;text-align:center;pointer-events:none}
   .qv-caps.on{display:block}
-  /* ⚠ text-wrap:balance is doing real work here — added 2026-08-11, keep it.
-     EVERY caption line break on this site is made by the browser, not by Premiere. A newline inside
-     a .vtt cue does NOT survive: getCueAsHTML() renders it as a plain text newline, which HTML
-     collapses to a space. So the source files' own line breaks are already ignored, and how a cue
-     splits is entirely a question of the box width — which is why the same cue breaks differently
-     on a phone and on a laptop.
-     Left to itself the browser fills line one and drops the remainder onto line two, which strands
-     a word or two: "…voters passed Prop / 28,". Measured across all 757 cues in both languages,
-     average unevenness between the two lines was 24px, with 65 cues lopsided by more than 150px.
-     With balance: 4px average, ZERO over 150px, 99 cues improved, none made worse — and, the part
-     that matters for the framing rule, NOT ONE cue gained a line. Max is still two lines, so the
-     caption box height and the y1090 line above it are unchanged.
-     `pretty` is inherited here from body and is NOT enough: it only tidies the last line or two of
-     a long block and leaves a two-line cue lopsided. A browser too old for `balance` ignores it and
-     gets today's behaviour, so there is nothing to fall back to.
-     ⚠ balance lives on .qv-caps (the BLOCK), not on the span below. It only works on a block
-     container, so moving it back onto the inline span silently switches balancing off. */
-  /* ⚠ display MUST stay `inline` — changed from `inline-block` 2026-08-16, and the difference is
-     visible. An inline-block shrink-wraps to the UNWRAPPED text, clamped to the space available, so
-     any cue too long for one line made the dark panel the full width of the layer while `balance`
-     set both lines narrower inside it. That left dead background beside the text: measured at 375px
-     wide, an ordinary two-line cue carried 149px of empty panel, and the caption looked like a bar
-     rather than a label. Single-line cues never showed it, because they fit and shrink-wrapped
-     properly — which is exactly what was reported.
-     As `inline`, the background fragments per line and each line gets its own panel hugging its own
-     text (that is what box-decoration-break:clone below has always been for — it does nothing on an
-     inline-block, so it was inert until this change). Dead background is now 0–1px at every size.
-     ⚠ Cost, checked before shipping: two stacked panels are ~6px taller than one, so the caption
-     block sits a little higher — worst case source y1147 ➜ y1020 on the longest three-line cue at
-     1024×600. That crosses the y1090 caption guide the clips were framed to. It was accepted on
-     evidence: y1090 is a conservative placement line, and on all 11 stills the nearest chin sits
-     ~230–310 source px ABOVE it, so even the worst case stays clear of every face by ~160px.
-     Re-check that margin if a clip is ever reframed tighter. */
-  .qv-caps span{display:inline;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  /* ⚠ THE SITE BREAKS CAPTION LINES ITSELF — see qvCapSplit. Do not put text-wrap:balance back.
+     Rewritten 2026-08-16 after two CSS attempts failed on WebKit, both invisible in this preview:
+       • `text-wrap:balance` is simply NOT APPLIED by WebKit for these captions, wherever the request
+         was placed — on the text box, on the caption layer, or on an in-flow box in between. Every
+         browser on an iPhone, iPad or Mac runs WebKit, so on all of them two-line cues stayed
+         lopsided ("…voters passed Prop / 28,"). Reported on an iPhone 13 mini, iOS 26.6, in both
+         Firefox Focus and Safari, then reproduced in Safari on macOS.
+       • Painting ONE background across a line-wrapping inline (box-decoration-break:clone) made
+         WebKit stack the per-line pieces so they OVERLAPPED. Chrome left a 1.6px gap in the same
+         place. That was shipped for about an hour and is what this replaces.
+     Both problems came from asking the browser for something and getting a different answer per
+     engine. Now each line is measured, split and drawn as its own box here, so every engine gets the
+     same result and it can be checked in this preview.
+     EVERY caption line break on this site is made in code, not by Premiere — a newline inside a .vtt
+     cue never survives anyway (getCueAsHTML renders it as a text newline, which HTML collapses to a
+     space), so the source files' own breaks were already being ignored long before this. */
+  /* ONE LINE = ONE PLAIN BLOCK. `width:fit-content` shrinks it to its own words, which is what makes
+     the panel track the caption, and `margin:0 auto` centres it.
+     ⚠ Deliberately NOT an inline-block, and deliberately no line-height games. Both earlier attempts
+     failed here: an inline whose background split across lines OVERLAPPED on WebKit, and setting
+     line-height:0 on the row to reclaim descender space let the panel spill out of its own line box
+     and overlap again — on WebKit, invisibly to Chrome. A block's height is its text plus its padding
+     in every engine, and blocks stack by margin, so the rows below cannot collide whatever the
+     browser thinks a line box is worth.
+     max-width keeps a line that measured a hair too wide inside the picture: it wraps rather than
+     running past the edge. */
+  .qv-capline{display:block;width:fit-content;max-width:100%;margin:0 auto;background:rgba(0,18,38,.82);color:#fff;font-family:var(--font-body);font-weight:500;font-size:clamp(.72rem,4cqw,1.02rem);line-height:1.4;padding:.18em .45em;border-radius:4px;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  .qv-capline + .qv-capline{margin-top:2px}   /* explicit — the gap can no longer be an engine's guess */
   .qv-window.ended .qv-caps{display:none}
   /* ⚠ BACKSTOP for the iPad bug of 2026-08-13 — do not remove without reading qvSetTrackModes.
      iPadOS has Settings ▸ Accessibility ▸ Subtitles & Captioning ▸ "Show when Muted" ON BY DEFAULT,
@@ -616,7 +610,7 @@
        against 15px in 375px = 4.0%.
        Measured after, longest real cue: 1024×600 → y1147 · 1024×640 → y1187 · 1024×660 → y1212.
        Caption box still clears the control row by 6.8px. */
-    .qv-caps span{font-size:clamp(.6rem,4cqw,1.02rem)}
+    .qv-capline{font-size:clamp(.6rem,4cqw,1.02rem)}
   }
   /* Third step, captions only. Below ~620px the picture is under 210px wide and even 12px type
      wraps the longest cues to four lines, which puts them back over the face. 11px holds the line
@@ -626,7 +620,7 @@
      ⚠ Do not lower this floor further to chase smaller windows. Below 590 the layout is broken in
      ways type size cannot fix. */
   @media(orientation:landscape) and (min-width:720px) and (max-height:620px){
-    .qv-caps span{font-size:clamp(.55rem,4cqw,1.02rem)}
+    .qv-capline{font-size:clamp(.55rem,4cqw,1.02rem)}
   }
   /* LAST-RESORT ICON — the word "SKIP" goes back to being an arrow ONLY where the row would
      otherwise run past the edge of the picture (client's rule, 2026-08-13). Everywhere else the
@@ -2117,6 +2111,49 @@ function qvWinLangs(win){                          // the node's caption languag
   var v=win&&win.querySelector('.qv-video');
   return v?(v.getAttribute('data-cc')||'').split(' ').filter(Boolean):[];
 }
+// ── Caption line breaking ────────────────────────────────────────────────────────────────────────
+// The site works out where each caption line breaks instead of asking the browser to. The full
+// reasoning is in the CSS beside .qv-capline; the short version is that `text-wrap:balance` is not
+// applied by WebKit here, so every Apple browser left two-line cues lopsided.
+// Text is measured on a canvas rather than by laying it out, so a cue can be tried at many candidate
+// widths without the page reflowing once.
+var qvCapCtx;
+function qvCapMeasurer(el){
+  if(!qvCapCtx)qvCapCtx=document.createElement('canvas').getContext('2d');
+  var cs=getComputedStyle(el);
+  qvCapCtx.font=cs.fontStyle+' '+cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+  var ls=parseFloat(cs.letterSpacing)||0;
+  return function(s){return qvCapCtx.measureText(s).width+ls*s.length;};
+}
+// Ordinary greedy fill at width w — take words until the next one would not fit.
+function qvCapWrap(words,w,measure){
+  var lines=[],cur='';
+  for(var i=0;i<words.length;i++){
+    var t=cur?cur+' '+words[i]:words[i];
+    if(cur&&measure(t)>w){lines.push(cur);cur=words[i];}else cur=t;
+  }
+  if(cur)lines.push(cur);
+  return lines;
+}
+// Balanced split. Greedy filling at the FULL width gives the fewest lines a cue can occupy; that
+// count is then fixed, and the narrowest width still needing that many lines is found by halving the
+// range. Filling at that width evens the lines out — the last line can no longer be a stranded word,
+// because a width that strands one is always wider than it needs to be.
+// ⚠ This can never add a line: every candidate is rejected unless it keeps the original count AND
+// every line still fits the real width. That matters — the caption box height, and the y1090
+// framing line above it, both depend on the line count staying put.
+function qvCapSplit(text,maxW,measure){
+  var words=text.split(/\s+/).filter(Boolean);
+  if(!words.length)return [];
+  if(measure(text)<=maxW)return [text];
+  var best=qvCapWrap(words,maxW,measure),n=best.length,lo=0,hi=maxW;
+  for(var k=0;k<18;k++){
+    var mid=(lo+hi)/2,L=qvCapWrap(words,mid,measure),ok=L.length<=n;
+    if(ok)for(var j=0;j<L.length;j++)if(measure(L[j])>maxW){ok=false;break;}
+    if(ok){best=L;hi=mid;}else lo=mid;
+  }
+  return best;
+}
 function qvRenderCue(v){
   var win=v&&v.closest('.qv-window');
   var box=win&&win.querySelector('.qv-caps');if(!box)return;
@@ -2127,13 +2164,46 @@ function qvRenderCue(v){
   // screen for the whole pause, before the speaker has said it.
   if(win.classList.contains('holding')){box.classList.remove('on');return;}
   if(!t||!t.activeCues||!t.activeCues.length){box.classList.remove('on');return;}
+  box.classList.add('on');                           // must be visible before anything is measured
+  // Width available to the WORDS: the caption layer, less one line's own left/right padding.
+  // ⚠ Measure the layer with getBoundingClientRect, NOT clientWidth. clientWidth is rounded to whole
+  // pixels, and that rounding alone was enough to wrap a cue the browser fits on one line: at
+  // 1024×700 the layer is 250.398px and clientWidth says 250, which pushed "which is a billion
+  // dollars every year" onto a second line by 0.148px. With the exact width, the split matches the
+  // browser's own line count on all 757 cues.
+  var probe=document.createElement('div');probe.className='qv-capline';
+  box.appendChild(probe);
+  var pcs=getComputedStyle(probe),bcs=getComputedStyle(box);
+  var maxW=box.getBoundingClientRect().width
+           -parseFloat(bcs.paddingLeft||0)-parseFloat(bcs.paddingRight||0)
+           -parseFloat(pcs.paddingLeft)-parseFloat(pcs.paddingRight);
+  var measure=qvCapMeasurer(probe);
+  box.textContent='';
   for(var i=0;i<t.activeCues.length;i++){
-    if(i)box.appendChild(document.createElement('br'));
-    var s=document.createElement('span');
-    s.appendChild(t.activeCues[i].getCueAsHTML());    // parses VTT markup (<i>, <v Name>) without raw HTML injection
-    box.appendChild(s);
+    var frag=t.activeCues[i].getCueAsHTML();          // parses VTT markup without raw HTML injection
+    // Every caption file here is plain text, checked. If styled captions are ever exported, the
+    // markup is kept and that cue is simply left for the browser to break — worse looking, never broken.
+    if(frag.querySelector&&frag.querySelector('*')){
+      var d0=document.createElement('div');d0.className='qv-capline';
+      d0.appendChild(frag);box.appendChild(d0);
+      continue;
+    }
+    var lines=qvCapSplit((frag.textContent||'').replace(/\s+/g,' ').trim(),maxW,measure);
+    for(var j=0;j<lines.length;j++){
+      var d=document.createElement('div');d.className='qv-capline';
+      d.textContent=lines[j];box.appendChild(d);
+    }
   }
-  box.classList.add('on');
+  // The split depends on the width, so it has to be redone when the window changes size. Bound once
+  // for the page, not once per node — the player is rebuilt on every question and per-node listeners
+  // would pile up.
+  if(!window.qvCapResizeBound){
+    window.qvCapResizeBound=true;
+    window.addEventListener('resize',function(){
+      var cur=document.querySelector('.qv-video');
+      if(cur)requestAnimationFrame(function(){qvRenderCue(cur);});
+    });
+  }
 }
 // Puts every caption track into the state this site wants: the language on show at 'hidden' (cues
 // parse and fire cuechange, the browser draws nothing, we paint them into .qv-caps), everything else
