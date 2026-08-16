@@ -44,13 +44,20 @@
 
   /* The same navy card the sign-up sat in, so the journey ends where it started.
      32px between every block, at every screen size — a fixed gap, not a distributed one, so editing
-     the copy no longer shifts the spacing. The four children carry no margins of their own; adding
-     one back would land on top of the gap and break it.
+     the copy no longer shifts the spacing. The blocks carry no margins of their own; adding one back
+     would land on top of the gap and break it.
+     ⚠ THE GAP HAS TO BE SET IN TWO PLACES, and that is not obvious. The card's own flex gap only
+     ever sees TWO children — <main> and the footer — because the title, the copy and the button are
+     wrapped in <main> together. So <main> needs the same gap for the three blocks inside it. Until
+     2026-08-16 it did not have one: the title, the blurb and the button sat flush against each other
+     with 0px between them, while the card gap piled up in a single 48px band above the footer.
+     If a block is ever moved in or out of <main>, check both gaps again.
      Capped at 600px wide, which is what stopped it running the full width of the page. The height
      then follows the content: at the current copy length that lands close to square without being
      forced to it, so nothing is squeezed or padded out to hit a ratio. Deliberately NOT an exact
      square — a fixed ratio would start distorting the moment the copy changed. */
   .sub-card{background:var(--navy);border-radius:18px;box-shadow:0 14px 40px rgba(0,38,71,.18);text-align:center;padding:2.6rem 2rem;width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .sub-card>main{display:flex;flex-direction:column;gap:32px}
   .sub-title{font-family:var(--font-display);font-weight:400;font-size:2rem;letter-spacing:.02em;line-height:1.05;color:var(--white)}
   .sub-copy{font-family:var(--font-body);font-size:.82rem;line-height:1.6;color:rgba(255,255,255,.85);max-width:46ch;margin:0 auto}
 
@@ -63,10 +70,14 @@
      card with loose text beneath it. Light-on-navy versions of the site footer's own type.
      Separated by space alone — no rule, which read as a second edge inside a card that already
      has one. */
-  /* 48px above the footer, against 32px between the blocks — it is a different kind of thing from
-     the three above it, so it sits further off. The 16px here rides on top of the flex gap; the
-     two together make the 48. */
-  .sub-foot{text-align:center;margin-top:16px}
+  /* ⚠ NO margin-top here. The footer sits the same 32px off the button as every other gap on the
+     card — asked for 2026-08-16, an even rhythm through all four blocks.
+     It previously carried margin-top:16px to sit 48px off, on the reasoning that a footer is a
+     different kind of thing and should stand further away. That reasoning only ever described half
+     of what was on screen: the three blocks above it had NO gaps at all, so the 48px was not a
+     considered step down from 32 — it was the only gap on the card. With the three now evenly
+     spaced, an odd one out at the bottom read as a mistake rather than a distinction. */
+  .sub-foot{text-align:center}
   .sub-foot .rf-home{font-family:var(--font-display);font-weight:400;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;color:var(--white);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color .15s,text-decoration-color .15s}
   .sub-foot .rf-home:hover{color:var(--gold);text-decoration-color:var(--gold)}
   .sub-foot .rf-org,.sub-foot .rf-copy{font-family:var(--font-body);font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.04em;margin-top:.35rem}
