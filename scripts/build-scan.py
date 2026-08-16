@@ -189,11 +189,19 @@ S3 = "3. Online-availability marking"
 xindex = read(rp("program-index", "index.html"))
 oa_categories = sorted(set(re.findall(r'\bd:"([^"]+)"', xindex)))
 oa_research = len(oa_categories) >= 4
-# Wired = the RESULT pages carry it. A marker on the Program Index alone is not the deliverable.
+# ⚠ SETTLED 2026-08-06: the client decided there are to be NO markers on the result pages. The
+# delivery data stays on the Program Index, which every result page links to. So ABSENT is the
+# finished state here, not an outstanding one.
+# This line used to read PENDING whenever the markers were absent, with a detail saying we were
+# "asking the client whether she wants them there at all" — a question that had already been
+# answered five days earlier. It inflated the open count and read as a live client dependency.
+# Inverted 2026-08-16: absent = DONE (as decided), present = PENDING (someone wired in a decision
+# that was made the other way, which is the thing actually worth flagging).
 oa_wired = "PW_DELIVERY" in html or "deliveryMarker" in html
-add(S3, DONE if oa_wired else PEND, "Marking on the result pages",
+add(S3, PEND if oa_wired else DONE, "Marking on the result pages",
     ("index has %d categories (%s); " % (len(oa_categories), ", ".join(oa_categories)) if oa_research else "")
-    + ("wired" if oa_wired else "deliberately NOT on the result pages (2026-08-05) — data is ready; asking the client whether she wants them there at all"))
+    + ("⚠ markers ARE on the result pages — the 2026-08-06 decision was NOT to have them; check this was intended"
+       if oa_wired else "none on the result pages, as decided 2026-08-06; delivery data lives on the Program Index"))
 
 # ---- Section 4: code-quality signals (mostly done; flags drift here if reintroduced) ----
 S4 = "4. Code-quality signals"

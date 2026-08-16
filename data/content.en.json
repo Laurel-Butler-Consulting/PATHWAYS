@@ -49,7 +49,9 @@
     "speedLabel": "Playback speed",
     "rotateTitle": "Turn your phone upright",
     "rotateBody": "These videos are filmed upright, so there's very little room for them on a sideways screen.",
-    "rotateContinue": "Continue anyway"
+    "rotateContinue": "Continue anyway",
+    "tallerTitle": "Make the window taller",
+    "tallerBody": "These videos are filmed upright, so a short window leaves very little room for them."
   },
   "regionLabels": {
     "Northern California": "Northern",
