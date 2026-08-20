@@ -1109,15 +1109,16 @@
       <div class="fyp-frame">
         <div class="fyp-video">
           <!-- The landing loop is NOT a node, so it has no node key of its own. It is named
-               `questprev` after its export, and follows the same rule as the clips: video/clips/
-               for the film, video/stills/ for the poster. The stand-in demo clip that used to cover
-               this frame was removed in the 2026-08-08 folder reorganisation, so if either file is
-               missing the frame is simply empty — there is no fallback left.
+               `questprev` after its export, and follows the same rule as the clips: the film is
+               served from Bunny CDN (notes/video-cdn.md), video/stills/ for the poster. The
+               stand-in demo clip that used to cover this frame was removed in the 2026-08-08
+               folder reorganisation, so if either file is missing the frame is simply empty —
+               there is no fallback left.
                Export settings differ from the node clips — no audio track, 1.5–2 Mbps, first frame
                == last frame so the loop seam is invisible: notes/video-export-spec.md § "Landing
                loop". Same 1080 × 1920 portrait frame as every other clip. -->
           <video class="fyp-loop" autoplay loop muted playsinline preload="metadata" poster="video/stills/questprev.jpg">
-            <source src="video/clips/questprev.mp4" type="video/mp4">
+            <source src="https://artsedpathways.b-cdn.net/questprev.mp4" type="video/mp4">
           </video>
           <button class="hero-btn" onclick="pwStart()">Take the Questionnaire <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -1223,7 +1224,7 @@ const ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 
 // The alternative, teaching the site the dated names, needs a lookup table of 11 clips and 22
 // caption files that must be re-edited on every re-export, and a stale entry fails SILENTLY —
 // the node drops back to the placeholder still rather than reporting anything.
-const NODE_VID_DIR='video/clips/';
+const NODE_VID_DIR='https://artsedpathways.b-cdn.net/';
 
 // Captions, one folder per language, file named for the node. Adding a language means adding a
 // folder and a line here; a language absent from this map is simply never offered.
